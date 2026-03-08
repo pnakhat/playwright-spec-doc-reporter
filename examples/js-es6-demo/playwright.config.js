@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig } from "@playwright/test";
+import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
   testDir: "./tests",
@@ -12,7 +12,7 @@ export default defineConfig({
       "./reporter.mjs",
       {
         outputDir: "spec-doc-report",
-        reportTitle: "JS ES6 Demo Report",
+        reportTitle: "Multi-Browser Stress Test Report",
         includeScreenshots: true,
         includeVideos: true,
         includeTraces: true,
@@ -38,19 +38,38 @@ export default defineConfig({
     trace: "on-first-retry"
   },
   projects: [
-    {
-      name: "chromium-ui",
-      testMatch: /tests\/ui\/.*\.spec\.js/,
-      use: {
-        browserName: "chromium",
-        baseURL: "https://www.saucedemo.com"
-      }
-    },
+    // ── API (browser-agnostic, runs once) ───────────────────────────────────
     {
       name: "api",
       testMatch: /tests\/api\/.*\.spec\.js/,
       use: {
         baseURL: "https://jsonplaceholder.typicode.com"
+      }
+    },
+
+    // ── UI — three browsers ─────────────────────────────────────────────────
+    {
+      name: "chromium",
+      testMatch: /tests\/ui\/.*\.spec\.js/,
+      use: {
+        ...devices["Desktop Chrome"],
+        baseURL: "https://www.saucedemo.com"
+      }
+    },
+    {
+      name: "firefox",
+      testMatch: /tests\/ui\/.*\.spec\.js/,
+      use: {
+        ...devices["Desktop Firefox"],
+        baseURL: "https://www.saucedemo.com"
+      }
+    },
+    {
+      name: "webkit",
+      testMatch: /tests\/ui\/.*\.spec\.js/,
+      use: {
+        ...devices["Desktop Safari"],
+        baseURL: "https://www.saucedemo.com"
       }
     }
   ]

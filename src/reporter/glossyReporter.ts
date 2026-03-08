@@ -17,8 +17,7 @@ import type { AIAnalysisResult, ApiEntry, AttachmentInfo, GlossyReporterConfig, 
 import { classifyArtifacts, safeTextFromBuffer, shortId } from "../utils/report.js";
 
 function projectName(test: TestCase): string | undefined {
-  const annotations = test.annotations.map((item) => item.type).join(",");
-  return annotations || undefined;
+  return test.parent.project()?.name || undefined;
 }
 
 function extractTags(test: TestCase): string[] {
@@ -207,7 +206,7 @@ export class GlossyPlaywrightReporter implements Reporter {
     const artifacts = classifyArtifacts(attachments);
     const browserName = test.parent.project()?.name;
     const normalized: NormalizedTestResult = {
-      id: shortId(`${test.location.file}:${test.location.line}:${test.title}:${result.retry}`),
+      id: shortId(`${test.parent.project()?.name ?? ""}:${test.location.file}:${test.location.line}:${test.title}:${result.retry}`),
       suite: test.parent.title || this.rootSuiteTitle,
       file: path.relative(process.cwd(), test.location.file),
       title: test.title,
