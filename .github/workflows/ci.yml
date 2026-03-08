@@ -28,7 +28,7 @@ jobs:
       - name: Run unit tests
         run: npm test
 
-  # ─── JS ES6 example (API tests only, no browser needed) ─────────────────────
+  # ─── JS ES6 example — API tests ─────────────────────────────────────────────
   example-js-api:
     name: JS ES6 Demo — API Tests
     runs-on: ubuntu-latest
@@ -48,10 +48,6 @@ jobs:
         working-directory: examples/js-es6-demo
         run: npm ci
 
-      - name: Install Playwright browsers (chromium only)
-        working-directory: examples/js-es6-demo
-        run: npx playwright install chromium --with-deps
-
       - name: Run API tests
         working-directory: examples/js-es6-demo
         run: npx playwright test --project=api
@@ -64,7 +60,7 @@ jobs:
           path: examples/js-es6-demo/spec-doc-report/
           retention-days: 7
 
-  # ─── JS ES6 example (UI tests) ───────────────────────────────────────────────
+  # ─── JS ES6 example — UI tests (no AI key needed) ───────────────────────────
   example-js-ui:
     name: JS ES6 Demo — UI Tests (SauceDemo)
     runs-on: ubuntu-latest
@@ -84,14 +80,13 @@ jobs:
         working-directory: examples/js-es6-demo
         run: npm ci
 
-      - name: Install Playwright browsers (chromium only)
+      - name: Install Playwright browsers (chromium)
         working-directory: examples/js-es6-demo
         run: npx playwright install chromium --with-deps
 
       - name: Run UI tests
         working-directory: examples/js-es6-demo
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        # AI analysis is skipped when ANTHROPIC_API_KEY is not set — report still generates
         run: npx playwright test --project=chromium-ui
 
       - name: Upload report
