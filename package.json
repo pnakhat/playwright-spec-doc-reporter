@@ -41,16 +41,16 @@
     "api-testing",
     "test-annotations"
   ],
-  "author": "",
+  "author": "Pankaj Nakhat <pnakhat@gmail.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-org/playwright-spec-doc-reporter.git"
+    "url": "https://github.com/pnakhat/playwright-spec-doc-reporter.git"
   },
   "bugs": {
-    "url": "https://github.com/your-org/playwright-spec-doc-reporter/issues"
+    "url": "https://github.com/pnakhat/playwright-spec-doc-reporter/issues"
   },
-  "homepage": "https://github.com/your-org/playwright-spec-doc-reporter#readme",
+  "homepage": "https://github.com/pnakhat/playwright-spec-doc-reporter#readme",
   "engines": {
     "node": ">=18"
   },
