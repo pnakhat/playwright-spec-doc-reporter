@@ -27,11 +27,12 @@ results.json
 .env.*
 !.env.example
 
-# Editor
+# Editor / IDE
 .vscode/
 .idea/
 *.swp
 *.swo
+.github/copilot-instructions.md
 
 # OS
 .DS_Store
