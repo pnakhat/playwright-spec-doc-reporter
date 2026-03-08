@@ -9,28 +9,31 @@ A beautiful, production-ready Playwright reporter with BDD-style annotations, in
 ### Dashboard Overview
 ![Dashboard](docs/screenshots/dashboard.png)
 
-### BDD Feature & Scenario View
-![BDD View](docs/screenshots/api-viewer.png)
+### Tests & BDD View (with browser badges)
+![Tests View](docs/screenshots/tests-view.png)
 
 ### Inline API Request / Response Viewer
-![API Viewer](docs/screenshots/test-detail.png)
+![API Viewer](docs/screenshots/api-viewer.png)
+
+### Failure Detail with AI Analysis
+![Failure Detail](docs/screenshots/failure-detail.png)
+
+### AI Insights Tab
+![AI Insights](docs/screenshots/ai-insights.png)
 
 ### Run History & Trends
 ![Trends](docs/screenshots/trends.png)
-
-### AI Insights
-![AI Insights](docs/screenshots/ai-insights.png)
 
 ---
 
 ## Features
 
-- **Glossy HTML dashboard** — dark-themed interactive report with filter, sort, search, and failure drill-down
+- **Interactive HTML dashboard** — dark-themed report with filter, sort, search, and failure drill-down
 - **BDD annotations** — add Feature, Scenario, and Behaviour metadata directly in your tests
 - **Inline API viewer** — attach request/response JSON directly to test results with syntax highlighting
 - **AI failure analysis** — automatic root-cause analysis for failed tests (OpenAI, Anthropic, or custom)
 - **Healing payloads** — structured JSON + Markdown export of suggested locator fixes and patches
-- **History & trends** — pass-rate and duration charts across runs via `glossy-history.json`
+- **History & trends** — pass-rate and duration charts across runs via `spec-doc-history.json`
 - **Zero runtime dependencies** — single self-contained HTML file output
 
 ---
@@ -192,7 +195,7 @@ The report shows each request/response pair with method badge (colour-coded), UR
 ## Reporter configuration
 
 ```ts
-type GlossyReporterConfig = {
+type SpecDocReporterConfig = {
   /** Output directory. Default: "spec-doc-report" */
   outputDir?: string;
 
@@ -440,7 +443,7 @@ The `healing.md` export is human-readable and CI-comment-friendly.
 
 ## History & trends
 
-The reporter automatically maintains `glossy-history.json` and records each run's pass rate, duration, and per-test status. The dashboard's **Trends** tab shows pass-rate charts and per-test stability indicators across runs.
+The reporter automatically maintains `spec-doc-history.json` and records each run's pass rate, duration, and per-test status. The dashboard's **Trends** tab shows pass-rate charts and per-test stability indicators across runs.
 
 ---
 
@@ -450,7 +453,7 @@ Use the internals directly without running Playwright:
 
 ```ts
 import {
-  buildGlossyHtml,
+  buildSpecDocHtml,
   generateReport,
   analyzeFailures,
   createHealingPayloads,
@@ -458,7 +461,7 @@ import {
 } from "playwright-spec-doc-reporter";
 
 // Render an HTML report from a saved results.json
-const html = buildGlossyHtml(reportData, { outputDir: "." });
+const html = buildSpecDocHtml(reportData, { outputDir: "." });
 ```
 
 ---
@@ -467,7 +470,7 @@ const html = buildGlossyHtml(reportData, { outputDir: "." });
 
 ```ts
 import type {
-  GlossyReporterConfig,
+  SpecDocReporterConfig,
   NormalizedTestResult,
   ApiEntry,
   AIAnalysisResult,
