@@ -87,7 +87,8 @@ jobs:
       - name: Run UI tests
         working-directory: examples/js-es6-demo
         # AI analysis is skipped when ANTHROPIC_API_KEY is not set — report still generates
-        run: npx playwright test --project=chromium-ui
+        # Intentional failure tests use test.fail() so Playwright counts them as passing when they fail
+        run: npx playwright test --project=chromium
 
       - name: Upload report
         if: always()

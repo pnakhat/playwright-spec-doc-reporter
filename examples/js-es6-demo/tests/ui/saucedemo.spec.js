@@ -105,6 +105,8 @@ test.describe("AI Failure Analysis", () => {
   });
 
   test("intentional failure for AI analysis demo @regression", async ({ page }) => {
+    // test.fail() tells Playwright this test is expected to fail — CI passes when it does
+    test.fail();
     addScenario("Demonstrates AI analysis on an intentionally failing assertion");
 
     addBehaviour("Standard user logs in successfully");
