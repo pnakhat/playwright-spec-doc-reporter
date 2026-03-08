@@ -20,7 +20,7 @@ export function getScriptInit(): string {
   renderTrends();
   bindFilters();
   bindGalleryControls();
-  bindDocModal();
+  bindDocPage();
   initPageNav();
   renderFooter();
 

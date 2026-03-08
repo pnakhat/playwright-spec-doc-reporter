@@ -11,7 +11,6 @@ export function getMarkup(): string {
       <span class="topbar-meta-item" id="meta-duration"></span>
       <span class="topbar-meta-item" style="color:var(--text3)">Glossy AI Reporter</span>
     </div>
-    <button class="btn-sm" id="btnGenDoc">&#128203; Docs</button>
     <button class="btn-sm" id="btnExportPdf">&#128438; Print</button>
   </div>
 </div>
@@ -26,6 +25,7 @@ export function getMarkup(): string {
   <button class="page-nav-btn" data-page="tests">&#129514; Tests</button>
   <button class="page-nav-btn" data-page="ai">&#129302; AI Insights</button>
   <button class="page-nav-btn" data-page="trends">&#128200; Trends</button>
+  <button class="page-nav-btn" data-page="docs">&#128203; Docs</button>
 </nav>
 
 <div class="container">
@@ -137,6 +137,59 @@ export function getMarkup(): string {
     </div>
   </div>
 
+  <!-- Docs Page -->
+  <div class="page-panel" id="page-docs">
+    <div class="section">
+      <div class="section-header">
+        <div class="section-title">&#128203; Behaviour Documentation</div>
+        <div class="section-actions">
+          <button class="btn-sm" id="docCopyBtn">&#128203; Copy</button>
+          <button class="btn-sm" id="docDownloadMdBtn">&#8595; .md</button>
+          <button class="btn-sm" id="docDownloadHtmlBtn">&#8595; .html</button>
+          <button class="btn-sm btn-accent" id="docExportPdfBtn">&#128438; PDF</button>
+        </div>
+      </div>
+
+      <div class="doc-filter-bar">
+        <div class="doc-filter-group">
+          <label class="doc-filter-label">Status</label>
+          <div class="filter-group">
+            <button class="filter-btn active" data-doc-status="all">All</button>
+            <button class="filter-btn" data-doc-status="passed">&#10003; Passed</button>
+            <button class="filter-btn" data-doc-status="failed">&#10007; Failed</button>
+          </div>
+        </div>
+        <div class="doc-filter-group">
+          <label class="doc-filter-label">Browser / Project</label>
+          <div class="filter-group" id="docProjectFilter"></div>
+        </div>
+        <div class="doc-filter-group">
+          <label class="doc-filter-label">Features</label>
+          <div class="doc-feature-checks" id="docFeatureFilter"></div>
+        </div>
+        <div class="doc-filter-group" style="margin-left:auto">
+          <button class="btn-sm btn-accent" id="docGenerateBtn">&#9654; Generate</button>
+          <button class="btn-sm" id="docSelectAll">All</button>
+          <button class="btn-sm" id="docSelectNone">None</button>
+        </div>
+      </div>
+
+      <div class="doc-tabs">
+        <button class="doc-tab-btn active" data-doc-tab="md">&#128196; Markdown</button>
+        <button class="doc-tab-btn" data-doc-tab="html">&#127760; HTML Preview</button>
+      </div>
+
+      <div class="doc-page-body">
+        <div class="doc-tab-panel active" id="doc-tab-md">
+          <pre id="docMarkdownContent" class="doc-pre"></pre>
+        </div>
+        <div class="doc-tab-panel" id="doc-tab-html">
+          <iframe id="docHtmlPreview" class="doc-iframe" title="HTML Documentation Preview"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="footer" id="footer"></div>
 </div>
 
@@ -164,27 +217,5 @@ export function getMarkup(): string {
   </div>
 </div>
 
-<div class="doc-modal-overlay" id="docModalOverlay">
-  <div class="doc-modal">
-    <div class="doc-modal-head">
-      <div class="doc-modal-title">&#128203; Behaviour Documentation</div>
-      <button class="gallery-close-btn" id="docModalClose" title="Close (Esc)">&#10005;</button>
-    </div>
-    <div class="doc-modal-tabs">
-      <button class="doc-tab-btn active" data-doc-tab="md">Markdown</button>
-      <button class="doc-tab-btn" data-doc-tab="html">HTML Preview</button>
-    </div>
-    <div class="doc-modal-body">
-      <div class="doc-tab-panel active" id="doc-tab-md"><pre id="docModalContent"></pre></div>
-      <div class="doc-tab-panel" id="doc-tab-html"><iframe id="docHtmlPreview" title="HTML Documentation Preview"></iframe></div>
-    </div>
-    <div class="doc-modal-footer">
-      <button class="btn-sm" id="docCopyBtn">&#128203; Copy</button>
-      <button class="btn-sm" id="docDownloadMdBtn">&#8595; .md</button>
-      <button class="btn-sm" id="docDownloadHtmlBtn">&#8595; .html</button>
-      <button class="btn-sm btn-accent" id="docExportPdfBtn">&#128438; PDF</button>
-    </div>
-  </div>
-</div>
 `;
 }

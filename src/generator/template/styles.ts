@@ -717,6 +717,23 @@ export function getStyles(): string {
       .scope-group { display: none; }
     }
 
+    /* --- Docs Page --- */
+    .doc-filter-bar{display:flex;flex-wrap:wrap;align-items:flex-start;gap:1rem;padding:0.8rem 1rem;background:var(--bg2);border-radius:10px;margin-bottom:1rem;border:1px solid var(--border)}
+    .doc-filter-group{display:flex;flex-direction:column;gap:0.4rem}
+    .doc-filter-label{font-size:0.7rem;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.05em}
+    .doc-feature-checks{display:flex;flex-wrap:wrap;gap:0.3rem;max-width:420px}
+    .doc-feature-check{display:flex;align-items:center;gap:0.3rem;font-size:0.75rem;color:var(--text2);background:var(--bg3);padding:3px 8px;border-radius:5px;cursor:pointer}
+    .doc-feature-check input{accent-color:var(--accent);cursor:pointer}
+    .doc-tabs{display:flex;gap:0.5rem;margin-bottom:0.75rem;border-bottom:1px solid var(--border);padding-bottom:0.5rem}
+    .doc-tab-btn{background:none;border:none;color:var(--text2);padding:6px 14px;border-radius:6px 6px 0 0;cursor:pointer;font-size:0.82rem;font-weight:500;transition:background 0.15s}
+    .doc-tab-btn.active{background:var(--accent);color:#fff}
+    .doc-tab-btn:hover:not(.active){background:var(--bg3)}
+    .doc-tab-panel{display:none}
+    .doc-tab-panel.active{display:block}
+    .doc-page-body{min-height:400px}
+    .doc-pre{background:var(--bg2);color:var(--text1);padding:1.2rem 1.4rem;border-radius:8px;font-size:0.8rem;font-family:var(--font-mono);white-space:pre-wrap;word-break:break-word;border:1px solid var(--border);max-height:70vh;overflow-y:auto;margin:0}
+    .doc-iframe{width:100%;height:70vh;border:1px solid var(--border);border-radius:8px;background:#fff}
+
     /* --- Print --- */
     @media print {
       body { background: #fff; color: #1a1a2e; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -730,7 +747,7 @@ export function getStyles(): string {
       .section { page-break-inside: avoid; box-shadow: none; }
       .stat-card { box-shadow: none; }
       .stat-card:hover { transform: none; }
-      .gallery-overlay, .doc-modal-overlay { display: none !important; }
+      .gallery-overlay { display: none !important; }
       a { color: inherit; text-decoration: none; }
       video { display: none; }
     }
