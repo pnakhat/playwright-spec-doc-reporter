@@ -400,7 +400,15 @@ export function getScriptRenderers(): string {
           (test.flaky ? '<span class="badge badge-flaky" style="margin-left:4px">flaky</span>' : '') +
         '</div>' +
         '<div style="display:flex;align-items:center;gap:7px;flex-shrink:0">' +
-          (test.browser || test.projectName ? '<span style="font-size:0.68rem;color:var(--text3);background:var(--bg4);padding:1px 7px;border-radius:4px">' + escHtml(test.browser || test.projectName) + '</span>' : '') +
+          (function() {
+            var proj = test.projectName || test.browser || '';
+            if (!proj) return '';
+            var lower = proj.toLowerCase();
+            var icon = lower === 'chromium' ? '\\ud83d\\udfe2' : lower === 'firefox' ? '\\ud83e\\uddb8' : lower === 'webkit' || lower === 'safari' ? '\\ud83c\\udf0a' : lower === 'api' ? '\\ud83d\\udd17' : '\\ud83c\\udf10';
+            var bg = lower === 'chromium' ? 'rgba(34,197,94,0.13)' : lower === 'firefox' ? 'rgba(249,115,22,0.15)' : lower === 'webkit' || lower === 'safari' ? 'rgba(99,102,241,0.15)' : lower === 'api' ? 'rgba(20,184,166,0.13)' : 'var(--bg4)';
+            var color = lower === 'chromium' ? '#22c55e' : lower === 'firefox' ? '#f97316' : lower === 'webkit' || lower === 'safari' ? '#818cf8' : lower === 'api' ? '#14b8a6' : 'var(--text3)';
+            return '<span style="font-size:0.67rem;font-weight:600;color:' + color + ';background:' + bg + ';padding:2px 8px;border-radius:20px;letter-spacing:0.01em">' + icon + ' ' + escHtml(proj) + '</span>';
+          })() +
           '<span style="font-size:0.7rem;color:var(--text2);font-family:var(--font-mono)">' + formatMs(test.durationMs || 0) + '</span>' +
           '<span class="suite-toggle' + (shouldExpand ? ' open' : '') + '">\\u25b6</span>' +
         '</div>' +
