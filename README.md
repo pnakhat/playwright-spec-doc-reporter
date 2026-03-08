@@ -2,6 +2,10 @@
 
 A beautiful, production-ready Playwright reporter with BDD-style annotations, inline API request/response display, AI-powered failure analysis, test history trends, and self-healing payload exports.
 
+[![npm version](https://img.shields.io/npm/v/playwright-spec-doc-reporter)](https://www.npmjs.com/package/playwright-spec-doc-reporter)
+[![CI](https://github.com/pnakhat/playwright-spec-doc-reporter/actions/workflows/ci.yml/badge.svg)](https://github.com/pnakhat/playwright-spec-doc-reporter/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 ---
 
 ## Screenshots
@@ -28,11 +32,13 @@ A beautiful, production-ready Playwright reporter with BDD-style annotations, in
 
 ## Features
 
-- **Interactive HTML dashboard** — dark-themed report with filter, sort, search, and failure drill-down
+- **Interactive HTML dashboard** — dark-themed report with filter, search, sort, and failure drill-down
 - **BDD annotations** — add Feature, Scenario, and Behaviour metadata directly in your tests
+- **Browser badges** — chromium, firefox, and webkit runs shown with distinct colour-coded pills
 - **Inline API viewer** — attach request/response JSON directly to test results with syntax highlighting
 - **AI failure analysis** — automatic root-cause analysis for failed tests (OpenAI, Anthropic, or custom)
-- **Healing payloads** — structured JSON + Markdown export of suggested locator fixes and patches
+- **Healing payloads** — structured JSON + Markdown export of suggested locator fixes
+- **Docs page** — generate filtered Markdown/HTML behaviour specs from your test suite
 - **History & trends** — pass-rate and duration charts across runs via `spec-doc-history.json`
 - **Zero runtime dependencies** — single self-contained HTML file output
 
@@ -50,7 +56,14 @@ npm install -D playwright-spec-doc-reporter
 
 ## Quick start
 
-In `playwright.config.ts`:
+Because this package is ESM-only, create a thin `reporter.mjs` shim in your project root:
+
+```js
+// reporter.mjs
+export { GlossyPlaywrightReporter as default } from "playwright-spec-doc-reporter";
+```
+
+Then reference it in `playwright.config.ts` / `playwright.config.js`:
 
 ```ts
 import { defineConfig } from "@playwright/test";
@@ -59,28 +72,34 @@ export default defineConfig({
   reporter: [
     ["list"],
     [
-      "playwright-spec-doc-reporter",
+      "./reporter.mjs",
       {
         outputDir: "spec-doc-report",
         reportTitle: "E2E Quality Report",
         includeScreenshots: true,
         includeVideos: true,
-        includeTraces: true
-      }
-    ]
-  ]
+        includeTraces: true,
+      },
+    ],
+  ],
 });
 ```
 
-After each test run, `spec-doc-report/` will contain:
+Run your tests as normal:
+
+```bash
+npx playwright test
+```
+
+After each run, `spec-doc-report/` contains:
 
 | File | Description |
 |------|-------------|
 | `index.html` | Self-contained interactive HTML report |
 | `results.json` | Full normalized JSON for CI/CD processing |
 | `spec-doc-history.json` | Per-run history for trend charts |
-| `healing.json` | AI-suggested locator fixes (optional) |
-| `healing.md` | Human-readable healing summary (optional) |
+| `healing.json` | AI-suggested locator fixes (when AI enabled) |
+| `healing.md` | Human-readable healing summary (when AI enabled) |
 
 ---
 
@@ -111,7 +130,7 @@ test.describe("Shopping Cart", () => {
 
 ### `addScenario(description)`
 
-Sets a scenario-level description (context / acceptance criteria) for the current test.
+Sets a scenario-level description (acceptance criteria) for the current test.
 
 ```ts
 test("standard user can login and add item to cart", async ({ page }) => {
@@ -122,7 +141,7 @@ test("standard user can login and add item to cart", async ({ page }) => {
 
 ### `addBehaviour(description)`
 
-Adds a high-level human-readable behaviour step. These replace low-level Playwright step names in the BDD view and exported documentation.
+Adds a human-readable behaviour step. These appear in the BDD view and exported Docs instead of raw Playwright step names.
 
 ```ts
 test("login flow", async ({ page }) => {
@@ -171,7 +190,7 @@ test.describe("Posts API", () => {
 });
 ```
 
-The report shows each request/response pair with method badge (colour-coded), URL, collapsible body with JSON syntax highlighting, and HTTP status badge.
+The report shows each pair with a colour-coded method badge, URL, collapsible JSON body, and HTTP status badge.
 
 ### `addApiRequest(method, url, body?, headers?)`
 
@@ -211,9 +230,6 @@ type SpecDocReporterConfig = {
   /** Include Playwright traces. Default: true */
   includeTraces?: boolean;
 
-  /** Visual theme. Currently only "dark-glossy". */
-  theme?: "dark-glossy";
-
   /** AI failure analysis configuration. */
   ai?: {
     enabled: boolean;
@@ -244,67 +260,7 @@ type SpecDocReporterConfig = {
 
 ## AI failure analysis
 
-When a test fails, the reporter automatically calls your configured AI provider to analyse the error, stack trace, and screenshot. Results appear inline in the report on the **AI Insights** tab and next to each failing test.
-
-![AI Insights tab](docs/screenshots/ai-insights.png)
-
-### What the AI analyses
-
-For each failing test the AI receives:
-- Full error message and stack trace
-- Source code snippet around the failure line
-- Screenshot path (if captured)
-- Trace path (if captured)
-- Console logs
-
-### Analysis output schema
-
-```ts
-interface AIAnalysisResult {
-  testName: string;
-  file: string;
-
-  /** One-sentence summary of the failure. */
-  summary: string;
-
-  /** Root cause hypothesis. */
-  likelyRootCause: string;
-
-  /** 0–1 confidence score. */
-  confidence: number;
-
-  /** Concrete suggested fix. */
-  suggestedRemediation: string;
-
-  /** Failure category for grouping/filtering. */
-  issueCategory:
-    | "locator_drift"    // selector no longer matches
-    | "timing_issue"     // race condition / missing wait
-    | "environment_issue"// env var, network, dependency
-    | "test_data_issue"  // stale fixture or test data
-    | "assertion_issue"  // wrong expected value
-    | "app_bug"          // genuine regression
-    | "unknown";
-
-  structuredFeedback: {
-    actionType:
-      | "locator_update"  // replace the failing selector
-      | "wait_strategy"   // add/change a wait
-      | "data_fix"        // fix test data
-      | "assertion_update"// update expected value
-      | "infra_fix"       // environment-level fix
-      | "investigate";    // needs manual investigation
-
-    reasoning: string;
-
-    /** Ready-to-paste code patch (when actionType = locator_update). */
-    suggestedPatch?: string;
-
-    /** Ranked alternative selectors (when actionType = locator_update). */
-    candidateLocators?: string[];
-  };
-}
-```
+When a test fails, the reporter automatically calls your configured AI provider to analyse the error, stack trace, and screenshot. Results appear inline next to each failing test and summarised on the **AI Insights** tab.
 
 ### OpenAI
 
@@ -316,7 +272,7 @@ ai: {
   apiKey: process.env.OPENAI_API_KEY,
   maxFailuresToAnalyze: 10,
   maxTokens: 1200,
-  rateLimitPerMinute: 20          // avoid 429s on free tiers
+  rateLimitPerMinute: 20,
 }
 ```
 
@@ -328,13 +284,11 @@ ai: {
   provider: "anthropic",
   model: "claude-sonnet-4-6",    // or "claude-opus-4-6", "claude-haiku-4-5"
   apiKey: process.env.ANTHROPIC_API_KEY,
-  maxFailuresToAnalyze: 10
+  maxFailuresToAnalyze: 10,
 }
 ```
 
 ### Custom prompt
-
-Override the system prompt to focus analysis on your stack, framework, or naming conventions:
 
 ```ts
 ai: {
@@ -345,15 +299,12 @@ ai: {
   customPrompt: `
     You are an expert in Playwright + React testing.
     Prioritise data-testid selectors over CSS classes.
-    Suggest fixes that are compatible with our design system (MUI v5).
     Always provide a ready-to-paste code patch when the issue is a locator.
-  `
+  `,
 }
 ```
 
 ### Custom provider
-
-Bring your own LLM or internal AI service:
 
 ```ts
 import type { AIProvider, AIProviderConfig } from "playwright-spec-doc-reporter";
@@ -364,7 +315,7 @@ const providerFactory = (_cfg: AIProviderConfig): AIProvider => ({
     const response = await fetch("https://ai.internal/analyze", {
       method: "POST",
       headers: { Authorization: `Bearer ${cfg.apiKey}` },
-      body: JSON.stringify({ error: input.errorMessage, stack: input.stackTrace })
+      body: JSON.stringify({ error: input.errorMessage, stack: input.stackTrace }),
     });
     const data = await response.json();
     return {
@@ -378,10 +329,10 @@ const providerFactory = (_cfg: AIProviderConfig): AIProvider => ({
       structuredFeedback: {
         actionType: data.actionType ?? "investigate",
         reasoning: data.reasoning,
-        suggestedPatch: data.patch
-      }
+        suggestedPatch: data.patch,
+      },
     };
-  }
+  },
 });
 ```
 
@@ -391,18 +342,30 @@ Pass the factory to the reporter config:
 // playwright.config.ts
 import { providerFactory } from "./my-ai-provider.js";
 
-reporter: [["playwright-spec-doc-reporter", { ai: { enabled: true }, providerFactory }]]
+reporter: [["./reporter.mjs", { ai: { enabled: true }, providerFactory }]]
 ```
 
-### CI/CD environment variables
+### Store the API key safely
 
 ```bash
-# .env or CI secrets
-OPENAI_API_KEY=sk-...
+# .env (gitignored)
 ANTHROPIC_API_KEY=sk-ant-...
+OPENAI_API_KEY=sk-...
 ```
 
-The `apiKey` field in config falls back to `process.env.OPENAI_API_KEY` / `process.env.ANTHROPIC_API_KEY` automatically when not set explicitly.
+Load it without dotenv (Node 20.6+):
+
+```bash
+node --env-file=.env node_modules/.bin/playwright test
+```
+
+Or add to `package.json`:
+
+```json
+{ "scripts": { "test": "node --env-file=.env node_modules/.bin/playwright test" } }
+```
+
+The `apiKey` config field falls back to `process.env.ANTHROPIC_API_KEY` / `process.env.OPENAI_API_KEY` automatically.
 
 ---
 
@@ -415,7 +378,7 @@ healing: {
   enabled: true,
   exportPath: "spec-doc-report/healing.json",
   exportMarkdownPath: "spec-doc-report/healing.md",
-  analysisOnly: true  // never auto-modifies test files
+  analysisOnly: true,  // never auto-modifies test files
 }
 ```
 
@@ -443,41 +406,13 @@ The `healing.md` export is human-readable and CI-comment-friendly.
 
 ## History & trends
 
-The reporter automatically maintains `spec-doc-history.json` and records each run's pass rate, duration, and per-test status. The dashboard's **Trends** tab shows pass-rate charts and per-test stability indicators across runs.
+The reporter automatically maintains `spec-doc-history.json` and records each run's pass rate, duration, and per-test status. The **Trends** tab shows pass-rate charts and per-test stability indicators across runs.
 
 ---
 
-## SDK
+## Docs page
 
-Use the internals directly without running Playwright:
-
-```ts
-import {
-  buildSpecDocHtml,
-  generateReport,
-  analyzeFailures,
-  createHealingPayloads,
-  healingPayloadsToMarkdown
-} from "playwright-spec-doc-reporter";
-
-// Render an HTML report from a saved results.json
-const html = buildSpecDocHtml(reportData, { outputDir: "." });
-```
-
----
-
-## TypeScript types
-
-```ts
-import type {
-  SpecDocReporterConfig,
-  NormalizedTestResult,
-  ApiEntry,
-  AIAnalysisResult,
-  HealingPayload,
-  ReportData
-} from "playwright-spec-doc-reporter";
-```
+The **Docs** tab generates a filtered behaviour specification from your annotated tests. Use the filter controls to select by status, browser/project, and feature — then export as Markdown or rendered HTML for sharing with stakeholders.
 
 ---
 
