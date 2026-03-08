@@ -731,8 +731,8 @@ export function getStyles(): string {
     .doc-tab-panel{display:none}
     .doc-tab-panel.active{display:block}
     .doc-page-body{min-height:400px}
-    .doc-pre{background:var(--bg2);color:var(--text1);padding:1.2rem 1.4rem;border-radius:8px;font-size:0.8rem;font-family:var(--font-mono);white-space:pre-wrap;word-break:break-word;border:1px solid var(--border);max-height:70vh;overflow-y:auto;margin:0}
-    .doc-iframe{width:100%;height:70vh;border:1px solid var(--border);border-radius:8px;background:#fff}
+    .doc-pre{background:var(--bg2);color:var(--text1);padding:1.2rem 1.4rem;border-radius:8px;font-size:0.8rem;font-family:var(--font-mono);white-space:pre-wrap;word-break:break-word;border:1px solid var(--border);height:calc(100vh - 320px);min-height:400px;overflow-y:auto;margin:0}
+    .doc-iframe{width:100%;height:calc(100vh - 320px);min-height:400px;border:1px solid var(--border);border-radius:8px;background:#fff}
 
     /* --- Print --- */
     @media print {
