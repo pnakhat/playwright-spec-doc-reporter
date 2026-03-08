@@ -9,6 +9,7 @@
     "report": "playwright test && open spec-doc-report/index.html"
   },
   "devDependencies": {
-    "@playwright/test": "^1.52.0"
+    "@playwright/test": "^1.52.0",
+    "playwright-spec-doc-reporter": "file:../.."
   }
 }

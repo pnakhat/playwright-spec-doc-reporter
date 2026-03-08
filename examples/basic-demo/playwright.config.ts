@@ -1,5 +1,5 @@
 import { defineConfig } from "@playwright/test";
-import { SpecDocReporter } from "../../dist/index.js";
+import { SpecDocReporter } from "playwright-spec-doc-reporter";
 
 export default defineConfig({
   testDir: "./tests",
