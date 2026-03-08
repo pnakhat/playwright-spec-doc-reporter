@@ -1,12 +1,12 @@
 /**
  * Glossy AI Healing Agent
  *
- * Reads healing.md from a glossy-report and uses the Claude API to
+ * Reads healing.md from a spec-doc-report and uses the Claude API to
  * automatically apply the suggested fixes to the failing test files.
  *
  * Usage:
  *   npx tsx src/healing/healingAgent.ts [path/to/healing.md]
- *   npx tsx src/healing/healingAgent.ts --report glossy-report/healing.md --backup
+ *   npx tsx src/healing/healingAgent.ts --report spec-doc-report/healing.md --backup
  */
 
 import fs from "node:fs/promises";

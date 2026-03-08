@@ -58,7 +58,7 @@ export default defineConfig({
     [
       "playwright-spec-doc-reporter",
       {
-        outputDir: "glossy-report",
+        outputDir: "spec-doc-report",
         reportTitle: "E2E Quality Report",
         includeScreenshots: true,
         includeVideos: true,
@@ -69,13 +69,13 @@ export default defineConfig({
 });
 ```
 
-After each test run, `glossy-report/` will contain:
+After each test run, `spec-doc-report/` will contain:
 
 | File | Description |
 |------|-------------|
 | `index.html` | Self-contained interactive HTML report |
 | `results.json` | Full normalized JSON for CI/CD processing |
-| `glossy-history.json` | Per-run history for trend charts |
+| `spec-doc-history.json` | Per-run history for trend charts |
 | `healing.json` | AI-suggested locator fixes (optional) |
 | `healing.md` | Human-readable healing summary (optional) |
 
@@ -193,7 +193,7 @@ The report shows each request/response pair with method badge (colour-coded), UR
 
 ```ts
 type GlossyReporterConfig = {
-  /** Output directory. Default: "glossy-report" */
+  /** Output directory. Default: "spec-doc-report" */
   outputDir?: string;
 
   /** Report title shown in the dashboard header. */
@@ -410,8 +410,8 @@ When AI analysis identifies locator issues (`issueCategory: "locator_drift"`), s
 ```ts
 healing: {
   enabled: true,
-  exportPath: "glossy-report/healing.json",
-  exportMarkdownPath: "glossy-report/healing.md",
+  exportPath: "spec-doc-report/healing.json",
+  exportMarkdownPath: "spec-doc-report/healing.md",
   analysisOnly: true  // never auto-modifies test files
 }
 ```
