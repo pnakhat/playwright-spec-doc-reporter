@@ -1,0 +1,66 @@
+{
+  "name": "playwright-spec-doc-reporter",
+  "version": "0.1.0",
+  "description": "A beautiful Playwright reporter with BDD annotations, inline API request/response display, AI-powered failure analysis, and self-healing payload exports.",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./annotations": {
+      "import": "./dist/annotations.js",
+      "types": "./dist/annotations.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "rm -rf dist",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "tsc --noEmit",
+    "prepublishOnly": "npm run build && npm test",
+    "render:sample": "npm run build && node scripts/render-from-json.mjs samples/normalized-results.json examples/basic-demo/sample-output/index.html",
+    "render:json": "npm run build && node scripts/render-from-json.mjs",
+    "render:saucedemo": "npm run build && node scripts/seed-and-render-saucedemo.mjs"
+  },
+  "keywords": [
+    "playwright",
+    "reporter",
+    "playwright-reporter",
+    "bdd",
+    "ai",
+    "test-report",
+    "html-report",
+    "healing",
+    "api-testing",
+    "test-annotations"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/playwright-spec-doc-reporter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-org/playwright-spec-doc-reporter/issues"
+  },
+  "homepage": "https://github.com/your-org/playwright-spec-doc-reporter#readme",
+  "engines": {
+    "node": ">=18"
+  },
+  "peerDependencies": {
+    "@playwright/test": ">=1.44.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^22.13.10",
+    "typescript": "^5.8.2",
+    "vitest": "^3.0.9"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "title": "Playwright Glossy AI Report",
+  "generatedAt": "2026-03-07T12:00:00.000Z",
+  "environment": {
+    "nodeVersion": "v22.0.0",
+    "platform": "darwin"
+  },
+  "summary": {
+    "total": 3,
+    "passed": 1,
+    "failed": 1,
+    "skipped": 0,
+    "flaky": 1,
+    "timedOut": 0,
+    "interrupted": 0,
+    "durationMs": 6490,
+    "averageDurationMs": 2163
+  },
+  "tests": [
+    {
+      "id": "dGVzdDE",
+      "suite": "auth",
+      "file": "tests/auth.spec.ts",
+      "title": "logs in",
+      "fullName": "auth › logs in",
+      "status": "failed",
+      "expectedStatus": "passed",
+      "flaky": false,
+      "retries": 0,
+      "retryIndex": 0,
+      "durationMs": 2201,
+      "browser": "chromium",
+      "projectName": "chromium",
+      "errorMessage": "Timeout waiting for locator('#submit').",
+      "stackTrace": "Error: Timeout...",
+      "attachments": [],
+      "artifacts": {
+        "screenshots": [
+          "test-results/auth-fail-1.png"
+        ],
+        "videos": [
+          "test-results/auth-fail-1.webm"
+        ],
+        "traces": [
+          "test-results/auth-fail-1.zip"
+        ]
+      },
+      "consoleLogs": []
+    }
+  ],
+  "trends": {
+    "schemaVersion": "1.0",
+    "notes": "Trend-ready schema. Persist snapshots externally to compute multi-run trends."
+  },
+  "aiAnalyses": [],
+  "healingPayloads": []
+}

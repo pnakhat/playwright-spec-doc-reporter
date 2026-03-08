@@ -1,0 +1,20 @@
+[
+  {
+    "testName": "auth › logs in",
+    "file": "tests/auth.spec.ts",
+    "summary": "Login button locator appears stale after UI refactor.",
+    "likelyRootCause": "Locator drift: #submit changed to data-testid=login-submit.",
+    "confidence": 0.87,
+    "suggestedRemediation": "Update locator and add visibility expectation before click.",
+    "issueCategory": "locator_drift",
+    "structuredFeedback": {
+      "actionType": "locator_update",
+      "reasoning": "DOM attributes indicate an explicit stable test id.",
+      "suggestedPatch": "- await page.locator('#submit').click();\n+ await page.getByTestId('login-submit').click();",
+      "candidateLocators": [
+        "getByTestId('login-submit')",
+        "getByRole('button', { name: /log in/i })"
+      ]
+    }
+  }
+]

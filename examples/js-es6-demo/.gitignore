@@ -1,0 +1,4 @@
+.env
+node_modules/
+spec-doc-report/
+test-results/

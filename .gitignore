@@ -1,0 +1,44 @@
+# Build output
+dist/
+coverage/
+
+# Dependencies
+node_modules/
+examples/*/node_modules/
+
+# Test artifacts
+test-results/
+playwright-report/
+examples/*/test-results/
+examples/*/playwright-report/
+
+# Generated reports (all output dirs)
+examples/*/spec-doc-report/
+examples/*/glossy-report/
+
+# AI-generated healing files (root level, if any scripts produce them)
+healing.json
+healing.md
+spec-doc-history.json
+results.json
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# npm pack output
+*.tgz
+
+# Playwright temp
+blob-report/
