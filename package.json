@@ -1,6 +1,6 @@
 {
   "name": "playwright-spec-doc-reporter",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A beautiful Playwright reporter with BDD annotations, inline API request/response display, AI-powered failure analysis, and self-healing payload exports.",
   "type": "module",
   "main": "dist/index.js",
