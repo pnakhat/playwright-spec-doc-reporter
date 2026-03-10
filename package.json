@@ -1,7 +1,7 @@
 {
   "name": "playwright-spec-doc-reporter",
   "version": "0.1.5",
-  "description": "A beautiful Playwright reporter with BDD annotations, inline API request/response display, AI-powered failure analysis, and self-healing payload exports.",
+  "description": "A beautiful Playwright HTML reporter with BDD/Gherkin annotations, AI-powered failure analysis, self-healing suggestions, Jira/Xray integration, inline API request/response display, manual test support, and screenshot/video evidence in test executions.",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -13,6 +13,10 @@
     "./annotations": {
       "import": "./dist/annotations.js",
       "types": "./dist/annotations.d.ts"
+    },
+    "./reporter": {
+      "import": "./dist/reporter-entry.js",
+      "types": "./dist/reporter-entry.d.ts"
     }
   },
   "files": [
@@ -33,13 +37,34 @@
     "playwright",
     "reporter",
     "playwright-reporter",
+    "playwright reporter",
+    "playwright test report",
+    "playwright documentation reporter",
+    "playwright spec documentation",
+    "playwright test documentation",
+    "playwright reporter plugin",
+    "playwright automation reporting",
+    "playwright spec reporter",
+    "playwright html report",
     "bdd",
+    "bdd reporter",
+    "gherkin",
     "ai",
+    "ai test analysis",
+    "ai failure analysis",
     "test-report",
     "html-report",
-    "healing",
+    "self-healing",
+    "test-healing",
+    "jira",
+    "xray",
+    "jira integration",
+    "xray integration",
     "api-testing",
-    "test-annotations"
+    "test-annotations",
+    "manual tests",
+    "test execution",
+    "ci reporter"
   ],
   "author": "Pankaj Nakhat <pnakhat@gmail.com>",
   "license": "MIT",
