@@ -141,43 +141,41 @@ export function getMarkup(): string {
   <!-- Docs Page -->
   <div class="page-panel" id="page-docs">
     <div class="section">
-      <div class="section-header">
-        <div class="section-title">&#128203; Behaviour Documentation</div>
-        <div class="section-actions">
-          <button class="btn-sm" id="docCopyBtn">&#128203; Copy</button>
-          <button class="btn-sm" id="docDownloadMdBtn">&#8595; .md</button>
-          <button class="btn-sm" id="docDownloadHtmlBtn">&#8595; .html</button>
-          <button class="btn-sm btn-accent" id="docExportPdfBtn">&#128438; PDF</button>
-        </div>
-      </div>
 
-      <div class="doc-filter-bar">
-        <div class="doc-filter-group">
-          <label class="doc-filter-label">Status</label>
+      <div class="docs-toolbar">
+        <div class="docs-toolbar-left">
+          <span class="docs-toolbar-label">Status</span>
           <div class="filter-group">
             <button class="filter-btn active" data-doc-status="all">All</button>
             <button class="filter-btn" data-doc-status="passed">&#10003; Passed</button>
             <button class="filter-btn" data-doc-status="failed">&#10007; Failed</button>
           </div>
+          <div class="docs-feature-dropdown" id="docsFeatureDropdownWrap">
+            <button class="btn-sm docs-feature-trigger" id="docsFeatureTrigger">
+              &#128203; Features <span class="docs-feature-count" id="docsFeatureCount"></span> &#9660;
+            </button>
+            <div class="docs-feature-panel" id="docsFeaturePanel">
+              <div class="docs-feature-panel-hdr">
+                <span style="font-size:0.72rem;font-weight:700;color:var(--text2)">Filter features</span>
+                <div style="display:flex;gap:4px">
+                  <button class="btn-sm" id="docSelectAll" style="padding:2px 8px;font-size:0.68rem">All</button>
+                  <button class="btn-sm" id="docSelectNone" style="padding:2px 8px;font-size:0.68rem">None</button>
+                </div>
+              </div>
+              <div class="doc-feature-checks" id="docFeatureFilter"></div>
+            </div>
+          </div>
         </div>
-        <div class="doc-filter-group">
-          <label class="doc-filter-label">Browser / Project</label>
-          <div class="filter-group" id="docProjectFilter"></div>
+        <div class="docs-toolbar-right">
+          <div class="doc-view-tabs">
+            <button class="doc-tab-btn active" data-doc-tab="md">&#128196; Markdown</button>
+            <button class="doc-tab-btn" data-doc-tab="html">&#127760; Preview</button>
+          </div>
+          <button class="btn-sm" id="docCopyBtn">&#128203; Copy</button>
+          <button class="btn-sm" id="docDownloadMdBtn">&#8595; .md</button>
+          <button class="btn-sm" id="docDownloadHtmlBtn">&#8595; .html</button>
+          <button class="btn-sm btn-accent" id="docExportPdfBtn">&#128438; PDF</button>
         </div>
-        <div class="doc-filter-group">
-          <label class="doc-filter-label">Features</label>
-          <div class="doc-feature-checks" id="docFeatureFilter"></div>
-        </div>
-        <div class="doc-filter-group" style="margin-left:auto">
-          <button class="btn-sm btn-accent" id="docGenerateBtn">&#9654; Generate</button>
-          <button class="btn-sm" id="docSelectAll">All</button>
-          <button class="btn-sm" id="docSelectNone">None</button>
-        </div>
-      </div>
-
-      <div class="doc-tabs">
-        <button class="doc-tab-btn active" data-doc-tab="md">&#128196; Markdown</button>
-        <button class="doc-tab-btn" data-doc-tab="html">&#127760; HTML Preview</button>
       </div>
 
       <div class="doc-page-body">
@@ -188,6 +186,7 @@ export function getMarkup(): string {
           <iframe id="docHtmlPreview" class="doc-iframe" title="HTML Documentation Preview"></iframe>
         </div>
       </div>
+
     </div>
   </div>
 

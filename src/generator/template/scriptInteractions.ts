@@ -304,11 +304,7 @@ export function getScriptInteractions(): string {
     var statusFilter = document.querySelector('[data-doc-status].active');
     var activeStatus = statusFilter ? statusFilter.getAttribute('data-doc-status') : 'all';
 
-    var activeProjects = [];
-    document.querySelectorAll('[data-doc-project].active').forEach(function(b) {
-      activeProjects.push(b.getAttribute('data-doc-project'));
-    });
-
+    var totalFeatures = document.querySelectorAll('#docFeatureFilter input').length;
     var checkedFeatures = [];
     document.querySelectorAll('#docFeatureFilter input:checked').forEach(function(cb) {
       checkedFeatures.push(cb.value);
@@ -317,10 +313,7 @@ export function getScriptInteractions(): string {
     return tests.filter(function(t) {
       if (activeStatus === 'passed' && t.status !== 'passed') return false;
       if (activeStatus === 'failed' && t.status !== 'failed') return false;
-      if (activeProjects.length > 0) {
-        var proj = t.projectName || t.browser || '';
-        if (activeProjects.indexOf(proj) === -1) return false;
-      }
+      if (totalFeatures > 0 && checkedFeatures.length === 0) return false;
       if (checkedFeatures.length > 0) {
         var feat = (t.featureMeta && t.featureMeta.name) ? t.featureMeta.name : extractFeatureName(t);
         if (checkedFeatures.indexOf(feat) === -1) return false;
@@ -416,19 +409,14 @@ export function getScriptInteractions(): string {
       '\\n</style>\\n</head>\\n<body>\\n' + body + '\\n</body>\\n</html>';
   }
 
-  function renderDocFilters() {
-    // Project filter pills
-    var projSet = {};
-    tests.forEach(function(t) { var p = t.projectName || t.browser || ''; if (p) projSet[p] = true; });
-    var projects = Object.keys(projSet);
-    var projHtml = '';
-    if (projects.length > 1) {
-      projects.forEach(function(p) {
-        projHtml += '<button class="filter-btn" data-doc-project="' + escHtml(p) + '">' + escHtml(p) + '</button>';
-      });
-    }
-    document.getElementById('docProjectFilter').innerHTML = projects.length > 1 ? projHtml : '<span style="font-size:0.75rem;color:var(--text3)">All</span>';
+  function updateFeatureCount() {
+    var total = document.querySelectorAll('#docFeatureFilter input').length;
+    var checked = document.querySelectorAll('#docFeatureFilter input:checked').length;
+    var el = document.getElementById('docsFeatureCount');
+    if (el) el.textContent = checked === total ? '' : checked + '/' + total;
+  }
 
+  function renderDocFilters() {
     // Feature checkboxes
     var features = buildBddHierarchy(tests);
     var featHtml = '';
@@ -437,6 +425,7 @@ export function getScriptInteractions(): string {
       featHtml += '<label class="doc-feature-check"><input type="checkbox" id="' + id + '" value="' + escHtml(f.name) + '" checked> ' + escHtml(f.name) + '</label>';
     });
     document.getElementById('docFeatureFilter').innerHTML = featHtml;
+    updateFeatureCount();
   }
 
   function refreshDocContent() {
@@ -453,30 +442,47 @@ export function getScriptInteractions(): string {
     renderDocFilters();
     refreshDocContent();
 
-    // Status filter
+    // Status filter — auto-refresh on change
     document.querySelectorAll('[data-doc-status]').forEach(function(btn) {
       btn.addEventListener('click', function() {
         document.querySelectorAll('[data-doc-status]').forEach(function(b) { b.classList.remove('active'); });
         btn.classList.add('active');
+        refreshDocContent();
       });
     });
 
-    // Project filter (toggle)
-    document.getElementById('docProjectFilter').addEventListener('click', function(e) {
-      var btn = e.target.closest('[data-doc-project]');
-      if (btn) btn.classList.toggle('active');
+    // Feature checkboxes — auto-refresh on change + update count badge
+    document.getElementById('docFeatureFilter').addEventListener('change', function() {
+      updateFeatureCount();
+      refreshDocContent();
     });
 
     // Select All / None features
     document.getElementById('docSelectAll').addEventListener('click', function() {
       document.querySelectorAll('#docFeatureFilter input').forEach(function(cb) { cb.checked = true; });
+      updateFeatureCount();
+      refreshDocContent();
     });
     document.getElementById('docSelectNone').addEventListener('click', function() {
       document.querySelectorAll('#docFeatureFilter input').forEach(function(cb) { cb.checked = false; });
+      updateFeatureCount();
+      refreshDocContent();
     });
 
-    // Generate button
-    document.getElementById('docGenerateBtn').addEventListener('click', refreshDocContent);
+    // Features dropdown toggle
+    var trigger = document.getElementById('docsFeatureTrigger');
+    var panel = document.getElementById('docsFeaturePanel');
+    if (trigger && panel) {
+      trigger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        panel.classList.toggle('open');
+      });
+      document.addEventListener('click', function(e) {
+        if (!document.getElementById('docsFeatureDropdownWrap').contains(e.target)) {
+          panel.classList.remove('open');
+        }
+      });
+    }
 
     // Tab switching
     document.querySelectorAll('.doc-tab-btn').forEach(function(btn) {

@@ -8,6 +8,6 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.52.0",
-    "playwright-spec-doc-reporter": "file:../.."
+    "playwright-spec-doc-reporter": "file:../../playwright-spec-doc-reporter-0.1.8.tgz"
   }
 }
