@@ -28,6 +28,11 @@ export default defineConfig({
           exportPath: "spec-doc-report/healing.json",
           exportMarkdownPath: "spec-doc-report/healing.md",
           analysisOnly: true
+        },
+        prComment: {
+          enabled: true,
+          // artifactUrl: process.env.REPORT_ARTIFACT_URL,  // set in CI to link to uploaded report
+          maxFailures: 10
         }
       }
     ]

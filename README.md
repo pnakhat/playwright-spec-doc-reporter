@@ -38,6 +38,7 @@ A beautiful, production-ready Playwright reporter with BDD-style annotations, in
 - **Inline API viewer** — attach request/response JSON directly to test results with syntax highlighting
 - **AI failure analysis** — automatic root-cause analysis for failed tests (OpenAI, Anthropic, or custom)
 - **Healing payloads** — structured JSON + Markdown export of suggested locator fixes
+- **PR Comment Mode** — emit a compact markdown summary for posting directly as a GitHub/Azure DevOps PR comment
 - **Docs page** — generate filtered Markdown/HTML behaviour specs from your test suite
 - **History & trends** — pass-rate and duration charts across runs via `spec-doc-history.json`
 - **Zero runtime dependencies** — single self-contained HTML file output
@@ -100,6 +101,7 @@ After each run, `spec-doc-report/` contains:
 | `spec-doc-history.json` | Per-run history for trend charts |
 | `healing.json` | AI-suggested locator fixes (when AI enabled) |
 | `healing.md` | Human-readable healing summary (when AI enabled) |
+| `pr-comment.md` | Compact markdown for PR comments (when `prComment` enabled) |
 
 ---
 
@@ -249,6 +251,15 @@ type SpecDocReporterConfig = {
     exportPath?: string;
     exportMarkdownPath?: string;
     analysisOnly?: boolean;
+  };
+
+  /** PR comment markdown generation. */
+  prComment?: {
+    enabled: boolean;
+    outputPath?: string;       // default: <outputDir>/pr-comment.md
+    artifactUrl?: string;      // falls back to REPORT_ARTIFACT_URL env var
+    title?: string;            // branch/label shown in the header
+    maxFailures?: number;      // max failed tests to list inline, default 10
   };
 
   /** Factory for a custom AI provider. */
@@ -401,6 +412,92 @@ interface HealingPayload {
 ```
 
 The `healing.md` export is human-readable and CI-comment-friendly.
+
+---
+
+## PR Comment Mode
+
+Instead of downloading a report artifact, engineers reviewing a PR get test results inline — right where they're already looking.
+
+Enable it in `playwright.config`:
+
+```ts
+prComment: {
+  enabled: true,
+  artifactUrl: process.env.REPORT_ARTIFACT_URL,  // link to the uploaded HTML report
+  maxFailures: 10,
+}
+```
+
+This writes `spec-doc-report/pr-comment.md` after each run:
+
+```markdown
+## 🎭 Test Report — `feat/payment-flow` · Run #142
+
+| | Result |
+|---|---|
+| ✅ Passed | 84 |
+| ❌ Failed | 3 |
+| ⏭️ Skipped | 2 |
+| 📊 Total | 89 |
+| ⏱️ Duration | 4m 12s |
+
+### ❌ Failed Tests
+- ❌ `Checkout › Payment › should process card with 3DS` — *Element not found: [data-testid="confirm-btn"]*
+- ❌ `Checkout › Payment › should show error on decline` — *Timeout 30000ms exceeded*
+- ❌ `Auth › Login › should redirect after SSO` — *Expected URL to contain /dashboard*
+
+> 🤖 **AI Analysis** (92% confidence): Failures suggest a recent DOM change in the payment confirmation step. [View full analysis →](https://your-artifact-url/report.html)
+
+[📊 Full Report →](https://your-artifact-url/report.html)
+```
+
+### Posting the comment on GitHub
+
+```yaml
+- name: Upload report
+  if: always()
+  uses: actions/upload-artifact@v4
+  with:
+    name: test-report
+    path: spec-doc-report/
+
+- name: Post PR comment
+  if: always() && github.event_name == 'pull_request'
+  uses: marocchino/sticky-pull-request-comment@v2
+  with:
+    path: spec-doc-report/pr-comment.md
+```
+
+Set `REPORT_ARTIFACT_URL` to point reviewers at the full report:
+
+```yaml
+- name: Run tests
+  run: npx playwright test
+  env:
+    REPORT_ARTIFACT_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+```
+
+### Posting on Azure DevOps
+
+```yaml
+- task: PowerShell@2
+  displayName: Post PR comment
+  condition: always()
+  inputs:
+    targetType: inline
+    script: |
+      $comment = Get-Content spec-doc-report/pr-comment.md -Raw
+      $body = @{ content = $comment; parentCommentId = 0; commentType = 1 } | ConvertTo-Json
+      $url = "$env:SYSTEM_TEAMFOUNDATIONCOLLECTIONURI$env:SYSTEM_TEAMPROJECTID/_apis/git/repositories/$(Build.Repository.ID)/pullRequests/$(System.PullRequest.PullRequestId)/threads?api-version=7.1"
+      Invoke-RestMethod -Uri $url -Method Post -Headers @{ Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN" } -Body $body -ContentType "application/json"
+  env:
+    SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+```
+
+### Branch and run detection
+
+Branch name, commit SHA, and run number are automatically detected from CI environment variables (`GITHUB_REF_NAME`, `GITHUB_SHA`, `GITHUB_RUN_NUMBER`, and Azure DevOps equivalents). No manual configuration needed in most setups.
 
 ---
 
