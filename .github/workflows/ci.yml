@@ -146,7 +146,12 @@ jobs:
           git push
           git push --tags
 
-  # ─── Publish to npm (on version tags only) ───────────────────────────────────
+      - name: Publish to npm
+        run: npm publish --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  # ─── Publish to npm (on manual version tags only) ────────────────────────────
   publish-npm:
     name: Publish to npm
     runs-on: ubuntu-latest
