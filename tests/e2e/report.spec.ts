@@ -141,9 +141,12 @@ test.describe('Tests Page', () => {
   });
 
   test('searching filters visible suites', async ({ page }) => {
-    // Use the first test's name — search filters .test-detail-block rows, not suite headers
-    const firstTestName = await page.locator('#suitesContainer .test-detail-block .suite-name').first().textContent();
-    const searchTerm = firstTestName?.trim().split(/\s+/)[0] ?? 'test';
+    // Read first test name synchronously via evaluate — avoids auto-wait timeout if selector is hidden
+    const firstTestName = await page.evaluate(() => {
+      const el = document.querySelector('#suitesContainer .test-detail-block .suite-name');
+      return el?.textContent?.trim() ?? null;
+    });
+    const searchTerm = firstTestName?.split(/\s+/)[0] ?? 'can';
     const allCount = await page.locator('#suitesContainer .suite-block').count();
     const input = page.locator('#search-input');
     await input.fill(searchTerm);
@@ -156,8 +159,11 @@ test.describe('Tests Page', () => {
   test('clearing search restores all suites', async ({ page }) => {
     const input = page.locator('#search-input');
     const allCount = await page.locator('#suitesContainer .suite-block').count();
-    const firstTestName = await page.locator('#suitesContainer .test-detail-block .suite-name').first().textContent();
-    const searchTerm = firstTestName?.trim().split(/\s+/)[0] ?? 'test';
+    const firstTestName = await page.evaluate(() => {
+      const el = document.querySelector('#suitesContainer .test-detail-block .suite-name');
+      return el?.textContent?.trim() ?? null;
+    });
+    const searchTerm = firstTestName?.split(/\s+/)[0] ?? 'can';
     await input.fill(searchTerm);
     await input.fill('');
     await page.waitForTimeout(300);
