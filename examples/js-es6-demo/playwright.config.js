@@ -31,7 +31,7 @@ export default defineConfig({
         },
         prComment: {
           enabled: true,
-          // artifactUrl: process.env.REPORT_ARTIFACT_URL,  // set in CI to link to uploaded report
+          artifactUrl: process.env.REPORT_ARTIFACT_URL,  // set by CI to the GitHub Pages live report URL
           maxFailures: 10
         }
       }
