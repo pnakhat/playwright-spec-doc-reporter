@@ -126,6 +126,16 @@ export function getScriptRenderers(): string {
   }
 
   function renderStats() {
+    // Compute number of tests with a non-zero flakiness score
+    var flakyCount = 0;
+    var maxScore = 0;
+    for (var i = 0; i < tests.length; i++) {
+      var fs = getFlakinessScore(tests[i]);
+      if (fs > 0) { flakyCount++; if (fs > maxScore) maxScore = fs; }
+    }
+    var flakyLevel = maxScore >= 70 ? 'high' : maxScore >= 30 ? 'medium' : maxScore > 0 ? 'low' : 'stable';
+    var flakyColor = maxScore >= 70 ? 'var(--fail)' : maxScore >= 30 ? 'var(--flaky)' : maxScore > 0 ? 'var(--flaky)' : 'var(--pass)';
+
     const stats = [
       { klass: "stat-pass", icon: "\\u2705", value: summary.passed || 0, label: "Passed" },
       { klass: "stat-fail", icon: "\\u274c", value: (summary.failed || 0) + (summary.timedOut || 0), label: "Failed" },
@@ -134,13 +144,29 @@ export function getScriptRenderers(): string {
       { klass: "stat-duration", icon: "\\u23f1", value: formatMs(summary.durationMs || 0), label: "Duration", small: true },
       { klass: "stat-total", icon: "\\ud83e\\uddea", value: summary.total || 0, label: "Total" }
     ];
-    document.getElementById("stats-grid").innerHTML = stats.map((item) =>
+    var statsHtml = stats.map((item) =>
       '<div class="stat-card ' + item.klass + '">' +
       '<div class="stat-icon">' + item.icon + '</div>' +
       '<div class="stat-value"' + (item.small ? ' style="font-size:1.4rem"' : '') + '>' + item.value + '</div>' +
       '<div class="stat-label">' + item.label + '</div>' +
       '</div>'
-    ).join("");
+    ).join('');
+
+    // Flakiness history card (only when we have history data)
+    if (Object.keys(flakinessScores).length > 0) {
+      statsHtml += '<div class="stat-card" style="grid-column:span 2">' +
+        '<div class="stat-icon">&#9889;</div>' +
+        '<div class="stat-label" style="margin-bottom:0.5rem">Flakiness (history)</div>' +
+        '<div class="flakiness-score-card">' +
+          '<span style="font-size:1.1rem;font-weight:800;color:' + flakyColor + '">' + flakyCount + '</span>' +
+          '<span style="font-size:0.72rem;color:var(--text3)">unstable tests</span>' +
+          '<div class="flakiness-bar-wrap"><div class="flakiness-bar flaky-' + flakyLevel + '" style="width:' + Math.min(maxScore, 100) + '%"></div></div>' +
+          '<span style="font-size:0.72rem;font-weight:700;color:' + flakyColor + '">' + (maxScore > 0 ? 'max ' + maxScore + '%' : 'stable') + '</span>' +
+        '</div>' +
+      '</div>';
+    }
+
+    document.getElementById("stats-grid").innerHTML = statsHtml;
   }
 
   function renderBddSummary() {
@@ -398,6 +424,7 @@ export function getScriptRenderers(): string {
           (combined.screenshots.length > 0 ? '<span class="media-pill">\\ud83d\\udcf7 ' + combined.screenshots.length + '</span>' : '') +
           (combined.videos.length > 0 ? '<span class="media-pill">\\ud83c\\udfac ' + combined.videos.length + '</span>' : '') +
           (test.flaky ? '<span class="badge badge-flaky" style="margin-left:4px">flaky</span>' : '') +
+          (function() { var fs = getFlakinessScore(test); return fs > 0 ? ' ' + renderFlakinessBadge(fs) : ''; })() +
         '</div>' +
         '<div style="display:flex;align-items:center;gap:7px;flex-shrink:0">' +
           (function() {

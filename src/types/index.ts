@@ -148,6 +148,10 @@ export interface ReportData {
   aiAnalyses: AIAnalysisResult[];
   healingPayloads: HealingPayload[];
   healingMarkdown?: string;
+  /** Flakiness score (0–100) keyed by "file::title". Computed from run history. */
+  flakinessScores?: Record<string, number>;
+  /** UI theme applied to the report. Default: "dark-glossy". */
+  theme?: "dark-glossy" | "dark" | "light";
 }
 
 export interface AIAnalysisInput {
@@ -240,7 +244,7 @@ export interface GlossyReporterConfig {
   includeScreenshots?: boolean;
   includeTraces?: boolean;
   includeVideos?: boolean;
-  theme?: "dark-glossy";
+  theme?: "dark-glossy" | "dark" | "light";
   ai?: AIConfig;
   healing?: HealingConfig;
   prComment?: PrCommentConfig;

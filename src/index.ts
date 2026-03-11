@@ -7,6 +7,7 @@ export { OpenAIProvider } from "./ai/providers/openaiProvider.js";
 export { AnthropicProvider } from "./ai/providers/anthropicProvider.js";
 export { createHealingPayload, createHealingPayloads, healingPayloadsToMarkdown } from "./healing/payload.js";
 export { buildPrCommentMarkdown, writePrComment } from "./prComment/generator.js";
+export { computeFlakinessScores, flakinessLevel } from "./utils/flakiness.js";
 export type { PrCommentRunMeta } from "./prComment/generator.js";
 export type {
   AIAnalysisInput,

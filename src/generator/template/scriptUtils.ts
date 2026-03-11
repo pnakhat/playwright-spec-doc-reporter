@@ -13,7 +13,26 @@ export function getScriptUtils(): string {
   const aiAnalyses = Array.isArray(report.aiAnalyses) ? report.aiAnalyses : [];
   const healingPayloads = Array.isArray(report.healingPayloads) ? report.healingPayloads : [];
   const healingMarkdown = report.healingMarkdown || '';
+  const flakinessScores = (report.flakinessScores && typeof report.flakinessScores === 'object') ? report.flakinessScores : {};
   const galleryState = { items: [], index: 0, timer: null, title: '' };
+
+  function getFlakinessScore(test) {
+    var key = (test.file || '') + '::' + (test.title || '');
+    return typeof flakinessScores[key] === 'number' ? flakinessScores[key] : -1;
+  }
+
+  function flakinessLevel(score) {
+    if (score >= 70) return 'high';
+    if (score >= 30) return 'medium';
+    if (score > 0)   return 'low';
+    return 'stable';
+  }
+
+  function renderFlakinessBadge(score) {
+    if (score <= 0) return '';
+    var level = flakinessLevel(score);
+    return '<span class="flakiness-badge flaky-' + level + '" title="Flakiness score: ' + score + '% over recent runs">&#9889; ' + score + '%</span>';
+  }
 
   const combinedArtifactsByTest = (() => {
     const map = {};

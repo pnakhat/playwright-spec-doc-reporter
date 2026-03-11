@@ -11,6 +11,7 @@ export function getMarkup(): string {
       <span class="topbar-meta-item" id="meta-duration"></span>
       <span class="topbar-meta-item" style="color:var(--text3)">Glossy AI Reporter</span>
     </div>
+    <button class="btn-theme-toggle" id="btnThemeToggle" title="Toggle light/dark theme">&#9728;&#65039;</button>
     <button class="btn-sm" id="btnExportPdf">&#128438; Print</button>
   </div>
 </div>
