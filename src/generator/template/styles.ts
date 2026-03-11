@@ -759,8 +759,16 @@ export function getStyles(): string {
       --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
     }
     [data-theme="light"] .topbar {
-      background: rgba(245,247,251,0.97);
-      border-bottom: 1px solid var(--border);
+      background: #f5f7fb;
+      border-bottom: 1px solid var(--border2);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+    [data-theme="light"] .page-nav {
+      background: #eef0f6;
+      border-bottom: 1px solid var(--border2);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
     }
     [data-theme="light"] .hero-title {
       background: linear-gradient(135deg, #3730a3, #4f46e5, #7c3aed);
