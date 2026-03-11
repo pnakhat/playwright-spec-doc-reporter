@@ -154,6 +154,12 @@ jobs:
         working-directory: examples/js-es6-demo
         run: npm ci
 
+      - name: Download UI report artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: js-es6-ui-report
+          path: examples/js-es6-demo/spec-doc-report/
+
       - name: Regenerate report with history embedded
         working-directory: examples/js-es6-demo
         run: node regenerate-ci.mjs
