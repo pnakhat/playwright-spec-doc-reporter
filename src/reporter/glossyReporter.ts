@@ -13,6 +13,7 @@ import { analyzeFailures } from "../ai/analysisService.js";
 import { defaultConfig } from "../config/defaults.js";
 import { generateReport } from "../generator/reportGenerator.js";
 import { createHealingPayloads } from "../healing/payload.js";
+import { writePrComment } from "../prComment/generator.js";
 import type { AIAnalysisResult, ApiEntry, AttachmentInfo, GlossyReporterConfig, NormalizedTestResult, TestStepInfo } from "../types/index.js";
 import { classifyArtifacts, safeTextFromBuffer, shortId } from "../utils/report.js";
 
@@ -268,11 +269,13 @@ export class GlossyPlaywrightReporter implements Reporter {
       ? createHealingPayloads(failedTests, analyses)
       : [];
 
-    await generateReport(finalizedTests, analyses, healingPayloads, this.config, {
+    const report = await generateReport(finalizedTests, analyses, healingPayloads, this.config, {
       startedAt: this.runStartedAt,
       finishedAt: this.runFinishedAt,
       workers: this.maxWorkers
     });
+
+    await writePrComment(finalizedTests, report.summary, analyses, this.config);
   }
 
   printsToStdio(): boolean {

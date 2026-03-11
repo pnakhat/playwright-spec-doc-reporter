@@ -215,6 +215,25 @@ export interface HealingConfig {
   analysisOnly?: boolean;
 }
 
+export interface PrCommentConfig {
+  /** Enable PR comment markdown generation. */
+  enabled: boolean;
+  /**
+   * Path to write the markdown file.
+   * Default: `<outputDir>/pr-comment.md`
+   */
+  outputPath?: string;
+  /**
+   * URL to the full HTML report artifact.
+   * Falls back to `REPORT_ARTIFACT_URL` env var.
+   */
+  artifactUrl?: string;
+  /** Optional title/branch label for the comment header. */
+  title?: string;
+  /** Maximum number of failed tests to list inline. Default: 10 */
+  maxFailures?: number;
+}
+
 export interface GlossyReporterConfig {
   outputDir?: string;
   reportTitle?: string;
@@ -224,6 +243,7 @@ export interface GlossyReporterConfig {
   theme?: "dark-glossy";
   ai?: AIConfig;
   healing?: HealingConfig;
+  prComment?: PrCommentConfig;
   providerFactory?: (config: AIProviderConfig) => AIProvider;
 }
 
