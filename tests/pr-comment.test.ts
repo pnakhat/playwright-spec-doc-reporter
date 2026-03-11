@@ -300,6 +300,7 @@ describe("writePrComment", () => {
   });
 
   it("reads branch/commit from env vars and includes in output", async () => {
+    vi.stubEnv("GITHUB_HEAD_REF", "feat/pr-comment");
     vi.stubEnv("GITHUB_REF_NAME", "feat/pr-comment");
     vi.stubEnv("GITHUB_SHA", "deadbeef12345");
     try {
