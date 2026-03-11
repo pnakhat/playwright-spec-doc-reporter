@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -141,9 +141,9 @@ test.describe('Tests Page', () => {
   });
 
   test('searching filters visible suites', async ({ page }) => {
-    // Pick the title of the first suite dynamically so this works with any report
-    const firstSuiteTitle = await page.locator('#suitesContainer .suite-header .suite-name').first().textContent();
-    const searchTerm = firstSuiteTitle?.trim().split(/\s+/)[0] ?? 'test';
+    // Use the first test's name — search filters .test-detail-block rows, not suite headers
+    const firstTestName = await page.locator('#suitesContainer .test-detail-block .suite-name').first().textContent();
+    const searchTerm = firstTestName?.trim().split(/\s+/)[0] ?? 'test';
     const allCount = await page.locator('#suitesContainer .suite-block').count();
     const input = page.locator('#search-input');
     await input.fill(searchTerm);
@@ -156,8 +156,8 @@ test.describe('Tests Page', () => {
   test('clearing search restores all suites', async ({ page }) => {
     const input = page.locator('#search-input');
     const allCount = await page.locator('#suitesContainer .suite-block').count();
-    const firstSuiteTitle = await page.locator('#suitesContainer .suite-header .suite-name').first().textContent();
-    const searchTerm = firstSuiteTitle?.trim().split(/\s+/)[0] ?? 'test';
+    const firstTestName = await page.locator('#suitesContainer .test-detail-block .suite-name').first().textContent();
+    const searchTerm = firstTestName?.trim().split(/\s+/)[0] ?? 'test';
     await input.fill(searchTerm);
     await input.fill('');
     await page.waitForTimeout(300);
