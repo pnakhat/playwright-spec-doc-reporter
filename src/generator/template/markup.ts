@@ -9,7 +9,7 @@ export function getMarkup(): string {
     <div class="topbar-meta">
       <span class="topbar-meta-item" id="meta-time"></span>
       <span class="topbar-meta-item" id="meta-duration"></span>
-      <span class="topbar-meta-item" style="color:var(--text3)">Glossy AI Reporter</span>
+      <span class="topbar-meta-item" style="color:var(--text3)">Playwright Reporter</span>
     </div>
     <button class="btn-theme-toggle" id="btnThemeToggle" title="Toggle light/dark theme">&#9728;&#65039;</button>
     <button class="btn-sm" id="btnExportPdf">&#128438; Print</button>
