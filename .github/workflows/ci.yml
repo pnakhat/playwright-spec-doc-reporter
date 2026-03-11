@@ -116,12 +116,21 @@ jobs:
 
       - name: Publish report to GitHub Pages
         if: always()
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: examples/js-es6-demo/spec-doc-report
-          destination_dir: ${{ github.event_name == 'pull_request' && format('reports/pr-{0}', github.event.pull_request.number) || 'reports/latest' }}
-          keep_files: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          DEST=${{ github.event_name == 'pull_request' && format('reports/pr-{0}', github.event.pull_request.number) || 'reports/latest' }}
+          git clone --branch gh-pages --single-branch \
+            "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git" \
+            _gh_pages
+          mkdir -p "_gh_pages/${DEST}"
+          cp -r examples/js-es6-demo/spec-doc-report/. "_gh_pages/${DEST}/"
+          cd _gh_pages
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git diff --cached --quiet || git commit -m "deploy: report for ${{ github.ref_name }} [skip ci]"
+          git push
 
       - name: Post PR comment with report link
         if: github.event_name == 'pull_request'
