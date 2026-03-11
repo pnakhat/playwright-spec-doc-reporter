@@ -39,8 +39,10 @@ A beautiful, production-ready Playwright reporter with BDD-style annotations, in
 - **AI failure analysis** — automatic root-cause analysis for failed tests (OpenAI, Anthropic, or custom)
 - **Healing payloads** — structured JSON + Markdown export of suggested locator fixes
 - **PR Comment Mode** — emit a compact markdown summary for posting directly as a GitHub/Azure DevOps PR comment
-- **Docs page** — generate filtered Markdown/HTML behaviour specs from your test suite
+- **Docs page** — generate filtered Markdown/HTML/PDF behaviour specs from your test suite with live feature filtering
 - **History & trends** — pass-rate and duration charts across runs via `spec-doc-history.json`
+- **Flakiness scoring** — per-test stability badges computed from run history (0–100%)
+- **Theme switcher** — dark-glossy, dark, and light themes with localStorage persistence
 - **Zero runtime dependencies** — single self-contained HTML file output
 
 ---
@@ -501,15 +503,144 @@ Branch name, commit SHA, and run number are automatically detected from CI envir
 
 ---
 
-## History & trends
+## History & Trends
 
-The reporter automatically maintains `spec-doc-history.json` and records each run's pass rate, duration, and per-test status. The **Trends** tab shows pass-rate charts and per-test stability indicators across runs.
+Every run, the reporter automatically:
+
+1. Reads `spec-doc-history.json` from the output directory (starts fresh if none exists)
+2. Computes per-test **flakiness scores** from prior history
+3. Appends a `RunSnapshot` — pass rate, per-test statuses, branch name, commit SHA
+4. Saves the updated history file
+5. Embeds the full history into `index.html` for the **Trends** tab
+
+History is capped at **30 runs** (oldest entries dropped automatically).
+
+The Trends tab shows:
+- Pass rate / failure count / duration charts over time
+- Regressions (tests that newly failed vs previous run)
+- Performance changes (tests that got significantly slower or faster)
+- Full run history table with branch and commit info
+
+### Persisting history in CI/CD
+
+By default each CI run gets a clean workspace, so `spec-doc-history.json` is lost between runs and trends won't accumulate. Choose one of the following strategies to persist it.
+
+#### Option 1 — GitHub Actions cache (recommended)
+
+```yaml
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Restore test history
+        uses: actions/cache@v4
+        with:
+          path: spec-doc-report/spec-doc-history.json
+          key: test-history-${{ github.ref }}-${{ github.run_id }}
+          restore-keys: |
+            test-history-${{ github.ref }}-
+            test-history-
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npx playwright test
+
+      - name: Upload report artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report
+          path: spec-doc-report/
+```
+
+The `restore-keys` fallback means a new branch inherits the most recent history from any branch, so trends start immediately rather than from scratch.
+
+#### Option 2 — Commit history file to git
+
+```yaml
+      - name: Run tests
+        run: npx playwright test
+
+      - name: Commit updated history
+        run: |
+          git config user.email "ci@example.com"
+          git config user.name "CI Bot"
+          git add spec-doc-report/spec-doc-history.json
+          git commit -m "chore: update test history [skip ci]" || exit 0
+          git push
+```
+
+Use `[skip ci]` in the commit message to prevent a recursive pipeline trigger.
+
+#### Option 3 — Upload/download as artifact
+
+```yaml
+      - name: Download previous history
+        uses: actions/download-artifact@v4
+        with:
+          name: test-history
+          path: spec-doc-report/
+        continue-on-error: true   # first run won't have it yet
+
+      - name: Run tests
+        run: npx playwright test
+
+      - name: Upload updated history
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-history
+          path: spec-doc-report/spec-doc-history.json
+          retention-days: 90
+          overwrite: true
+```
 
 ---
 
-## Docs page
+## Flakiness Scoring
 
-The **Docs** tab generates a filtered behaviour specification from your annotated tests. Use the filter controls to select by status, browser/project, and feature — then export as Markdown or rendered HTML for sharing with stakeholders.
+The reporter computes a **flakiness score (0–100%)** per test from the last 10 runs in history:
+
+- Score = (number of pass↔fail transitions) / (runs − 1) × 100
+- Skipped runs are excluded from the calculation
+- Scores appear as inline badges on test rows: `⚡ 67%`
+- Colour coded: **low** (1–29%), **medium** (30–69%), **high** (≥70%)
+- A summary card on the Overview page lists the most flaky tests
+
+Flakiness requires at least **2 prior runs** in history. No history = no badges.
+
+---
+
+## Docs Page
+
+The **Docs** tab generates a filtered behaviour specification from your annotated tests.
+
+- **Status filter** — show All / Passed / Failed scenarios only
+- **Features dropdown** — multi-select individual features; deselecting all shows an empty doc
+- Filters apply immediately with no Generate button
+- Export as **Markdown**, rendered **HTML**, or **PDF**
+- Copy to clipboard with one click
+
+### Theme
+
+The report supports three themes toggled via the button in the top-right corner:
+
+| Theme | Description |
+|-------|-------------|
+| `dark-glossy` | Default — dark background with glossy glass-morphism accents |
+| `dark` | Standard dark mode, no blur effects |
+| `light` | Light background for print or stakeholder sharing |
+
+The selected theme is persisted in `localStorage`. Set a default via config:
+
+```ts
+// playwright.config.ts
+["./reporter.mjs", { theme: "light" }]
+```
 
 ---
 

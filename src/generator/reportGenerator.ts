@@ -17,6 +17,7 @@ import type {
   RunSnapshot,
 } from "../types/index.js";
 import { healingPayloadsToMarkdown } from "../healing/payload.js";
+import { computeFlakinessScores } from "../utils/flakiness.js";
 
 const HISTORY_MAX_RUNS = 30;
 const HISTORY_FILE = "spec-doc-history.json";
@@ -137,6 +138,10 @@ export async function generateReport(
   const environment = collectEnvironmentMeta(tests, runMeta);
   const summary = toReportSummary(tests);
 
+  // Load history early so we can compute flakiness before saving the report
+  const history = loadHistory(outputDir);
+  const flakinessScores = computeFlakinessScores(history);
+
   const report: ReportData = {
     title: config.reportTitle ?? defaultConfig.reportTitle,
     generatedAt: new Date().toISOString(),
@@ -150,11 +155,12 @@ export async function generateReport(
     aiEnabled: config.ai?.enabled === true,
     aiAnalyses: analyses,
     healingPayloads,
-    healingMarkdown: healingPayloads.length > 0 ? healingPayloadsToMarkdown(healingPayloads) : undefined
+    healingMarkdown: healingPayloads.length > 0 ? healingPayloadsToMarkdown(healingPayloads) : undefined,
+    flakinessScores: Object.keys(flakinessScores).length > 0 ? flakinessScores : undefined,
+    theme: config.theme ?? "dark-glossy",
   };
 
-  // Load, update, and save history
-  const history = loadHistory(outputDir);
+  // Update and save history
   const snapshot = buildRunSnapshot(tests, summary, environment);
   history.runs.push(snapshot);
   if (history.runs.length > HISTORY_MAX_RUNS) {

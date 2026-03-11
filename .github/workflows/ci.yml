@@ -42,6 +42,15 @@ jobs:
           node-version: 20
           cache: npm
 
+      - name: Restore API test history
+        uses: actions/cache@v4
+        with:
+          path: examples/js-es6-demo/spec-doc-report/spec-doc-history.json
+          key: test-history-api-${{ github.ref }}-${{ github.run_id }}
+          restore-keys: |
+            test-history-api-${{ github.ref }}-
+            test-history-api-
+
       - name: Build reporter
         run: npm ci && npm run build
 
@@ -66,6 +75,8 @@ jobs:
     name: JS ES6 Demo — UI Tests (SauceDemo)
     runs-on: ubuntu-latest
     needs: unit-tests
+    permissions:
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4
 
@@ -73,6 +84,15 @@ jobs:
         with:
           node-version: 20
           cache: npm
+
+      - name: Restore UI test history
+        uses: actions/cache@v4
+        with:
+          path: examples/js-es6-demo/spec-doc-report/spec-doc-history.json
+          key: test-history-ui-${{ github.ref }}-${{ github.run_id }}
+          restore-keys: |
+            test-history-ui-${{ github.ref }}-
+            test-history-ui-
 
       - name: Build reporter
         run: npm ci && npm run build
@@ -91,6 +111,20 @@ jobs:
         # Intentional failure tests use test.fail() so Playwright counts them as passing when they fail
         run: npx playwright test --project=chromium
 
+      - name: Post PR comment
+        if: github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          COMMENT_FILE="examples/js-es6-demo/spec-doc-report/pr-comment.md"
+          if [ -f "$COMMENT_FILE" ]; then
+            gh pr comment ${{ github.event.pull_request.number }} \
+              --edit-last \
+              --body-file "$COMMENT_FILE" \
+            || gh pr comment ${{ github.event.pull_request.number }} \
+              --body-file "$COMMENT_FILE"
+          fi
+
       - name: Upload report
         if: always()
         uses: actions/upload-artifact@v4
@@ -107,11 +141,64 @@ jobs:
           path: examples/js-es6-demo/test-results/
           retention-days: 7
 
+  # ─── E2E report UI tests ─────────────────────────────────────────────────────
+  e2e-report-tests:
+    name: E2E Report UI Tests
+    runs-on: ubuntu-latest
+    needs: example-js-ui
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Build reporter
+        run: npm ci && npm run build
+
+      - name: Restore UI test history (to get a report with trends)
+        uses: actions/cache@v4
+        with:
+          path: examples/js-es6-demo/spec-doc-report/spec-doc-history.json
+          key: test-history-ui-${{ github.ref }}-${{ github.run_id }}
+          restore-keys: |
+            test-history-ui-${{ github.ref }}-
+            test-history-ui-
+
+      - name: Install example dependencies
+        working-directory: examples/js-es6-demo
+        run: npm ci
+
+      - name: Download UI report artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: js-es6-ui-report
+          path: examples/js-es6-demo/spec-doc-report/
+
+      - name: Regenerate report with history embedded
+        working-directory: examples/js-es6-demo
+        run: node regenerate-ci.mjs
+
+      - name: Install Playwright browsers (chromium)
+        run: npx playwright install chromium --with-deps
+
+      - name: Run E2E report tests
+        run: npm run test:e2e
+
+      - name: Upload E2E test results on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-report-test-results
+          path: test-results/
+          retention-days: 7
+
   # ─── Auto-release on merge to main ──────────────────────────────────────────
   auto-release:
     name: Bump version & publish to npm
     runs-on: ubuntu-latest
-    needs: [unit-tests, example-js-api, example-js-ui]
+    needs: [unit-tests, example-js-api, example-js-ui, e2e-report-tests]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     permissions:
       contents: write

@@ -31,7 +31,9 @@
     "prepublishOnly": "npm run build && npm test",
     "render:sample": "npm run build && node scripts/render-from-json.mjs samples/normalized-results.json examples/basic-demo/sample-output/index.html",
     "render:json": "npm run build && node scripts/render-from-json.mjs",
-    "render:saucedemo": "npm run build && node scripts/seed-and-render-saucedemo.mjs"
+    "render:saucedemo": "npm run build && node scripts/seed-and-render-saucedemo.mjs",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui"
   },
   "keywords": [
     "playwright",
