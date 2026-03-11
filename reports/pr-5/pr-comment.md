@@ -1,12 +1,12 @@
-## 🎭 Test Report — `feature/light-theme-flakiness-score` · Run #47
-commit `e023246b`
+## 🎭 Test Report — `feature/light-theme-flakiness-score` · Run #48
+commit `15ad8c6b`
 
 | | Result |
 |---|---|
 | ✅ Passed | 13 |
 | ❌ Failed | 1 |
 | 📊 Total | 14 |
-| ⏱️ Duration | 18s |
+| ⏱️ Duration | 19s |
 
 ### ❌ Failed Tests
 - ❌ ` › chromium › ui/saucedemo.spec.js › AI Failure Analysis › intentional failure for AI analysis demo @regression` — *Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed*
