@@ -601,6 +601,83 @@ Use `[skip ci]` in the commit message to prevent a recursive pipeline trigger.
 
 ---
 
+### Persisting history in Azure Pipelines
+
+The same three strategies apply in Azure Pipelines using its equivalent primitives.
+
+#### Option 1 — Pipeline cache (recommended)
+
+```yaml
+variables:
+  HISTORY_KEY: test-history-$(Build.SourceBranchName)
+
+steps:
+  - task: Cache@2
+    displayName: Restore test history
+    inputs:
+      key: '"spec-doc-history" | "$(Build.SourceBranchName)" | "$(Build.BuildId)"'
+      restoreKeys: |
+        "spec-doc-history" | "$(Build.SourceBranchName)"
+        "spec-doc-history"
+      path: spec-doc-report/spec-doc-history.json
+      cacheHitVar: HISTORY_CACHE_HIT
+
+  - script: npx playwright test
+    displayName: Run tests
+
+  - task: PublishPipelineArtifact@1
+    condition: always()
+    displayName: Upload report
+    inputs:
+      targetPath: spec-doc-report
+      artifact: test-report
+```
+
+The `restoreKeys` fallback ensures a new branch inherits the closest available history.
+
+#### Option 2 — Commit history file to git
+
+```yaml
+  - script: npx playwright test
+    displayName: Run tests
+
+  - script: |
+      git config user.email "ci@example.com"
+      git config user.name "CI Bot"
+      git add spec-doc-report/spec-doc-history.json
+      git diff --cached --quiet || git commit -m "chore: update test history ***NO_CI***"
+      git push origin HEAD:$(Build.SourceBranchName)
+    displayName: Commit updated history
+```
+
+Use `***NO_CI***` (or `[skip ci]`) in the commit message to prevent a recursive pipeline trigger.
+
+#### Option 3 — Upload/download as artifact
+
+```yaml
+  - task: DownloadPipelineArtifact@2
+    displayName: Download previous history
+    condition: always()
+    continueOnError: true   # first run won't have it yet
+    inputs:
+      artifact: test-history
+      targetPath: spec-doc-report
+
+  - script: npx playwright test
+    displayName: Run tests
+
+  - task: PublishPipelineArtifact@1
+    condition: always()
+    displayName: Upload updated history
+    inputs:
+      targetPath: spec-doc-report/spec-doc-history.json
+      artifact: test-history
+```
+
+> **Note:** Azure Pipelines artifacts are immutable per run — you cannot overwrite a published artifact in the same pipeline run. Use the Cache task (Option 1) if you need the history to persist across runs on the same branch without manual cleanup.
+
+---
+
 ## Flakiness Scoring
 
 The reporter computes a **flakiness score (0–100%)** per test from the last 10 runs in history:
