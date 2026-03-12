@@ -1,0 +1,2096 @@
+{
+  "title": "Multi-Browser Stress Test Report",
+  "generatedAt": "2026-03-12T12:49:52.604Z",
+  "environment": {
+    "nodeVersion": "v20.20.0",
+    "platform": "linux",
+    "os": "Linux",
+    "osVersion": "6.14.0-1017-azure",
+    "ci": "true",
+    "playwrightVersion": "1.58.2",
+    "browsers": [
+      "chromium"
+    ],
+    "projects": [
+      "chromium"
+    ],
+    "startedAt": "2026-03-12T12:49:37.032Z",
+    "finishedAt": "2026-03-12T12:49:52.597Z",
+    "workers": 2
+  },
+  "summary": {
+    "total": 14,
+    "passed": 13,
+    "failed": 1,
+    "skipped": 0,
+    "flaky": 0,
+    "timedOut": 0,
+    "interrupted": 0,
+    "durationMs": 20874,
+    "averageDurationMs": 1491
+  },
+  "tests": [
+    {
+      "id": "2a3f5ce0037e5b957f",
+      "suite": "Checkout Flow",
+      "file": "tests/ui/checkout.spec.js",
+      "title": "checkout requires first name @validation",
+      "fullName": " › chromium › ui/checkout.spec.js › Checkout Flow › checkout requires first name @validation",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "flaky": false,
+      "retries": 0,
+      "retryIndex": 0,
+      "durationMs": 1334,
+      "browser": "chromium",
+      "projectName": "chromium",
+      "workerIndex": 1,
+      "attachments": [
+        {
+          "name": "screenshot",
+          "contentType": "image/png",
+          "path": "../test-results/ui-checkout-Checkout-Flow--7a841-uires-first-name-validation-chromium/test-finished-1.png"
+        },
+        {
+          "name": "video",
+          "contentType": "video/webm",
+          "path": "../test-results/ui-checkout-Checkout-Flow--7a841-uires-first-name-validation-chromium/video.webm"
+        }
+      ],
+      "artifacts": {
+        "screenshots": [
+          "../test-results/ui-checkout-Checkout-Flow--7a841-uires-first-name-validation-chromium/test-finished-1.png"
+        ],
+        "videos": [
+          "../test-results/ui-checkout-Checkout-Flow--7a841-uires-first-name-validation-chromium/video.webm"
+        ],
+        "traces": []
+      },
+      "tags": [
+        "@validation"
+      ],
+      "featureMeta": {
+        "name": "Checkout Flow",
+        "description": "As a customer I want to complete a purchase end-to-end"
+      },
+      "scenarioDescription": "Verifies that leaving first name blank shows a validation error",
+      "behaviours": [
+        "User logs in, adds item, goes to checkout step 1",
+        "User submits without filling any fields",
+        "Validation error is shown for first name"
+      ],
+      "consoleLogs": [],
+      "steps": [
+        {
+          "title": "Navigate to \"/\"",
+          "category": "pw:api",
+          "durationMs": 534,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:39.365Z"
+        },
+        {
+          "title": "Fill \"standard_user\" getByPlaceholder('Username')",
+          "category": "pw:api",
+          "durationMs": 76,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:39.905Z"
+        },
+        {
+          "title": "Fill \"secret_sauce\" getByPlaceholder('Password')",
+          "category": "pw:api",
+          "durationMs": 26,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:39.982Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Login' })",
+          "category": "pw:api",
+          "durationMs": 166,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:40.011Z"
+        },
+        {
+          "title": "Wait for load state \"load\"",
+          "category": "pw:api",
+          "durationMs": 2,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:40.183Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Add to cart' }).first()",
+          "category": "pw:api",
+          "durationMs": 59,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:40.190Z"
+        },
+        {
+          "title": "Click locator('.shopping_cart_link')",
+          "category": "pw:api",
+          "durationMs": 69,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:40.253Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Checkout' })",
+          "category": "pw:api",
+          "durationMs": 49,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:40.323Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Continue' })",
+          "category": "pw:api",
+          "durationMs": 61,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:40.373Z"
+        },
+        {
+          "title": "Expect \"toContainText\" locator('[data-test=\"error\"]')",
+          "category": "expect",
+          "durationMs": 14,
+          "status": "passed",
+          "screenshots": [
+            "../test-results/ui-checkout-Checkout-Flow--7a841-uires-first-name-validation-chromium/test-finished-1.png"
+          ],
+          "startedAt": "2026-03-12T12:49:40.438Z"
+        }
+      ],
+      "startedAt": "2026-03-12T12:49:38.155Z",
+      "finishedAt": "2026-03-12T12:49:39.489Z"
+    },
+    {
+      "id": "9f2da2b367c0a51ca7",
+      "suite": "Checkout Flow",
+      "file": "tests/ui/checkout.spec.js",
+      "title": "complete checkout with one item @smoke @critical",
+      "fullName": " › chromium › ui/checkout.spec.js › Checkout Flow › complete checkout with one item @smoke @critical",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "flaky": false,
+      "retries": 0,
+      "retryIndex": 0,
+      "durationMs": 1460,
+      "browser": "chromium",
+      "projectName": "chromium",
+      "workerIndex": 0,
+      "attachments": [
+        {
+          "name": "screenshot",
+          "contentType": "image/png",
+          "path": "../test-results/ui-checkout-Checkout-Flow--a31c6-ith-one-item-smoke-critical-chromium/test-finished-1.png"
+        },
+        {
+          "name": "video",
+          "contentType": "video/webm",
+          "path": "../test-results/ui-checkout-Checkout-Flow--a31c6-ith-one-item-smoke-critical-chromium/video.webm"
+        }
+      ],
+      "artifacts": {
+        "screenshots": [
+          "../test-results/ui-checkout-Checkout-Flow--a31c6-ith-one-item-smoke-critical-chromium/test-finished-1.png"
+        ],
+        "videos": [
+          "../test-results/ui-checkout-Checkout-Flow--a31c6-ith-one-item-smoke-critical-chromium/video.webm"
+        ],
+        "traces": []
+      },
+      "tags": [
+        "@smoke",
+        "@critical"
+      ],
+      "featureMeta": {
+        "name": "Checkout Flow",
+        "description": "As a customer I want to complete a purchase end-to-end"
+      },
+      "scenarioDescription": "Verifies a standard user can add one item and complete checkout",
+      "behaviours": [
+        "User logs in and navigates to inventory",
+        "User adds the first item to cart",
+        "User opens the cart",
+        "User proceeds to checkout step 1",
+        "User fills in personal details",
+        "User reviews order summary and confirms",
+        "Order confirmation page is shown"
+      ],
+      "consoleLogs": [],
+      "steps": [
+        {
+          "title": "Navigate to \"/\"",
+          "category": "pw:api",
+          "durationMs": 572,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:39.363Z"
+        },
+        {
+          "title": "Fill \"standard_user\" getByPlaceholder('Username')",
+          "category": "pw:api",
+          "durationMs": 110,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:39.942Z"
+        },
+        {
+          "title": "Fill \"secret_sauce\" getByPlaceholder('Password')",
+          "category": "pw:api",
+          "durationMs": 14,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:40.053Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Login' })",
+          "category": "pw:api",
+          "durationMs": 136,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:40.069Z"
+        },
+        {
+          "title": "Wait for load state \"load\"",
+          "category": "pw:api",
+          "durationMs": 1,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:40.216Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Add to cart' }).first()",
+          "category": "pw:api",
+          "durationMs": 60,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:40.221Z"
+        },
+        {
+          "title": "Expect \"toHaveText\" locator('.shopping_cart_badge')",
+          "category": "expect",
+          "durationMs": 17,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:40.287Z"
+        },
+        {
+          "title": "Click locator('.shopping_cart_link')",
+          "category": "pw:api",
+          "durationMs": 47,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:40.306Z"
+        },
+        {
+          "title": "Expect \"toHaveURL\"",
+          "category": "expect",
+          "durationMs": 2,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:40.354Z"
+        },
+        {
+          "title": "Expect \"toHaveCount\" locator('.cart_item')",
+          "category": "expect",
+          "durationMs": 4,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:40.356Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Checkout' })",
+          "category": "pw:api",
+          "durationMs": 42,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:40.362Z"
+        },
+        {
+          "title": "Expect \"toHaveURL\"",
+          "category": "expect",
+          "durationMs": 4,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:40.405Z"
+        },
+        {
+          "title": "Fill \"Test\" getByPlaceholder('First Name')",
+          "category": "pw:api",
+          "durationMs": 15,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:40.411Z"
+        },
+        {
+          "title": "Fill \"User\" getByPlaceholder('Last Name')",
+          "category": "pw:api",
+          "durationMs": 12,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:40.428Z"
+        },
+        {
+          "title": "Fill \"12345\" getByPlaceholder('Zip/Postal Code')",
+          "category": "pw:api",
+          "durationMs": 23,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:40.441Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Continue' })",
+          "category": "pw:api",
+          "durationMs": 40,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:40.465Z"
+        },
+        {
+          "title": "Expect \"toHaveURL\"",
+          "category": "expect",
+          "durationMs": 3,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:40.506Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Finish' })",
+          "category": "pw:api",
+          "durationMs": 56,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:40.511Z"
+        },
+        {
+          "title": "Expect \"toHaveURL\"",
+          "category": "expect",
+          "durationMs": 2,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:40.568Z"
+        },
+        {
+          "title": "Expect \"toBeVisible\" getByText('Thank you for your order!')",
+          "category": "expect",
+          "durationMs": 3,
+          "status": "passed",
+          "screenshots": [
+            "../test-results/ui-checkout-Checkout-Flow--a31c6-ith-one-item-smoke-critical-chromium/test-finished-1.png"
+          ],
+          "startedAt": "2026-03-12T12:49:40.571Z"
+        }
+      ],
+      "startedAt": "2026-03-12T12:49:38.154Z",
+      "finishedAt": "2026-03-12T12:49:39.614Z"
+    },
+    {
+      "id": "d1e5f8214048d9815e",
+      "suite": "Checkout Flow",
+      "file": "tests/ui/checkout.spec.js",
+      "title": "checkout requires last name @validation",
+      "fullName": " › chromium › ui/checkout.spec.js › Checkout Flow › checkout requires last name @validation",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "flaky": false,
+      "retries": 0,
+      "retryIndex": 0,
+      "durationMs": 1045,
+      "browser": "chromium",
+      "projectName": "chromium",
+      "workerIndex": 1,
+      "attachments": [
+        {
+          "name": "screenshot",
+          "contentType": "image/png",
+          "path": "../test-results/ui-checkout-Checkout-Flow--ecbc7-quires-last-name-validation-chromium/test-finished-1.png"
+        },
+        {
+          "name": "video",
+          "contentType": "video/webm",
+          "path": "../test-results/ui-checkout-Checkout-Flow--ecbc7-quires-last-name-validation-chromium/video.webm"
+        }
+      ],
+      "artifacts": {
+        "screenshots": [
+          "../test-results/ui-checkout-Checkout-Flow--ecbc7-quires-last-name-validation-chromium/test-finished-1.png"
+        ],
+        "videos": [
+          "../test-results/ui-checkout-Checkout-Flow--ecbc7-quires-last-name-validation-chromium/video.webm"
+        ],
+        "traces": []
+      },
+      "tags": [
+        "@validation"
+      ],
+      "featureMeta": {
+        "name": "Checkout Flow",
+        "description": "As a customer I want to complete a purchase end-to-end"
+      },
+      "scenarioDescription": "Verifies that leaving last name blank shows a validation error",
+      "behaviours": [
+        "User logs in, adds item, goes to checkout step 1",
+        "User fills only first name and submits",
+        "Validation error is shown for last name"
+      ],
+      "consoleLogs": [],
+      "steps": [
+        {
+          "title": "Navigate to \"/\"",
+          "category": "pw:api",
+          "durationMs": 341,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:40.716Z"
+        },
+        {
+          "title": "Fill \"standard_user\" getByPlaceholder('Username')",
+          "category": "pw:api",
+          "durationMs": 56,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:41.059Z"
+        },
+        {
+          "title": "Fill \"secret_sauce\" getByPlaceholder('Password')",
+          "category": "pw:api",
+          "durationMs": 10,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:41.116Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Login' })",
+          "category": "pw:api",
+          "durationMs": 131,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:41.127Z"
+        },
+        {
+          "title": "Wait for load state \"load\"",
+          "category": "pw:api",
+          "durationMs": 1,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:41.260Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Add to cart' }).first()",
+          "category": "pw:api",
+          "durationMs": 95,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:41.262Z"
+        },
+        {
+          "title": "Click locator('.shopping_cart_link')",
+          "category": "pw:api",
+          "durationMs": 57,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:41.359Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Checkout' })",
+          "category": "pw:api",
+          "durationMs": 67,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:41.418Z"
+        },
+        {
+          "title": "Fill \"Test\" getByPlaceholder('First Name')",
+          "category": "pw:api",
+          "durationMs": 10,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:41.486Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Continue' })",
+          "category": "pw:api",
+          "durationMs": 45,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:41.497Z"
+        },
+        {
+          "title": "Expect \"toContainText\" locator('[data-test=\"error\"]')",
+          "category": "expect",
+          "durationMs": 5,
+          "status": "passed",
+          "screenshots": [
+            "../test-results/ui-checkout-Checkout-Flow--ecbc7-quires-last-name-validation-chromium/test-finished-1.png"
+          ],
+          "startedAt": "2026-03-12T12:49:41.544Z"
+        }
+      ],
+      "startedAt": "2026-03-12T12:49:40.661Z",
+      "finishedAt": "2026-03-12T12:49:41.706Z"
+    },
+    {
+      "id": "0adc7a558482e2d177",
+      "suite": "Checkout Flow",
+      "file": "tests/ui/checkout.spec.js",
+      "title": "checkout requires postal code @validation",
+      "fullName": " › chromium › ui/checkout.spec.js › Checkout Flow › checkout requires postal code @validation",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "flaky": false,
+      "retries": 0,
+      "retryIndex": 0,
+      "durationMs": 1042,
+      "browser": "chromium",
+      "projectName": "chromium",
+      "workerIndex": 0,
+      "attachments": [
+        {
+          "name": "screenshot",
+          "contentType": "image/png",
+          "path": "../test-results/ui-checkout-Checkout-Flow--26073-ires-postal-code-validation-chromium/test-finished-1.png"
+        },
+        {
+          "name": "video",
+          "contentType": "video/webm",
+          "path": "../test-results/ui-checkout-Checkout-Flow--26073-ires-postal-code-validation-chromium/video.webm"
+        }
+      ],
+      "artifacts": {
+        "screenshots": [
+          "../test-results/ui-checkout-Checkout-Flow--26073-ires-postal-code-validation-chromium/test-finished-1.png"
+        ],
+        "videos": [
+          "../test-results/ui-checkout-Checkout-Flow--26073-ires-postal-code-validation-chromium/video.webm"
+        ],
+        "traces": []
+      },
+      "tags": [
+        "@validation"
+      ],
+      "featureMeta": {
+        "name": "Checkout Flow",
+        "description": "As a customer I want to complete a purchase end-to-end"
+      },
+      "scenarioDescription": "Verifies that leaving postal code blank shows a validation error",
+      "behaviours": [
+        "User logs in, adds item, goes to checkout step 1",
+        "User fills first and last name but not postal code",
+        "Validation error is shown for postal code"
+      ],
+      "consoleLogs": [],
+      "steps": [
+        {
+          "title": "Navigate to \"/\"",
+          "category": "pw:api",
+          "durationMs": 342,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:40.810Z"
+        },
+        {
+          "title": "Fill \"standard_user\" getByPlaceholder('Username')",
+          "category": "pw:api",
+          "durationMs": 73,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:41.155Z"
+        },
+        {
+          "title": "Fill \"secret_sauce\" getByPlaceholder('Password')",
+          "category": "pw:api",
+          "durationMs": 37,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:41.229Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Login' })",
+          "category": "pw:api",
+          "durationMs": 154,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:41.267Z"
+        },
+        {
+          "title": "Wait for load state \"load\"",
+          "category": "pw:api",
+          "durationMs": 1,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:41.422Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Add to cart' }).first()",
+          "category": "pw:api",
+          "durationMs": 54,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:41.427Z"
+        },
+        {
+          "title": "Click locator('.shopping_cart_link')",
+          "category": "pw:api",
+          "durationMs": 46,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:41.482Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Checkout' })",
+          "category": "pw:api",
+          "durationMs": 49,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:41.530Z"
+        },
+        {
+          "title": "Fill \"Test\" getByPlaceholder('First Name')",
+          "category": "pw:api",
+          "durationMs": 12,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:41.580Z"
+        },
+        {
+          "title": "Fill \"User\" getByPlaceholder('Last Name')",
+          "category": "pw:api",
+          "durationMs": 18,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:41.593Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Continue' })",
+          "category": "pw:api",
+          "durationMs": 44,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:41.613Z"
+        },
+        {
+          "title": "Expect \"toContainText\" locator('[data-test=\"error\"]')",
+          "category": "expect",
+          "durationMs": 4,
+          "status": "passed",
+          "screenshots": [
+            "../test-results/ui-checkout-Checkout-Flow--26073-ires-postal-code-validation-chromium/test-finished-1.png"
+          ],
+          "startedAt": "2026-03-12T12:49:41.659Z"
+        }
+      ],
+      "startedAt": "2026-03-12T12:49:40.768Z",
+      "finishedAt": "2026-03-12T12:49:41.810Z"
+    },
+    {
+      "id": "5ac225dbae7be407bc",
+      "suite": "Checkout Flow",
+      "file": "tests/ui/checkout.spec.js",
+      "title": "cancel checkout returns to inventory @regression",
+      "fullName": " › chromium › ui/checkout.spec.js › Checkout Flow › cancel checkout returns to inventory @regression",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "flaky": false,
+      "retries": 0,
+      "retryIndex": 0,
+      "durationMs": 1039,
+      "browser": "chromium",
+      "projectName": "chromium",
+      "workerIndex": 0,
+      "attachments": [
+        {
+          "name": "screenshot",
+          "contentType": "image/png",
+          "path": "../test-results/ui-checkout-Checkout-Flow--0bd10-rns-to-inventory-regression-chromium/test-finished-1.png"
+        },
+        {
+          "name": "video",
+          "contentType": "video/webm",
+          "path": "../test-results/ui-checkout-Checkout-Flow--0bd10-rns-to-inventory-regression-chromium/video.webm"
+        }
+      ],
+      "artifacts": {
+        "screenshots": [
+          "../test-results/ui-checkout-Checkout-Flow--0bd10-rns-to-inventory-regression-chromium/test-finished-1.png"
+        ],
+        "videos": [
+          "../test-results/ui-checkout-Checkout-Flow--0bd10-rns-to-inventory-regression-chromium/video.webm"
+        ],
+        "traces": []
+      },
+      "tags": [
+        "@regression"
+      ],
+      "featureMeta": {
+        "name": "Checkout Flow",
+        "description": "As a customer I want to complete a purchase end-to-end"
+      },
+      "scenarioDescription": "Verifies cancel button on checkout step 1 navigates back to inventory",
+      "behaviours": [
+        "User reaches checkout step 1",
+        "User clicks Cancel",
+        "User is returned to the cart page"
+      ],
+      "consoleLogs": [],
+      "steps": [
+        {
+          "title": "Navigate to \"/\"",
+          "category": "pw:api",
+          "durationMs": 340,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:41.868Z"
+        },
+        {
+          "title": "Fill \"standard_user\" getByPlaceholder('Username')",
+          "category": "pw:api",
+          "durationMs": 74,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:42.210Z"
+        },
+        {
+          "title": "Fill \"secret_sauce\" getByPlaceholder('Password')",
+          "category": "pw:api",
+          "durationMs": 46,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:42.286Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Login' })",
+          "category": "pw:api",
+          "durationMs": 128,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:42.338Z"
+        },
+        {
+          "title": "Wait for load state \"load\"",
+          "category": "pw:api",
+          "durationMs": 0,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:42.468Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Add to cart' }).first()",
+          "category": "pw:api",
+          "durationMs": 68,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:42.470Z"
+        },
+        {
+          "title": "Click locator('.shopping_cart_link')",
+          "category": "pw:api",
+          "durationMs": 47,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:42.540Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Checkout' })",
+          "category": "pw:api",
+          "durationMs": 49,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:42.588Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Cancel' })",
+          "category": "pw:api",
+          "durationMs": 49,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:42.638Z"
+        },
+        {
+          "title": "Expect \"toHaveURL\"",
+          "category": "expect",
+          "durationMs": 2,
+          "status": "passed",
+          "screenshots": [
+            "../test-results/ui-checkout-Checkout-Flow--0bd10-rns-to-inventory-regression-chromium/test-finished-1.png"
+          ],
+          "startedAt": "2026-03-12T12:49:42.688Z"
+        }
+      ],
+      "startedAt": "2026-03-12T12:49:41.824Z",
+      "finishedAt": "2026-03-12T12:49:42.863Z"
+    },
+    {
+      "id": "d89fbdbad1a6fc21be",
+      "suite": "Checkout Flow",
+      "file": "tests/ui/checkout.spec.js",
+      "title": "checkout with all 6 items shows correct count @regression",
+      "fullName": " › chromium › ui/checkout.spec.js › Checkout Flow › checkout with all 6 items shows correct count @regression",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "flaky": false,
+      "retries": 0,
+      "retryIndex": 0,
+      "durationMs": 1157,
+      "browser": "chromium",
+      "projectName": "chromium",
+      "workerIndex": 1,
+      "attachments": [
+        {
+          "name": "screenshot",
+          "contentType": "image/png",
+          "path": "../test-results/ui-checkout-Checkout-Flow--53b21-ws-correct-count-regression-chromium/test-finished-1.png"
+        },
+        {
+          "name": "video",
+          "contentType": "video/webm",
+          "path": "../test-results/ui-checkout-Checkout-Flow--53b21-ws-correct-count-regression-chromium/video.webm"
+        }
+      ],
+      "artifacts": {
+        "screenshots": [
+          "../test-results/ui-checkout-Checkout-Flow--53b21-ws-correct-count-regression-chromium/test-finished-1.png"
+        ],
+        "videos": [
+          "../test-results/ui-checkout-Checkout-Flow--53b21-ws-correct-count-regression-chromium/video.webm"
+        ],
+        "traces": []
+      },
+      "tags": [
+        "@regression"
+      ],
+      "featureMeta": {
+        "name": "Checkout Flow",
+        "description": "As a customer I want to complete a purchase end-to-end"
+      },
+      "scenarioDescription": "Verifies cart badge shows 6 when all items are added",
+      "behaviours": [
+        "User logs in and adds all available products",
+        "Cart badge shows 6 items",
+        "Cart page lists 6 items"
+      ],
+      "consoleLogs": [],
+      "steps": [
+        {
+          "title": "Navigate to \"/\"",
+          "category": "pw:api",
+          "durationMs": 361,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:41.779Z"
+        },
+        {
+          "title": "Fill \"standard_user\" getByPlaceholder('Username')",
+          "category": "pw:api",
+          "durationMs": 40,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:42.142Z"
+        },
+        {
+          "title": "Fill \"secret_sauce\" getByPlaceholder('Password')",
+          "category": "pw:api",
+          "durationMs": 12,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:42.183Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Login' })",
+          "category": "pw:api",
+          "durationMs": 120,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:42.196Z"
+        },
+        {
+          "title": "Wait for load state \"load\"",
+          "category": "pw:api",
+          "durationMs": 1,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:42.317Z"
+        },
+        {
+          "title": "Query count getByRole('button', { name: 'Add to cart' })",
+          "category": "pw:api",
+          "durationMs": 10,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:42.319Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Add to cart' }).first()",
+          "category": "pw:api",
+          "durationMs": 55,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:42.330Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Add to cart' }).first()",
+          "category": "pw:api",
+          "durationMs": 57,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:42.386Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Add to cart' }).first()",
+          "category": "pw:api",
+          "durationMs": 71,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:42.444Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Add to cart' }).first()",
+          "category": "pw:api",
+          "durationMs": 35,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:42.517Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Add to cart' }).first()",
+          "category": "pw:api",
+          "durationMs": 46,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:42.553Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Add to cart' }).first()",
+          "category": "pw:api",
+          "durationMs": 35,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:42.600Z"
+        },
+        {
+          "title": "Expect \"toHaveText\" locator('.shopping_cart_badge')",
+          "category": "expect",
+          "durationMs": 4,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:42.637Z"
+        },
+        {
+          "title": "Click locator('.shopping_cart_link')",
+          "category": "pw:api",
+          "durationMs": 47,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:42.643Z"
+        },
+        {
+          "title": "Expect \"toHaveCount\" locator('.cart_item')",
+          "category": "expect",
+          "durationMs": 10,
+          "status": "passed",
+          "screenshots": [
+            "../test-results/ui-checkout-Checkout-Flow--53b21-ws-correct-count-regression-chromium/test-finished-1.png"
+          ],
+          "startedAt": "2026-03-12T12:49:42.691Z"
+        }
+      ],
+      "startedAt": "2026-03-12T12:49:41.731Z",
+      "finishedAt": "2026-03-12T12:49:42.888Z"
+    },
+    {
+      "id": "a910ed62b56fd3f64c",
+      "suite": "Product Detail",
+      "file": "tests/ui/checkout.spec.js",
+      "title": "clicking product name opens detail page @smoke",
+      "fullName": " › chromium › ui/checkout.spec.js › Product Detail › clicking product name opens detail page @smoke",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "flaky": false,
+      "retries": 0,
+      "retryIndex": 0,
+      "durationMs": 930,
+      "browser": "chromium",
+      "projectName": "chromium",
+      "workerIndex": 0,
+      "attachments": [
+        {
+          "name": "screenshot",
+          "contentType": "image/png",
+          "path": "../test-results/ui-checkout-Product-Detail-0d17e-ame-opens-detail-page-smoke-chromium/test-finished-1.png"
+        },
+        {
+          "name": "video",
+          "contentType": "video/webm",
+          "path": "../test-results/ui-checkout-Product-Detail-0d17e-ame-opens-detail-page-smoke-chromium/video.webm"
+        }
+      ],
+      "artifacts": {
+        "screenshots": [
+          "../test-results/ui-checkout-Product-Detail-0d17e-ame-opens-detail-page-smoke-chromium/test-finished-1.png"
+        ],
+        "videos": [
+          "../test-results/ui-checkout-Product-Detail-0d17e-ame-opens-detail-page-smoke-chromium/video.webm"
+        ],
+        "traces": []
+      },
+      "tags": [
+        "@smoke"
+      ],
+      "featureMeta": {
+        "name": "Product Detail",
+        "description": "As a customer I want to view product details before buying"
+      },
+      "scenarioDescription": "Verifies product name link navigates to the product detail page",
+      "behaviours": [
+        "User logs in and clicks the first product name",
+        "Product detail page is shown with name, description and price"
+      ],
+      "consoleLogs": [],
+      "steps": [
+        {
+          "title": "Navigate to \"/\"",
+          "category": "pw:api",
+          "durationMs": 336,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:42.921Z"
+        },
+        {
+          "title": "Fill \"standard_user\" getByPlaceholder('Username')",
+          "category": "pw:api",
+          "durationMs": 59,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:43.258Z"
+        },
+        {
+          "title": "Fill \"secret_sauce\" getByPlaceholder('Password')",
+          "category": "pw:api",
+          "durationMs": 32,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:43.319Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Login' })",
+          "category": "pw:api",
+          "durationMs": 135,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:43.352Z"
+        },
+        {
+          "title": "Wait for load state \"load\"",
+          "category": "pw:api",
+          "durationMs": 7,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:43.489Z"
+        },
+        {
+          "title": "Click locator('.inventory_item_name').first()",
+          "category": "pw:api",
+          "durationMs": 73,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:43.497Z"
+        },
+        {
+          "title": "Expect \"toHaveURL\"",
+          "category": "expect",
+          "durationMs": 11,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:43.571Z"
+        },
+        {
+          "title": "Expect \"toBeVisible\" locator('.inventory_details_name')",
+          "category": "expect",
+          "durationMs": 7,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:43.583Z"
+        },
+        {
+          "title": "Expect \"toBeVisible\" locator('.inventory_details_price')",
+          "category": "expect",
+          "durationMs": 6,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:43.595Z"
+        },
+        {
+          "title": "Expect \"toBeVisible\" locator('.inventory_details_desc')",
+          "category": "expect",
+          "durationMs": 4,
+          "status": "passed",
+          "screenshots": [
+            "../test-results/ui-checkout-Product-Detail-0d17e-ame-opens-detail-page-smoke-chromium/test-finished-1.png"
+          ],
+          "startedAt": "2026-03-12T12:49:43.602Z"
+        }
+      ],
+      "startedAt": "2026-03-12T12:49:42.880Z",
+      "finishedAt": "2026-03-12T12:49:43.810Z"
+    },
+    {
+      "id": "367eefad39e7ea8ef6",
+      "suite": "Product Detail",
+      "file": "tests/ui/checkout.spec.js",
+      "title": "back button on detail page returns to inventory @smoke",
+      "fullName": " › chromium › ui/checkout.spec.js › Product Detail › back button on detail page returns to inventory @smoke",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "flaky": false,
+      "retries": 0,
+      "retryIndex": 0,
+      "durationMs": 1034,
+      "browser": "chromium",
+      "projectName": "chromium",
+      "workerIndex": 1,
+      "attachments": [
+        {
+          "name": "screenshot",
+          "contentType": "image/png",
+          "path": "../test-results/ui-checkout-Product-Detail-854e7--returns-to-inventory-smoke-chromium/test-finished-1.png"
+        },
+        {
+          "name": "video",
+          "contentType": "video/webm",
+          "path": "../test-results/ui-checkout-Product-Detail-854e7--returns-to-inventory-smoke-chromium/video.webm"
+        }
+      ],
+      "artifacts": {
+        "screenshots": [
+          "../test-results/ui-checkout-Product-Detail-854e7--returns-to-inventory-smoke-chromium/test-finished-1.png"
+        ],
+        "videos": [
+          "../test-results/ui-checkout-Product-Detail-854e7--returns-to-inventory-smoke-chromium/video.webm"
+        ],
+        "traces": []
+      },
+      "tags": [
+        "@smoke"
+      ],
+      "featureMeta": {
+        "name": "Product Detail",
+        "description": "As a customer I want to view product details before buying"
+      },
+      "scenarioDescription": "Verifies the Back button on a product detail page navigates back",
+      "behaviours": [
+        "User opens a product detail page",
+        "User clicks Back to Products",
+        "User is back on the inventory page"
+      ],
+      "consoleLogs": [],
+      "steps": [
+        {
+          "title": "Navigate to \"/\"",
+          "category": "pw:api",
+          "durationMs": 346,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:42.947Z"
+        },
+        {
+          "title": "Fill \"standard_user\" getByPlaceholder('Username')",
+          "category": "pw:api",
+          "durationMs": 86,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:43.297Z"
+        },
+        {
+          "title": "Fill \"secret_sauce\" getByPlaceholder('Password')",
+          "category": "pw:api",
+          "durationMs": 16,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:43.384Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Login' })",
+          "category": "pw:api",
+          "durationMs": 170,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:43.401Z"
+        },
+        {
+          "title": "Wait for load state \"load\"",
+          "category": "pw:api",
+          "durationMs": 2,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:43.572Z"
+        },
+        {
+          "title": "Click locator('.inventory_item_name').first()",
+          "category": "pw:api",
+          "durationMs": 75,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:43.575Z"
+        },
+        {
+          "title": "Expect \"toHaveURL\"",
+          "category": "expect",
+          "durationMs": 6,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:43.651Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Back to products' })",
+          "category": "pw:api",
+          "durationMs": 39,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:43.658Z"
+        },
+        {
+          "title": "Expect \"toHaveURL\"",
+          "category": "expect",
+          "durationMs": 4,
+          "status": "passed",
+          "screenshots": [
+            "../test-results/ui-checkout-Product-Detail-854e7--returns-to-inventory-smoke-chromium/test-finished-1.png"
+          ],
+          "startedAt": "2026-03-12T12:49:43.698Z"
+        }
+      ],
+      "startedAt": "2026-03-12T12:49:42.905Z",
+      "finishedAt": "2026-03-12T12:49:43.939Z"
+    },
+    {
+      "id": "6b2103417204a2ddf0",
+      "suite": "Product Detail",
+      "file": "tests/ui/checkout.spec.js",
+      "title": "add to cart from detail page updates badge @regression",
+      "fullName": " › chromium › ui/checkout.spec.js › Product Detail › add to cart from detail page updates badge @regression",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "flaky": false,
+      "retries": 0,
+      "retryIndex": 0,
+      "durationMs": 1008,
+      "browser": "chromium",
+      "projectName": "chromium",
+      "workerIndex": 0,
+      "attachments": [
+        {
+          "name": "screenshot",
+          "contentType": "image/png",
+          "path": "../test-results/ui-checkout-Product-Detail-378be-ge-updates-badge-regression-chromium/test-finished-1.png"
+        },
+        {
+          "name": "video",
+          "contentType": "video/webm",
+          "path": "../test-results/ui-checkout-Product-Detail-378be-ge-updates-badge-regression-chromium/video.webm"
+        }
+      ],
+      "artifacts": {
+        "screenshots": [
+          "../test-results/ui-checkout-Product-Detail-378be-ge-updates-badge-regression-chromium/test-finished-1.png"
+        ],
+        "videos": [
+          "../test-results/ui-checkout-Product-Detail-378be-ge-updates-badge-regression-chromium/video.webm"
+        ],
+        "traces": []
+      },
+      "tags": [
+        "@regression"
+      ],
+      "featureMeta": {
+        "name": "Product Detail",
+        "description": "As a customer I want to view product details before buying"
+      },
+      "scenarioDescription": "Verifies Add to cart button on product detail page works",
+      "behaviours": [
+        "User opens a product detail page",
+        "User clicks Add to cart from the detail page",
+        "Cart badge updates to 1"
+      ],
+      "consoleLogs": [],
+      "steps": [
+        {
+          "title": "Navigate to \"/\"",
+          "category": "pw:api",
+          "durationMs": 355,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:43.882Z"
+        },
+        {
+          "title": "Fill \"standard_user\" getByPlaceholder('Username')",
+          "category": "pw:api",
+          "durationMs": 48,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:44.238Z"
+        },
+        {
+          "title": "Fill \"secret_sauce\" getByPlaceholder('Password')",
+          "category": "pw:api",
+          "durationMs": 12,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:44.288Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Login' })",
+          "category": "pw:api",
+          "durationMs": 114,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:44.301Z"
+        },
+        {
+          "title": "Wait for load state \"load\"",
+          "category": "pw:api",
+          "durationMs": 0,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:44.424Z"
+        },
+        {
+          "title": "Click locator('.inventory_item_name').first()",
+          "category": "pw:api",
+          "durationMs": 108,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:44.425Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Add to cart' })",
+          "category": "pw:api",
+          "durationMs": 57,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:44.536Z"
+        },
+        {
+          "title": "Expect \"toHaveText\" locator('.shopping_cart_badge')",
+          "category": "expect",
+          "durationMs": 4,
+          "status": "passed",
+          "screenshots": [
+            "../test-results/ui-checkout-Product-Detail-378be-ge-updates-badge-regression-chromium/test-finished-1.png"
+          ],
+          "startedAt": "2026-03-12T12:49:44.595Z"
+        }
+      ],
+      "startedAt": "2026-03-12T12:49:43.831Z",
+      "finishedAt": "2026-03-12T12:49:44.839Z"
+    },
+    {
+      "id": "d83f9331e5ba4f763a",
+      "suite": "Shopping Cart",
+      "file": "tests/ui/saucedemo.spec.js",
+      "title": "standard user can login and add item to cart @smoke @critical",
+      "fullName": " › chromium › ui/saucedemo.spec.js › Shopping Cart › standard user can login and add item to cart @smoke @critical",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "flaky": false,
+      "retries": 0,
+      "retryIndex": 0,
+      "durationMs": 1151,
+      "browser": "chromium",
+      "projectName": "chromium",
+      "workerIndex": 1,
+      "attachments": [
+        {
+          "name": "products-page",
+          "contentType": "image/png"
+        },
+        {
+          "name": "cart-badge-visible",
+          "contentType": "image/png"
+        },
+        {
+          "name": "screenshot",
+          "contentType": "image/png",
+          "path": "../test-results/ui-saucedemo-Shopping-Cart-d8390-item-to-cart-smoke-critical-chromium/test-finished-1.png"
+        },
+        {
+          "name": "video",
+          "contentType": "video/webm",
+          "path": "../test-results/ui-saucedemo-Shopping-Cart-d8390-item-to-cart-smoke-critical-chromium/video.webm"
+        }
+      ],
+      "artifacts": {
+        "screenshots": [
+          "../test-results/ui-saucedemo-Shopping-Cart-d8390-item-to-cart-smoke-critical-chromium/test-finished-1.png"
+        ],
+        "videos": [
+          "../test-results/ui-saucedemo-Shopping-Cart-d8390-item-to-cart-smoke-critical-chromium/video.webm"
+        ],
+        "traces": []
+      },
+      "tags": [
+        "@smoke",
+        "@critical"
+      ],
+      "featureMeta": {
+        "name": "Shopping Cart",
+        "description": "As a customer I want to browse and add products to my cart"
+      },
+      "scenarioDescription": "Verifies that a standard user can log in and add the first product to the cart",
+      "behaviours": [
+        "User navigates to the login page and submits valid credentials",
+        "User adds the first product to the cart",
+        "Cart badge updates to reflect one item"
+      ],
+      "consoleLogs": [],
+      "steps": [
+        {
+          "title": "Navigate to \"/\"",
+          "category": "pw:api",
+          "durationMs": 365,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:44.004Z"
+        },
+        {
+          "title": "Fill \"standard_user\" getByPlaceholder('Username')",
+          "category": "pw:api",
+          "durationMs": 113,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:44.371Z"
+        },
+        {
+          "title": "Fill \"secret_sauce\" getByPlaceholder('Password')",
+          "category": "pw:api",
+          "durationMs": 46,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:44.486Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Login' })",
+          "category": "pw:api",
+          "durationMs": 122,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:44.534Z"
+        },
+        {
+          "title": "Expect \"toHaveURL\"",
+          "category": "expect",
+          "durationMs": 10,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:44.657Z"
+        },
+        {
+          "title": "Expect \"toBeVisible\" getByText('Products')",
+          "category": "expect",
+          "durationMs": 19,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:44.669Z"
+        },
+        {
+          "title": "Screenshot",
+          "category": "pw:api",
+          "durationMs": 97,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:44.689Z"
+        },
+        {
+          "title": "Attach \"products-page\"",
+          "category": "test.attach",
+          "durationMs": 2,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:44.787Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Add to cart' }).first()",
+          "category": "pw:api",
+          "durationMs": 27,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:44.790Z"
+        },
+        {
+          "title": "Expect \"toHaveText\" locator('.shopping_cart_badge')",
+          "category": "expect",
+          "durationMs": 3,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:44.817Z"
+        },
+        {
+          "title": "Screenshot",
+          "category": "pw:api",
+          "durationMs": 72,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:44.821Z"
+        },
+        {
+          "title": "Attach \"cart-badge-visible\"",
+          "category": "test.attach",
+          "durationMs": 2,
+          "status": "passed",
+          "screenshots": [
+            "../test-results/ui-saucedemo-Shopping-Cart-d8390-item-to-cart-smoke-critical-chromium/test-finished-1.png"
+          ],
+          "startedAt": "2026-03-12T12:49:44.893Z"
+        }
+      ],
+      "startedAt": "2026-03-12T12:49:43.963Z",
+      "finishedAt": "2026-03-12T12:49:45.114Z"
+    },
+    {
+      "id": "01371c430f27e24e4a",
+      "suite": "Shopping Cart",
+      "file": "tests/ui/saucedemo.spec.js",
+      "title": "user can remove item from cart @smoke",
+      "fullName": " › chromium › ui/saucedemo.spec.js › Shopping Cart › user can remove item from cart @smoke",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "flaky": false,
+      "retries": 0,
+      "retryIndex": 0,
+      "durationMs": 1500,
+      "browser": "chromium",
+      "projectName": "chromium",
+      "workerIndex": 0,
+      "attachments": [
+        {
+          "name": "screenshot",
+          "contentType": "image/png",
+          "path": "../test-results/ui-saucedemo-Shopping-Cart-0f30b-remove-item-from-cart-smoke-chromium/test-finished-1.png"
+        },
+        {
+          "name": "video",
+          "contentType": "video/webm",
+          "path": "../test-results/ui-saucedemo-Shopping-Cart-0f30b-remove-item-from-cart-smoke-chromium/video.webm"
+        }
+      ],
+      "artifacts": {
+        "screenshots": [
+          "../test-results/ui-saucedemo-Shopping-Cart-0f30b-remove-item-from-cart-smoke-chromium/test-finished-1.png"
+        ],
+        "videos": [
+          "../test-results/ui-saucedemo-Shopping-Cart-0f30b-remove-item-from-cart-smoke-chromium/video.webm"
+        ],
+        "traces": []
+      },
+      "tags": [
+        "@smoke"
+      ],
+      "featureMeta": {
+        "name": "Shopping Cart",
+        "description": "As a customer I want to browse and add products to my cart"
+      },
+      "scenarioDescription": "Verifies that an item added to the cart can be removed",
+      "behaviours": [
+        "User logs in and navigates to inventory",
+        "User adds the first product to the cart",
+        "User removes the item — cart badge disappears"
+      ],
+      "consoleLogs": [],
+      "steps": [
+        {
+          "title": "Navigate to \"/\"",
+          "category": "pw:api",
+          "durationMs": 814,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:44.904Z"
+        },
+        {
+          "title": "Fill \"standard_user\" getByPlaceholder('Username')",
+          "category": "pw:api",
+          "durationMs": 41,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:45.720Z"
+        },
+        {
+          "title": "Fill \"secret_sauce\" getByPlaceholder('Password')",
+          "category": "pw:api",
+          "durationMs": 22,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:45.763Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Login' })",
+          "category": "pw:api",
+          "durationMs": 149,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:45.786Z"
+        },
+        {
+          "title": "Expect \"toHaveURL\"",
+          "category": "expect",
+          "durationMs": 11,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:45.936Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Add to cart' }).first()",
+          "category": "pw:api",
+          "durationMs": 70,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:45.948Z"
+        },
+        {
+          "title": "Expect \"toHaveText\" locator('.shopping_cart_badge')",
+          "category": "expect",
+          "durationMs": 7,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:46.019Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Remove' }).first()",
+          "category": "pw:api",
+          "durationMs": 89,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:46.027Z"
+        },
+        {
+          "title": "Expect \"not toBeVisible\" locator('.shopping_cart_badge')",
+          "category": "expect",
+          "durationMs": 12,
+          "status": "passed",
+          "screenshots": [
+            "../test-results/ui-saucedemo-Shopping-Cart-0f30b-remove-item-from-cart-smoke-chromium/test-finished-1.png"
+          ],
+          "startedAt": "2026-03-12T12:49:46.117Z"
+        }
+      ],
+      "startedAt": "2026-03-12T12:49:44.864Z",
+      "finishedAt": "2026-03-12T12:49:46.364Z"
+    },
+    {
+      "id": "58f7ebdb6df79b6c73",
+      "suite": "Shopping Cart",
+      "file": "tests/ui/saucedemo.spec.js",
+      "title": "user can sort products by price @regression",
+      "fullName": " › chromium › ui/saucedemo.spec.js › Shopping Cart › user can sort products by price @regression",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "flaky": false,
+      "retries": 0,
+      "retryIndex": 0,
+      "durationMs": 1308,
+      "browser": "chromium",
+      "projectName": "chromium",
+      "workerIndex": 1,
+      "attachments": [
+        {
+          "name": "screenshot",
+          "contentType": "image/png",
+          "path": "../test-results/ui-saucedemo-Shopping-Cart-576cf-roducts-by-price-regression-chromium/test-finished-1.png"
+        },
+        {
+          "name": "video",
+          "contentType": "video/webm",
+          "path": "../test-results/ui-saucedemo-Shopping-Cart-576cf-roducts-by-price-regression-chromium/video.webm"
+        }
+      ],
+      "artifacts": {
+        "screenshots": [
+          "../test-results/ui-saucedemo-Shopping-Cart-576cf-roducts-by-price-regression-chromium/test-finished-1.png"
+        ],
+        "videos": [
+          "../test-results/ui-saucedemo-Shopping-Cart-576cf-roducts-by-price-regression-chromium/video.webm"
+        ],
+        "traces": []
+      },
+      "tags": [
+        "@regression"
+      ],
+      "featureMeta": {
+        "name": "Shopping Cart",
+        "description": "As a customer I want to browse and add products to my cart"
+      },
+      "scenarioDescription": "Verifies that sorting by price low-to-high reorders the product list",
+      "behaviours": [
+        "User logs in and lands on the inventory page",
+        "User selects 'Price (low to high)' from the sort dropdown",
+        "First product price is the lowest available"
+      ],
+      "consoleLogs": [],
+      "steps": [
+        {
+          "title": "Navigate to \"/\"",
+          "category": "pw:api",
+          "durationMs": 666,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:45.164Z"
+        },
+        {
+          "title": "Fill \"standard_user\" getByPlaceholder('Username')",
+          "category": "pw:api",
+          "durationMs": 79,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:45.832Z"
+        },
+        {
+          "title": "Fill \"secret_sauce\" getByPlaceholder('Password')",
+          "category": "pw:api",
+          "durationMs": 23,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:45.917Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Login' })",
+          "category": "pw:api",
+          "durationMs": 135,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:45.942Z"
+        },
+        {
+          "title": "Expect \"toHaveURL\"",
+          "category": "expect",
+          "durationMs": 18,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:46.079Z"
+        },
+        {
+          "title": "Select option locator('.product_sort_container')",
+          "category": "pw:api",
+          "durationMs": 56,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:46.098Z"
+        },
+        {
+          "title": "Evaluate locator('.inventory_item_price')",
+          "category": "pw:api",
+          "durationMs": 54,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:46.155Z"
+        },
+        {
+          "title": "Expect \"toBeLessThanOrEqual\"",
+          "category": "expect",
+          "durationMs": 0,
+          "status": "passed",
+          "screenshots": [
+            "../test-results/ui-saucedemo-Shopping-Cart-576cf-roducts-by-price-regression-chromium/test-finished-1.png"
+          ],
+          "startedAt": "2026-03-12T12:49:46.210Z"
+        }
+      ],
+      "startedAt": "2026-03-12T12:49:45.128Z",
+      "finishedAt": "2026-03-12T12:49:46.436Z"
+    },
+    {
+      "id": "e7f53012b8239ee8da",
+      "suite": "Authentication",
+      "file": "tests/ui/saucedemo.spec.js",
+      "title": "locked out user sees expected error @smoke @auth",
+      "fullName": " › chromium › ui/saucedemo.spec.js › Authentication › locked out user sees expected error @smoke @auth",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "flaky": false,
+      "retries": 0,
+      "retryIndex": 0,
+      "durationMs": 782,
+      "browser": "chromium",
+      "projectName": "chromium",
+      "workerIndex": 0,
+      "attachments": [
+        {
+          "name": "screenshot",
+          "contentType": "image/png",
+          "path": "../test-results/ui-saucedemo-Authenticatio-4c4f0-s-expected-error-smoke-auth-chromium/test-finished-1.png"
+        },
+        {
+          "name": "video",
+          "contentType": "video/webm",
+          "path": "../test-results/ui-saucedemo-Authenticatio-4c4f0-s-expected-error-smoke-auth-chromium/video.webm"
+        }
+      ],
+      "artifacts": {
+        "screenshots": [
+          "../test-results/ui-saucedemo-Authenticatio-4c4f0-s-expected-error-smoke-auth-chromium/test-finished-1.png"
+        ],
+        "videos": [
+          "../test-results/ui-saucedemo-Authenticatio-4c4f0-s-expected-error-smoke-auth-chromium/video.webm"
+        ],
+        "traces": []
+      },
+      "tags": [
+        "@smoke",
+        "@auth"
+      ],
+      "featureMeta": {
+        "name": "Authentication",
+        "description": "As a system I want to prevent locked-out users from accessing the app"
+      },
+      "scenarioDescription": "Verifies that a locked-out user sees a clear error message on login",
+      "behaviours": [
+        "Locked-out user submits credentials on the login page",
+        "An error message is displayed explaining the account is locked"
+      ],
+      "consoleLogs": [],
+      "steps": [
+        {
+          "title": "Navigate to \"/\"",
+          "category": "pw:api",
+          "durationMs": 363,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:46.414Z"
+        },
+        {
+          "title": "Fill \"locked_out_user\" getByPlaceholder('Username')",
+          "category": "pw:api",
+          "durationMs": 46,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:46.779Z"
+        },
+        {
+          "title": "Fill \"secret_sauce\" getByPlaceholder('Password')",
+          "category": "pw:api",
+          "durationMs": 8,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:46.826Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Login' })",
+          "category": "pw:api",
+          "durationMs": 90,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:46.836Z"
+        },
+        {
+          "title": "Expect \"toContainText\" locator('h3[data-test=\"error\"]')",
+          "category": "expect",
+          "durationMs": 10,
+          "status": "passed",
+          "screenshots": [
+            "../test-results/ui-saucedemo-Authenticatio-4c4f0-s-expected-error-smoke-auth-chromium/test-finished-1.png"
+          ],
+          "startedAt": "2026-03-12T12:49:46.927Z"
+        }
+      ],
+      "startedAt": "2026-03-12T12:49:46.377Z",
+      "finishedAt": "2026-03-12T12:49:47.159Z"
+    },
+    {
+      "id": "a8ae4e8175d34d2064",
+      "suite": "AI Failure Analysis",
+      "file": "tests/ui/saucedemo.spec.js",
+      "title": "intentional failure for AI analysis demo @regression",
+      "fullName": " › chromium › ui/saucedemo.spec.js › AI Failure Analysis › intentional failure for AI analysis demo @regression",
+      "status": "failed",
+      "expectedStatus": "failed",
+      "flaky": false,
+      "retries": 0,
+      "retryIndex": 0,
+      "durationMs": 6084,
+      "browser": "chromium",
+      "projectName": "chromium",
+      "workerIndex": 1,
+      "errorMessage": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'Non Existing Header' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'Non Existing Header' })\u001b[22m\n",
+      "stackTrace": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'Non Existing Header' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'Non Existing Header' })\u001b[22m\n\n    at /home/runner/work/playwright-spec-doc-reporter/playwright-spec-doc-reporter/examples/js-es6-demo/tests/ui/saucedemo.spec.js:116:78",
+      "errorSnippet": {
+        "file": "tests/ui/saucedemo.spec.js",
+        "line": 116,
+        "column": 78,
+        "lines": [
+          {
+            "num": 113,
+            "text": "    await login(page, USERS.standard);",
+            "isError": false
+          },
+          {
+            "num": 114,
+            "text": "",
+            "isError": false
+          },
+          {
+            "num": 115,
+            "text": "    addBehaviour(\"Page contains a heading that does not exist — assertion fails intentionally\");",
+            "isError": false
+          },
+          {
+            "num": 116,
+            "text": "    await expect(page.getByRole(\"heading\", { name: \"Non Existing Header\" })).toBeVisible();",
+            "isError": true
+          },
+          {
+            "num": 117,
+            "text": "  });",
+            "isError": false
+          },
+          {
+            "num": 118,
+            "text": "});",
+            "isError": false
+          },
+          {
+            "num": 119,
+            "text": "",
+            "isError": false
+          }
+        ]
+      },
+      "attachments": [
+        {
+          "name": "screenshot",
+          "contentType": "image/png",
+          "path": "../test-results/ui-saucedemo-AI-Failure-An-d5d6f-AI-analysis-demo-regression-chromium/test-finished-1.png"
+        },
+        {
+          "name": "video",
+          "contentType": "video/webm",
+          "path": "../test-results/ui-saucedemo-AI-Failure-An-d5d6f-AI-analysis-demo-regression-chromium/video.webm"
+        },
+        {
+          "name": "error-context",
+          "contentType": "text/markdown",
+          "path": "../test-results/ui-saucedemo-AI-Failure-An-d5d6f-AI-analysis-demo-regression-chromium/error-context.md"
+        }
+      ],
+      "artifacts": {
+        "screenshots": [
+          "../test-results/ui-saucedemo-AI-Failure-An-d5d6f-AI-analysis-demo-regression-chromium/test-finished-1.png"
+        ],
+        "videos": [
+          "../test-results/ui-saucedemo-AI-Failure-An-d5d6f-AI-analysis-demo-regression-chromium/video.webm"
+        ],
+        "traces": []
+      },
+      "tags": [
+        "@regression"
+      ],
+      "featureMeta": {
+        "name": "AI Failure Analysis",
+        "description": "As a developer I want failed tests to be analysed by AI"
+      },
+      "scenarioDescription": "Demonstrates AI analysis on an intentionally failing assertion",
+      "behaviours": [
+        "Standard user logs in successfully",
+        "Page contains a heading that does not exist — assertion fails intentionally"
+      ],
+      "consoleLogs": [],
+      "steps": [
+        {
+          "title": "Navigate to \"/\"",
+          "category": "pw:api",
+          "durationMs": 366,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:46.487Z"
+        },
+        {
+          "title": "Fill \"standard_user\" getByPlaceholder('Username')",
+          "category": "pw:api",
+          "durationMs": 65,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:46.854Z"
+        },
+        {
+          "title": "Fill \"secret_sauce\" getByPlaceholder('Password')",
+          "category": "pw:api",
+          "durationMs": 25,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:46.920Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Login' })",
+          "category": "pw:api",
+          "durationMs": 107,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-03-12T12:49:46.946Z"
+        },
+        {
+          "title": "Expect \"toBeVisible\" getByRole('heading', { name: 'Non Existing Header' })",
+          "category": "expect",
+          "durationMs": 5007,
+          "status": "failed",
+          "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'Non Existing Header' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'Non Existing Header' })\u001b[22m\n",
+          "screenshots": [
+            "../test-results/ui-saucedemo-AI-Failure-An-d5d6f-AI-analysis-demo-regression-chromium/test-finished-1.png"
+          ],
+          "startedAt": "2026-03-12T12:49:47.063Z"
+        }
+      ],
+      "startedAt": "2026-03-12T12:49:46.450Z",
+      "finishedAt": "2026-03-12T12:49:52.534Z"
+    }
+  ],
+  "trends": {
+    "schemaVersion": "1.0",
+    "notes": "Trend-ready schema. Persist snapshots externally to compute multi-run trends."
+  },
+  "aiEnabled": true,
+  "aiAnalyses": [
+    {
+      "testName": " › chromium › ui/saucedemo.spec.js › AI Failure Analysis › intentional failure for AI analysis demo @regression",
+      "file": "tests/ui/saucedemo.spec.js",
+      "summary": "AI analysis unavailable for this test.",
+      "likelyRootCause": "Anthropic API key missing. Set ai.apiKey or ANTHROPIC_API_KEY.",
+      "confidence": 0,
+      "suggestedRemediation": "Inspect test logs and rerun with trace enabled.",
+      "issueCategory": "unknown",
+      "structuredFeedback": {
+        "actionType": "investigate",
+        "reasoning": "Provider failed to return a valid analysis."
+      }
+    }
+  ],
+  "healingPayloads": [
+    {
+      "testName": " › chromium › ui/saucedemo.spec.js › AI Failure Analysis › intentional failure for AI analysis demo @regression",
+      "file": "tests/ui/saucedemo.spec.js",
+      "stepName": "intentional failure for AI analysis demo @regression",
+      "candidateLocators": [],
+      "errorMessage": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'Non Existing Header' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'Non Existing Header' })\u001b[22m\n",
+      "reasoning": "Provider failed to return a valid analysis.",
+      "confidence": 0,
+      "actionType": "investigate"
+    }
+  ],
+  "healingMarkdown": "# Healing Suggestions\n\n##  › chromium › ui/saucedemo.spec.js › AI Failure Analysis › intentional failure for AI analysis demo @regression\n- File: tests/ui/saucedemo.spec.js\n- Step: intentional failure for AI analysis demo @regression\n- Action: investigate\n- Confidence: 0\n- Error: Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'Non Existing Header' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'Non Existing Header' })\u001b[22m\n\n- Reasoning: Provider failed to return a valid analysis.\n",
+  "flakinessScores": {
+    "tests/ui/checkout.spec.js::checkout requires first name @validation": 0,
+    "tests/ui/checkout.spec.js::complete checkout with one item @smoke @critical": 0,
+    "tests/ui/checkout.spec.js::checkout requires last name @validation": 0,
+    "tests/ui/checkout.spec.js::checkout requires postal code @validation": 0,
+    "tests/ui/checkout.spec.js::cancel checkout returns to inventory @regression": 0,
+    "tests/ui/checkout.spec.js::checkout with all 6 items shows correct count @regression": 0,
+    "tests/ui/checkout.spec.js::clicking product name opens detail page @smoke": 0,
+    "tests/ui/checkout.spec.js::back button on detail page returns to inventory @smoke": 0,
+    "tests/ui/checkout.spec.js::add to cart from detail page updates badge @regression": 0,
+    "tests/ui/saucedemo.spec.js::standard user can login and add item to cart @smoke @critical": 0,
+    "tests/ui/saucedemo.spec.js::user can remove item from cart @smoke": 0,
+    "tests/ui/saucedemo.spec.js::user can sort products by price @regression": 0,
+    "tests/ui/saucedemo.spec.js::locked out user sees expected error @smoke @auth": 0,
+    "tests/ui/saucedemo.spec.js::intentional failure for AI analysis demo @regression": 0
+  },
+  "theme": "dark-glossy"
+}
