@@ -3,8 +3,8 @@
 ##  › chromium › ui/saucedemo.spec.js › AI Failure Analysis › intentional failure for AI analysis demo @regression
 - File: tests/ui/saucedemo.spec.js
 - Step: intentional failure for AI analysis demo @regression
-- Action: investigate
-- Confidence: 0
+- Action: update_assertion
+- Confidence: 0.98
 - Error: Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
 
 Locator: getByRole('heading', { name: 'Non Existing Header' })
@@ -16,4 +16,15 @@ Call log:
 [2m  - Expect "toBeVisible" with timeout 5000ms[22m
 [2m  - waiting for getByRole('heading', { name: 'Non Existing Header' })[22m
 
-- Reasoning: Provider failed to return a valid analysis.
+- Failed locator: getByRole('heading', { name: 'Products' })
+- Candidate locators: getByRole('heading', { name: 'Products' }), getByRole('heading', { name: 'Swag Labs' }), locator('.title'), locator('.product_label')
+- Suggested patch:
+```diff
+// Option 1: Fix the locator to target a real heading (e.g., after login on inventory page)
+await expect(page.getByRole('heading', { name: 'Products' })).toBeVisible();
+
+// Option 2: Mark the test as intentionally failing so CI is not blocked
+test.fail();
+await expect(page.getByRole('heading', { name: 'Non Existing Header' })).toBeVisible();
+```
+- Reasoning: The assertion targets a heading named 'Non Existing Header' which is confirmed to never exist in the application UI. The failure is deterministic and reproducible — it is not a flake, timing race, or environment issue. The test name explicitly states this is intentional. The fix is either to correct the locator to match a real heading, or to annotate the test with `test.fail()` to formally declare the expected failure.
