@@ -12,19 +12,20 @@ export class OpenAIProvider implements AIProvider {
 
   async analyzeFailure(input: AIAnalysisInput, config: AIProviderConfig): Promise<AIAnalysisResult> {
     const apiKey = config.apiKey ?? process.env.OPENAI_API_KEY;
-    if (!apiKey) {
+    const isDefaultEndpoint = !config.baseURL || config.baseURL === "https://api.openai.com/v1";
+    if (!apiKey && isDefaultEndpoint) {
       throw new Error("OpenAI API key missing. Set ai.apiKey or OPENAI_API_KEY.");
     }
 
     const prompt = buildFailurePrompt(input, config.customPrompt);
-    const baseURL = config.baseURL ?? "https://api.openai.com/v1";
+    const baseURL = (config.baseURL ?? "https://api.openai.com/v1").replace(/\/$/, "");
+
+    const headers: Record<string, string> = { "Content-Type": "application/json" };
+    if (apiKey) headers["Authorization"] = `Bearer ${apiKey}`;
 
     const response = await fetch(`${baseURL}/chat/completions`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`
-      },
+      headers,
       body: JSON.stringify({
         model: config.model,
         max_tokens: config.maxTokens ?? 800,

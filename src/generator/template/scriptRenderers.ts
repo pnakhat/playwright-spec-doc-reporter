@@ -667,7 +667,15 @@ export function getScriptRenderers(): string {
     var el = document.getElementById('healingContainer');
     if (!el) return;
     if (!healingPayloads || healingPayloads.length === 0) {
-      el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">\\ud83e\\ude79</div><div class="empty-state-title">No healing suggestions</div><div class="empty-state-msg">Enable AI analysis to generate healing suggestions for failed tests.</div></div>';
+      var healingMsg;
+      if (aiEnabled && aiAnalyses.length > 0) {
+        healingMsg = 'AI analysis ran successfully. Add <code style="background:rgba(255,255,255,0.08);padding:1px 5px;border-radius:4px">healing: { enabled: true }</code> to your reporter config to generate healing suggestions.';
+      } else if (aiEnabled) {
+        healingMsg = 'AI analysis needs to run successfully first. Check that your API key is set and tests have failures to analyze.';
+      } else {
+        healingMsg = 'Enable AI analysis to generate healing suggestions for failed tests.';
+      }
+      el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">\\ud83e\\ude79</div><div class="empty-state-title">No healing suggestions</div><div class="empty-state-msg">' + healingMsg + '</div></div>';
       return;
     }
     var cardsHtml = healingPayloads.map(function(p) {
