@@ -110,7 +110,7 @@ jobs:
         working-directory: examples/js-es6-demo
         # Intentional failure tests use test.fail() so Playwright counts them as passing when they fail
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           REPORT_ARTIFACT_URL: ${{ github.event_name == 'pull_request' && format('https://{0}.github.io/{1}/reports/pr-{2}/', github.repository_owner, github.event.repository.name, github.event.pull_request.number) || format('https://{0}.github.io/{1}/reports/latest/', github.repository_owner, github.event.repository.name) }}
         run: npx playwright test --project=chromium
 
