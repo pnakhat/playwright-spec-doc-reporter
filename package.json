@@ -1,6 +1,6 @@
 {
   "name": "playwright-spec-doc-reporter",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "A beautiful Playwright HTML reporter with BDD/Gherkin annotations, AI-powered failure analysis, self-healing suggestions, Jira/Xray integration, inline API request/response display, manual test support, and screenshot/video evidence in test executions.",
   "type": "module",
   "main": "dist/index.js",
