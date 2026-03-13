@@ -198,7 +198,7 @@ export interface HealingPayload {
 }
 
 export interface AIProviderConfig {
-  provider: "openai" | "anthropic" | "azure" | "custom";
+  provider: "openai" | "anthropic" | "azure" | "azure-claude" | "custom";
   model: string;
   apiKey?: string;
   baseURL?: string;

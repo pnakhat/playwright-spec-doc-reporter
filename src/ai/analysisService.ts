@@ -1,4 +1,5 @@
 import { AnthropicProvider } from "./providers/anthropicProvider.js";
+import { AzureClaudeProvider } from "./providers/azureClaudeProvider.js";
 import { AzureProvider } from "./providers/azureProvider.js";
 import { OpenAIProvider } from "./providers/openaiProvider.js";
 import type {
@@ -43,6 +44,7 @@ export function resolveProvider(config: AIProviderConfig, customFactory?: (cfg: 
   if (config.provider === "openai") return new OpenAIProvider();
   if (config.provider === "anthropic") return new AnthropicProvider();
   if (config.provider === "azure") return new AzureProvider();
+  if (config.provider === "azure-claude") return new AzureClaudeProvider();
 
   throw new Error(`Unsupported AI provider: ${config.provider}`);
 }
