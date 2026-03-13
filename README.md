@@ -36,7 +36,7 @@ A beautiful, production-ready Playwright reporter with BDD-style annotations, in
 - **BDD annotations** — add Feature, Scenario, and Behaviour metadata directly in your tests
 - **Browser badges** — chromium, firefox, and webkit runs shown with distinct colour-coded pills
 - **Inline API viewer** — attach request/response JSON directly to test results with syntax highlighting
-- **AI failure analysis** — automatic root-cause analysis for failed tests (OpenAI, Anthropic, or custom)
+- **AI failure analysis** — automatic root-cause analysis for failed tests (OpenAI, Anthropic, Azure, or custom)
 - **Healing payloads** — structured JSON + Markdown export of suggested locator fixes
 - **PR Comment Mode** — emit a compact markdown summary for posting directly as a GitHub/Azure DevOps PR comment
 - **Docs page** — generate filtered Markdown/HTML/PDF behaviour specs from your test suite with live feature filtering
@@ -237,7 +237,7 @@ type SpecDocReporterConfig = {
   /** AI failure analysis configuration. */
   ai?: {
     enabled: boolean;
-    provider: "openai" | "anthropic" | "custom";
+    provider: "openai" | "anthropic" | "azure" | "azure-claude" | "custom";
     model: string;
     apiKey?: string;
     baseURL?: string;
@@ -300,6 +300,41 @@ ai: {
   maxFailuresToAnalyze: 10,
 }
 ```
+
+### Azure OpenAI (OpenAI-compatible endpoint)
+
+For Claude or other models deployed via **Azure AI Foundry / Azure AI Services** using the OpenAI-compatible chat completions endpoint:
+
+```ts
+ai: {
+  enabled: true,
+  provider: "azure",
+  model: "claude-3-7-sonnet",          // your deployment name
+  baseURL: process.env.AZURE_ENDPOINT, // https://<resource>.services.ai.azure.com
+  apiKey: process.env.AZURE_API_KEY,
+  apiVersion: "2024-05-01-preview",    // optional, this is the default
+  maxFailuresToAnalyze: 10,
+}
+```
+
+Authentication uses the `api-key` header (Azure subscription key).
+
+### Azure Claude (native Anthropic Messages API)
+
+For Claude models deployed via **Azure Cognitive Services** that expose the native Anthropic Messages API:
+
+```ts
+ai: {
+  enabled: true,
+  provider: "azure-claude",
+  model: process.env.AZURE_CLAUDE_DEPLOYMENT!, // your deployment name
+  baseURL: process.env.AZURE_ENDPOINT,         // https://<resource>.cognitiveservices.azure.com
+  apiKey: process.env.AZURE_API_KEY,
+  maxFailuresToAnalyze: 10,
+}
+```
+
+The endpoint called is `{baseURL}/anthropic/v1/messages`. Authentication uses the `x-api-key` header — the same format as the standard Anthropic API.
 
 ### Custom prompt
 
@@ -364,6 +399,9 @@ reporter: [["./reporter.mjs", { ai: { enabled: true }, providerFactory }]]
 # .env (gitignored)
 ANTHROPIC_API_KEY=sk-ant-...
 OPENAI_API_KEY=sk-...
+AZURE_API_KEY=...
+AZURE_ENDPOINT=https://<resource>.cognitiveservices.azure.com
+AZURE_CLAUDE_DEPLOYMENT=claude-haiku45-gdf-np-un-001
 ```
 
 Load it without dotenv (Node 20.6+):
@@ -378,7 +416,14 @@ Or add to `package.json`:
 { "scripts": { "test": "node --env-file=.env node_modules/.bin/playwright test" } }
 ```
 
-The `apiKey` config field falls back to `process.env.ANTHROPIC_API_KEY` / `process.env.OPENAI_API_KEY` automatically.
+The `apiKey` config field falls back to provider-specific env vars automatically:
+
+| Provider | Env var fallback |
+|---|---|
+| `openai` | `OPENAI_API_KEY` |
+| `anthropic` | `ANTHROPIC_API_KEY` |
+| `azure` | `AZURE_API_KEY` |
+| `azure-claude` | `AZURE_CLAUDE_API_KEY`, then `AZURE_API_KEY` |
 
 ---
 
