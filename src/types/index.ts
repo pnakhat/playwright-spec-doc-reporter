@@ -198,10 +198,12 @@ export interface HealingPayload {
 }
 
 export interface AIProviderConfig {
-  provider: "openai" | "anthropic" | "custom";
+  provider: "openai" | "anthropic" | "azure" | "custom";
   model: string;
   apiKey?: string;
   baseURL?: string;
+  /** Azure AI API version (e.g. "2024-05-01-preview"). Only used with provider "azure". */
+  apiVersion?: string;
   maxTokens?: number;
   rateLimitPerMinute?: number;
   customPrompt?: string;
