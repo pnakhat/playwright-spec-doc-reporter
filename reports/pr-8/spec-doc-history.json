@@ -354,10 +354,10 @@
       ]
     },
     {
-      "runId": "bf19b4975437e9f2",
-      "timestamp": "2026-03-13T11:10:33.019Z",
+      "runId": "ed5af078d464132d",
+      "timestamp": "2026-03-13T11:11:00.220Z",
       "branch": "8/merge",
-      "commit": "da1ef3a8",
+      "commit": "32af924e",
       "passRate": 93,
       "playwrightVersion": "1.58.2",
       "summary": {
@@ -366,78 +366,78 @@
         "failed": 1,
         "skipped": 0,
         "flaky": 0,
-        "durationMs": 18436
+        "durationMs": 20233
       },
       "testSnapshots": [
         {
           "key": "tests/ui/checkout.spec.js::checkout requires first name @validation",
           "status": "passed",
-          "durationMs": 1089
+          "durationMs": 1473
         },
         {
           "key": "tests/ui/checkout.spec.js::complete checkout with one item @smoke @critical",
           "status": "passed",
-          "durationMs": 1187
+          "durationMs": 1548
         },
         {
           "key": "tests/ui/checkout.spec.js::checkout requires last name @validation",
           "status": "passed",
-          "durationMs": 1089
+          "durationMs": 1047
         },
         {
           "key": "tests/ui/checkout.spec.js::checkout requires postal code @validation",
           "status": "passed",
-          "durationMs": 1006
-        },
-        {
-          "key": "tests/ui/checkout.spec.js::cancel checkout returns to inventory @regression",
-          "status": "passed",
-          "durationMs": 943
+          "durationMs": 1113
         },
         {
           "key": "tests/ui/checkout.spec.js::checkout with all 6 items shows correct count @regression",
           "status": "passed",
-          "durationMs": 1033
+          "durationMs": 1220
+        },
+        {
+          "key": "tests/ui/checkout.spec.js::cancel checkout returns to inventory @regression",
+          "status": "passed",
+          "durationMs": 1091
         },
         {
           "key": "tests/ui/checkout.spec.js::clicking product name opens detail page @smoke",
           "status": "passed",
-          "durationMs": 860
+          "durationMs": 908
         },
         {
           "key": "tests/ui/checkout.spec.js::back button on detail page returns to inventory @smoke",
           "status": "passed",
-          "durationMs": 933
+          "durationMs": 1040
         },
         {
           "key": "tests/ui/checkout.spec.js::add to cart from detail page updates badge @regression",
           "status": "passed",
-          "durationMs": 922
+          "durationMs": 991
         },
         {
           "key": "tests/ui/saucedemo.spec.js::standard user can login and add item to cart @smoke @critical",
           "status": "passed",
-          "durationMs": 1042
+          "durationMs": 1168
         },
         {
           "key": "tests/ui/saucedemo.spec.js::user can remove item from cart @smoke",
           "status": "passed",
-          "durationMs": 827
+          "durationMs": 961
         },
         {
           "key": "tests/ui/saucedemo.spec.js::user can sort products by price @regression",
           "status": "passed",
-          "durationMs": 815
+          "durationMs": 927
         },
         {
           "key": "tests/ui/saucedemo.spec.js::locked out user sees expected error @smoke @auth",
           "status": "passed",
-          "durationMs": 698
+          "durationMs": 696
         },
         {
           "key": "tests/ui/saucedemo.spec.js::intentional failure for AI analysis demo @regression",
           "status": "failed",
-          "durationMs": 5992
+          "durationMs": 6050
         }
       ]
     }

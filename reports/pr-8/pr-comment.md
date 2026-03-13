@@ -1,12 +1,12 @@
-## 🎭 Test Report — `feature/azure-claude-provider` · Run #54
-commit `da1ef3a8`
+## 🎭 Test Report — `feature/azure-claude-provider` · Run #55
+commit `32af924e`
 
 | | Result |
 |---|---|
 | ✅ Passed | 13 |
 | ❌ Failed | 1 |
 | 📊 Total | 14 |
-| ⏱️ Duration | 18s |
+| ⏱️ Duration | 20s |
 
 ### ❌ Failed Tests
 - ❌ ` › chromium › ui/saucedemo.spec.js › AI Failure Analysis › intentional failure for AI analysis demo @regression` — *Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed*
