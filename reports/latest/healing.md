@@ -17,14 +17,14 @@ Call log:
 [2m  - waiting for getByRole('heading', { name: 'Non Existing Header' })[22m
 
 - Failed locator: getByRole('heading', { name: 'Products' })
-- Candidate locators: getByRole('heading', { name: 'Products' }), getByRole('heading', { name: 'Swag Labs' }), locator('.title'), locator('.product_label')
+- Candidate locators: getByRole('heading', { name: 'Products' }), getByRole('heading', { name: 'Swag Labs' }), locator('.title'), locator('[data-test="title"]')
 - Suggested patch:
 ```diff
-// Option 1: Fix the locator to target a real heading (e.g., after login on inventory page)
+// Option 1: Fix the locator to target a real heading on the page
 await expect(page.getByRole('heading', { name: 'Products' })).toBeVisible();
 
-// Option 2: Mark the test as intentionally failing so CI is not blocked
+// Option 2: Mark the test as intentionally failing (preserves demo intent)
 test.fail();
 await expect(page.getByRole('heading', { name: 'Non Existing Header' })).toBeVisible();
 ```
-- Reasoning: The assertion targets a heading named 'Non Existing Header' which is confirmed to never exist in the application UI. The failure is deterministic and reproducible — it is not a flake, timing race, or environment issue. The test name explicitly states this is intentional. The fix is either to correct the locator to match a real heading, or to annotate the test with `test.fail()` to formally declare the expected failure.
+- Reasoning: The assertion targets a heading named 'Non Existing Header' which is confirmed to not exist in the application UI. The failure is deterministic and reproducible — it is not a flake, timing race, or environment issue. The test name explicitly states this is intentional. The fix is either to correct the locator to match a real heading, or to wrap the test with `test.fail()` to formally declare the expected failure.
