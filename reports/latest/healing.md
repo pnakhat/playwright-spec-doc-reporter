@@ -17,22 +17,20 @@ Call log:
 [2m  - waiting for getByRole('heading', { name: 'Non Existing Header' })[22m
 
 - Failed locator: getByRole('heading', { name: 'Products' })
-- Candidate locators: getByRole('heading', { name: 'Products' }), getByRole('heading', { name: 'Swag Labs' }), locator('.title'), locator('h2.title'), getByText('Products')
+- Candidate locators: getByRole('heading', { name: 'Products' }), getByRole('heading', { name: 'Swag Labs' }), locator('.title'), locator('[data-test="title"]')
 - Suggested patch:
 ```diff
-// Option 1: Fix the locator to target a real heading (e.g., after login on inventory page)
-// Before (line ~116):
-await expect(page.getByRole('heading', { name: 'Non Existing Header' })).toBeVisible();
-
-// After:
+// Option 1: Fix the test to assert a real heading (e.g., after login on inventory page)
 await expect(page.getByRole('heading', { name: 'Products' })).toBeVisible();
 
-// Option 2: Skip the test to prevent CI blocking
-test.skip('intentional failure for AI analysis demo @regression', async ({ page }) => {
+// Option 2: Skip the test if intentional failure demo is no longer needed
+test.skip(' intentional failure for AI analysis demo @regression', async ({ page }) => {
   // ...
 });
 
-// Option 3: Tag it to exclude from regression runs
-// Use a separate tag like @demo-only and filter it out in playwright.config.js
+// Option 3: Use test.fail() to explicitly mark it as an expected failure
+test.fail(' intentional failure for AI analysis demo @regression', async ({ page }) => {
+  await expect(page.getByRole('heading', { name: 'Non Existing Header' })).toBeVisible();
+});
 ```
-- Reasoning: The failure is caused by an assertion against a heading element ('Non Existing Header') that does not exist in the application's DOM. The element name is clearly fabricated for demo purposes. The fix is to either replace the locator with one targeting a real heading element present on the page, or to remove/skip this test from the regression suite to prevent false CI failures.
+- Reasoning: The heading 'Non Existing Header' does not exist in the SauceDemo application at any point in the user journey. The failure is 100% deterministic and reproducible — it is not a flake, timing issue, or environment problem. The element will never appear, so the assertion will always time out. The fix is either to point the locator at a real heading element or to skip/remove the test if its sole purpose is to demonstrate a failure.
