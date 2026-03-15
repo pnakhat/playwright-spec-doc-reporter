@@ -14,6 +14,7 @@ import { defaultConfig } from "../config/defaults.js";
 import { generateReport } from "../generator/reportGenerator.js";
 import { createHealingPayloads } from "../healing/payload.js";
 import { writePrComment } from "../prComment/generator.js";
+import { postJiraTestResults } from "../jira/index.js";
 import type { AIAnalysisResult, ApiEntry, AttachmentInfo, GlossyReporterConfig, NormalizedTestResult, TestStepInfo } from "../types/index.js";
 import { classifyArtifacts, safeTextFromBuffer, shortId } from "../utils/report.js";
 
@@ -276,6 +277,7 @@ export class GlossyPlaywrightReporter implements Reporter {
     });
 
     await writePrComment(finalizedTests, report.summary, analyses, this.config);
+    await postJiraTestResults(finalizedTests, this.config);
   }
 
   printsToStdio(): boolean {

@@ -183,6 +183,19 @@ export function getScriptRenderers(): string {
 
   function renderAI() {
     const el = document.getElementById("ai-section");
+    // Filter out fallback/failed analyses (confidence=0 means the provider returned a placeholder)
+    const validAnalyses = aiAnalyses.filter(a => (Number(a.confidence) || 0) > 0);
+    if (validAnalyses.length === 0 && aiAnalyses.length > 0) {
+      // AI was enabled and ran but all analyses failed (e.g. API key missing at run time)
+      el.innerHTML =
+        '<div class="section-header"><div class="section-title">\\ud83e\\udd16 AI Analysis</div></div>' +
+        '<div class="ai-disabled">' +
+          '<div class="ai-disabled-icon">\\ud83d\\udd11</div>' +
+          '<div style="font-size:0.86rem;font-weight:700;color:var(--text1);margin-bottom:0.3rem">Analysis Failed</div>' +
+          '<div style="font-size:0.78rem;margin-bottom:0.6rem">AI analysis ran but the provider returned no results — likely a missing or invalid API key. Set your <code style="background:rgba(255,255,255,0.08);padding:1px 5px;border-radius:4px">ANTHROPIC_API_KEY</code> (or <code style="background:rgba(255,255,255,0.08);padding:1px 5px;border-radius:4px">OPENAI_API_KEY</code>) and rerun.</div>' +
+        '</div>';
+      return;
+    }
     if (aiAnalyses.length === 0) {
       var aiMsg = aiEnabled
         ? '<div class="ai-disabled-icon">\\ud83d\\udd11</div>' +
@@ -198,13 +211,13 @@ export function getScriptRenderers(): string {
         '<div class="ai-disabled">' + aiMsg + '</div>';
       return;
     }
-    const byCategory = aiAnalyses.reduce((acc, item) => {
+    const byCategory = validAnalyses.reduce((acc, item) => {
       const key = item.issueCategory || "unknown";
       acc[key] = (acc[key] || 0) + 1;
       return acc;
     }, {});
     const topFindings = Object.entries(byCategory).sort((a, b) => b[1] - a[1]).slice(0, 6).map(([cat, cnt]) => ({ cat, cnt }));
-    const avgConf = aiAnalyses.reduce((s, i) => s + (Number(i.confidence) || 0), 0) / aiAnalyses.length;
+    const avgConf = validAnalyses.reduce((s, i) => s + (Number(i.confidence) || 0), 0) / validAnalyses.length;
     const health = Math.round(avgConf * 100);
     const healthColor = health >= 70 ? 'var(--pass)' : health >= 40 ? 'var(--flaky)' : 'var(--fail)';
 
@@ -213,19 +226,19 @@ export function getScriptRenderers(): string {
       return '<div class="finding-item ' + cls + '"><span>' + escHtml(item.cat) + '</span><span class="finding-count">' + item.cnt + '</span></div>';
     }).join('');
 
-    const remediations = aiAnalyses.map(i => i.suggestedRemediation).filter(Boolean).slice(0, 5)
+    const remediations = validAnalyses.map(i => i.suggestedRemediation).filter(Boolean).slice(0, 5)
       .map(t => '<div class="ai-remediation"><span class="ai-remediation-dot">\\u2022</span><span>' + escHtml(t) + '</span></div>').join('');
 
     el.innerHTML =
       '<div class="section-header">' +
-        '<div class="section-title">\\ud83e\\udd16 AI Analysis <span style="font-size:0.73rem;font-weight:400;color:var(--text2)">' + aiAnalyses.length + ' tests analyzed</span></div>' +
+        '<div class="section-title">\\ud83e\\udd16 AI Analysis <span style="font-size:0.73rem;font-weight:400;color:var(--text2)">' + validAnalyses.length + ' tests analyzed</span></div>' +
         '<div style="display:flex;align-items:center;gap:8px;font-size:0.76rem;color:var(--text2)">' +
           '<span>Health</span>' +
           '<div style="width:80px"><div class="ai-health-bar"><div class="ai-health-fill" style="width:' + health + '%;background:' + healthColor + '"></div></div></div>' +
           '<span style="color:' + healthColor + ';font-weight:700">' + health + '/100</span>' +
         '</div>' +
       '</div>' +
-      '<div class="ai-summary">AI analyzed <strong>' + aiAnalyses.length + ' failed test' + (aiAnalyses.length !== 1 ? 's' : '') + '</strong> \\u2014 identified failure categories and remediation guidance.</div>' +
+      '<div class="ai-summary">AI analyzed <strong>' + validAnalyses.length + ' failed test' + (validAnalyses.length !== 1 ? 's' : '') + '</strong> \\u2014 identified failure categories and remediation guidance.</div>' +
       '<div class="ai-grid">' +
         '<div class="ai-card"><div class="ai-card-title">\\ud83d\\udd0d Key Findings</div>' + (findingsHtml || '<div style="color:var(--text3);font-size:0.78rem">No findings categorized.</div>') + '</div>' +
         '<div class="ai-card"><div class="ai-card-title">\\ud83d\\udd27 Suggested Remediations</div>' + (remediations || '<div style="color:var(--text3);font-size:0.78rem">No remediations available.</div>') + '</div>' +
