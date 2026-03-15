@@ -33,6 +33,15 @@ export default defineConfig({
           enabled: true,
           artifactUrl: process.env.REPORT_ARTIFACT_URL,  // set by CI to the GitHub Pages live report URL
           maxFailures: 10
+        },
+        jira: {
+          enabled: !!process.env.JIRA_API_TOKEN,
+          baseUrl: process.env.JIRA_BASE_URL,   // e.g. https://yourorg.atlassian.net
+          email: process.env.JIRA_EMAIL,
+          apiToken: process.env.JIRA_API_TOKEN,
+          includeScreenshots: true,
+          includeApiTraffic: true,
+          commentCooldownMs: 0,                 // set e.g. 3_600_000 to limit to once/hour
         }
       }
     ]

@@ -25,7 +25,7 @@ test.describe("Shopping Cart", () => {
     addFeature("Shopping Cart", "As a customer I want to browse and add products to my cart");
   });
 
-  test("standard user can login and add item to cart @smoke @critical", async ({ page }, testInfo) => {
+  test("standard user can login and add item to cart @smoke @critical @SCRUM-1", async ({ page }, testInfo) => {
     addScenario("Verifies that a standard user can log in and add the first product to the cart");
 
     addBehaviour("User navigates to the login page and submits valid credentials");

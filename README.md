@@ -1,6 +1,6 @@
 # playwright-spec-doc-reporter
 
-A beautiful, production-ready Playwright reporter with BDD-style annotations, inline API request/response display, AI-powered failure analysis, test history trends, and self-healing payload exports.
+A beautiful, production-ready Playwright reporter with BDD-style annotations, inline API request/response display, AI-powered failure analysis, test history trends, self-healing payload exports, and automatic Jira issue commenting with screenshot evidence.
 
 [![npm version](https://img.shields.io/npm/v/playwright-spec-doc-reporter)](https://www.npmjs.com/package/playwright-spec-doc-reporter)
 [![CI](https://github.com/pnakhat/playwright-spec-doc-reporter/actions/workflows/ci.yml/badge.svg)](https://github.com/pnakhat/playwright-spec-doc-reporter/actions/workflows/ci.yml)
@@ -41,6 +41,7 @@ A beautiful, production-ready Playwright reporter with BDD-style annotations, in
 - **PR Comment Mode** — emit a compact markdown summary for posting directly as a GitHub/Azure DevOps PR comment
 - **Docs page** — generate filtered Markdown/HTML/PDF behaviour specs from your test suite with live feature filtering
 - **History & trends** — pass-rate and duration charts across runs via `spec-doc-history.json`
+- **Jira integration** — automatically post test results as Jira comments; includes BDD docs, steps, screenshots, and API traffic; cooldown setting prevents comment spam
 - **Flakiness scoring** — per-test stability badges computed from run history (0–100%)
 - **Theme switcher** — dark-glossy, dark, and light themes with localStorage persistence
 - **Zero runtime dependencies** — single self-contained HTML file output
@@ -262,6 +263,20 @@ type SpecDocReporterConfig = {
     artifactUrl?: string;      // falls back to REPORT_ARTIFACT_URL env var
     title?: string;            // branch/label shown in the header
     maxFailures?: number;      // max failed tests to list inline, default 10
+  };
+
+  /** Jira issue commenting — posts results to any issue tagged with @PROJECT-123. */
+  jira?: {
+    enabled: boolean;
+    baseUrl: string;              // https://yourorg.atlassian.net
+    email?: string;               // falls back to JIRA_EMAIL env var
+    apiToken?: string;            // falls back to JIRA_API_TOKEN env var
+    commentOnPass?: boolean;      // default: true
+    commentOnFail?: boolean;      // default: true
+    commentOnSkip?: boolean;      // default: false
+    includeScreenshots?: boolean; // upload & embed screenshots inline, default: true
+    includeApiTraffic?: boolean;  // include API request/response logs, default: true
+    commentCooldownMs?: number;   // skip if a comment was posted within this window, default: 0
   };
 
   /** Factory for a custom AI provider. */
@@ -545,6 +560,88 @@ Set `REPORT_ARTIFACT_URL` to point reviewers at the full report:
 ### Branch and run detection
 
 Branch name, commit SHA, and run number are automatically detected from CI environment variables (`GITHUB_REF_NAME`, `GITHUB_SHA`, `GITHUB_RUN_NUMBER`, and Azure DevOps equivalents). No manual configuration needed in most setups.
+
+---
+
+## Jira Test Results Integration
+
+After each Playwright run, the reporter automatically posts a comment to any Jira issue that a test is tagged with. Tag a test with `@PROJECT-123` (e.g. `@SCRUM-1`) and a formatted comment is posted to that issue containing the test result, steps, BDD documentation, API traffic, and screenshots.
+
+### Setup
+
+Store credentials in environment variables — never hard-code them:
+
+```bash
+JIRA_EMAIL=you@yourorg.com
+JIRA_API_TOKEN=<your-api-token>   # https://id.atlassian.com/manage-profile/security/api-tokens
+```
+
+Enable in `playwright.config.ts`:
+
+```ts
+jira: {
+  enabled: !!process.env.JIRA_API_TOKEN,
+  baseUrl: "https://yourorg.atlassian.net",
+  email: process.env.JIRA_EMAIL,
+  apiToken: process.env.JIRA_API_TOKEN,
+
+  // What to include in the comment:
+  includeScreenshots: true,   // upload & embed Playwright screenshots inline
+  includeApiTraffic: true,    // include glossy:request/response API logs
+
+  // Avoid comment spam on frequent runs:
+  commentCooldownMs: 3_600_000, // skip if a comment was posted < 1 hour ago
+
+  // Control which statuses trigger a comment:
+  commentOnPass: true,    // default: true
+  commentOnFail: true,    // default: true
+  commentOnSkip: false,   // default: false
+}
+```
+
+### Tagging tests
+
+Add the Jira issue key as a tag — the pattern `@PROJECT-123` is automatically detected:
+
+```ts
+test("user can checkout @SCRUM-1 @smoke", async ({ page }) => { ... });
+
+// or via test.tag() (Playwright 1.42+):
+test("user can checkout", { tag: ["@SCRUM-1", "@smoke"] }, async ({ page }) => { ... });
+```
+
+A test can reference multiple issues — each gets its own comment.
+
+### What appears in the comment
+
+| Section | When shown |
+|---|---|
+| Status, duration, file path | Always |
+| 🏷 Feature / 📖 Scenario / ✦ Behaviours | When BDD annotations are present |
+| Steps | Always (up to 10) |
+| Error + stack snippet | Failed / timed-out tests |
+| API Traffic | When `includeApiTraffic: true` and `glossy:request/response` annotations exist |
+| 📸 Screenshots | When `includeScreenshots: true` and Playwright captured screenshots |
+
+### Comment cooldown
+
+To avoid flooding an issue during repeated CI runs (e.g. nightly regression), set `commentCooldownMs`. The reporter checks the timestamp of the last comment it posted on each issue and skips if still within the cooldown window:
+
+```ts
+jira: {
+  enabled: true,
+  // ...
+  commentCooldownMs: 3_600_000,  // 1 hour
+}
+```
+
+### Environment variable reference
+
+| Variable | Purpose |
+|---|---|
+| `JIRA_EMAIL` | Jira account email (Basic auth) |
+| `JIRA_API_TOKEN` | Jira API token |
+| `JIRA_BASE_URL` | Optional — overrides `baseUrl` in config |
 
 ---
 
