@@ -15,6 +15,7 @@ import { generateReport } from "../generator/reportGenerator.js";
 import { createHealingPayloads } from "../healing/payload.js";
 import { writePrComment } from "../prComment/generator.js";
 import { postJiraTestResults } from "../jira/index.js";
+import { parseManualResults } from "../manual/parser.js";
 import type { AIAnalysisResult, ApiEntry, AttachmentInfo, GlossyReporterConfig, NormalizedTestResult, TestStepInfo } from "../types/index.js";
 import { classifyArtifacts, safeTextFromBuffer, shortId } from "../utils/report.js";
 
@@ -257,6 +258,20 @@ export class GlossyPlaywrightReporter implements Reporter {
     for (const test of this.tests) {
       uniqueById.set(test.id, test);
     }
+
+    // Merge manual test results if configured
+    if (this.config.manualTests?.resultsPath) {
+      const manualPath = this.config.manualTests.resultsPath;
+      try {
+        const content = fs.readFileSync(manualPath, "utf-8");
+        const manualTests = parseManualResults(content, manualPath);
+        for (const t of manualTests) uniqueById.set(t.id, t);
+        console.log(`[glossy-reporter] Merged ${manualTests.length} manual test(s) from ${manualPath}`);
+      } catch (err) {
+        console.warn(`[glossy-reporter] Could not load manual tests from ${manualPath}:`, err);
+      }
+    }
+
     const finalizedTests = [...uniqueById.values()];
     const failedTests = finalizedTests.filter((test) => test.status === "failed" || test.status === "timedOut");
 

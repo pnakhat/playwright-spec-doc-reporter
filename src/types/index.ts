@@ -57,6 +57,8 @@ export interface NormalizedTestResult {
   retries: number;
   retryIndex: number;
   durationMs: number;
+  /** "automated" (default) or "manual" — from a manually-authored results file. */
+  source?: "automated" | "manual";
   browser?: string;
   projectName?: string;
   workerIndex?: number;
@@ -288,6 +290,15 @@ export interface JiraConfig {
   commentCooldownMs?: number;
 }
 
+export interface ManualTestsConfig {
+  /**
+   * Path to the manual test results Markdown file.
+   * Supports Gherkin (Given/When/Then) and plain prose blocks.
+   * Example: "tests/manual-results.md"
+   */
+  resultsPath: string;
+}
+
 export interface GlossyReporterConfig {
   outputDir?: string;
   reportTitle?: string;
@@ -299,6 +310,12 @@ export interface GlossyReporterConfig {
   healing?: HealingConfig;
   prComment?: PrCommentConfig;
   jira?: JiraConfig;
+  /**
+   * Merge manual test results from a Markdown file into the report.
+   * Manual tests appear alongside automated tests with a "manual" badge
+   * and can be filtered via the @manual tag.
+   */
+  manualTests?: ManualTestsConfig;
   providerFactory?: (config: AIProviderConfig) => AIProvider;
 }
 
