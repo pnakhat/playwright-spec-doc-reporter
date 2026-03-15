@@ -264,11 +264,18 @@ export class GlossyPlaywrightReporter implements Reporter {
       const manualPath = this.config.manualTests.resultsPath;
       try {
         const content = fs.readFileSync(manualPath, "utf-8");
-        const manualTests = parseManualResults(content, manualPath);
+        let manualTests: NormalizedTestResult[] = [];
+        try {
+          manualTests = parseManualResults(content, manualPath);
+        } catch (parseErr) {
+          console.warn(`[glossy-reporter] Failed to parse manual tests from ${manualPath} — skipping. Error:`, parseErr);
+        }
         for (const t of manualTests) uniqueById.set(t.id, t);
-        console.log(`[glossy-reporter] Merged ${manualTests.length} manual test(s) from ${manualPath}`);
+        if (manualTests.length > 0) {
+          console.log(`[glossy-reporter] Merged ${manualTests.length} manual test(s) from ${manualPath}`);
+        }
       } catch (err) {
-        console.warn(`[glossy-reporter] Could not load manual tests from ${manualPath}:`, err);
+        console.warn(`[glossy-reporter] Could not read manual tests file ${manualPath} — skipping. Error:`, err);
       }
     }
 
