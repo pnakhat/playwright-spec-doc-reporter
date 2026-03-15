@@ -13,20 +13,26 @@ A beautiful, production-ready Playwright reporter with BDD-style annotations, in
 ### Dashboard Overview
 ![Dashboard](docs/screenshots/dashboard.png)
 
-### Tests & BDD View (with browser badges)
+### Tests Tab — Failure with AI Analysis Expanded
 ![Tests View](docs/screenshots/tests-view.png)
 
-### Inline API Request / Response Viewer
-![API Viewer](docs/screenshots/api-viewer.png)
+### Test Detail — BDD Annotations, AI Analysis, Screenshots & Video
+![Test Detail](docs/screenshots/test-detail.png)
 
-### Failure Detail with AI Analysis
-![Failure Detail](docs/screenshots/failure-detail.png)
+### BDD Feature / Scenario / Behaviours View
+![BDD View](docs/screenshots/bdd-view.png)
 
-### AI Insights Tab
+### AI Insights Tab — Root Cause Analysis & Remediations
 ![AI Insights](docs/screenshots/ai-insights.png)
 
 ### Run History & Trends
 ![Trends](docs/screenshots/trends.png)
+
+### Docs Tab — Behaviour Specification Export
+![Docs Tab](docs/screenshots/docs-tab.png)
+
+### Inline API Request / Response Viewer
+![API Viewer](docs/screenshots/api-viewer.png)
 
 ---
 
