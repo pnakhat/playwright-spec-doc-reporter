@@ -12,15 +12,36 @@
  *     enabled, which is the default).
  *  5. When includeScreenshots is true, screenshots from test.artifacts.screenshots
  *     are uploaded as Jira attachments and embedded inline in the comment.
+ *  6. When commentOnStatusChange is true, only tests whose status differs from
+ *     the previous run are commented on (read from spec-doc-history.json).
  */
 import fs from "node:fs";
 import path from "node:path";
-import type { GlossyReporterConfig, JiraConfig, NormalizedTestResult } from "../types/index.js";
+import type { GlossyReporterConfig, HistoryData, JiraConfig, NormalizedTestResult } from "../types/index.js";
 import { buildJiraCommentAdf, type ScreenshotAttachment } from "./commentBuilder.js";
 import { JiraClient } from "./jiraClient.js";
 
 /** Matches tags like @SCRUM-1, @PROJ-123, @ABC-9999 */
 const ISSUE_KEY_RE = /^@?([A-Z][A-Z0-9]+-\d+)$/;
+
+/**
+ * Load the previous run's test statuses from spec-doc-history.json.
+ * Returns a map of "file::title" → status, or an empty map if no history exists.
+ * Note: by the time Jira runs, generateReport has already appended the current
+ * run, so the previous run is the second-to-last entry.
+ */
+function loadPreviousStatuses(outputDir: string): Map<string, string> {
+  const filePath = path.join(outputDir, "spec-doc-history.json");
+  try {
+    const raw = fs.readFileSync(filePath, "utf-8");
+    const history = JSON.parse(raw) as HistoryData;
+    if (!Array.isArray(history.runs) || history.runs.length < 2) return new Map();
+    const prevRun = history.runs[history.runs.length - 2];
+    return new Map(prevRun.testSnapshots.map(s => [s.key, s.status]));
+  } catch {
+    return new Map();
+  }
+}
 
 export interface JiraRunMeta {
   branch?: string;
@@ -93,10 +114,21 @@ export async function postJiraTestResults(
   const outputDirAbs = path.resolve(process.cwd(), config.outputDir ?? "spec-doc-report");
   const runMeta = resolveRunMeta();
 
-  // Group tests by issue key, filtering by commentOnPass/Fail/Skip
+  // Build previous-status lookup for commentOnStatusChange
+  const prevStatuses = (cfg.commentOnStatusChange ?? false)
+    ? loadPreviousStatuses(outputDirAbs)
+    : new Map<string, string>();
+
+  // Group tests by issue key, filtering by commentOnPass/Fail/Skip and status change
   const issueMap = new Map<string, NormalizedTestResult[]>();
   for (const test of tests) {
     if (!shouldComment(test.status, cfg)) continue;
+    if (cfg.commentOnStatusChange ?? false) {
+      const prevKey = `${test.file}::${test.title}`;
+      const prev = prevStatuses.get(prevKey);
+      // Skip if status unchanged; always comment if no previous data (first run)
+      if (prev !== undefined && prev === test.status) continue;
+    }
     for (const key of extractIssueKeys(test.tags)) {
       if (!issueMap.has(key)) issueMap.set(key, []);
       issueMap.get(key)!.push(test);

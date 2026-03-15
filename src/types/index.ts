@@ -272,6 +272,14 @@ export interface JiraConfig {
    */
   includeScreenshots?: boolean;
   /**
+   * Only post a comment when a test's status has changed since the previous
+   * run (e.g. pass→fail or fail→pass). Tests that stay at the same status
+   * across runs are silently skipped — this is the best way to prevent
+   * comment spam on frequent regression pipelines.
+   * Default: false (always post). Set to true to enable.
+   */
+  commentOnStatusChange?: boolean;
+  /**
    * Minimum milliseconds between successive comments on the same issue.
    * If the reporter already posted a comment within this window it will
    * skip posting again — useful for frequent regression runs.

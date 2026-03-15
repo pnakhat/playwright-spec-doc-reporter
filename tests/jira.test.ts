@@ -1,7 +1,8 @@
+import fs from "node:fs";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { buildJiraCommentAdf } from "../src/jira/commentBuilder.js";
 import { postJiraTestResults } from "../src/jira/index.js";
-import type { JiraConfig, NormalizedTestResult } from "../src/types/index.js";
+import type { HistoryData, JiraConfig, NormalizedTestResult } from "../src/types/index.js";
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -267,5 +268,55 @@ describe("postJiraTestResults", () => {
       expect.any(Error)
     );
     errorSpy.mockRestore();
+  });
+
+  // commentOnStatusChange tests
+  describe("commentOnStatusChange", () => {
+    function makeHistory(prevStatus: string): HistoryData {
+      return {
+        schemaVersion: "1.0",
+        runs: [
+          // previous run
+          {
+            runId: "prev",
+            timestamp: new Date().toISOString(),
+            passRate: 100,
+            summary: { total: 1, passed: 1, failed: 0, skipped: 0, flaky: 0, durationMs: 0 },
+            testSnapshots: [{ key: "tests/login.spec.ts::login with valid credentials", status: prevStatus, durationMs: 0 }],
+          },
+          // current run (appended by generateReport before Jira runs)
+          {
+            runId: "curr",
+            timestamp: new Date().toISOString(),
+            passRate: 100,
+            summary: { total: 1, passed: 1, failed: 0, skipped: 0, flaky: 0, durationMs: 0 },
+            testSnapshots: [{ key: "tests/login.spec.ts::login with valid credentials", status: "passed", durationMs: 0 }],
+          },
+        ],
+      };
+    }
+
+    it("skips comment when status is unchanged from previous run", async () => {
+      vi.spyOn(fs, "readFileSync").mockReturnValue(JSON.stringify(makeHistory("passed")));
+      const test = baseTest({ status: "passed" });
+      await postJiraTestResults([test], { jira: baseJiraConfig({ commentOnStatusChange: true }) });
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it("posts comment when status changed (fail→pass)", async () => {
+      vi.spyOn(fs, "readFileSync").mockReturnValue(JSON.stringify(makeHistory("failed")));
+      const test = baseTest({ status: "passed" });
+      await postJiraTestResults([test], { jira: baseJiraConfig({ commentOnStatusChange: true }) });
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+    });
+
+    it("posts comment on first run (no previous history)", async () => {
+      vi.spyOn(fs, "readFileSync").mockImplementation(() => { throw new Error("ENOENT"); });
+      const test = baseTest({ status: "passed" });
+      await postJiraTestResults([test], { jira: baseJiraConfig({ commentOnStatusChange: true }) });
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+    });
+
+    afterEach(() => { vi.restoreAllMocks(); });
   });
 });

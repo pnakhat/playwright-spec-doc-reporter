@@ -47,7 +47,7 @@ A beautiful, production-ready Playwright reporter with BDD-style annotations, in
 - **PR Comment Mode** — emit a compact markdown summary for posting directly as a GitHub/Azure DevOps PR comment
 - **Docs page** — generate filtered Markdown/HTML/PDF behaviour specs from your test suite with live feature filtering
 - **History & trends** — pass-rate and duration charts across runs via `spec-doc-history.json`
-- **Jira integration** — automatically post test results as Jira comments; includes BDD docs, steps, screenshots, and API traffic; cooldown setting prevents comment spam
+- **Jira integration** — automatically post test results as Jira comments; includes BDD docs, steps, screenshots, and API traffic; `commentOnStatusChange` posts only when a test flips pass↔fail, preventing comment spam
 - **Flakiness scoring** — per-test stability badges computed from run history (0–100%)
 - **Theme switcher** — dark-glossy, dark, and light themes with localStorage persistence
 - **Zero runtime dependencies** — single self-contained HTML file output
@@ -277,12 +277,13 @@ type SpecDocReporterConfig = {
     baseUrl: string;              // https://yourorg.atlassian.net
     email?: string;               // falls back to JIRA_EMAIL env var
     apiToken?: string;            // falls back to JIRA_API_TOKEN env var
-    commentOnPass?: boolean;      // default: true
-    commentOnFail?: boolean;      // default: true
-    commentOnSkip?: boolean;      // default: false
-    includeScreenshots?: boolean; // upload & embed screenshots inline, default: true
-    includeApiTraffic?: boolean;  // include API request/response logs, default: true
-    commentCooldownMs?: number;   // skip if a comment was posted within this window, default: 0
+    commentOnPass?: boolean;         // default: true
+    commentOnFail?: boolean;         // default: true
+    commentOnSkip?: boolean;         // default: false
+    commentOnStatusChange?: boolean; // only comment when pass↔fail flips, default: false
+    includeScreenshots?: boolean;    // upload & embed screenshots inline, default: true
+    includeApiTraffic?: boolean;     // include API request/response logs, default: true
+    commentCooldownMs?: number;      // skip if a comment was posted within this window, default: 0
   };
 
   /** Factory for a custom AI provider. */
@@ -595,8 +596,11 @@ jira: {
   includeScreenshots: true,   // upload & embed Playwright screenshots inline
   includeApiTraffic: true,    // include glossy:request/response API logs
 
-  // Avoid comment spam on frequent runs:
-  commentCooldownMs: 3_600_000, // skip if a comment was posted < 1 hour ago
+  // Only comment when a test flips pass↔fail (recommended for CI):
+  commentOnStatusChange: true,  // default: false
+
+  // OR: time-based cooldown (blunter — may suppress a new failure within the window):
+  // commentCooldownMs: 3_600_000,
 
   // Control which statuses trigger a comment:
   commentOnPass: true,    // default: true
@@ -629,14 +633,28 @@ A test can reference multiple issues — each gets its own comment.
 | API Traffic | When `includeApiTraffic: true` and `glossy:request/response` annotations exist |
 | 📸 Screenshots | When `includeScreenshots: true` and Playwright captured screenshots |
 
-### Comment cooldown
+### Controlling comment frequency
 
-To avoid flooding an issue during repeated CI runs (e.g. nightly regression), set `commentCooldownMs`. The reporter checks the timestamp of the last comment it posted on each issue and skips if still within the cooldown window:
+**Recommended: `commentOnStatusChange`**
+
+Set `commentOnStatusChange: true` to only post a comment when a test's result flips since the previous run (pass→fail or fail→pass). Tests that stay at the same status across runs are silently skipped.
 
 ```ts
 jira: {
   enabled: true,
-  // ...
+  commentOnStatusChange: true,  // comment only when pass↔fail flips
+}
+```
+
+This reads `spec-doc-history.json` (already maintained by the reporter for trend charts). On the first run there is no history, so all tagged tests comment as normal.
+
+**Alternative: `commentCooldownMs`**
+
+A time-based fallback — skips if a comment was posted on the same issue within the configured window. Less precise than `commentOnStatusChange` because it may suppress a genuine new failure that occurs within the cooldown period.
+
+```ts
+jira: {
+  enabled: true,
   commentCooldownMs: 3_600_000,  // 1 hour
 }
 ```
