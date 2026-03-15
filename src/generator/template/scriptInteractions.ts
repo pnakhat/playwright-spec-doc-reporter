@@ -417,10 +417,14 @@ export function getScriptInteractions(): string {
   }
 
   function renderDocFilters() {
-    // Feature checkboxes
+    // Feature checkboxes — deduplicate by name so features shared across
+    // multiple files (e.g. automated + manual) produce a single checkbox
     var features = buildBddHierarchy(tests);
+    var seen = {};
     var featHtml = '';
     features.forEach(function(f) {
+      if (seen[f.name]) return;
+      seen[f.name] = true;
       var id = 'docfeat_' + f.name.replace(/\\W/g, '_');
       featHtml += '<label class="doc-feature-check"><input type="checkbox" id="' + id + '" value="' + escHtml(f.name) + '" checked> ' + escHtml(f.name) + '</label>';
     });
