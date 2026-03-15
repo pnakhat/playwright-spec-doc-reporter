@@ -240,6 +240,46 @@ export interface PrCommentConfig {
   maxFailures?: number;
 }
 
+export interface JiraConfig {
+  /** Enable Jira comment posting. */
+  enabled: boolean;
+  /** Jira base URL, e.g. https://yourorg.atlassian.net */
+  baseUrl: string;
+  /**
+   * Jira account email for Basic auth.
+   * Falls back to JIRA_EMAIL env var.
+   */
+  email?: string;
+  /**
+   * Jira API token.
+   * Falls back to JIRA_API_TOKEN env var.
+   */
+  apiToken?: string;
+  /** Post a comment when a test passes. Default: true */
+  commentOnPass?: boolean;
+  /** Post a comment when a test fails. Default: true */
+  commentOnFail?: boolean;
+  /** Post a comment when a test is skipped. Default: false */
+  commentOnSkip?: boolean;
+  /**
+   * Include API request/response entries in the comment (for tests
+   * that use glossy:request / glossy:response annotations). Default: true
+   */
+  includeApiTraffic?: boolean;
+  /**
+   * Upload Playwright screenshots as Jira attachments and embed them inline
+   * in the comment. Default: true
+   */
+  includeScreenshots?: boolean;
+  /**
+   * Minimum milliseconds between successive comments on the same issue.
+   * If the reporter already posted a comment within this window it will
+   * skip posting again — useful for frequent regression runs.
+   * Default: 0 (always post). Example: 3_600_000 = 1 hour.
+   */
+  commentCooldownMs?: number;
+}
+
 export interface GlossyReporterConfig {
   outputDir?: string;
   reportTitle?: string;
@@ -250,6 +290,7 @@ export interface GlossyReporterConfig {
   ai?: AIConfig;
   healing?: HealingConfig;
   prComment?: PrCommentConfig;
+  jira?: JiraConfig;
   providerFactory?: (config: AIProviderConfig) => AIProvider;
 }
 

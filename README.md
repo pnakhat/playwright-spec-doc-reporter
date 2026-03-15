@@ -548,6 +548,88 @@ Branch name, commit SHA, and run number are automatically detected from CI envir
 
 ---
 
+## Jira Test Results Integration
+
+After each Playwright run, the reporter automatically posts a comment to any Jira issue that a test is tagged with. Tag a test with `@PROJECT-123` (e.g. `@SCRUM-1`) and a formatted comment is posted to that issue containing the test result, steps, BDD documentation, API traffic, and screenshots.
+
+### Setup
+
+Store credentials in environment variables — never hard-code them:
+
+```bash
+JIRA_EMAIL=you@yourorg.com
+JIRA_API_TOKEN=<your-api-token>   # https://id.atlassian.com/manage-profile/security/api-tokens
+```
+
+Enable in `playwright.config.ts`:
+
+```ts
+jira: {
+  enabled: !!process.env.JIRA_API_TOKEN,
+  baseUrl: "https://yourorg.atlassian.net",
+  email: process.env.JIRA_EMAIL,
+  apiToken: process.env.JIRA_API_TOKEN,
+
+  // What to include in the comment:
+  includeScreenshots: true,   // upload & embed Playwright screenshots inline
+  includeApiTraffic: true,    // include glossy:request/response API logs
+
+  // Avoid comment spam on frequent runs:
+  commentCooldownMs: 3_600_000, // skip if a comment was posted < 1 hour ago
+
+  // Control which statuses trigger a comment:
+  commentOnPass: true,    // default: true
+  commentOnFail: true,    // default: true
+  commentOnSkip: false,   // default: false
+}
+```
+
+### Tagging tests
+
+Add the Jira issue key as a tag — the pattern `@PROJECT-123` is automatically detected:
+
+```ts
+test("user can checkout @SCRUM-1 @smoke", async ({ page }) => { ... });
+
+// or via test.tag() (Playwright 1.42+):
+test("user can checkout", { tag: ["@SCRUM-1", "@smoke"] }, async ({ page }) => { ... });
+```
+
+A test can reference multiple issues — each gets its own comment.
+
+### What appears in the comment
+
+| Section | When shown |
+|---|---|
+| Status, duration, file path | Always |
+| 🏷 Feature / 📖 Scenario / ✦ Behaviours | When BDD annotations are present |
+| Steps | Always (up to 10) |
+| Error + stack snippet | Failed / timed-out tests |
+| API Traffic | When `includeApiTraffic: true` and `glossy:request/response` annotations exist |
+| 📸 Screenshots | When `includeScreenshots: true` and Playwright captured screenshots |
+
+### Comment cooldown
+
+To avoid flooding an issue during repeated CI runs (e.g. nightly regression), set `commentCooldownMs`. The reporter checks the timestamp of the last comment it posted on each issue and skips if still within the cooldown window:
+
+```ts
+jira: {
+  enabled: true,
+  // ...
+  commentCooldownMs: 3_600_000,  // 1 hour
+}
+```
+
+### Environment variable reference
+
+| Variable | Purpose |
+|---|---|
+| `JIRA_EMAIL` | Jira account email (Basic auth) |
+| `JIRA_API_TOKEN` | Jira API token |
+| `JIRA_BASE_URL` | Optional — overrides `baseUrl` in config |
+
+---
+
 ## History & Trends
 
 Every run, the reporter automatically:
