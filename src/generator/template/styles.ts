@@ -456,6 +456,7 @@ export function getStyles(): string {
     .behaviour-item::before { content: "\\2713"; color: var(--pass); font-weight: 800; flex-shrink: 0; font-size: 0.72rem; margin-top: 1px; }
     .behaviour-pill { background: rgba(99,102,241,0.13) !important; color: var(--accent) !important; }
     .api-pill { background: rgba(20,184,166,0.13) !important; color: #14b8a6 !important; }
+    .manual-pill { background: rgba(168,85,247,0.13) !important; color: #a855f7 !important; }
     .feature-description { font-size: 0.74rem; color: var(--text3); font-style: italic; margin-top: 0.1rem; line-height: 1.4; }
     .scenario-description { font-size: 0.77rem; color: var(--text2); font-style: italic; padding: 0.3rem 0.55rem 0.1rem; }
     /* --- API calls --- */
