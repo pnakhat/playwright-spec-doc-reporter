@@ -1,0 +1,19 @@
+[
+  {
+    "testName": " › chromium › ui/saucedemo.spec.js › AI Failure Analysis › intentional failure for AI analysis demo @regression",
+    "file": "tests/ui/saucedemo.spec.js",
+    "stepName": "intentional failure for AI analysis demo @regression",
+    "failedLocator": "getByRole('heading', { name: 'Products' })",
+    "candidateLocators": [
+      "getByRole('heading', { name: 'Products' })",
+      "getByRole('heading', { name: 'Swag Labs' })",
+      "locator('.title')",
+      "locator('.product_label')"
+    ],
+    "errorMessage": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'Non Existing Header' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'Non Existing Header' })\u001b[22m\n",
+    "suggestedPatch": "// Option 1: Fix the locator to target a real heading (e.g., after login on inventory page)\nawait expect(page.getByRole('heading', { name: 'Products' })).toBeVisible();\n\n// Option 2: Mark the test as intentionally failing to prevent pipeline breakage\ntest.fail();\nawait expect(page.getByRole('heading', { name: 'Non Existing Header' })).toBeVisible();",
+    "reasoning": "The assertion targets a heading named 'Non Existing Header' which is confirmed to never exist in the application. The element is not found within the 5000ms timeout, causing the `toBeVisible` check to fail. The test name explicitly states this is intentional. The fix is either to correct the locator to match a real element, or to wrap the test with `test.fail()` to formally declare the expected failure.",
+    "confidence": 0.98,
+    "actionType": "update_assertion"
+  }
+]
