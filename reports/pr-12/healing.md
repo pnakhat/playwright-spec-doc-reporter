@@ -4,7 +4,7 @@
 - File: tests/ui/saucedemo.spec.js
 - Step: intentional failure for AI analysis demo @regression
 - Action: update_assertion
-- Confidence: 0.97
+- Confidence: 0.98
 - Error: Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
 
 Locator: getByRole('heading', { name: 'Non Existing Header' })
@@ -17,17 +17,17 @@ Call log:
 [2m  - waiting for getByRole('heading', { name: 'Non Existing Header' })[22m
 
 - Failed locator: getByRole('heading', { name: 'Products' })
-- Candidate locators: getByRole('heading', { name: 'Products' }), getByRole('heading', { name: 'Checkout: Your Information' }), getByRole('heading', { name: 'Checkout: Overview' }), getByRole('heading', { name: 'Checkout: Complete!' }), .title
+- Candidate locators: getByRole('heading', { name: 'Products' }), getByRole('heading', { name: 'Swag Labs' }), getByRole('heading', { name: 'Checkout: Your Information' }), locator('.title'), locator('[data-test="title"]')
 - Suggested patch:
 ```diff
-// Option 1: Fix the heading name to match actual page content
+// Option 1: Fix the locator to target a real heading (e.g., after login on the inventory page)
 await expect(page.getByRole('heading', { name: 'Products' })).toBeVisible();
 
-// Option 2: Mark as intentionally failing (keeps demo intent intact)
+// Option 2: Mark the test as intentionally failing to prevent CI breakage
 test.fail();
 await expect(page.getByRole('heading', { name: 'Non Existing Header' })).toBeVisible();
 ```
-- Reasoning: The assertion targets a heading that provably does not exist ('Non Existing Header'). The test name and file context confirm this is intentional. The fix is either to correct the expected heading name to match actual DOM content, or to use Playwright's `test.fail()` API to formally declare the test as an expected failure so it does not block pipelines.
+- Reasoning: The assertion targets a heading ('Non Existing Header') that has never existed in the SauceDemo application UI. The element is not found within the 5000ms timeout, causing the `toBeVisible()` check to fail. The test name explicitly states this is intentional. The fix is either to point the locator at a real heading, or to wrap the test with `test.fail()` to document the intentional failure contract.
 
 ## Shopping Cart › Cart persists items after page refresh
 - File: tests/manual-results.md
