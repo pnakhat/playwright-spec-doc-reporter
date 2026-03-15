@@ -1,6 +1,6 @@
 # playwright-spec-doc-reporter
 
-A beautiful, production-ready Playwright reporter with BDD-style annotations, inline API request/response display, AI-powered failure analysis, test history trends, and self-healing payload exports.
+A beautiful, production-ready Playwright reporter with BDD-style annotations, inline API request/response display, AI-powered failure analysis, test history trends, self-healing payload exports, and automatic Jira issue commenting with screenshot evidence.
 
 [![npm version](https://img.shields.io/npm/v/playwright-spec-doc-reporter)](https://www.npmjs.com/package/playwright-spec-doc-reporter)
 [![CI](https://github.com/pnakhat/playwright-spec-doc-reporter/actions/workflows/ci.yml/badge.svg)](https://github.com/pnakhat/playwright-spec-doc-reporter/actions/workflows/ci.yml)
@@ -41,6 +41,7 @@ A beautiful, production-ready Playwright reporter with BDD-style annotations, in
 - **PR Comment Mode** — emit a compact markdown summary for posting directly as a GitHub/Azure DevOps PR comment
 - **Docs page** — generate filtered Markdown/HTML/PDF behaviour specs from your test suite with live feature filtering
 - **History & trends** — pass-rate and duration charts across runs via `spec-doc-history.json`
+- **Jira integration** — automatically post test results as Jira comments; includes BDD docs, steps, screenshots, and API traffic; cooldown setting prevents comment spam
 - **Flakiness scoring** — per-test stability badges computed from run history (0–100%)
 - **Theme switcher** — dark-glossy, dark, and light themes with localStorage persistence
 - **Zero runtime dependencies** — single self-contained HTML file output
@@ -262,6 +263,20 @@ type SpecDocReporterConfig = {
     artifactUrl?: string;      // falls back to REPORT_ARTIFACT_URL env var
     title?: string;            // branch/label shown in the header
     maxFailures?: number;      // max failed tests to list inline, default 10
+  };
+
+  /** Jira issue commenting — posts results to any issue tagged with @PROJECT-123. */
+  jira?: {
+    enabled: boolean;
+    baseUrl: string;              // https://yourorg.atlassian.net
+    email?: string;               // falls back to JIRA_EMAIL env var
+    apiToken?: string;            // falls back to JIRA_API_TOKEN env var
+    commentOnPass?: boolean;      // default: true
+    commentOnFail?: boolean;      // default: true
+    commentOnSkip?: boolean;      // default: false
+    includeScreenshots?: boolean; // upload & embed screenshots inline, default: true
+    includeApiTraffic?: boolean;  // include API request/response logs, default: true
+    commentCooldownMs?: number;   // skip if a comment was posted within this window, default: 0
   };
 
   /** Factory for a custom AI provider. */
