@@ -48,6 +48,7 @@ A beautiful, production-ready Playwright reporter with BDD-style annotations, in
 - **Docs page** — generate filtered Markdown/HTML/PDF behaviour specs from your test suite with live feature filtering
 - **History & trends** — pass-rate and duration charts across runs via `spec-doc-history.json`
 - **Jira integration** — automatically post test results as Jira comments; includes BDD docs, steps, screenshots, and API traffic; `commentOnStatusChange` posts only when a test flips pass↔fail, preventing comment spam
+- **Manual test results** — merge manually-authored test results (Gherkin or plain prose) into the report; `@manual` badge and filter; Jira tagging works identically
 - **Flakiness scoring** — per-test stability badges computed from run history (0–100%)
 - **Theme switcher** — dark-glossy, dark, and light themes with localStorage persistence
 - **Zero runtime dependencies** — single self-contained HTML file output
@@ -269,6 +270,11 @@ type SpecDocReporterConfig = {
     artifactUrl?: string;      // falls back to REPORT_ARTIFACT_URL env var
     title?: string;            // branch/label shown in the header
     maxFailures?: number;      // max failed tests to list inline, default 10
+  };
+
+  /** Merge manual test results from a Markdown file into the report. */
+  manualTests?: {
+    resultsPath: string;          // path to your manual-results.md file
   };
 
   /** Jira issue commenting — posts results to any issue tagged with @PROJECT-123. */
@@ -567,6 +573,88 @@ Set `REPORT_ARTIFACT_URL` to point reviewers at the full report:
 ### Branch and run detection
 
 Branch name, commit SHA, and run number are automatically detected from CI environment variables (`GITHUB_REF_NAME`, `GITHUB_SHA`, `GITHUB_RUN_NUMBER`, and Azure DevOps equivalents). No manual configuration needed in most setups.
+
+---
+
+## Manual Test Results
+
+Merge manually-authored test results into the same HTML report alongside your automated Playwright tests. Manual tests support both plain prose and Gherkin (Given/When/Then) formats, can carry Jira issue tags, and appear with a purple **✎ Manual** badge and a dedicated `@manual` tag filter.
+
+### Setup
+
+Point the reporter at your manual results file:
+
+```js
+// playwright.config.js
+["./reporter.mjs", {
+  outputDir: "spec-doc-report",
+  manualTests: {
+    resultsPath: "tests/manual-results.md",
+  },
+}]
+```
+
+### File format
+
+Create a Markdown file. `#` headings group tests into Features; `##` headings define individual tests. Tags in the heading line control status and carry through to Jira.
+
+```markdown
+# Feature: Checkout Flow
+
+## User can complete checkout with valid card @PASS @SCRUM-10 @smoke
+Notes: Tested on Chrome 120, prod environment
+
+## Guest checkout fails with expired card @FAIL @SCRUM-11
+Notes: Reproduced 3/3 times
+Error: Payment gateway timeout after 30s
+```
+
+#### Gherkin style (Given/When/Then)
+
+Any block containing `Given`, `When`, `Then`, `And`, or `But` lines is parsed as Gherkin. Steps are rendered in the test detail view exactly like automated test steps.
+
+```markdown
+# Feature: Login
+
+## Scenario: Standard user can login @PASS @SCRUM-1 @smoke
+Given I am on the login page
+When I enter valid credentials
+Then I should be redirected to the dashboard
+And I should see my username in the header
+
+## Scenario: Login with expired password @FAIL @SCRUM-2
+Given I am on the login page
+When I enter credentials for an expired account
+Then I should see a password expiry warning
+Error: Warning message not displayed — bug confirmed
+Notes: Tested on Chrome and Firefox
+```
+
+Both formats can coexist in the same file.
+
+### Status tags
+
+| Tag | Result status |
+|---|---|
+| `@PASS` | passed |
+| `@FAIL` | failed |
+| `@SKIP` | skipped |
+| _(none)_ | passed (default) |
+
+Status tags are stripped from the displayed title. All other tags (e.g. `@smoke`, `@SCRUM-1`) are preserved and appear as filter pills.
+
+### Behaviour in the report
+
+- Manual tests appear in the Tests tab with a purple **✎ Manual** badge
+- `@manual` is auto-added to every parsed test — click it in the tag filter bar to isolate manual results
+- Failed manual tests count in the overall pass rate and failure banner
+- Gherkin steps render in the test detail step timeline
+- `Error:` lines appear as the failure message; for Gherkin tests the last step is marked failed
+- `Notes:` lines appear as the scenario description
+
+### Jira integration
+
+Manual tests participate in the existing Jira integration without any extra config. A manual test tagged `@SCRUM-1` will post a Jira comment in the same way as an automated test — including BDD docs, steps (Gherkin or notes), and the error message if failed.
 
 ---
 

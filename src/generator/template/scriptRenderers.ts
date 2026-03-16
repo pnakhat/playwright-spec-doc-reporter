@@ -423,10 +423,11 @@ export function getScriptRenderers(): string {
       return '<span class="test-tag-pill" onclick="event.stopPropagation();filterByTag(\\''+escHtml(tag)+'\\')">' + escHtml(tag) + '</span>';
     }).join('');
 
-    return '<div class="test-detail-block" data-status="' + ns + '" data-scope="' + testScope(test) + '" data-type="' + tt + '" data-tags="' + escHtml(tagsAttr) + '">' +
+    return '<div class="test-detail-block" data-status="' + ns + '" data-scope="' + testScope(test) + '" data-type="' + tt + '" data-tags="' + escHtml(tagsAttr) + '" data-source="' + (test.source || 'automated') + '">' +
       '<div class="test-detail-header" onclick="toggleTestDetail(this)">' +
         '<div style="display:flex;align-items:center;gap:7px;flex:1;min-width:0">' +
           '<span class="status-icon ' + statusClass(ns) + '">' + statusSymbol(ns) + '</span>' +
+          (test.source === 'manual' ? '<span class="media-pill manual-pill">\\u270e Manual</span>' : '') +
           (tt !== 'other' ? typePillHtml : '') +
           '<span class="bdd-label bdd-scenario" style="margin-right:3px">Scenario</span>' +
           '<span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:0.82rem;font-weight:600">' + escHtml(test.title || test.fullName) + '</span>' +

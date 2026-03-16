@@ -42,6 +42,9 @@ export default defineConfig({
           includeScreenshots: true,
           includeApiTraffic: true,
           commentCooldownMs: 0,                 // set e.g. 3_600_000 to limit to once/hour
+        },
+        manualTests: {
+          resultsPath: "tests/manual-results.md",
         }
       }
     ]
