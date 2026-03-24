@@ -934,28 +934,15 @@ prComment: {
 }
 ```
 
-This writes `spec-doc-report/pr-comment.md` after each run:
+This writes `spec-doc-report/pr-comment.md` after each run and posts it directly into the pull request — engineers see test results without leaving GitHub or Azure DevOps:
 
-```markdown
-## 🎭 Test Report — `feat/payment-flow` · Run #142
+![PR Comment](docs/screenshots/pr-comment.png)
 
-| | Result |
-|---|---|
-| ✅ Passed | 84 |
-| ❌ Failed | 3 |
-| ⏭️ Skipped | 2 |
-| 📊 Total | 89 |
-| ⏱️ Duration | 4m 12s |
-
-### ❌ Failed Tests
-- ❌ `Checkout › Payment › should process card with 3DS` — *Element not found: [data-testid="confirm-btn"]*
-- ❌ `Checkout › Payment › should show error on decline` — *Timeout 30000ms exceeded*
-- ❌ `Auth › Login › should redirect after SSO` — *Expected URL to contain /dashboard*
-
-> 🤖 **AI Analysis** (92% confidence): Failures suggest a recent DOM change in the payment confirmation step. [View full analysis →](https://your-artifact-url/report.html)
-
-[📊 Full Report →](https://your-artifact-url/report.html)
-```
+The comment includes:
+- Pass / fail / skip counts and total duration
+- Every failed test with its error message
+- AI analysis summary with confidence score
+- Direct links to the full HTML report and live report
 
 ### Posting the comment on GitHub
 
