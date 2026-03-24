@@ -1,5 +1,5 @@
-## 🎭 Test Report · Run #66
-commit `090c33e8`
+## 🎭 Test Report · Run #68
+commit `f0c4e2e6`
 
 | | Result |
 |---|---|
@@ -7,7 +7,7 @@ commit `090c33e8`
 | ❌ Failed | 4 |
 | ⏭️ Skipped | 1 |
 | 📊 Total | 28 |
-| ⏱️ Duration | 18s |
+| ⏱️ Duration | 19s |
 
 ### ❌ Failed Tests
 - ❌ ` › chromium › ui/saucedemo.spec.js › AI Failure Analysis › intentional failure for AI analysis demo @regression` — *Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed*
@@ -15,6 +15,6 @@ commit `090c33e8`
 - ❌ `Authentication › Login error clears when user starts retyping` — *Error message persists even after the user clears the username field — no auto-dismiss*
 - ❌ `Product Detail › Checkout cancel on step 2 returns to inventory` — *Cancel on step 2 navigates to /cart.html instead of /inventory.html — unexpected destination*
 
-> 🤖 **AI Analysis** (4 failures analysed) (98% confidence): The test intentionally asserts the visibility of a heading element with the name 'Non Existing Header', which does not exist in the DOM. The assertion fails after the 5000ms timeout because no such el [View full analysis →](https://pnakhat.github.io/playwright-spec-doc-reporter/reports/latest/)
+> 🤖 **AI Analysis** (4 failures analysed) (97% confidence): The test 'intentional failure for AI analysis demo @regression' fails because it attempts to assert visibility of a heading element with the text 'Non Existing Header', which does not exist in the DOM [View full analysis →](https://pnakhat.github.io/playwright-spec-doc-reporter/reports/latest/)
 
 [📊 Full Report →](https://pnakhat.github.io/playwright-spec-doc-reporter/reports/latest/)

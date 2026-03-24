@@ -4,7 +4,7 @@
 - File: tests/ui/saucedemo.spec.js
 - Step: intentional failure for AI analysis demo @regression
 - Action: fix_assertion
-- Confidence: 0.98
+- Confidence: 0.97
 - Error: Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
 
 Locator: getByRole('heading', { name: 'Non Existing Header' })
@@ -17,17 +17,20 @@ Call log:
 [2m  - waiting for getByRole('heading', { name: 'Non Existing Header' })[22m
 
 - Failed locator: getByRole('heading', { name: 'Products' })
-- Candidate locators: getByRole('heading', { name: 'Products' }), getByRole('heading', { name: 'Swag Labs' }), locator('.title'), locator('h2.title')
+- Candidate locators: getByRole('heading', { name: 'Products' }), getByRole('heading', { name: 'Swag Labs' }), getByRole('heading', { name: 'Checkout: Overview' }), .title, [data-test='title']
 - Suggested patch:
 ```diff
-// Option 1: Fix the assertion to target a real heading (e.g., after login on the inventory page)
+// Option 1: Fix the assertion to target a real heading (e.g., after login on inventory page)
 await expect(page.getByRole('heading', { name: 'Products' })).toBeVisible();
 
-// Option 2: If the failing test must remain as a demo sentinel, declare it as an expected failure
+// Option 2: If intentional failure is desired for demo, mark test as expected to fail
 test.fail();
 await expect(page.getByRole('heading', { name: 'Non Existing Header' })).toBeVisible();
+
+// Option 3: Skip the test to avoid CI noise
+test.skip(true, 'Intentional failure demo - skipped in CI');
 ```
-- Reasoning: The assertion references a heading label ('Non Existing Header') that has no corresponding element in the application's rendered DOM. The element is not missing due to timing, environment variance, or a locator strategy mismatch — it simply does not exist. The test name explicitly confirms this is intentional. The fix is either to correct the expected heading name to match real application content, or to formally declare the test as an expected failure using Playwright's `test.fail()` API.
+- Reasoning: The assertion targets a heading named 'Non Existing Header' which is explicitly non-existent on the SauceDemo application. The test name itself ('intentional failure for AI analysis demo') confirms this is a deliberate misconfiguration. The element will never be found regardless of timing, retries, or environment, making this a pure assertion issue rather than a timing or locator drift problem. The 5000ms timeout exhausts fully before failing, confirming no intermittent presence of the element.
 
 ## Shopping Cart › Cart persists items after page refresh
 - File: tests/manual-results.md
