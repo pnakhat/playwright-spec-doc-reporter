@@ -190,28 +190,36 @@ function buildBugDescription(
 
 // ─── Deduplication ─────────────────────────────────────────────────────────────
 
+/**
+ * Derive a deterministic label from the test title.
+ * Stamped on every created bug so future runs can find it with an exact label
+ * query rather than a fuzzy summary search.
+ * e.g. "Checkout › add item to cart" → "glossy:checkout-add-item-to-cart"
+ */
+export function fingerprintLabel(testName: string): string {
+  return "glossy:" + testName
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 50);
+}
+
+/** Statuses that represent a closed/terminal Jira issue across common workflows. */
+const CLOSED_STATUSES = ["Done", "Closed", "Resolved", "Won't Fix", "Invalid", "Duplicate"];
+
 async function findExistingBug(
   baseUrl: string,
   auth: string,
   projectKey: string,
-  testName: string
+  fingerprint: string
 ): Promise<string | null> {
+  const closedList = CLOSED_STATUSES.map(s => `"${s}"`).join(", ");
   const jql = encodeURIComponent(
-    `project = "${projectKey}" AND issuetype = Bug AND status != Done AND summary ~ "${testName.slice(0, 60).replace(/"/g, "'")}"`
+    `project = "${projectKey}" AND issuetype = Bug AND status not in (${closedList}) AND labels = "${fingerprint}"`
   );
 
-  const res = await fetch(
-    `${baseUrl}/rest/api/3/issue/picker?query=${encodeURIComponent(testName.slice(0, 60))}&currentJQL=${jql}`,
-    {
-      headers: { "Authorization": `Basic ${auth}`, "Accept": "application/json" },
-    }
-  );
-
-  if (!res.ok) return null;
-
-  // Fallback: JQL search
   const searchRes = await fetch(
-    `${baseUrl}/rest/api/3/search?jql=${jql}&maxResults=1&fields=summary,status`,
+    `${baseUrl}/rest/api/3/search?jql=${jql}&maxResults=1&fields=summary,status,labels`,
     {
       headers: { "Authorization": `Basic ${auth}`, "Accept": "application/json" },
     }
@@ -277,6 +285,11 @@ export async function createJiraBugs(opts: {
 
   const results: BugCreationResult[] = [];
 
+  // In-memory set: prevents creating duplicate bugs for the same test title
+  // within a single reporter run (guards against parallel CI shards sending
+  // the same failures simultaneously before Jira has time to index them).
+  const createdThisRun = new Set<string>();
+
   for (const test of failedTests) {
     const analysis = analysisByTest.get(test.title);
 
@@ -291,9 +304,23 @@ export async function createJiraBugs(opts: {
       continue;
     }
 
-    // Deduplication check
+    // ── In-memory dedup (same run / shard race condition) ──────────────────
+    if (createdThisRun.has(test.title)) {
+      results.push({
+        testName: test.title,
+        issueKey: "",
+        issueUrl: "",
+        status: "duplicate",
+        message: "Duplicate within this run — already created in this session",
+      });
+      continue;
+    }
+
+    const fingerprint = fingerprintLabel(test.title);
+
+    // ── Jira dedup (label-based exact match across runs) ───────────────────
     if (dedup) {
-      const existing = await findExistingBug(baseUrl, auth, projectKey, test.title).catch(() => null);
+      const existing = await findExistingBug(baseUrl, auth, projectKey, fingerprint).catch(() => null);
       if (existing) {
         results.push({
           testName: test.title,
@@ -311,7 +338,7 @@ export async function createJiraBugs(opts: {
     const description = buildBugDescription(test, analysis, includeApiTraffic);
     const summary = `[Playwright] ${test.title.slice(0, 200)}`;
 
-    // Create the issue
+    // Create the issue — include fingerprint label for exact dedup on future runs
     const createRes = await fetch(`${baseUrl}/rest/api/3/issue`, {
       method: "POST",
       headers: {
@@ -326,7 +353,7 @@ export async function createJiraBugs(opts: {
           summary,
           description,
           priority: { name: priority },
-          labels,
+          labels: [...labels, fingerprint],
         },
       }),
     });
@@ -375,6 +402,8 @@ export async function createJiraBugs(opts: {
         }
       }
     }
+
+    createdThisRun.add(test.title);
 
     results.push({
       testName: test.title,
