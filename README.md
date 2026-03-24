@@ -34,6 +34,9 @@ A beautiful, production-ready Playwright reporter with BDD-style annotations, in
 ### Inline API Request / Response Viewer
 ![API Viewer](docs/screenshots/api-viewer.png)
 
+### Auto-Healing PR Comment — Test Results on the Auto-Fix Branch
+![PR Comment](docs/screenshots/pr-comment.png)
+
 ---
 
 ## Features
@@ -851,37 +854,23 @@ steps:
 
 > Grant the pipeline **Contribute** and **Create pull requests** permissions on the repository under _Project Settings → Repositories → Security_.
 
-### What the draft PR looks like
+### What the auto-fix PR comment looks like
 
-```
-fix(autofix): heal 2 failing test(s) — intentional failure for AI analysis demo
+When Glossy pushes an `autofix/<name>-<timestamp>` branch and opens a draft PR, the PR comment shows the full test report for that branch — giving reviewers everything they need before merging:
 
-Branch: autofix/tests-ui-saucedemo-spec-js-2026-03-24T11-16-47
-Commit: 42b6cbf
+![Auto-fix PR Comment](docs/screenshots/pr-comment.png)
 
-## 📁 Patched files (2)
+The comment includes:
+- Branch name and run number at a glance
+- Pass / fail / skip / total counts and duration
+- Every failed test with its specific error message
+- AI Analysis summary with confidence score (98% in the example above)
+- **Full Report** and **Live Report** deep-links into the Glossy HTML report
 
-- `tests/ui/saucedemo.spec.js` — intentional failure for AI analysis demo
-  - 🎯 Confidence: 97% | Category: assertion_issue
-  - ❌ Failed locator: `getByRole('heading', { name: 'Products' })`
-  - ✅ Candidate locators: `getByRole('heading', { name: 'Products' })`, ...
-  - 💡 Fix the assertion to match the actual page heading
-
-  <details><summary>View patch</summary>
-  ...diff...
-  </details>
-
-## 🤖 AI Analysis
-
-Root cause: The assertion checks for a heading that does not exist by design.
-Category: assertion_issue | Confidence: 97%
-Remediation: Replace 'Non Existing Header' with 'Products'
-
-## ✅ Test plan
-- [ ] Review each patched locator manually
-- [ ] Run `npx playwright test`
-- [ ] Approve and merge once green
-```
+The PR body (separate from the comment) additionally contains:
+- Per-file patch diffs in collapsible `<details>` blocks
+- AI root-cause and remediation per test
+- A mandatory test-plan checklist: review locators → run suite → approve when green
 
 ### CLI usage
 
