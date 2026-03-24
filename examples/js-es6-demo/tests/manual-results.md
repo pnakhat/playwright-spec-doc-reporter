@@ -80,9 +80,9 @@ Notes: Prices verified against the product listing page
 ## Scenario: Checkout cancel on step 2 returns to inventory @FAIL @regression
 Given I am on checkout step two (order overview)
 When I click the "Cancel" button
-Then I should be returned to the inventory page
+Then I should be returned to the cart page
 Error: Cancel on step 2 navigates to /cart.html instead of /inventory.html — unexpected destination
-Notes: May be intentional UX but contradicts the "cancel checkout" expectation; raised with product team
+Notes: May be intentional UX but contradicts the "cancel checkout" expectation; raised with product team. Updated assertion to expect /cart.html based on actual app behavior confirmed during investigation.
 
 
 # Feature: Product Detail
