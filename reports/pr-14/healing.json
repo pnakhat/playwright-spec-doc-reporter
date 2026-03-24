@@ -1,0 +1,57 @@
+[
+  {
+    "testName": " › chromium › ui/saucedemo.spec.js › AI Failure Analysis › intentional failure for AI analysis demo @regression",
+    "file": "tests/ui/saucedemo.spec.js",
+    "stepName": "intentional failure for AI analysis demo @regression",
+    "failedLocator": "getByRole('heading', { name: 'Products' })",
+    "candidateLocators": [
+      "getByRole('heading', { name: 'Products' })",
+      "getByRole('heading', { name: 'Swag Labs' })",
+      "locator('.title')",
+      "locator('[data-test=\"title\"]')"
+    ],
+    "errorMessage": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'Non Existing Header' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'Non Existing Header' })\u001b[22m\n",
+    "suggestedPatch": "// Option 1: Fix the locator to target a real heading (e.g., after login on inventory page)\nawait expect(page.getByRole('heading', { name: 'Products' })).toBeVisible();\n\n// Option 2: If intentional failure is desired for demo, mark the test as expected to fail\ntest.fail();\nawait expect(page.getByRole('heading', { name: 'Non Existing Header' })).toBeVisible();",
+    "reasoning": "The assertion targets a heading named 'Non Existing Header' which is confirmed to never exist in the application UI. The failure is deterministic and reproducible — not a flake, timing issue, or environment problem. The test name explicitly states it is an intentional failure. The fix is either to correct the locator to match a real element, or to use `test.fail()` to formally declare the test as expected-to-fail.",
+    "confidence": 0.98,
+    "actionType": "update_assertion"
+  },
+  {
+    "testName": "Shopping Cart › Cart persists items after page refresh",
+    "file": "tests/manual-results.md",
+    "stepName": "Cart persists items after page refresh",
+    "candidateLocators": [],
+    "errorMessage": "Cart badge resets to 0 after hard refresh — session storage not persisted",
+    "reasoning": "Provider failed to return a valid analysis.",
+    "confidence": 0,
+    "actionType": "investigate"
+  },
+  {
+    "testName": "Authentication › Login error clears when user starts retyping",
+    "file": "tests/manual-results.md",
+    "stepName": "Login error clears when user starts retyping",
+    "candidateLocators": [],
+    "errorMessage": "Error message persists even after the user clears the username field — no auto-dismiss",
+    "reasoning": "Provider failed to return a valid analysis.",
+    "confidence": 0,
+    "actionType": "investigate"
+  },
+  {
+    "testName": "Product Detail › Checkout cancel on step 2 returns to inventory",
+    "file": "tests/manual-results.md",
+    "stepName": "Checkout cancel on step 2 returns to inventory",
+    "failedLocator": "[data-test=\"cancel\"]",
+    "candidateLocators": [
+      "[data-test=\"cancel\"]",
+      "button:has-text('Cancel')",
+      "a:has-text('Cancel')",
+      ".cart_cancel_link",
+      "#cancel"
+    ],
+    "errorMessage": "Cancel on step 2 navigates to /cart.html instead of /inventory.html — unexpected destination",
+    "suggestedPatch": "// If the test assertion needs to be validated/corrected:\nawait page.click('[data-test=\"cancel\"]'); // or appropriate cancel button locator on step 2\nawait page.waitForURL('**/inventory.html', { timeout: 5000 });\nawait expect(page).toHaveURL(/inventory\\.html/);\n\n// If the app behavior is confirmed correct (cancel goes to /cart.html), update to:\n// await page.waitForURL('**/cart.html', { timeout: 5000 });\n// await expect(page).toHaveURL(/cart\\.html/);",
+    "reasoning": "The error message explicitly states the cancel action on step 2 navigates to /cart.html instead of /inventory.html. The zero-duration and zero-retry context suggests this was a manual observation recorded in a markdown results file rather than an automated Playwright run, meaning the failure reflects a real observed behavioral difference. The most likely cause is an application-side routing bug on the cancel button of checkout step 2. The test expectation aligns with the canonical SauceDemo behavior, making the app the suspect.",
+    "confidence": 0.82,
+    "actionType": "investigate_and_patch"
+  }
+]
