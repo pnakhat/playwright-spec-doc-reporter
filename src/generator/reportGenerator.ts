@@ -11,10 +11,12 @@ import type {
   AIAnalysisResult,
   GlossyReporterConfig,
   HealingPayload,
+  HealingSummaryData,
   HistoryData,
   NormalizedTestResult,
   ReportData,
   RunSnapshot,
+  TraceabilityIndexData,
 } from "../types/index.js";
 import { healingPayloadsToMarkdown } from "../healing/payload.js";
 import { computeFlakinessScores } from "../utils/flakiness.js";
@@ -130,7 +132,9 @@ export async function generateReport(
   analyses: AIAnalysisResult[],
   healingPayloads: HealingPayload[],
   config: GlossyReporterConfig,
-  runMeta?: { startedAt?: string; finishedAt?: string; workers?: number }
+  runMeta?: { startedAt?: string; finishedAt?: string; workers?: number },
+  traceabilityIndex?: TraceabilityIndexData,
+  healingSummary?: HealingSummaryData
 ): Promise<ReportData> {
   const outputDir = config.outputDir ?? defaultConfig.outputDir;
   await ensureDir(outputDir);
@@ -158,6 +162,8 @@ export async function generateReport(
     healingMarkdown: healingPayloads.length > 0 ? healingPayloadsToMarkdown(healingPayloads) : undefined,
     flakinessScores: Object.keys(flakinessScores).length > 0 ? flakinessScores : undefined,
     theme: config.theme ?? "dark-glossy",
+    traceabilityIndex,
+    healingSummary,
   };
 
   // Update and save history

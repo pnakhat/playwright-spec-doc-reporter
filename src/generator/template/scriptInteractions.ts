@@ -25,12 +25,20 @@ export function getScriptInteractions(): string {
       row.style.display = show ? '' : 'none';
       if (show) matchCount++;
     });
+    var hasActiveFilter = !activeStatuses.has('all') || activeType !== 'all' || activeTags.size > 0 || query;
     document.querySelectorAll('#suitesContainer .suite-block').forEach(function(suite) {
-      suite.style.display = suite.querySelectorAll('.test-detail-block:not([style*="display: none"])').length === 0 ? 'none' : '';
+      var hasVisible = suite.querySelectorAll('.test-detail-block:not([style*="display: none"])').length > 0;
+      suite.style.display = hasVisible ? '' : 'none';
+      if (hasVisible && hasActiveFilter) {
+        // Auto-open collapsed suites so filtered tests are actually visible
+        var body = suite.querySelector('.suite-body');
+        var toggle = suite.querySelector('.suite-toggle');
+        if (body) body.classList.add('open');
+        if (toggle) toggle.classList.add('open');
+      }
     });
     highlightSearchMatches(query);
     var countEl = document.getElementById('search-result-count');
-    var hasActiveFilter = !activeStatuses.has('all') || activeType !== 'all' || activeTags.size > 0 || query;
     if (countEl) countEl.textContent = hasActiveFilter ? matchCount + ' of ' + totalCount + ' test' + (totalCount !== 1 ? 's' : '') : '';
   }
 

@@ -439,6 +439,8 @@ export function getScriptRenderers(): string {
           (combined.videos.length > 0 ? '<span class="media-pill">\\ud83c\\udfac ' + combined.videos.length + '</span>' : '') +
           (test.flaky ? '<span class="badge badge-flaky" style="margin-left:4px">flaky</span>' : '') +
           (function() { var fs = getFlakinessScore(test); return fs > 0 ? ' ' + renderFlakinessBadge(fs) : ''; })() +
+          renderSpecBadge(test.specPath) +
+          renderHealingBadge(test.healingEvent) +
         '</div>' +
         '<div style="display:flex;align-items:center;gap:7px;flex-shrink:0">' +
           (function() {
@@ -456,7 +458,7 @@ export function getScriptRenderers(): string {
       '</div>' +
       '<div class="test-detail-body' + (shouldExpand ? ' open' : '') + '" id="' + detailId + '">' +
         (test.scenarioDescription ? '<div class="scenario-description">' + escHtml(test.scenarioDescription) + '</div>' : '') +
-        errorHtml + renderTestAIInsight(test) + (behaviours ? renderBehavioursSection(behaviours) : renderStepsTable(steps, detailId)) + (apiEntries ? renderApiSection(apiEntries) : '') + ssGalleryHtml + videoHtml +
+        errorHtml + renderTestAIInsight(test) + renderHealingDiffPanel(test.healingEvent) + (behaviours ? renderBehavioursSection(behaviours) : renderStepsTable(steps, detailId)) + (apiEntries ? renderApiSection(apiEntries) : '') + ssGalleryHtml + videoHtml +
       '</div>' +
     '</div>';
   }
@@ -474,7 +476,8 @@ export function getScriptRenderers(): string {
       var skipped = feature.scenarios.filter(function(s) { return s.status === 'skipped'; }).length;
       var total = feature.scenarios.length;
       var passRate = total > 0 ? Math.round((passed / total) * 100) : 0;
-      var shouldOpen = expandFailed && failed > 0;
+      var hasHealingEvent = feature.tests.some(function(t) { return t.healingEvent; });
+      var shouldOpen = (expandFailed && failed > 0) || hasHealingEvent;
       var scenarioBlocks = feature.tests.map(function(test, ti) {
         return renderTestDetailBlock(test, 'feat' + fi + '-sc' + ti, expandFailed);
       }).join('');
@@ -625,6 +628,9 @@ export function getScriptRenderers(): string {
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.getElementById('tab-' + btn.getAttribute('data-tab')).classList.add('active');
         btn.classList.add('active');
+        // Expand/Collapse only applies to the All Features tab (suite hierarchy)
+        var sectionActions = document.querySelector('.section-actions');
+        if (sectionActions) sectionActions.style.display = btn.getAttribute('data-tab') === 'all' ? '' : 'none';
       });
     });
   }
@@ -674,6 +680,57 @@ export function getScriptRenderers(): string {
           '<div class="exec-metric"><div class="exec-metric-value" style="color:var(--fail)">' + failed + '</div><div class="exec-metric-label">Failures</div></div>' +
           (flaky > 0 ? '<div class="exec-metric"><div class="exec-metric-value" style="color:var(--flaky)">' + flaky + '</div><div class="exec-metric-label">Flaky</div></div>' : '') +
         '</div>' +
+      '</div>';
+  }
+
+  window.__goToHealerTests = function() {
+    var testsBtn = document.querySelector('[data-page="tests"]');
+    if (testsBtn) testsBtn.click();
+  };
+
+  function renderHealerActivity() {
+    var el = document.getElementById('healer-activity-section');
+    if (!el) return;
+    if (!healingSummary || (healingSummary.totalAutoHealed === 0 && healingSummary.totalSkippedAppBroken === 0)) {
+      el.style.display = 'none';
+      return;
+    }
+    var sig = healingSummary.flakinessSignal || 'low';
+    var sigColor = sig === 'high' ? 'var(--fail)' : sig === 'medium' ? 'var(--flaky)' : 'var(--pass)';
+
+    var healerTests = tests.filter(function(t) { return t.healingEvent; });
+    var eventsHtml = healerTests.map(function(t) {
+      var he = t.healingEvent;
+      var isHealed = he.outcome === 'auto-healed';
+      var pillCls = isHealed ? 'healing-pill-healed' : 'healing-pill-broken';
+      var pillLabel = isHealed ? '\ud83e\ude79 Auto-healed' : '\u26d4 App broken';
+      return '<div style="display:flex;align-items:flex-start;gap:10px;padding:0.55rem 0.9rem;border-bottom:1px solid var(--border)">' +
+        '<span class="media-pill ' + pillCls + '" style="flex-shrink:0;margin-top:1px">' + pillLabel + '</span>' +
+        '<div style="min-width:0">' +
+          '<div style="font-size:0.78rem;font-weight:600;color:var(--text1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + escHtml(t.title || t.fullName) + '</div>' +
+          '<div style="font-size:0.68rem;color:var(--text3);font-family:var(--font-mono);margin-top:2px">' + escHtml(t.file || '') + '</div>' +
+          (he.reason ? '<div style="font-size:0.7rem;color:var(--text2);margin-top:4px;line-height:1.4">' + escHtml(he.reason) + '</div>' : '') +
+        '</div>' +
+      '</div>';
+    }).join('');
+
+    el.innerHTML =
+      '<div class="section-header">' +
+        '<div class="section-title">\ud83e\ude79 Healer Activity</div>' +
+        '<div style="display:flex;align-items:center;gap:8px">' +
+          '<span style="font-size:0.72rem;color:var(--text3)">Signal:</span>' +
+          '<span style="font-weight:700;color:' + sigColor + ';text-transform:uppercase;font-size:0.72rem">' + escHtml(sig) + '</span>' +
+          '<button class="page-nav-btn" style="font-size:0.68rem;padding:3px 10px;margin-left:6px" onclick="__goToHealerTests()">' +
+            'View in Tests \u2192' +
+          '</button>' +
+        '</div>' +
+      '</div>' +
+      '<div style="background:var(--bg3);border-radius:var(--radius-sm);border:1px solid var(--border);overflow:hidden">' +
+        '<div style="display:flex;gap:2rem;padding:0.6rem 0.9rem;background:var(--bg4);border-bottom:1px solid var(--border)">' +
+          '<div><span style="font-size:0.75rem;font-weight:700;color:var(--flaky)">' + healingSummary.totalAutoHealed + '</span><span style="font-size:0.68rem;color:var(--text3);margin-left:5px">auto-healed</span></div>' +
+          '<div><span style="font-size:0.75rem;font-weight:700;color:var(--fail)">' + healingSummary.totalSkippedAppBroken + '</span><span style="font-size:0.68rem;color:var(--text3);margin-left:5px">app-broken</span></div>' +
+        '</div>' +
+        eventsHtml +
       '</div>';
   }
 
@@ -996,5 +1053,123 @@ export function getScriptRenderers(): string {
       '<div>Generated by <a class="footer-link" href="https://github.com/pankajnakhat/playwright-spec-doc-reporter" target="_blank" rel="noreferrer">playwright-spec-doc-reporter</a></div>' +
       '<div>' + new Date(report.generatedAt).toLocaleString() + ' \\u00b7 ' + tests.length + ' tests \\u00b7 ' + formatMs(summary.durationMs || 0) + '</div>';
   }
+  // ── Spec badge helper ─────────────────────────────────────────────────────
+  function renderSpecBadge(specPath) {
+    if (!specPath) return '';
+    return '<a class="media-pill spec-pill" href="' + escHtml(specPath) + '" target="_blank" rel="noreferrer" title="Linked spec: ' + escHtml(specPath) + '" onclick="event.stopPropagation()">\ud83d\udcc4 Spec</a>';
+  }
+
+  // ── Healing badge helpers ──────────────────────────────────────────────────
+  function renderHealingBadge(healingEvent) {
+    if (!healingEvent) return '';
+    if (healingEvent.outcome === 'auto-healed') {
+      return '<span class="media-pill healing-pill-healed" title="Auto-healed by Healer agent">\ud83e\ude79 Auto-healed</span>';
+    }
+    if (healingEvent.outcome === 'skipped-app-broken') {
+      return '<span class="media-pill healing-pill-broken" title="' + escHtml(healingEvent.reason || 'App broken \u2014 test skipped by Healer') + '">\u26d4 App broken</span>';
+    }
+    return '';
+  }
+
+  function renderHealingDiffPanel(healingEvent) {
+    if (!healingEvent || healingEvent.outcome !== 'auto-healed') return '';
+    var before = Array.isArray(healingEvent.locatorsBefore) ? healingEvent.locatorsBefore : [];
+    var after  = Array.isArray(healingEvent.locatorsAfter)  ? healingEvent.locatorsAfter  : [];
+    if (before.length === 0 && after.length === 0) return '';
+    var rows = Math.max(before.length, after.length);
+    var tableRows = '';
+    for (var i = 0; i < rows; i++) {
+      tableRows +=
+        '<tr>' +
+          '<td style="padding:3px 8px;font-family:var(--font-mono);font-size:0.7rem;color:var(--fail);background:rgba(239,68,68,0.07);border-radius:4px 0 0 4px">' + escHtml(before[i] || '\u2014') + '</td>' +
+          '<td style="padding:3px 6px;font-size:0.75rem;color:var(--text3);text-align:center">\u2192</td>' +
+          '<td style="padding:3px 8px;font-family:var(--font-mono);font-size:0.7rem;color:var(--pass);background:rgba(34,197,94,0.07);border-radius:0 4px 4px 0">' + escHtml(after[i] || '\u2014') + '</td>' +
+        '</tr>';
+    }
+    return '<div style="margin-top:0.5rem">' +
+      '<div style="font-size:0.68rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.3rem">Locator patch</div>' +
+      '<table style="border-collapse:separate;border-spacing:0 3px;width:100%">' + tableRows + '</table>' +
+    '</div>';
+  }
+
+  // ── Traceability page ──────────────────────────────────────────────────────
+  function renderTraceability() {
+    var navBtn = document.getElementById('navTraceability');
+    var section = document.getElementById('traceability-section');
+    if (!section) return;
+
+    if (!traceabilityIndex || !Array.isArray(traceabilityIndex.specs) || traceabilityIndex.specs.length === 0) {
+      if (navBtn) navBtn.style.display = 'none';
+      section.innerHTML = '';
+      return;
+    }
+
+    var mapping = traceabilityIndex.mapping  || {};
+    var testStatusMap = {};
+    tests.forEach(function(t) { testStatusMap[t.file] = t.status; });
+
+    var healSignalHtml = '';
+    if (healingSummary) {
+      var sig = healingSummary.flakinessSignal || 'low';
+      var sigColor = sig === 'high' ? 'var(--fail)' : sig === 'medium' ? 'var(--flaky)' : 'var(--pass)';
+      healSignalHtml =
+        '<div style="margin-bottom:1rem;display:flex;align-items:center;gap:10px">' +
+          '<span style="font-size:0.79rem;color:var(--text2)">Healer signal:</span>' +
+          '<span style="font-weight:700;color:' + sigColor + ';text-transform:uppercase;font-size:0.75rem">' + escHtml(sig) + '</span>' +
+          '<span style="font-size:0.72rem;color:var(--text3)">' +
+            '\u2022 ' + healingSummary.totalAutoHealed + ' auto-healed' +
+            ' \u2022 ' + healingSummary.totalSkippedAppBroken + ' app-broken' +
+          '</span>' +
+        '</div>';
+    }
+
+    var rowsHtml = traceabilityIndex.specs.map(function(spec) {
+      var linkedTests = Array.isArray(mapping[spec.filePath]) ? mapping[spec.filePath] : [];
+      var scenariosHtml = spec.scenarios.length > 0
+        ? '<ul style="margin:0.3rem 0 0 1.1rem;padding:0;font-size:0.73rem;color:var(--text2);line-height:1.7">' +
+            spec.scenarios.map(function(sc) { return '<li>' + escHtml(sc) + '</li>'; }).join('') +
+          '</ul>'
+        : '<div style="font-size:0.71rem;color:var(--text3);margin-top:0.2rem;font-style:italic">No scenarios</div>';
+      var testsHtml = linkedTests.length === 0
+        ? '<div style="font-size:0.72rem;color:var(--text3);font-style:italic">No linked tests</div>'
+        : linkedTests.map(function(tf) {
+            var st = testStatusMap[tf] || 'unknown';
+            var ns = st === 'timedOut' ? 'failed' : st;
+            var icon = ns === 'passed' ? '\u2713' : ns === 'failed' ? '\u2717' : ns === 'skipped' ? '\u2013' : '\u25cb';
+            var col  = ns === 'passed' ? 'var(--pass)' : ns === 'failed' ? 'var(--fail)' : ns === 'skipped' ? 'var(--skip)' : 'var(--text3)';
+            return '<div style="display:flex;align-items:center;gap:6px;padding:3px 0;font-size:0.73rem">' +
+              '<span style="color:' + col + ';font-weight:700;width:14px;text-align:center">' + icon + '</span>' +
+              '<span style="font-family:var(--font-mono);color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + escHtml(tf) + '</span>' +
+            '</div>';
+          }).join('');
+      return '<tr>' +
+        '<td style="vertical-align:top;padding:0.75rem 1rem;border-bottom:1px solid var(--border);width:42%">' +
+          '<div style="font-weight:700;font-size:0.82rem;color:var(--text1)">' + escHtml(spec.title) + '</div>' +
+          '<div style="font-size:0.68rem;color:var(--text3);font-family:var(--font-mono);margin-top:2px">' + escHtml(spec.filePath) + '</div>' +
+          scenariosHtml +
+        '</td>' +
+        '<td style="vertical-align:top;padding:0.75rem 1rem;border-bottom:1px solid var(--border)">' +
+          testsHtml +
+        '</td>' +
+      '</tr>';
+    }).join('');
+
+    section.innerHTML =
+      '<div class="section-header"><div class="section-title">\ud83d\udd17 Spec Traceability</div>' +
+        '<a href="https://playwright.dev/docs/test-ai" target="_blank" rel="noreferrer" ' +
+           'style="font-size:0.72rem;color:var(--accent);text-decoration:none;opacity:0.85;display:flex;align-items:center;gap:4px">' +
+          '\ud83e\udd16 Playwright Agent docs \u2197' +
+        '</a>' +
+      '</div>' +
+      healSignalHtml +
+      '<table style="width:100%;border-collapse:collapse;background:var(--bg3);border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--border)">' +
+        '<thead><tr>' +
+          '<th style="text-align:left;padding:0.6rem 1rem;font-size:0.72rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;background:var(--bg4);border-bottom:1px solid var(--border)">Spec / Scenarios</th>' +
+          '<th style="text-align:left;padding:0.6rem 1rem;font-size:0.72rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;background:var(--bg4);border-bottom:1px solid var(--border)">Linked Tests</th>' +
+        '</tr></thead>' +
+        '<tbody>' + rowsHtml + '</tbody>' +
+      '</table>';
+  }
+
 `;
 }

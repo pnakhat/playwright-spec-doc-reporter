@@ -27,6 +27,7 @@ export function getMarkup(): string {
   <button class="page-nav-btn" data-page="ai">&#129302; AI Insights</button>
   <button class="page-nav-btn" data-page="trends">&#128200; Trends</button>
   <button class="page-nav-btn" data-page="docs">&#128203; Docs</button>
+  <button class="page-nav-btn" id="navTraceability" data-page="traceability">&#128279; Traceability</button>
 </nav>
 
 <div class="container">
@@ -60,6 +61,8 @@ export function getMarkup(): string {
     <div class="stats-grid" id="stats-grid"></div>
 
     <div class="bdd-summary-bar" id="bdd-summary"></div>
+
+    <section class="section" id="healer-activity-section"></section>
 
     <section class="section" id="exec-summary-section"></section>
   </div>
@@ -188,6 +191,11 @@ export function getMarkup(): string {
       </div>
 
     </div>
+  </div>
+
+  <!-- Traceability Page -->
+  <div class="page-panel" id="page-traceability">
+    <div class="section" id="traceability-section"></div>
   </div>
 
   <div class="footer" id="footer"></div>

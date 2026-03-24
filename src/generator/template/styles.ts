@@ -444,6 +444,10 @@ export function getStyles(): string {
     .artifact-link:hover { color: var(--accent); }
     .media-summary { margin-top: 0.4rem; font-size: 0.72rem; color: var(--text2); }
     .media-pill { display: inline-flex; align-items: center; margin-left: 5px; padding: 1px 6px; border-radius: 999px; background: var(--bg4); color: var(--text2); font-size: 0.65rem; font-weight: 600; }
+    .spec-pill { background: rgba(99,102,241,0.14); color: #818cf8; text-decoration: none; }
+    .spec-pill:hover { background: rgba(99,102,241,0.28); }
+    .healing-pill-healed { background: rgba(245,158,11,0.15); color: #f59e0b; }
+    .healing-pill-broken { background: rgba(239,68,68,0.13); color: var(--fail); }
     .screenshot-toggle { margin-top: 0.4rem; font-size: 0.72rem; padding: 0.26rem 0.65rem; border-radius: 999px; border: 1px solid var(--border2); background: transparent; color: var(--text2); cursor: pointer; transition: all var(--ease); font-family: var(--font); }
     .screenshot-toggle:hover { border-color: var(--accent); color: var(--accent); }
     .screenshot-gallery { display: none; margin-top: 0.45rem; }

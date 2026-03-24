@@ -14,6 +14,8 @@ export function getScriptUtils(): string {
   const healingPayloads = Array.isArray(report.healingPayloads) ? report.healingPayloads : [];
   const healingMarkdown = report.healingMarkdown || '';
   const flakinessScores = (report.flakinessScores && typeof report.flakinessScores === 'object') ? report.flakinessScores : {};
+  const traceabilityIndex = (report.traceabilityIndex && typeof report.traceabilityIndex === 'object') ? report.traceabilityIndex : null;
+  const healingSummary = (report.healingSummary && typeof report.healingSummary === 'object') ? report.healingSummary : null;
   const galleryState = { items: [], index: 0, timer: null, title: '' };
 
   function getFlakinessScore(test) {

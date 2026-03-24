@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { execSync } from "node:child_process";
 import type {
   FullConfig,
   FullResult,
@@ -18,6 +19,13 @@ import { postJiraTestResults } from "../jira/index.js";
 import { parseManualResults } from "../manual/parser.js";
 import type { AIAnalysisResult, ApiEntry, AttachmentInfo, GlossyReporterConfig, NormalizedTestResult, TestStepInfo } from "../types/index.js";
 import { classifyArtifacts, safeTextFromBuffer, shortId } from "../utils/report.js";
+import { buildTestFileMapSync } from "../traceability/testMapper.js";
+import { parseSpecFiles } from "../traceability/specParser.js";
+import { TraceabilityIndex } from "../traceability/TraceabilityIndex.js";
+import { parseDiff, type HealingDiff } from "../healing/diffParser.js";
+import { detectHealingEvent } from "../healing/healingDetector.js";
+import { HealingIndex } from "../healing/HealingIndex.js";
+import { writeJson } from "../utils/fs.js";
 
 function projectName(test: TestCase): string | undefined {
   return test.parent.project()?.name || undefined;
@@ -186,6 +194,15 @@ export class GlossyPlaywrightReporter implements Reporter {
   private runFinishedAt?: string;
   private maxWorkers?: number;
 
+  // Traceability — reverse map: relTestFilePath → specPath
+  private testToSpecMap: Map<string, string> = new Map();
+  /** Directory containing playwright.config — used to locate specs/ and compute relative test paths */
+  private projectRoot = process.cwd();
+
+  // Healing
+  private diffIndex: Map<string, HealingDiff> = new Map();
+  private healingIndex: HealingIndex = new HealingIndex();
+
   constructor(config: GlossyReporterConfig = {}) {
     this.config = {
       ...defaultConfig,
@@ -196,11 +213,43 @@ export class GlossyPlaywrightReporter implements Reporter {
     };
   }
 
-  onBegin(globalConfig: FullConfig, suite: Suite): void {
-    this.globalConfig = globalConfig;
+  onBegin(config: FullConfig, suite: Suite): void {
+    this.globalConfig = config;
     this.rootSuiteTitle = suite.title;
     this.runStartedAt = new Date().toISOString();
-    this.maxWorkers = globalConfig.workers;
+    this.maxWorkers = config.workers;
+    // In PW ≥1.52 rootDir = resolved testDir; derive project root from config file
+    this.projectRoot = config.configFile
+      ? path.dirname(config.configFile)
+      : process.cwd();
+
+    // Build synchronous test→spec reverse map for use in onTestEnd
+    // Use projectRoot so keys match NormalizedTestResult.file (relative to cwd/config dir)
+    const specToTests = buildTestFileMapSync(suite, this.projectRoot);
+    this.testToSpecMap = new Map();
+    for (const [specPath, testFiles] of specToTests) {
+      for (const testFile of testFiles) {
+        this.testToSpecMap.set(testFile, specPath);
+      }
+    }
+
+    // Parse git diff to detect Healer-mutated test files.
+    // Use the configured testDir (relative to projectRoot) so this works regardless
+    // of whether tests live in tests/, e2e/, src/tests/, etc.
+    try {
+      const testDir = path.relative(this.projectRoot, config.rootDir) || ".";
+      const diffText = execSync(`git diff HEAD -- ${testDir}`, {
+        cwd: this.projectRoot,
+        timeout: 10_000,
+        stdio: ["pipe", "pipe", "pipe"]
+      }).toString("utf-8");
+      const diffs = parseDiff(diffText);
+      for (const d of diffs) {
+        this.diffIndex.set(d.testFilePath, d);
+      }
+    } catch {
+      // git not available, not a git repo, or no diff — skip silently
+    }
   }
 
   onTestEnd(test: TestCase, result: TestResult): void {
@@ -208,6 +257,13 @@ export class GlossyPlaywrightReporter implements Reporter {
     const attachments = toAttachmentInfo(result, outputDirAbs);
     const artifacts = classifyArtifacts(attachments);
     const browserName = test.parent.project()?.name;
+    const relTestFile = path.relative(this.projectRoot, test.location.file).split(path.sep).join("/");
+    const specPath = this.testToSpecMap.get(relTestFile);
+
+    // Detect Healer activity
+    const healingEvt = detectHealingEvent(relTestFile, result, this.diffIndex);
+    if (healingEvt) this.healingIndex.add(healingEvt);
+
     const normalized: NormalizedTestResult = {
       id: shortId(`${test.parent.project()?.name ?? ""}:${test.location.file}:${test.location.line}:${test.title}:${result.retry}`),
       suite: test.parent.title || this.rootSuiteTitle,
@@ -240,7 +296,17 @@ export class GlossyPlaywrightReporter implements Reporter {
       consoleLogs: toConsoleLogs(result),
       steps: extractSteps(result.steps, outputDirAbs),
       startedAt: result.startTime?.toISOString(),
-      finishedAt: result.startTime ? new Date(result.startTime.getTime() + result.duration).toISOString() : undefined
+      finishedAt: result.startTime ? new Date(result.startTime.getTime() + result.duration).toISOString() : undefined,
+      specPath,
+      healingEvent: healingEvt
+        ? {
+            outcome: healingEvt.outcome as "auto-healed" | "skipped-app-broken",
+            reason: healingEvt.reason,
+            patchSummary: healingEvt.diff?.patchSummary,
+            locatorsBefore: healingEvt.diff?.locatorsBefore,
+            locatorsAfter: healingEvt.diff?.locatorsAfter,
+          }
+        : undefined,
     };
 
     // Distribute test-level screenshots to the appropriate step
@@ -292,11 +358,54 @@ export class GlossyPlaywrightReporter implements Reporter {
       ? createHealingPayloads(failedTests, analyses)
       : [];
 
-    const report = await generateReport(finalizedTests, analyses, healingPayloads, this.config, {
-      startedAt: this.runStartedAt,
-      finishedAt: this.runFinishedAt,
-      workers: this.maxWorkers
-    });
+    // Build traceability index
+    const outputDir = this.config.outputDir ?? defaultConfig.outputDir;
+    let traceabilityIndexData: ReturnType<TraceabilityIndex["toJSON"]> | undefined;
+    try {
+      const specFiles = await parseSpecFiles(this.projectRoot);
+      const traceIndex = new TraceabilityIndex(specFiles, this.testToSpecMap.size > 0
+        ? (() => {
+            const m = new Map<string, string[]>();
+            for (const [testFile, specPath] of this.testToSpecMap) {
+              const arr = m.get(specPath) ?? [];
+              arr.push(testFile);
+              m.set(specPath, arr);
+            }
+            return m;
+          })()
+        : new Map());
+      if (!traceIndex.isEmpty) {
+        traceabilityIndexData = traceIndex.toJSON();
+        await writeJson(`${outputDir}/traceability.json`, traceabilityIndexData);
+      }
+    } catch (err) {
+      console.warn("[glossy-reporter] Traceability index failed — skipping.", err);
+    }
+
+    // Write healing index
+    let healingSummary: ReturnType<HealingIndex["getSummary"]> | undefined;
+    if (!this.healingIndex.isEmpty) {
+      healingSummary = this.healingIndex.getSummary();
+      try {
+        await writeJson(`${outputDir}/healing.json`, this.healingIndex.toJSON());
+      } catch (err) {
+        console.warn("[glossy-reporter] Could not write healing.json — skipping.", err);
+      }
+    }
+
+    const report = await generateReport(
+      finalizedTests,
+      analyses,
+      healingPayloads,
+      this.config,
+      {
+        startedAt: this.runStartedAt,
+        finishedAt: this.runFinishedAt,
+        workers: this.maxWorkers,
+      },
+      traceabilityIndexData,
+      healingSummary
+    );
 
     await writePrComment(finalizedTests, report.summary, analyses, this.config);
     await postJiraTestResults(finalizedTests, this.config);
