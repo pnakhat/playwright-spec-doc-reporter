@@ -1,0 +1,56 @@
+[
+  {
+    "testName": " › chromium › ui/saucedemo.spec.js › AI Failure Analysis › intentional failure for AI analysis demo @regression",
+    "file": "tests/ui/saucedemo.spec.js",
+    "stepName": "intentional failure for AI analysis demo @regression",
+    "failedLocator": "getByRole('heading', { name: 'Products' })",
+    "candidateLocators": [
+      "getByRole('heading', { name: 'Products' })",
+      "getByRole('heading', { name: 'Swag Labs' })",
+      "locator('.title')",
+      "locator('h2.title')"
+    ],
+    "errorMessage": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'Non Existing Header' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'Non Existing Header' })\u001b[22m\n",
+    "suggestedPatch": "// Option 1: Fix the assertion to target a real heading (e.g., after login on the inventory page)\nawait expect(page.getByRole('heading', { name: 'Products' })).toBeVisible();\n\n// Option 2: Mark the test as intentionally failing so CI stays green\ntest.fail();\nawait expect(page.getByRole('heading', { name: 'Non Existing Header' })).toBeVisible();",
+    "reasoning": "The element targeted by the locator genuinely does not exist in the application's DOM. The test name explicitly states this is intentional. The failure is not caused by timing, environment instability, locator drift due to an app change, or flakiness — it is a hard 'element not found' error that would reproduce 100% of the time. The correct remediation is either to point the assertion at a real heading or to mark the test as expected-to-fail using `test.fail()`.",
+    "confidence": 0.98,
+    "actionType": "fix_assertion"
+  },
+  {
+    "testName": "Shopping Cart › Cart persists items after page refresh",
+    "file": "tests/manual-results.md",
+    "stepName": "Cart persists items after page refresh",
+    "candidateLocators": [],
+    "errorMessage": "Cart badge resets to 0 after hard refresh — session storage not persisted",
+    "reasoning": "Provider failed to return a valid analysis.",
+    "confidence": 0,
+    "actionType": "investigate"
+  },
+  {
+    "testName": "Authentication › Login error clears when user starts retyping",
+    "file": "tests/manual-results.md",
+    "stepName": "Login error clears when user starts retyping",
+    "candidateLocators": [],
+    "errorMessage": "Error message persists even after the user clears the username field — no auto-dismiss",
+    "reasoning": "Provider failed to return a valid analysis.",
+    "confidence": 0,
+    "actionType": "investigate"
+  },
+  {
+    "testName": "Product Detail › Checkout cancel on step 2 returns to inventory",
+    "file": "tests/manual-results.md",
+    "stepName": "Checkout cancel on step 2 returns to inventory",
+    "failedLocator": "[data-test=\"cancel\"]",
+    "candidateLocators": [
+      "[data-test=\"cancel\"]",
+      "button:has-text('Cancel')",
+      ".cart_cancel_link",
+      "a:has-text('Cancel')"
+    ],
+    "errorMessage": "Cancel on step 2 navigates to /cart.html instead of /inventory.html — unexpected destination",
+    "suggestedPatch": "// Option A — if /inventory.html is correct (app bug confirmed, keep test as-is and add clarity)\nawait page.locator('[data-test=\"cancel\"]').click();\nawait expect(page).toHaveURL(/\\/inventory\\.html$/, {\n  timeout: 5000\n});\n// Raise bug ticket: Cancel on checkout step 2 incorrectly routes to /cart.html\n\n// Option B — if /cart.html is the accepted behavior (update assertion)\nawait page.locator('[data-test=\"cancel\"]').click();\nawait expect(page).toHaveURL(/\\/cart\\.html$/, {\n  timeout: 5000\n});\n// Document: Cancel on step 2 intentionally returns user to cart, not inventory",
+    "reasoning": "The error message explicitly states the application navigates to '/cart.html' instead of '/inventory.html'. The test expectation and the application behavior are misaligned. Given that the canonical SauceDemo flow cancels step 2 back to inventory, this most likely represents an application regression (app_bug). However, if the product spec has changed, the assertion itself needs updating. Either way, the fix is deterministic once the intended behavior is confirmed.",
+    "confidence": 0.82,
+    "actionType": "update_assertion_or_file_bug"
+  }
+]
