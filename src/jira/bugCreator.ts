@@ -188,6 +188,52 @@ function buildBugDescription(
   return adfDoc(...content);
 }
 
+// ─── Local state file (cross-run dedup) ────────────────────────────────────────
+
+/**
+ * Persistent map of fingerprint → issueKey stored in `<outputDir>/glossy-bugs.json`.
+ *
+ * Consulted before making any Jira API call, so duplicate bugs are blocked
+ * even when Jira's search index hasn't caught up yet (indexing lag) or when
+ * the Jira API is temporarily unreachable.
+ *
+ * The file is written atomically (temp-file rename) to prevent corruption if
+ * the process is killed mid-write.
+ */
+
+interface BugStateEntry {
+  issueKey: string;
+  issueUrl: string;
+  createdAt: string;
+}
+
+type BugStateFile = Record<string, BugStateEntry>; // fingerprint → entry
+
+function bugStateFilePath(outputDirAbs: string): string {
+  return path.join(outputDirAbs, "glossy-bugs.json");
+}
+
+function loadBugState(outputDirAbs: string): BugStateFile {
+  try {
+    const raw = fs.readFileSync(bugStateFilePath(outputDirAbs), "utf-8");
+    return JSON.parse(raw) as BugStateFile;
+  } catch {
+    return {};
+  }
+}
+
+function saveBugState(outputDirAbs: string, state: BugStateFile): void {
+  const filePath = bugStateFilePath(outputDirAbs);
+  const tmp = filePath + ".tmp";
+  try {
+    fs.mkdirSync(outputDirAbs, { recursive: true });
+    fs.writeFileSync(tmp, JSON.stringify(state, null, 2), "utf-8");
+    fs.renameSync(tmp, filePath);
+  } catch (err) {
+    console.warn("[glossy-reporter] Could not save bug state file:", err instanceof Error ? err.message : err);
+  }
+}
+
 // ─── Deduplication ─────────────────────────────────────────────────────────────
 
 /**
@@ -285,9 +331,10 @@ export async function createJiraBugs(opts: {
 
   const results: BugCreationResult[] = [];
 
-  // In-memory set: prevents creating duplicate bugs for the same test title
-  // within a single reporter run (guards against parallel CI shards sending
-  // the same failures simultaneously before Jira has time to index them).
+  // ── Layer 1: local state file (cross-run, offline, immune to indexing lag)
+  const bugState = loadBugState(outputDirAbs);
+
+  // ── Layer 2: in-memory set (same-run / parallel shard race condition)
   const createdThisRun = new Set<string>();
 
   for (const test of failedTests) {
@@ -304,7 +351,23 @@ export async function createJiraBugs(opts: {
       continue;
     }
 
-    // ── In-memory dedup (same run / shard race condition) ──────────────────
+    const fingerprint = fingerprintLabel(test.title);
+
+    // ── Layer 1 check: state file ──────────────────────────────────────────
+    const stateEntry = bugState[fingerprint];
+    if (stateEntry) {
+      results.push({
+        testName: test.title,
+        issueKey: stateEntry.issueKey,
+        issueUrl: stateEntry.issueUrl,
+        status: "duplicate",
+        message: `Already tracked in local state: ${stateEntry.issueKey} (created ${stateEntry.createdAt})`,
+      });
+      console.log(`[glossy-reporter] Jira bug skipped (local state) → ${stateEntry.issueKey} for: ${test.title}`);
+      continue;
+    }
+
+    // ── Layer 2 check: in-memory (same run / shard race condition) ─────────
     if (createdThisRun.has(test.title)) {
       results.push({
         testName: test.title,
@@ -316,12 +379,13 @@ export async function createJiraBugs(opts: {
       continue;
     }
 
-    const fingerprint = fingerprintLabel(test.title);
-
-    // ── Jira dedup (label-based exact match across runs) ───────────────────
+    // ── Layer 3 check: Jira label search (catches bugs from other machines) ─
     if (dedup) {
       const existing = await findExistingBug(baseUrl, auth, projectKey, fingerprint).catch(() => null);
       if (existing) {
+        // Back-fill the state file so this machine won't call Jira again
+        bugState[fingerprint] = { issueKey: existing, issueUrl: `${baseUrl}/browse/${existing}`, createdAt: new Date().toISOString() };
+        saveBugState(outputDirAbs, bugState);
         results.push({
           testName: test.title,
           issueKey: existing,
@@ -404,6 +468,10 @@ export async function createJiraBugs(opts: {
     }
 
     createdThisRun.add(test.title);
+
+    // Persist to state file immediately so the next run won't create a duplicate
+    bugState[fingerprint] = { issueKey, issueUrl, createdAt: new Date().toISOString() };
+    saveBugState(outputDirAbs, bugState);
 
     results.push({
       testName: test.title,

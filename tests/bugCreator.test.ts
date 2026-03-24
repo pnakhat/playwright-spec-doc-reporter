@@ -90,10 +90,19 @@ beforeEach(() => {
     if (url.includes("/search")) {
       return Promise.resolve({ ok: true, json: async () => ({ issues: [] }) });
     }
-    // Create issue
     return Promise.resolve({ ok: true, json: async () => ({ key: "TEST-1" }) });
   });
   vi.stubGlobal("fetch", fetchMock);
+
+  // Default: no existing state file — tests that need specific content override this
+  vi.spyOn(fs, "readFileSync").mockImplementation((p) => {
+    if (String(p).endsWith("glossy-bugs.json")) throw new Error("ENOENT");
+    throw new Error(`unexpected readFileSync: ${String(p)}`);
+  });
+  vi.spyOn(fs, "writeFileSync").mockImplementation(() => undefined);
+  vi.spyOn(fs, "mkdirSync").mockImplementation(() => undefined);
+  vi.spyOn(fs, "renameSync").mockImplementation(() => undefined);
+  vi.spyOn(fs, "existsSync").mockReturnValue(false);
 });
 
 afterEach(() => {
@@ -335,8 +344,125 @@ describe("createJiraBugs — deduplication", () => {
     expect(results).toHaveLength(2);
     expect(results[0]!.status).toBe("created");
     expect(results[1]!.status).toBe("duplicate");
-    expect(results[1]!.message).toContain("already created in this session");
     expect(createCount).toBe(1); // only one actual Jira API call
+  });
+});
+
+// ---------------------------------------------------------------------------
+// createJiraBugs — local state file (cross-run dedup)
+// ---------------------------------------------------------------------------
+
+describe("createJiraBugs — local state file", () => {
+  const commonOpts = {
+    jiraBaseUrl: "https://example.atlassian.net",
+    email: "test@example.com",
+    apiToken: "token123",
+  };
+
+  it("skips bug creation when fingerprint already exists in state file", async () => {
+    const existingState = {
+      "glossy:checkout-completes-successfully": {
+        issueKey: "TEST-42",
+        issueUrl: "https://example.atlassian.net/browse/TEST-42",
+        createdAt: "2024-01-01T00:00:00.000Z",
+      },
+    };
+    vi.spyOn(fs, "readFileSync").mockReturnValue(JSON.stringify(existingState));
+
+    const results = await createJiraBugs({
+      ...commonOpts,
+      outputDirAbs: "/tmp/report",
+      tests: [baseTest()],
+      analyses: [],
+      bugConfig: baseBugConfig({ deduplicateByTestName: false }),
+    });
+
+    expect(results[0]!.status).toBe("duplicate");
+    expect(results[0]!.issueKey).toBe("TEST-42");
+    expect(results[0]!.message).toContain("local state");
+    // No Jira search or create calls made
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("writes state file entry after successful bug creation", async () => {
+    const writeSpy = vi.mocked(fs.writeFileSync);
+
+    await createJiraBugs({
+      ...commonOpts,
+      outputDirAbs: "/tmp/report",
+      tests: [baseTest()],
+      analyses: [],
+      bugConfig: baseBugConfig(),
+    });
+
+    // writeFileSync should have been called for the state file
+    expect(writeSpy).toHaveBeenCalled();
+    const [, content] = writeSpy.mock.calls[0] as [string, string];
+    const saved = JSON.parse(content) as Record<string, { issueKey: string }>;
+    expect(saved["glossy:checkout-completes-successfully"]?.issueKey).toBe("TEST-1");
+  });
+
+  it("back-fills state file when Jira search returns existing bug", async () => {
+    const writeSpy = vi.mocked(fs.writeFileSync);
+
+    fetchMock.mockImplementation((url: string) => {
+      if (url.includes("/search")) {
+        return Promise.resolve({ ok: true, json: async () => ({ issues: [{ key: "TEST-77" }] }) });
+      }
+      return Promise.resolve({ ok: true, json: async () => ({ key: "TEST-1" }) });
+    });
+
+    const results = await createJiraBugs({
+      ...commonOpts,
+      outputDirAbs: "/tmp/report",
+      tests: [baseTest()],
+      analyses: [],
+      bugConfig: baseBugConfig({ deduplicateByTestName: true }),
+    });
+
+    expect(results[0]!.status).toBe("duplicate");
+    expect(results[0]!.issueKey).toBe("TEST-77");
+
+    // State file should be written with the back-filled entry
+    expect(writeSpy).toHaveBeenCalled();
+    const [, content] = writeSpy.mock.calls[0] as [string, string];
+    const saved = JSON.parse(content) as Record<string, { issueKey: string }>;
+    expect(saved["glossy:checkout-completes-successfully"]?.issueKey).toBe("TEST-77");
+  });
+
+  it("starts fresh when state file is missing or corrupt", async () => {
+    const results = await createJiraBugs({
+      ...commonOpts,
+      outputDirAbs: "/tmp/report",
+      tests: [baseTest()],
+      analyses: [],
+      bugConfig: baseBugConfig(),
+    });
+
+    // Should create normally despite missing state file
+    expect(results[0]!.status).toBe("created");
+  });
+
+  it("state file check runs before Jira API — no network call when cached", async () => {
+    const existingState = {
+      "glossy:checkout-completes-successfully": {
+        issueKey: "TEST-5",
+        issueUrl: "https://example.atlassian.net/browse/TEST-5",
+        createdAt: "2024-01-01T00:00:00.000Z",
+      },
+    };
+    vi.spyOn(fs, "readFileSync").mockReturnValue(JSON.stringify(existingState));
+
+    await createJiraBugs({
+      ...commonOpts,
+      outputDirAbs: "/tmp/report",
+      tests: [baseTest()],
+      analyses: [],
+      bugConfig: baseBugConfig({ deduplicateByTestName: true }), // Jira dedup ON but state file wins first
+    });
+
+    // No fetch calls at all — state file short-circuits everything
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 });
 
@@ -538,7 +664,10 @@ describe("createJiraBugs — attachments", () => {
 
   it("does not attempt screenshot attachment when includeScreenshots=false", async () => {
     vi.spyOn(fs, "existsSync").mockReturnValue(true);
-    vi.spyOn(fs, "readFileSync").mockReturnValue(Buffer.from("fake-image"));
+    vi.spyOn(fs, "readFileSync").mockImplementation((p) => {
+      if (String(p).endsWith("glossy-bugs.json")) throw new Error("ENOENT");
+      return Buffer.from("fake-image");
+    });
     await createJiraBugs({
       ...commonOpts,
       outputDirAbs: "/tmp",
@@ -554,7 +683,10 @@ describe("createJiraBugs — attachments", () => {
 
   it("does not attempt video attachment when includeVideos=false", async () => {
     vi.spyOn(fs, "existsSync").mockReturnValue(true);
-    vi.spyOn(fs, "readFileSync").mockReturnValue(Buffer.from("fake-video"));
+    vi.spyOn(fs, "readFileSync").mockImplementation((p) => {
+      if (String(p).endsWith("glossy-bugs.json")) throw new Error("ENOENT");
+      return Buffer.from("fake-video");
+    });
     await createJiraBugs({
       ...commonOpts,
       outputDirAbs: "/tmp",
