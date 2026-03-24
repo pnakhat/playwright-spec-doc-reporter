@@ -116,3 +116,52 @@ test.describe("AI Failure Analysis", () => {
     await expect(page.getByRole("heading", { name: "Non Existing Header" })).toBeVisible();
   });
 });
+
+test.describe("Healer Simulation", () => {
+  test.beforeEach(() => {
+    addFeature("Healer Simulation", "As a QA engineer I want the Playwright Healer to auto-fix stale locators");
+  });
+
+  test("cart icon navigates to cart page (auto-healed) @smoke @critical", async ({ page }, testInfo) => {
+    // Simulate Playwright Healer: stale locator was patched automatically
+    testInfo.annotations.push({
+      type: "healer",
+      description:
+        "page.locator('.shopping_cart_link') was stale after app update. " +
+        "Healer matched page.getByRole('link', { name: /cart/i }) with 94% confidence. Patched automatically."
+    });
+
+    addScenario("Verifies that clicking the cart icon lands on the cart page");
+
+    addBehaviour("Standard user logs in");
+    await login(page, USERS.standard);
+    await expect(page).toHaveURL(/inventory\.html/);
+
+    addBehaviour("User clicks the cart icon — healer patched the locator");
+    await page.locator(".shopping_cart_link").click();
+
+    addBehaviour("User lands on the cart page");
+    await expect(page).toHaveURL(/cart\.html/);
+  });
+
+  test("checkout button is visible on cart page (skipped-app-broken) @regression", async ({ page }, testInfo) => {
+    // Simulate Playwright Healer: locator not found — skipped for manual review
+    testInfo.annotations.push({
+      type: "healer",
+      description:
+        "page.getByRole('button', { name: 'Proceed to Checkout' }) — element not found after redesign. " +
+        "Healer could not match with sufficient confidence. Skipped for manual review."
+    });
+
+    addScenario("Verifies that the Proceed to Checkout button is visible on the cart page");
+
+    test.skip(true, "Healer: locator not found after app redesign — skipped until app is fixed");
+
+    addBehaviour("Standard user logs in and navigates to cart");
+    await login(page, USERS.standard);
+    await page.getByRole("link", { name: /cart/i }).first().click();
+
+    addBehaviour("Checkout button is visible");
+    await expect(page.getByRole("button", { name: "Proceed to Checkout" })).toBeVisible();
+  });
+});
