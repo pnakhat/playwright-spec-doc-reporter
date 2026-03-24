@@ -1,12 +1,12 @@
-## 🎭 Test Report · Run #68
-commit `f0c4e2e6`
+## 🎭 Test Report · Run #70
+commit `1ae8d363`
 
 | | Result |
 |---|---|
-| ✅ Passed | 23 |
+| ✅ Passed | 24 |
 | ❌ Failed | 4 |
-| ⏭️ Skipped | 1 |
-| 📊 Total | 28 |
+| ⏭️ Skipped | 2 |
+| 📊 Total | 30 |
 | ⏱️ Duration | 19s |
 
 ### ❌ Failed Tests
@@ -15,6 +15,6 @@ commit `f0c4e2e6`
 - ❌ `Authentication › Login error clears when user starts retyping` — *Error message persists even after the user clears the username field — no auto-dismiss*
 - ❌ `Product Detail › Checkout cancel on step 2 returns to inventory` — *Cancel on step 2 navigates to /cart.html instead of /inventory.html — unexpected destination*
 
-> 🤖 **AI Analysis** (4 failures analysed) (97% confidence): The test 'intentional failure for AI analysis demo @regression' fails because it attempts to assert visibility of a heading element with the text 'Non Existing Header', which does not exist in the DOM [View full analysis →](https://pnakhat.github.io/playwright-spec-doc-reporter/reports/latest/)
+> 🤖 **AI Analysis** (4 failures analysed) (97% confidence): The test intentionally attempts to assert visibility of a heading element with the name 'Non Existing Header', which does not exist in the DOM. The assertion fails after the 5000ms timeout because no  [View full analysis →](https://pnakhat.github.io/playwright-spec-doc-reporter/reports/latest/)
 
 [📊 Full Report →](https://pnakhat.github.io/playwright-spec-doc-reporter/reports/latest/)

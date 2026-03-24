@@ -17,20 +17,17 @@ Call log:
 [2m  - waiting for getByRole('heading', { name: 'Non Existing Header' })[22m
 
 - Failed locator: getByRole('heading', { name: 'Products' })
-- Candidate locators: getByRole('heading', { name: 'Products' }), getByRole('heading', { name: 'Swag Labs' }), getByRole('heading', { name: 'Checkout: Overview' }), .title, [data-test='title']
+- Candidate locators: getByRole('heading', { name: 'Products' }), getByRole('heading', { name: 'Swag Labs' }), getByRole('heading', { name: 'Checkout: Overview' }), locator('.title'), locator('[data-test="title"]')
 - Suggested patch:
 ```diff
-// Option 1: Fix the assertion to target a real heading (e.g., after login on inventory page)
+// Option 1: Fix the locator to match a real heading on the page
 await expect(page.getByRole('heading', { name: 'Products' })).toBeVisible();
 
-// Option 2: If intentional failure is desired for demo, mark test as expected to fail
+// Option 2: Mark the test as intentionally failing (keeps demo intent intact)
 test.fail();
 await expect(page.getByRole('heading', { name: 'Non Existing Header' })).toBeVisible();
-
-// Option 3: Skip the test to avoid CI noise
-test.skip(true, 'Intentional failure demo - skipped in CI');
 ```
-- Reasoning: The assertion targets a heading named 'Non Existing Header' which is explicitly non-existent on the SauceDemo application. The test name itself ('intentional failure for AI analysis demo') confirms this is a deliberate misconfiguration. The element will never be found regardless of timing, retries, or environment, making this a pure assertion issue rather than a timing or locator drift problem. The 5000ms timeout exhausts fully before failing, confirming no intermittent presence of the element.
+- Reasoning: The assertion is checking for a heading that provably does not exist in the application UI. The element name 'Non Existing Header' is a placeholder string with no corresponding DOM node, causing the locator to time out. The fix is either to correct the expected heading name to match real application content, or to wrap the test with `test.fail()` to formally declare the intentional failure.
 
 ## Shopping Cart › Cart persists items after page refresh
 - File: tests/manual-results.md
