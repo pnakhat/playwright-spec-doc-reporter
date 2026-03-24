@@ -81,6 +81,18 @@ export interface NormalizedTestResult {
   steps: TestStepInfo[];
   startedAt?: string;
   finishedAt?: string;
+  /** Relative path to the linked spec file, e.g. "specs/smoke.md" */
+  specPath?: string;
+  /** Healing event detected for this test (auto-healed or skipped-app-broken). */
+  healingEvent?: HealingEventInfo;
+}
+
+export interface HealingEventInfo {
+  outcome: "auto-healed" | "skipped-app-broken";
+  reason?: string;
+  patchSummary?: string;
+  locatorsBefore?: string[];
+  locatorsAfter?: string[];
 }
 
 export interface TestSnapshot {
@@ -124,6 +136,19 @@ export interface ReportSummary {
   averageDurationMs: number;
 }
 
+export interface TraceabilityIndexData {
+  specs: Array<{ filePath: string; title: string; scenarios: string[] }>;
+  mapping: Record<string, string[]>;
+  reverseMapping: Record<string, string>;
+}
+
+export interface HealingSummaryData {
+  totalAutoHealed: number;
+  totalSkippedAppBroken: number;
+  flakinessSignal: "low" | "medium" | "high";
+  events: HealingEventInfo[];
+}
+
 export interface ReportData {
   title: string;
   generatedAt: string;
@@ -154,6 +179,10 @@ export interface ReportData {
   flakinessScores?: Record<string, number>;
   /** UI theme applied to the report. Default: "dark-glossy". */
   theme?: "dark-glossy" | "dark" | "light";
+  /** Spec-to-test traceability index. Present only when specs/ directory exists. */
+  traceabilityIndex?: TraceabilityIndexData;
+  /** Summary of Healer agent activity detected during this run. */
+  healingSummary?: HealingSummaryData;
 }
 
 export interface AIAnalysisInput {

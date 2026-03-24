@@ -6,6 +6,7 @@ export function getScriptInit(): string {
   renderProgressBar();
   renderStats();
   renderBddSummary();
+  renderHealerActivity();
   renderAI();
   renderTabs();
   renderHealing();
@@ -21,6 +22,7 @@ export function getScriptInit(): string {
   bindFilters();
   bindGalleryControls();
   bindDocPage();
+  renderTraceability();
   initPageNav();
   renderFooter();
 

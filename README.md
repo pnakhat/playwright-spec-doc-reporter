@@ -43,7 +43,9 @@ A beautiful, production-ready Playwright reporter with BDD-style annotations, in
 - **Browser badges** — chromium, firefox, and webkit runs shown with distinct colour-coded pills
 - **Inline API viewer** — attach request/response JSON directly to test results with syntax highlighting
 - **AI failure analysis** — automatic root-cause analysis for failed tests (OpenAI, Anthropic, Azure, or custom)
-- **Healing payloads** — structured JSON + Markdown export of suggested locator fixes
+- **Spec-to-test traceability** — map Playwright Agent spec files (`specs/*.md`) to generated tests via `// spec:` comments; surfaced on the Traceability tab with live pass/fail status per scenario
+- **Healing Layer** — detect Playwright Healer agent outcomes (auto-healed amber badge, app-broken red badge) from `git diff` and test annotations; before→after locator diff panels; `healing.json` export
+- **Healing payloads** — structured JSON + Markdown export of suggested locator fixes (AI-driven)
 - **PR Comment Mode** — emit a compact markdown summary for posting directly as a GitHub/Azure DevOps PR comment
 - **Docs page** — generate filtered Markdown/HTML/PDF behaviour specs from your test suite with live feature filtering
 - **History & trends** — pass-rate and duration charts across runs via `spec-doc-history.json`
@@ -109,8 +111,9 @@ After each run, `spec-doc-report/` contains:
 | `index.html` | Self-contained interactive HTML report |
 | `results.json` | Full normalized JSON for CI/CD processing |
 | `spec-doc-history.json` | Per-run history for trend charts |
-| `healing.json` | AI-suggested locator fixes (when AI enabled) |
+| `healing.json` | AI-suggested locator fixes (when AI enabled) + Healer agent outcomes (when `healing.enabled`) |
 | `healing.md` | Human-readable healing summary (when AI enabled) |
+| `traceability.json` | Spec↔test bidirectional mapping (when `specs/*.md` files + `// spec:` comments present) |
 | `pr-comment.md` | Compact markdown for PR comments (when `prComment` enabled) |
 
 ---
@@ -262,6 +265,14 @@ type SpecDocReporterConfig = {
     exportMarkdownPath?: string;
     analysisOnly?: boolean;
   };
+
+  /**
+   * Spec-to-test traceability (Playwright Agent pipeline).
+   * Automatically active when specs/ directory and // spec: comments are present.
+   * No configuration required — set healing.enabled: true to also surface the
+   * Healer signal (auto-healed / app-broken) on the Traceability tab.
+   */
+  // traceability is auto-detected, no config key needed
 
   /** PR comment markdown generation. */
   prComment?: {
@@ -487,6 +498,197 @@ interface HealingPayload {
 ```
 
 The `healing.md` export is human-readable and CI-comment-friendly.
+
+---
+
+## Spec-to-Test Traceability
+
+> **Requires Playwright Agent ≥ 1.56** (Planner → Generator → Healer pipeline)
+> See [Playwright Agent docs →](https://playwright.dev/docs/test-ai)
+
+When tests are generated from spec files by the Playwright Agent, the reporter can surface a **Traceability** tab that maps each spec scenario to its generated test — and shows whether it passed or failed.
+
+### How it works
+
+1. The Playwright Agent **Planner** writes spec files under `specs/*.md`:
+
+```markdown
+# Smoke Tests
+
+## Homepage loads successfully
+
+Verify the application homepage responds and displays the expected content.
+
+## Navigation works end-to-end
+
+Ensure all primary navigation links are reachable and return valid pages.
+```
+
+2. The **Generator** creates test files with a `// spec:` header comment pointing back to the source spec:
+
+```ts
+// spec: specs/smoke.md
+// seed: tests/passing.spec.ts
+import { test, expect } from '@playwright/test';
+
+test('Homepage loads successfully', async ({ page }) => {
+  await page.goto('https://example.com');
+  await expect(page).toHaveTitle(/Example/);
+});
+```
+
+3. The reporter reads `specs/*.md`, follows the `// spec:` comments in each `.spec.ts` file, and builds a bidirectional traceability index.
+
+### Dashboard output
+
+The **Traceability** tab shows a two-column table:
+
+| Spec / Scenarios | Linked Tests |
+|---|---|
+| ✦ Smoke Tests<br>• Homepage loads successfully<br>• Navigation works end-to-end | ✓ tests/smoke.spec.ts |
+
+Each linked test row shows a live pass/fail/skip icon sourced from the current run.
+
+### Output files
+
+| File | Description |
+|---|---|
+| `traceability.json` | Full bidirectional spec↔test mapping |
+
+The `traceability.json` schema:
+
+```json
+{
+  "specs": [
+    {
+      "filePath": "specs/smoke.md",
+      "title": "Smoke Tests",
+      "scenarios": ["Homepage loads successfully", "Navigation works end-to-end"]
+    }
+  ],
+  "mapping": {
+    "specs/smoke.md": ["tests/smoke.spec.ts"]
+  },
+  "reverseMapping": {
+    "tests/smoke.spec.ts": "specs/smoke.md"
+  }
+}
+```
+
+### Enabling traceability
+
+No extra config required — the reporter scans for `specs/` automatically. Add the `// spec: <path>` comment to the top of any generated test file to establish the link.
+
+---
+
+## Healing Layer (Playwright Healer Agent)
+
+> **Requires Playwright Agent ≥ 1.56** — see [Playwright Agent docs →](https://playwright.dev/docs/test-ai)
+
+When the Playwright **Healer** agent processes a failing test run it either:
+
+- **Auto-heals** the test by patching the stale locator and re-running — test passes
+- **Skips (fix later)** the test when the element is truly gone — marks it for manual review
+
+The reporter detects both outcomes and surfaces them as badges on test cards.
+
+### How healing is detected
+
+The reporter inspects two signals:
+
+| Signal | Outcome |
+|---|---|
+| `result.annotations` contains `{ type: "healer" }` AND test **passed** | `auto-healed` |
+| `git diff HEAD -- tests/` shows a `.spec.ts` change AND test **passed** | `auto-healed` |
+| `result.annotations` contains `{ type: "healer" }` AND test **skipped** | `skipped-app-broken` |
+
+### Dashboard badges
+
+| Badge | Colour | Meaning |
+|---|---|---|
+| **Auto-healed** | Amber | Healer patched the locator; test passed |
+| **App broken** | Red | Healer could not fix; test skipped for manual review |
+
+Expanded test cards show a before→after locator diff panel when a git patch was detected.
+
+### Simulating the Healer (demo)
+
+To demonstrate the "fix later" outcome, add the healer annotation and `test.skip()` inside the failing test:
+
+```ts
+test('Navigation works end-to-end', async ({ page }) => {
+  // Healer agent annotation
+  test.info().annotations.push({
+    type: 'healer',
+    description:
+      "page.getByRole('link', { name: 'More information' }) — element not found. " +
+      "Skipped for manual review.",
+  });
+  // Healer puts the test into 'fix later' mode
+  test.skip(true, 'Healer: locator not found — skipped until app is fixed');
+
+  await page.goto('https://example.com');
+  const link = page.getByRole('link', { name: 'More information' });
+  await expect(link).toBeVisible();
+});
+```
+
+### Config
+
+```ts
+healing: {
+  enabled: true,
+}
+```
+
+When `enabled: true`, the reporter:
+- Runs `git diff HEAD -- tests/` to detect patched files
+- Reads `result.annotations` for healer entries
+- Writes `healing.json` with the full healing summary
+- Shows the Healer signal (Low / Medium / High) on the Traceability tab
+
+### Output files
+
+| File | Description |
+|---|---|
+| `healing.json` | Healing summary with per-test outcomes and locator diffs |
+
+### Does auto-healing work in CI/CD?
+
+**Yes** — with two detection signals, both of which work in CI:
+
+| Signal | How it works in CI | Requires |
+|---|---|---|
+| `result.annotations` `type: "healer"` | Playwright Healer injects this annotation into the test at runtime — no git needed | Playwright Agent/Healer running in pipeline |
+| `git diff HEAD -- <testDir>` | Detects patched `.spec.ts` files after Healer mutates them | Git available (standard in all CI environments) + Playwright Healer running |
+
+The annotation signal is the primary one for CI — it fires whenever the real Playwright Healer patches and re-runs a test, regardless of git state.
+
+**GitHub Actions example** (with Playwright Healer configured):
+
+```yaml
+- name: Run Playwright tests with Healer
+  run: npx playwright test
+  env:
+    ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}  # needed by Playwright Healer
+```
+
+**What the reporter needs from CI:**
+
+```yaml
+# No extra setup needed for healing detection.
+# The reporter reads annotations and runs `git diff HEAD -- <testDir>`
+# (wrapped in try/catch — silently skipped if git is unavailable).
+#
+# Standard checkout is sufficient:
+- uses: actions/checkout@v4  # creates a proper git repo with HEAD
+```
+
+**`git diff` works with shallow clones** — `actions/checkout@v4` defaults to `fetch-depth: 1` (shallow), which is fine. `git diff HEAD` compares the working tree against the single commit that was checked out.
+
+**What won't trigger healing detection in CI:**
+- Running `playwright test` *without* the Playwright Healer agent (no agent = no annotations or patches)
+- A non-git workspace (`git diff` silently returns empty; annotation signal still works)
 
 ---
 

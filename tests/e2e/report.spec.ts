@@ -188,6 +188,98 @@ test.describe('Tests Page', () => {
     await expect(page.locator('#mainTabs')).not.toBeEmpty();
   });
 
+  test('Expand All and Collapse All buttons are visible on the All tab', async ({ page }) => {
+    const actions = page.locator('.section-actions');
+    await expect(actions).toBeVisible();
+  });
+
+  test('Expand All and Collapse All buttons are hidden on the Failed tab', async ({ page }) => {
+    await page.locator('.tab-btn[data-tab="failed"]').click();
+    await expect(page.locator('.section-actions')).not.toBeVisible();
+  });
+
+  test('Expand All and Collapse All buttons are hidden on the Passed tab', async ({ page }) => {
+    await page.locator('.tab-btn[data-tab="passed"]').click();
+    await expect(page.locator('.section-actions')).not.toBeVisible();
+  });
+
+  test('Expand All and Collapse All buttons are hidden on the Skipped tab', async ({ page }) => {
+    await page.locator('.tab-btn[data-tab="skipped"]').click();
+    await expect(page.locator('.section-actions')).not.toBeVisible();
+  });
+
+  test('Expand All and Collapse All buttons are hidden on the Healing tab', async ({ page }) => {
+    await page.locator('.tab-btn[data-tab="healing"]').click();
+    await expect(page.locator('.section-actions')).not.toBeVisible();
+  });
+
+  test('switching from any tab back to All restores Expand/Collapse buttons', async ({ page }) => {
+    await page.locator('.tab-btn[data-tab="failed"]').click();
+    await page.locator('.tab-btn[data-tab="all"]').click();
+    await expect(page.locator('.section-actions')).toBeVisible();
+  });
+
+  // ── Filter + expand regression ──────────────────────────────────────────────
+
+  test('applying a status filter auto-expands suites containing matching tests', async ({ page }) => {
+    // Click "Failed" filter — suites with failing tests must be auto-opened
+    await page.locator('.filter-btn[data-filter="failed"]').click();
+    await page.waitForTimeout(200);
+
+    // Every visible suite-block should have its suite-body open
+    const visibleSuites = page.locator('#suitesContainer .suite-block:visible');
+    const suiteCount = await visibleSuites.count();
+    expect(suiteCount).toBeGreaterThan(0);
+
+    for (let i = 0; i < suiteCount; i++) {
+      const body = visibleSuites.nth(i).locator('.suite-body');
+      await expect(body).toHaveClass(/open/);
+    }
+  });
+
+  test('test cards inside a filtered suite can be expanded by clicking', async ({ page }) => {
+    await page.locator('.filter-btn[data-filter="failed"]').click();
+    await page.waitForTimeout(200);
+
+    // Find first visible test-detail-block and click its header to expand it
+    const firstTestHeader = page
+      .locator('#suitesContainer .suite-block:visible .test-detail-block:visible .test-detail-header')
+      .first();
+    const firstTestBody = page
+      .locator('#suitesContainer .suite-block:visible .test-detail-block:visible .test-detail-body')
+      .first();
+
+    // Start collapsed (detail body closed)
+    const isAlreadyOpen = await firstTestBody.evaluate(el => el.classList.contains('open'));
+    if (isAlreadyOpen) {
+      await firstTestHeader.click(); // close it first
+      await expect(firstTestBody).not.toHaveClass(/open/);
+    }
+
+    await firstTestHeader.click();
+    await expect(firstTestBody).toHaveClass(/open/);
+  });
+
+  test('clearing filter back to All does not collapse suites the user had open', async ({ page }) => {
+    // Open first suite manually
+    const firstSuiteHeader = page.locator('#suitesContainer .suite-block .suite-header').first();
+    const firstSuiteBody = page.locator('#suitesContainer .suite-block .suite-body').first();
+    if (!(await firstSuiteBody.evaluate(el => el.classList.contains('open')))) {
+      await firstSuiteHeader.click();
+    }
+    await expect(firstSuiteBody).toHaveClass(/open/);
+
+    // Apply then clear filter
+    await page.locator('.filter-btn[data-filter="failed"]').click();
+    await page.waitForTimeout(150);
+    await page.locator('.filter-btn[data-filter="all"]').click();
+    await page.waitForTimeout(150);
+
+    // Suite that was open before filter should remain open (not forcibly closed)
+    // We only auto-open on filter — we never auto-close on clear
+    await expect(firstSuiteBody).toHaveClass(/open/);
+  });
+
   test('clicking a suite header toggles its body open/closed', async ({ page }) => {
     const suiteBlock = page.locator('#suitesContainer .suite-block').first();
     const suiteBody = suiteBlock.locator('.suite-body');
