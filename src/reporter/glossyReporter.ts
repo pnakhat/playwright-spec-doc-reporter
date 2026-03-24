@@ -15,7 +15,8 @@ import { defaultConfig } from "../config/defaults.js";
 import { generateReport } from "../generator/reportGenerator.js";
 import { createHealingPayloads } from "../healing/payload.js";
 import { writePrComment } from "../prComment/generator.js";
-import { postJiraTestResults } from "../jira/index.js";
+import { postJiraTestResults, createJiraBugs } from "../jira/index.js";
+import { generateAutofixPR } from "../autofix/prGenerator.js";
 import { parseManualResults } from "../manual/parser.js";
 import type { AIAnalysisResult, ApiEntry, AttachmentInfo, GlossyReporterConfig, NormalizedTestResult, TestStepInfo } from "../types/index.js";
 import { classifyArtifacts, safeTextFromBuffer, shortId } from "../utils/report.js";
@@ -409,6 +410,39 @@ export class GlossyPlaywrightReporter implements Reporter {
 
     await writePrComment(finalizedTests, report.summary, analyses, this.config);
     await postJiraTestResults(finalizedTests, this.config);
+
+    // Auto-bug creation in Jira for failed tests
+    const bugCfg = this.config.jira?.autoBugs;
+    if (bugCfg?.enabled) {
+      const email = this.config.jira?.email ?? process.env.JIRA_EMAIL ?? "";
+      const apiToken = this.config.jira?.apiToken ?? process.env.JIRA_API_TOKEN ?? "";
+      const baseUrl = this.config.jira?.baseUrl ?? "";
+      if (email && apiToken && baseUrl) {
+        const outputDirAbs = path.resolve(process.cwd(), this.config.outputDir ?? defaultConfig.outputDir);
+        await createJiraBugs({
+          tests: finalizedTests,
+          analyses,
+          bugConfig: bugCfg,
+          jiraBaseUrl: baseUrl,
+          email,
+          apiToken,
+          outputDirAbs,
+        });
+      } else {
+        console.warn("[glossy-reporter] Jira autoBugs enabled but JIRA_EMAIL / JIRA_API_TOKEN / baseUrl are not set.");
+      }
+    }
+
+    // Auto-PR generation: apply AI patches, push branch, open draft PR
+    if (this.config.healing?.generatePR && healingPayloads.length > 0) {
+      const autofixConfig = this.config.healing.autofix ?? {};
+      await generateAutofixPR({
+        payloads: healingPayloads,
+        analyses,
+        autofixConfig,
+        cwd: this.projectRoot,
+      });
+    }
   }
 
   printsToStdio(): boolean {
