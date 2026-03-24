@@ -34,7 +34,10 @@ A beautiful, production-ready Playwright reporter with BDD-style annotations, in
 ### Inline API Request / Response Viewer
 ![API Viewer](docs/screenshots/api-viewer.png)
 
-### Auto-Healing PR Comment — Test Results on the Auto-Fix Branch
+### Auto-Healing Draft PR — Patched Files & Test Plan
+![Auto-fix PR](docs/screenshots/autofix-pr.png)
+
+### Auto-Healing PR Comment — Test Report on the Auto-Fix Branch
 ![PR Comment](docs/screenshots/pr-comment.png)
 
 ---
@@ -854,23 +857,21 @@ steps:
 
 > Grant the pipeline **Contribute** and **Create pull requests** permissions on the repository under _Project Settings → Repositories → Security_.
 
-### What the auto-fix PR comment looks like
+### What the auto-fix PR looks like
 
-When Glossy pushes an `autofix/<name>-<timestamp>` branch and opens a draft PR, the PR comment shows the full test report for that branch — giving reviewers everything they need before merging:
+When Glossy pushes an `autofix/<name>-<timestamp>` branch and opens a draft PR, the PR body shows exactly what was patched and what the reviewer needs to do:
 
-![Auto-fix PR Comment](docs/screenshots/pr-comment.png)
+![Auto-fix PR](docs/screenshots/autofix-pr.png)
 
-The comment includes:
-- Branch name and run number at a glance
-- Pass / fail / skip / total counts and duration
-- Every failed test with its specific error message
-- AI Analysis summary with confidence score (98% in the example above)
-- **Full Report** and **Live Report** deep-links into the Glossy HTML report
+The PR body includes:
+- Branch name and commit SHA for traceability
+- **Patched files** — every file touched by the AI fix
+- **Test plan checklist** — review patches → run `npx playwright test` → approve when green
+- Generated-by footer linking back to Glossy
 
-The PR body (separate from the comment) additionally contains:
-- Per-file patch diffs in collapsible `<details>` blocks
-- AI root-cause and remediation per test
-- A mandatory test-plan checklist: review locators → run suite → approve when green
+The PR also receives a test report comment showing pass/fail counts, failed test errors, and AI analysis summary:
+
+![PR Comment](docs/screenshots/pr-comment.png)
 
 ### CLI usage
 
