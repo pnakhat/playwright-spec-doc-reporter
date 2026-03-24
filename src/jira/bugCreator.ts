@@ -255,7 +255,7 @@ export async function createJiraBugs(opts: {
   const auth = Buffer.from(`${email}:${apiToken}`).toString("base64");
   const client = new JiraClient({ baseUrl, email, apiToken });
 
-  const projectKey = cfg.projectKey ?? process.env.JIRA_PROJECT_KEY ?? "";
+  const projectKey = cfg.projectKey || process.env.JIRA_PROJECT_KEY || "";
   if (!projectKey) {
     console.warn("[glossy-reporter] autoBugs: projectKey is not set — skipping bug creation. Set jira.autoBugs.projectKey or JIRA_PROJECT_KEY env var.");
     return [];
