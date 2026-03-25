@@ -64,8 +64,8 @@ function applyPatch(absoluteFile: string, patch: string, createBackup: boolean):
   const removedLines: string[] = [];
   const addedLines: string[] = [];
   for (const line of patch.split("\n")) {
-    if (line.startsWith("- ") && !line.startsWith("---")) removedLines.push(line.slice(2));
-    if (line.startsWith("+ ") && !line.startsWith("+++")) addedLines.push(line.slice(2));
+    if (line.startsWith("-") && !line.startsWith("---")) removedLines.push(line.slice(1));
+    if (line.startsWith("+") && !line.startsWith("+++")) addedLines.push(line.slice(1));
   }
 
   if (removedLines.length === 0 || addedLines.length === 0) return false;
