@@ -1,5 +1,5 @@
-## 🎭 Test Report — `feature/auto-healing-pr-generation` · Run #71
-commit `e42b755c`
+## 🎭 Test Report — `feature/auto-healing-pr-generation` · Run #72
+commit `60905cf6`
 
 | | Result |
 |---|---|
@@ -15,6 +15,6 @@ commit `e42b755c`
 - ❌ `Authentication › Login error clears when user starts retyping` — *Error message persists even after the user clears the username field — no auto-dismiss*
 - ❌ `Product Detail › Checkout cancel on step 2 returns to inventory` — *Cancel on step 2 navigates to /cart.html instead of /inventory.html — unexpected destination*
 
-> 🤖 **AI Analysis** (4 failures analysed) (98% confidence): The test intentionally attempts to locate a heading element with the text 'Non Existing Header' which does not exist in the DOM. The assertion `toBeVisible()` fails after the 5000ms timeout because no [View full analysis →](https://pnakhat.github.io/playwright-spec-doc-reporter/reports/pr-15/)
+> 🤖 **AI Analysis** (4 failures analysed) (98% confidence): The test intentionally asserts the visibility of a heading element with the name 'Non Existing Header', which does not exist in the DOM. The assertion fails after the 5000ms timeout because no such el [View full analysis →](https://pnakhat.github.io/playwright-spec-doc-reporter/reports/pr-15/)
 
 [📊 Full Report →](https://pnakhat.github.io/playwright-spec-doc-reporter/reports/pr-15/)
