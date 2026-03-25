@@ -5,7 +5,7 @@
  * a simple Promise.resolve() wrapper without dealing with child-process
  * streams.  The working directory is always the Playwright project root.
  */
-import { execSync } from "node:child_process";
+import { execFileSync, execSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import type { HealingPayload } from "../types/index.js";
@@ -111,9 +111,12 @@ export async function createAutofixBranch(opts: BranchManagerOptions): Promise<B
   const anchor = payloads.find(p => p.confidence >= minConfidence)?.testName ?? "tests";
   const branchName = `autofix/${slugify(anchor)}-${timestamp()}`;
 
-  // Stash any in-flight local changes so we start from a clean state
-  const hasStash = run("git stash list", cwd).length > 0;
+  // Stash any in-flight local changes so we start from a clean state.
+  // Track whether *we* created a new entry so we don't pop a pre-existing stash.
+  const stashBefore = run("git stash list", cwd);
   run(`git stash push -m "glossy-autofix-stash-${timestamp()}" --include-untracked`, cwd);
+  const stashAfter = run("git stash list", cwd);
+  const createdStash = stashAfter !== stashBefore;
 
   try {
     run(`git checkout -b ${branchName}`, cwd);
@@ -148,7 +151,7 @@ export async function createAutofixBranch(opts: BranchManagerOptions): Promise<B
     // Nothing to commit — restore original branch
     run(`git checkout -`, cwd);
     run(`git branch -D ${branchName}`, cwd);
-    if (hasStash) run("git stash pop", cwd);
+    if (createdStash) run("git stash pop", cwd);
     throw new Error("No patches could be applied (confidence too low or no suggestedPatch provided).");
   }
 
@@ -170,7 +173,7 @@ export async function createAutofixBranch(opts: BranchManagerOptions): Promise<B
     `Co-Authored-By: Glossy AI Healer <noreply@glossy-reporter>`,
   ].join("\n");
 
-  run(`git commit -m "${message.replace(/"/g, "'")}"`, cwd);
+  execFileSync("git", ["commit", "-m", message], { cwd, encoding: "utf-8", stdio: ["pipe", "pipe", "pipe"] });
 
   const commitSha = run("git rev-parse --short HEAD", cwd);
 
@@ -179,7 +182,7 @@ export async function createAutofixBranch(opts: BranchManagerOptions): Promise<B
 
   // Restore stash on base branch
   run(`git checkout -`, cwd);
-  if (hasStash) {
+  if (createdStash) {
     try { run("git stash pop", cwd); } catch { /* stash may be clean */ }
   }
 
@@ -227,7 +230,7 @@ export async function commitPatchedFiles(opts: CommitAndPROptions): Promise<Bran
     `Co-Authored-By: Glossy AI Healer <noreply@glossy-reporter>`,
   ].join("\n");
 
-  run(`git commit -m "${message.replace(/"/g, "'")}"`, cwd);
+  execFileSync("git", ["commit", "-m", message], { cwd, encoding: "utf-8", stdio: ["pipe", "pipe", "pipe"] });
   const commitSha = run("git rev-parse --short HEAD", cwd);
   run(`git push -u origin ${branchName}`, cwd);
 

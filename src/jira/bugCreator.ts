@@ -257,11 +257,12 @@ async function findExistingBug(
   baseUrl: string,
   auth: string,
   projectKey: string,
-  fingerprint: string
+  fingerprint: string,
+  issueType: string
 ): Promise<string | null> {
   const closedList = CLOSED_STATUSES.map(s => `"${s}"`).join(", ");
   const jql = encodeURIComponent(
-    `project = "${projectKey}" AND issuetype = Bug AND status not in (${closedList}) AND labels = "${fingerprint}"`
+    `project = "${projectKey}" AND issuetype = "${issueType}" AND status not in (${closedList}) AND labels = "${fingerprint}"`
   );
 
   const searchRes = await fetch(
@@ -324,6 +325,7 @@ export async function createJiraBugs(opts: {
   const includeApiTraffic = cfg.includeApiTraffic ?? true;
 
   const analysisByTest = new Map(analyses.map(a => [a.testName, a]));
+  // testName on AIAnalysisResult is sourced from NormalizedTestResult.fullName — key by fullName
 
   const failedTests = tests.filter(
     t => t.status === "failed" || t.status === "timedOut"
@@ -338,7 +340,7 @@ export async function createJiraBugs(opts: {
   const createdThisRun = new Set<string>();
 
   for (const test of failedTests) {
-    const analysis = analysisByTest.get((test as NormalizedTestResult).fullName ?? test.title);
+    const analysis = analysisByTest.get(test.fullName);
 
     if (onlyForAI && !analysis) {
       results.push({
@@ -381,7 +383,7 @@ export async function createJiraBugs(opts: {
 
     // ── Layer 3 check: Jira label search (catches bugs from other machines) ─
     if (dedup) {
-      const existing = await findExistingBug(baseUrl, auth, projectKey, fingerprint).catch(() => null);
+      const existing = await findExistingBug(baseUrl, auth, projectKey, fingerprint, issueType).catch(() => null);
       if (existing) {
         // Back-fill the state file so this machine won't call Jira again
         bugState[fingerprint] = { issueKey: existing, issueUrl: `${baseUrl}/browse/${existing}`, createdAt: new Date().toISOString() };

@@ -9,7 +9,7 @@
  *   - Azure DevOps (REST API 7.1)
  */
 import type { AIAnalysisResult, AutofixConfig, HealingPayload } from "../types/index.js";
-import { createAutofixBranch, currentBranch } from "./branchManager.js";
+import { createAutofixBranch } from "./branchManager.js";
 
 // ─── Types ─────────────────────────────────────────────────────────────────────
 
@@ -228,7 +228,6 @@ async function createAzurePR(opts: {
   }
 
   const pr = await res.json() as { pullRequestId: number };
-  const orgSlug = org.replace(/^https?:\/\/dev\.azure\.com\//, "");
   return `${org}/${opts.project}/_git/${opts.repo}/pullrequest/${pr.pullRequestId}`;
 }
 
