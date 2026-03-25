@@ -39,7 +39,8 @@ function baseTest(overrides: Partial<NormalizedTestResult> = {}): NormalizedTest
 
 function baseAnalysis(overrides: Partial<AIAnalysisResult> = {}): AIAnalysisResult {
   return {
-    testName: "checkout completes successfully",
+    // Must match baseTest().fullName — AIAnalysisResult.testName is sourced from fullName
+    testName: "Checkout › checkout completes successfully",
     summary: "Locator for submit button has drifted",
     likelyRootCause: "DOM structure changed after UI update",
     issueCategory: "locator_drift",
@@ -47,9 +48,9 @@ function baseAnalysis(overrides: Partial<AIAnalysisResult> = {}): AIAnalysisResu
     suggestedRemediation: "Update selector to use data-testid",
     structuredFeedback: {
       actionType: "locator_update",
+      reasoning: "Selector drifted after DOM update",
       suggestedPatch: "- page.click('#submit')\n+ page.click('[data-testid=submit]')",
       candidateLocators: ["[data-testid=submit]"],
-      failedLocator: "#submit",
     },
     ...overrides,
   };
@@ -240,6 +241,50 @@ describe("createJiraBugs — filtering", () => {
     expect(results).toHaveLength(1);
     expect(results[0]!.status).toBe("created");
   });
+
+  it("matches analysis by test.fullName, not test.title", async () => {
+    // title and fullName differ — analysis keyed by fullName should be found
+    const test = baseTest({
+      title: "checkout completes successfully",
+      fullName: "Checkout › checkout completes successfully",
+    });
+    // analysis.testName matches fullName
+    const analysis = baseAnalysis({ testName: "Checkout › checkout completes successfully", summary: "Matched via fullName" });
+
+    await createJiraBugs({
+      ...commonOpts,
+      tests: [test],
+      analyses: [analysis],
+      bugConfig: baseBugConfig({ onlyForAIAnalyzed: true }),
+    });
+
+    // Bug was created (analysis was found), not skipped
+    const createCall = (fetchMock.mock.calls as unknown[][]).find((args) =>
+      (args[0] as string).includes("/rest/api/3/issue") && !(args[0] as string).includes("search")
+    );
+    expect(createCall).toBeTruthy();
+    // Description contains the analysis summary
+    const [, opts] = createCall as [string, RequestInit];
+    expect(opts.body as string).toContain("Matched via fullName");
+  });
+
+  it("skips test when analysis.testName only matches title but not fullName", async () => {
+    const test = baseTest({
+      title: "checkout completes successfully",
+      fullName: "Checkout Suite › checkout completes successfully", // different fullName
+    });
+    // analysis keyed by old title — won't match fullName
+    const analysis = baseAnalysis({ testName: "checkout completes successfully" });
+
+    const results = await createJiraBugs({
+      ...commonOpts,
+      tests: [test],
+      analyses: [analysis],
+      bugConfig: baseBugConfig({ onlyForAIAnalyzed: true }),
+    });
+
+    expect(results[0]!.status).toBe("skipped");
+  });
 });
 
 // ---------------------------------------------------------------------------
@@ -303,6 +348,21 @@ describe("createJiraBugs — deduplication", () => {
     expect(decodeURIComponent(url)).toContain("labels");
     expect(decodeURIComponent(url)).toContain("glossy:");
     expect(decodeURIComponent(url)).not.toContain("summary ~");
+  });
+
+  it("dedup JQL uses configured issueType, not hardcoded Bug", async () => {
+    await createJiraBugs({
+      ...commonOpts,
+      tests: [baseTest()],
+      analyses: [],
+      bugConfig: baseBugConfig({ deduplicateByTestName: true, issueType: "Task" }),
+    });
+    const searchCall = (fetchMock.mock.calls as unknown[][]).find((args) =>
+      (args[0] as string).includes("/search")
+    );
+    const url = decodeURIComponent(searchCall![0] as string);
+    expect(url).toContain("Task");
+    expect(url).not.toContain("issuetype = \"Bug\"");
   });
 
   it("dedup JQL excludes Closed and Resolved statuses, not just Done", async () => {

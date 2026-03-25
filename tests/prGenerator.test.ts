@@ -26,7 +26,6 @@ const mockBranchResult = {
 
 vi.mock("../src/autofix/branchManager.js", () => ({
   createAutofixBranch: vi.fn().mockResolvedValue(mockBranchResult),
-  currentBranch: vi.fn().mockReturnValue("main"),
 }));
 
 const { createAutofixBranch } = await import("../src/autofix/branchManager.js");
@@ -53,13 +52,15 @@ function basePayload(overrides: Partial<HealingPayload> = {}): HealingPayload {
 function baseAnalysis(overrides: Partial<AIAnalysisResult> = {}): AIAnalysisResult {
   return {
     testName: "login works",
+    file: "tests/login.spec.ts",
     summary: "Locator drifted",
     likelyRootCause: "DOM changed",
     issueCategory: "locator_drift",
     confidence: 0.9,
     suggestedRemediation: "Update selector",
     structuredFeedback: {
-      actionType: "update_locator",
+      actionType: "locator_update",
+      reasoning: "Selector drifted",
       candidateLocators: [],
     },
     ...overrides,
@@ -99,6 +100,8 @@ function azureConfig(overrides: Partial<AutofixConfig> = {}): AutofixConfig {
 // ---------------------------------------------------------------------------
 
 let fetchMock: ReturnType<typeof vi.fn>;
+// Typed accessor — resolves TS destructuring errors on mock.calls (which is any[][])
+const calls = (): [string, RequestInit][] => fetchMock.mock.calls as [string, RequestInit][];
 
 beforeEach(() => {
   fetchMock = vi.fn().mockResolvedValue({
@@ -182,8 +185,8 @@ describe("generateAutofixPR — GitHub", () => {
       cwd: "/repo",
     });
 
-    const prCall = fetchMock.mock.calls.find(
-      ([url]: [string]) => url === "https://api.github.com/repos/owner/testrepo/pulls"
+    const prCall = calls().find(
+      ([url]) => url === "https://api.github.com/repos/owner/testrepo/pulls"
     );
     expect(prCall).toBeTruthy();
   });
@@ -196,8 +199,8 @@ describe("generateAutofixPR — GitHub", () => {
       cwd: "/repo",
     });
 
-    const prCall = fetchMock.mock.calls.find(
-      ([url]: [string]) => url === "https://api.github.com/repos/owner/testrepo/pulls"
+    const prCall = calls().find(
+      ([url]) => url === "https://api.github.com/repos/owner/testrepo/pulls"
     );
     const [, opts] = prCall as [string, RequestInit];
     expect((opts.headers as Record<string, string>)["Authorization"]).toBe("Bearer ghp_mytoken");
@@ -211,8 +214,8 @@ describe("generateAutofixPR — GitHub", () => {
       cwd: "/repo",
     });
 
-    const prCall = fetchMock.mock.calls.find(
-      ([url]: [string]) => url === "https://api.github.com/repos/owner/testrepo/pulls"
+    const prCall = calls().find(
+      ([url]) => url === "https://api.github.com/repos/owner/testrepo/pulls"
     );
     const [, opts] = prCall as [string, RequestInit];
     const body = JSON.parse(opts.body as string) as { draft: boolean; head: string; base: string };
@@ -248,8 +251,8 @@ describe("generateAutofixPR — GitHub", () => {
       cwd: "/repo",
     });
 
-    const prCall = fetchMock.mock.calls.find(
-      ([url]: [string]) => url === "https://api.github.com/repos/owner/testrepo/pulls"
+    const prCall = calls().find(
+      ([url]) => url === "https://api.github.com/repos/owner/testrepo/pulls"
     );
     const [, opts] = prCall as [string, RequestInit];
     expect((opts.headers as Record<string, string>)["Authorization"]).toBe("Bearer env-token");
@@ -282,13 +285,13 @@ describe("generateAutofixPR — GitHub", () => {
       cwd: "/repo",
     });
 
-    const labelCreationCalls = fetchMock.mock.calls.filter(
-      ([url]: [string]) => url === "https://api.github.com/repos/owner/testrepo/labels"
+    const labelCreationCalls = calls().filter(
+      ([url]) => url === "https://api.github.com/repos/owner/testrepo/labels"
     );
     expect(labelCreationCalls.length).toBe(2); // one per label
 
-    const labelApplicationCall = fetchMock.mock.calls.find(
-      ([url]: [string]) => url === "https://api.github.com/repos/owner/testrepo/issues/42/labels"
+    const labelApplicationCall = calls().find(
+      ([url]) => url === "https://api.github.com/repos/owner/testrepo/issues/42/labels"
     );
     expect(labelApplicationCall).toBeTruthy();
   });
@@ -301,8 +304,8 @@ describe("generateAutofixPR — GitHub", () => {
       cwd: "/repo",
     });
 
-    const labelCalls = fetchMock.mock.calls.filter(
-      ([url]: [string]) => url.includes("/labels")
+    const labelCalls = calls().filter(
+      ([url]) => url.includes("/labels")
     );
     expect(labelCalls).toHaveLength(0);
   });
@@ -315,8 +318,8 @@ describe("generateAutofixPR — GitHub", () => {
       cwd: "/repo",
     });
 
-    const prCall = fetchMock.mock.calls.find(
-      ([url]: [string]) => url === "https://api.github.com/repos/owner/testrepo/pulls"
+    const prCall = calls().find(
+      ([url]) => url === "https://api.github.com/repos/owner/testrepo/pulls"
     );
     const [, opts] = prCall as [string, RequestInit];
     const body = JSON.parse(opts.body as string) as { title: string };
@@ -331,8 +334,8 @@ describe("generateAutofixPR — GitHub", () => {
       cwd: "/repo",
     });
 
-    const prCall = fetchMock.mock.calls.find(
-      ([url]: [string]) => url === "https://api.github.com/repos/owner/testrepo/pulls"
+    const prCall = calls().find(
+      ([url]) => url === "https://api.github.com/repos/owner/testrepo/pulls"
     );
     const [, opts] = prCall as [string, RequestInit];
     const body = JSON.parse(opts.body as string) as { body: string };
@@ -359,8 +362,8 @@ describe("generateAutofixPR — Azure DevOps", () => {
       cwd: "/repo",
     });
 
-    const azureCall = fetchMock.mock.calls.find(
-      ([url]: [string]) => url.includes("pullrequests")
+    const azureCall = calls().find(
+      ([url]) => url.includes("pullrequests")
     );
     expect(azureCall).toBeTruthy();
     const [url] = azureCall as [string];
@@ -383,8 +386,8 @@ describe("generateAutofixPR — Azure DevOps", () => {
       cwd: "/repo",
     });
 
-    const azureCall = fetchMock.mock.calls.find(
-      ([url]: [string]) => url.includes("pullrequests")
+    const azureCall = calls().find(
+      ([url]) => url.includes("pullrequests")
     );
     const [, opts] = azureCall as [string, RequestInit];
     const expected = `Basic ${Buffer.from(":my-pat").toString("base64")}`;
@@ -405,8 +408,8 @@ describe("generateAutofixPR — Azure DevOps", () => {
       cwd: "/repo",
     });
 
-    const azureCall = fetchMock.mock.calls.find(
-      ([url]: [string]) => url.includes("pullrequests")
+    const azureCall = calls().find(
+      ([url]) => url.includes("pullrequests")
     );
     const [, opts] = azureCall as [string, RequestInit];
     const body = JSON.parse(opts.body as string) as { isDraft: boolean; sourceRefName: string; targetRefName: string };

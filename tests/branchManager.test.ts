@@ -21,7 +21,9 @@ import type { HealingPayload } from "../src/types/index.js";
 const execSyncMock = vi.fn().mockReturnValue("");
 
 vi.mock("node:child_process", () => ({
-  execSync: (...args: unknown[]) => execSyncMock(...args),
+  execSync:     (...args: unknown[]) => execSyncMock(...args),
+  // execFileSync is now used for `git commit` to prevent shell injection
+  execFileSync: (...args: unknown[]) => execSyncMock(...args),
 }));
 
 // Import AFTER mocking so the module picks up the mock
@@ -41,7 +43,9 @@ function basePayload(overrides: Partial<HealingPayload> = {}): HealingPayload {
     actionType: "update_locator",
     failedLocator: "#old-btn",
     candidateLocators: ["[data-testid=btn]"],
-    suggestedPatch: "- page.click('#old-btn')\n+ page.click('[data-testid=btn]')",
+    // Standard unified-diff format: "-old\n+new" (no space after - / +)
+    // applyPatch uses slice(1), so leading space would cause the match to fail
+    suggestedPatch: "-page.click('#old-btn')\n+page.click('[data-testid=btn]')",
     reasoning: "DOM updated",
     ...overrides,
   };
@@ -106,17 +110,18 @@ describe("createAutofixBranch — confidence filtering", () => {
     // Write a file that matches the "- " line in the patch
     fs.writeFileSync(testFile, "page.click('#old-btn');\n", "utf-8");
 
-    // Mock git stash list (non-empty to test stash pop), commit SHA
+    // stash list BEFORE is non-empty; stash list AFTER adds a new entry → createdStash=true → pop
     execSyncMock
-      .mockReturnValueOnce("stash@{0}: ...\n") // git stash list
-      .mockReturnValueOnce("")                   // git stash push
-      .mockReturnValueOnce("")                   // git checkout -b
-      .mockReturnValueOnce("")                   // git add
-      .mockReturnValueOnce("")                   // git commit
-      .mockReturnValueOnce("abc1234\n")          // git rev-parse --short HEAD
-      .mockReturnValueOnce("")                   // git push
-      .mockReturnValueOnce("")                   // git checkout -
-      .mockReturnValueOnce("");                  // git stash pop
+      .mockReturnValueOnce("stash@{0}: old\n")                    // git stash list BEFORE
+      .mockReturnValueOnce("")                                      // git stash push
+      .mockReturnValueOnce("stash@{0}: glossy\nstash@{1}: old\n") // git stash list AFTER (new entry)
+      .mockReturnValueOnce("")                                      // git checkout -b
+      .mockReturnValueOnce("")                                      // git add
+      .mockReturnValueOnce("")                                      // git commit (execFileSync)
+      .mockReturnValueOnce("abc1234\n")                            // git rev-parse --short HEAD
+      .mockReturnValueOnce("")                                      // git push
+      .mockReturnValueOnce("")                                      // git checkout -
+      .mockReturnValueOnce("");                                     // git stash pop
 
     const result = await createAutofixBranch({
       payloads: [basePayload({ file: "tests/login.spec.ts" })],
@@ -134,11 +139,12 @@ describe("createAutofixBranch — confidence filtering", () => {
     fs.writeFileSync(testFile, "page.click('#old-btn');\n", "utf-8");
 
     execSyncMock
-      .mockReturnValueOnce("")        // git stash list (empty — no stash)
+      .mockReturnValueOnce("")        // git stash list BEFORE (empty)
       .mockReturnValueOnce("")        // git stash push
+      .mockReturnValueOnce("")        // git stash list AFTER (empty — no new stash, no pop needed)
       .mockReturnValueOnce("")        // git checkout -b
       .mockReturnValueOnce("")        // git add
-      .mockReturnValueOnce("")        // git commit
+      .mockReturnValueOnce("")        // git commit (execFileSync)
       .mockReturnValueOnce("sha\n")   // rev-parse
       .mockReturnValueOnce("")        // git push
       .mockReturnValueOnce("");       // git checkout -
@@ -155,11 +161,10 @@ describe("createAutofixBranch — confidence filtering", () => {
 
   it("uses minConfidence to skip low-confidence payloads", async () => {
     const highConf = basePayload({ confidence: 0.9, file: "tests/login.spec.ts" });
-    const lowConf = basePayload({ confidence: 0.4, file: "tests/login.spec.ts", suggestedPatch: "- x\n+ y" });
+    const lowConf = basePayload({ confidence: 0.4, file: "tests/login.spec.ts", suggestedPatch: "-x\n+y" });
 
     fs.writeFileSync(testFile, "page.click('#old-btn');\n", "utf-8");
 
-    execSyncMock.mockReturnValue("").mockReturnValueOnce("").mockReturnValueOnce("");
     execSyncMock.mockReturnValue("sha\n");
 
     const result = await createAutofixBranch({
@@ -237,9 +242,8 @@ describe("commitPatchedFiles", () => {
       cwd: "/repo",
     });
 
-    const addCalls = execSyncMock.mock.calls.filter(
-      ([cmd]: [string]) => cmd.startsWith("git add")
-    );
+    const calls = execSyncMock.mock.calls as [string, ...unknown[]][];
+    const addCalls = calls.filter(([cmd]) => cmd.startsWith("git add"));
     expect(addCalls).toHaveLength(2);
   });
 
@@ -251,12 +255,10 @@ describe("commitPatchedFiles", () => {
       cwd: "/repo",
     });
 
-    const pushCall = execSyncMock.mock.calls.find(
-      ([cmd]: [string]) => cmd.startsWith("git push")
-    );
+    const calls = execSyncMock.mock.calls as [string, ...unknown[]][];
+    const pushCall = calls.find(([cmd]) => cmd.startsWith("git push"));
     expect(pushCall).toBeTruthy();
-    const [cmd] = pushCall as [string];
-    expect(cmd).toContain("-u origin");
+    expect(pushCall![0]).toContain("-u origin");
   });
 
   it("returns to previous branch with git checkout -", async () => {
@@ -267,9 +269,8 @@ describe("commitPatchedFiles", () => {
       cwd: "/repo",
     });
 
-    const checkoutCalls = execSyncMock.mock.calls.filter(
-      ([cmd]: [string]) => cmd === "git checkout -"
-    );
+    const calls = execSyncMock.mock.calls as [string, ...unknown[]][];
+    const checkoutCalls = calls.filter(([cmd]) => cmd === "git checkout -");
     expect(checkoutCalls.length).toBeGreaterThanOrEqual(1);
   });
 
@@ -283,5 +284,89 @@ describe("commitPatchedFiles", () => {
     });
 
     expect(result.branchName).toMatch(/^autofix\/tests-my-feature-spec-ts-/);
+  });
+
+  it("uses execFileSync (not execSync) for git commit to prevent shell injection", async () => {
+    execSyncMock.mockReturnValue("sha\n");
+
+    await commitPatchedFiles({
+      patchedFiles: ["tests/login.spec.ts"],
+      cwd: "/repo",
+    });
+
+    // execFileSync is routed through the same mock — verify commit was called with an array of args
+    // (first arg is "git", second is an array ["commit", "-m", ...])
+    const calls = execSyncMock.mock.calls as unknown[][];
+    const commitCall = calls.find(([cmd, args]) => cmd === "git" && Array.isArray(args) && (args as string[]).includes("commit"));
+    expect(commitCall).toBeTruthy();
+  });
+});
+
+// ---------------------------------------------------------------------------
+// createAutofixBranch — stash safety
+// ---------------------------------------------------------------------------
+
+describe("createAutofixBranch — stash safety", () => {
+  let tmpDir: string;
+  let testFile: string;
+
+  beforeEach(() => {
+    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "glossy-stash-"));
+    testFile = path.join(tmpDir, "tests/login.spec.ts");
+    fs.mkdirSync(path.dirname(testFile), { recursive: true });
+    fs.writeFileSync(testFile, "page.click('#old-btn');\n", "utf-8");
+    vi.clearAllMocks();
+  });
+
+  afterEach(() => {
+    fs.rmSync(tmpDir, { recursive: true, force: true });
+    vi.clearAllMocks();
+  });
+
+  it("pops stash only when this run created a new stash entry", async () => {
+    // stash list differs before/after → createdStash=true → pop expected
+    execSyncMock
+      .mockReturnValueOnce("")                          // stash list BEFORE (empty)
+      .mockReturnValueOnce("")                          // stash push
+      .mockReturnValueOnce("stash@{0}: glossy\n")      // stash list AFTER (new entry added)
+      .mockReturnValueOnce("")                          // checkout -b
+      .mockReturnValueOnce("")                          // git add
+      .mockReturnValueOnce("")                          // commit (execFileSync)
+      .mockReturnValueOnce("sha\n")                    // rev-parse
+      .mockReturnValueOnce("")                          // git push
+      .mockReturnValueOnce("")                          // checkout -
+      .mockReturnValueOnce("");                         // stash pop
+
+    await createAutofixBranch({
+      payloads: [basePayload({ file: "tests/login.spec.ts" })],
+      cwd: tmpDir, minConfidence: 0.7, createBackup: false,
+    });
+
+    const calls = execSyncMock.mock.calls as [string, ...unknown[]][];
+    const popCall = calls.find(([cmd]) => typeof cmd === "string" && cmd === "git stash pop");
+    expect(popCall).toBeTruthy();
+  });
+
+  it("does NOT pop stash when stash list is unchanged (no local changes were stashed)", async () => {
+    // stash list same before and after → createdStash=false → no pop
+    execSyncMock
+      .mockReturnValueOnce("stash@{0}: existing\n")    // stash list BEFORE
+      .mockReturnValueOnce("")                          // stash push (nothing to stash)
+      .mockReturnValueOnce("stash@{0}: existing\n")    // stash list AFTER (unchanged)
+      .mockReturnValueOnce("")                          // checkout -b
+      .mockReturnValueOnce("")                          // git add
+      .mockReturnValueOnce("")                          // commit (execFileSync)
+      .mockReturnValueOnce("sha\n")                    // rev-parse
+      .mockReturnValueOnce("")                          // git push
+      .mockReturnValueOnce("");                         // checkout -
+
+    await createAutofixBranch({
+      payloads: [basePayload({ file: "tests/login.spec.ts" })],
+      cwd: tmpDir, minConfidence: 0.7, createBackup: false,
+    });
+
+    const calls = execSyncMock.mock.calls as [string, ...unknown[]][];
+    const popCall = calls.find(([cmd]) => typeof cmd === "string" && cmd === "git stash pop");
+    expect(popCall).toBeUndefined();
   });
 });
