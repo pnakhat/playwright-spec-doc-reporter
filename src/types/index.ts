@@ -245,11 +245,84 @@ export interface AIConfig extends AIProviderConfig {
   maxFailuresToAnalyze?: number;
 }
 
+export interface AutofixConfig {
+  /**
+   * Target VCS platform for PR creation.
+   * Default: "github"
+   */
+  platform?: "github" | "azure";
+  /**
+   * Base branch the PR will target.
+   * Default: "main"
+   */
+  baseBranch?: string;
+  /**
+   * GitHub personal access token.
+   * Falls back to GITHUB_TOKEN env var.
+   */
+  githubToken?: string;
+  /**
+   * GitHub repository in "owner/repo" format.
+   * Falls back to GITHUB_REPOSITORY env var.
+   */
+  githubRepo?: string;
+  /**
+   * Azure DevOps organisation URL, e.g. https://dev.azure.com/myorg.
+   * Falls back to AZDO_ORG env var.
+   */
+  azureOrg?: string;
+  /**
+   * Azure DevOps project name.
+   * Falls back to AZDO_PROJECT env var.
+   */
+  azureProject?: string;
+  /**
+   * Azure DevOps repository name.
+   * Falls back to AZDO_REPO env var.
+   */
+  azureRepo?: string;
+  /**
+   * Azure DevOps personal access token.
+   * Falls back to AZDO_TOKEN env var.
+   */
+  azureToken?: string;
+  /**
+   * Open the PR as a draft (mandatory review before merge).
+   * Default: true
+   */
+  draft?: boolean;
+  /**
+   * Labels to apply to the auto-generated PR.
+   * Default: ["auto-fix", "test-failure", "ai-generated"]
+   */
+  labels?: string[];
+  /**
+   * Minimum AI confidence score (0–1) required before a patch is applied.
+   * Suggestions below this threshold are listed in the PR description but
+   * not applied automatically.
+   * Default: 0.7
+   */
+  minConfidence?: number;
+  /**
+   * Save a .backup copy of each file before patching it.
+   * Default: true
+   */
+  createBackup?: boolean;
+}
+
 export interface HealingConfig {
   enabled: boolean;
   exportPath?: string;
   exportMarkdownPath?: string;
   analysisOnly?: boolean;
+  /**
+   * Automatically generate a topic branch, apply AI-suggested patches,
+   * and open a draft PR after the run.
+   * Requires `ai.enabled: true` and valid VCS credentials in `autofix`.
+   */
+  generatePR?: boolean;
+  /** Configuration for the auto-PR workflow. */
+  autofix?: AutofixConfig;
 }
 
 export interface PrCommentConfig {
@@ -319,6 +392,60 @@ export interface JiraConfig {
   commentCooldownMs?: number;
 }
 
+export interface JiraAutoBugConfig {
+  /**
+   * Enable automatic bug creation for failed tests.
+   * Default: false
+   */
+  enabled: boolean;
+  /**
+   * Jira project key to create bugs in, e.g. "QA".
+   * Falls back to JIRA_PROJECT_KEY env var.
+   */
+  projectKey: string;
+  /**
+   * Jira issue type for auto-created bugs.
+   * Default: "Bug"
+   */
+  issueType?: string;
+  /**
+   * Priority assigned to auto-created bugs.
+   * Default: "Medium"
+   */
+  defaultPriority?: string;
+  /**
+   * Labels attached to auto-created bugs.
+   * Default: ["auto-generated", "playwright"]
+   */
+  labels?: string[];
+  /**
+   * Only create bugs for tests that have an AI analysis result.
+   * Default: true
+   */
+  onlyForAIAnalyzed?: boolean;
+  /**
+   * Skip creation when an open bug with the same test name already exists.
+   * Default: true
+   */
+  deduplicateByTestName?: boolean;
+  /**
+   * Attach Playwright screenshots to the created Jira bug.
+   * Default: true
+   */
+  includeScreenshots?: boolean;
+  /**
+   * Attach Playwright video recordings to the created Jira bug.
+   * Default: true
+   */
+  includeVideos?: boolean;
+  /**
+   * Embed API request/response entries (glossy:request / glossy:response
+   * annotations) in the bug description.
+   * Default: true
+   */
+  includeApiTraffic?: boolean;
+}
+
 export interface ManualTestsConfig {
   /**
    * Path to the manual test results Markdown file.
@@ -338,7 +465,7 @@ export interface GlossyReporterConfig {
   ai?: AIConfig;
   healing?: HealingConfig;
   prComment?: PrCommentConfig;
-  jira?: JiraConfig;
+  jira?: JiraConfig & { autoBugs?: JiraAutoBugConfig };
   /**
    * Merge manual test results from a Markdown file into the report.
    * Manual tests appear alongside automated tests with a "manual" badge

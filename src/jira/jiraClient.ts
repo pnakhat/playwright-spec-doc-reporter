@@ -76,8 +76,15 @@ export class JiraClient {
     const filename = path.basename(filePath);
     const fileBuffer = fs.readFileSync(filePath);
 
+    const ext = path.extname(filename).toLowerCase();
+    const mimeType = ext === ".webm" ? "video/webm"
+      : ext === ".mp4" ? "video/mp4"
+      : ext === ".png" ? "image/png"
+      : ext === ".jpg" || ext === ".jpeg" ? "image/jpeg"
+      : "application/octet-stream";
+
     const formData = new FormData();
-    formData.append("file", new Blob([fileBuffer], { type: "image/png" }), filename);
+    formData.append("file", new Blob([fileBuffer], { type: mimeType }), filename);
 
     const res = await fetch(url, {
       method: "POST",

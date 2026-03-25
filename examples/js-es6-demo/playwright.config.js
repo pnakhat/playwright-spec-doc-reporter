@@ -27,7 +27,16 @@ export default defineConfig({
           enabled: true,
           exportPath: "spec-doc-report/healing.json",
           exportMarkdownPath: "spec-doc-report/healing.md",
-          analysisOnly: true
+          analysisOnly: true,
+          generatePR: true,
+          autofix: {
+            platform: "github",
+            baseBranch: "main",
+            draft: true,
+            labels: ["auto-fix", "test-failure", "ai-generated"],
+            minConfidence: 0.7,
+            createBackup: true,
+          }
         },
         prComment: {
           enabled: true,
@@ -36,12 +45,24 @@ export default defineConfig({
         },
         jira: {
           enabled: !!process.env.JIRA_API_TOKEN,
-          baseUrl: process.env.JIRA_BASE_URL,   // e.g. https://yourorg.atlassian.net
+          baseUrl: process.env.JIRA_BASE_URL ?? "https://yourorg.atlassian.net",
           email: process.env.JIRA_EMAIL,
           apiToken: process.env.JIRA_API_TOKEN,
           includeScreenshots: true,
           includeApiTraffic: true,
           commentCooldownMs: 0,                 // set e.g. 3_600_000 to limit to once/hour
+          autoBugs: {
+            enabled: !!process.env.JIRA_API_TOKEN,
+            projectKey: process.env.JIRA_PROJECT_KEY ?? "SCRUM",
+            issueType: "Bug",
+            defaultPriority: "Medium",
+            labels: ["auto-generated", "playwright"],
+            onlyForAIAnalyzed: false,           // create bugs for ALL failed tests
+            deduplicateByTestName: true,
+            includeScreenshots: true,
+            includeVideos: true,
+            includeApiTraffic: true,
+          }
         },
         manualTests: {
           resultsPath: "tests/manual-results.md",

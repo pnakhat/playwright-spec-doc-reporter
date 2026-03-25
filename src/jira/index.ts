@@ -21,6 +21,8 @@ import type { GlossyReporterConfig, HistoryData, JiraConfig, NormalizedTestResul
 import { buildJiraCommentAdf, type ScreenshotAttachment } from "./commentBuilder.js";
 import { JiraClient } from "./jiraClient.js";
 
+export { createJiraBugs } from "./bugCreator.js";
+
 /** Matches tags like @SCRUM-1, @PROJ-123, @ABC-9999 */
 const ISSUE_KEY_RE = /^@?([A-Z][A-Z0-9]+-\d+)$/;
 

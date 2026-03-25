@@ -1,6 +1,6 @@
 # playwright-spec-doc-reporter
 
-A beautiful, production-ready Playwright reporter with BDD-style annotations, inline API request/response display, AI-powered failure analysis, test history trends, self-healing payload exports, and automatic Jira issue commenting with screenshot evidence.
+A beautiful, production-ready Playwright reporter with BDD-style annotations, inline API request/response display, AI-powered failure analysis, automatic healing PR generation, Jira auto-bug creation, test history trends, self-healing payload exports, and automatic Jira issue commenting with screenshot and video evidence.
 
 [![npm version](https://img.shields.io/npm/v/playwright-spec-doc-reporter)](https://www.npmjs.com/package/playwright-spec-doc-reporter)
 [![CI](https://github.com/pnakhat/playwright-spec-doc-reporter/actions/workflows/ci.yml/badge.svg)](https://github.com/pnakhat/playwright-spec-doc-reporter/actions/workflows/ci.yml)
@@ -34,6 +34,12 @@ A beautiful, production-ready Playwright reporter with BDD-style annotations, in
 ### Inline API Request / Response Viewer
 ![API Viewer](docs/screenshots/api-viewer.png)
 
+### Auto-Healing Draft PR — Patched Files & Test Plan
+![Auto-fix PR](docs/screenshots/autofix-pr.png)
+
+### Auto-Healing PR Comment — Test Report on the Auto-Fix Branch
+![PR Comment](docs/screenshots/pr-comment.png)
+
 ---
 
 ## Features
@@ -49,7 +55,9 @@ A beautiful, production-ready Playwright reporter with BDD-style annotations, in
 - **PR Comment Mode** — emit a compact markdown summary for posting directly as a GitHub/Azure DevOps PR comment
 - **Docs page** — generate filtered Markdown/HTML/PDF behaviour specs from your test suite with live feature filtering
 - **History & trends** — pass-rate and duration charts across runs via `spec-doc-history.json`
-- **Jira integration** — automatically post test results as Jira comments; includes BDD docs, steps, screenshots, and API traffic; `commentOnStatusChange` posts only when a test flips pass↔fail, preventing comment spam
+- **Auto-Healing PR Generation** — when AI analysis identifies fixable locator drift, automatically create a topic branch, apply patches, and open a draft PR on GitHub or Azure DevOps with rich description, test plan checklist, and labels (`auto-fix`, `test-failure`, `ai-generated`)
+- **Jira Auto-Bug Creation** — automatically create Jira Bug tickets for failed tests with ADF-formatted descriptions (AI analysis, error, stack trace, BDD steps, API traffic) plus screenshot and video attachments; deduplicates against open bugs
+- **Jira integration** — automatically post test results as Jira comments; includes BDD docs, steps, screenshots, API traffic, and videos; `commentOnStatusChange` posts only when a test flips pass↔fail, preventing comment spam
 - **Manual test results** — merge manually-authored test results (Gherkin or plain prose) into the report; `@manual` badge and filter; Jira tagging works identically
 - **Flakiness scoring** — per-test stability badges computed from run history (0–100%)
 - **Theme switcher** — dark-glossy, dark, and light themes with localStorage persistence
@@ -258,12 +266,34 @@ type SpecDocReporterConfig = {
     customPrompt?: string;
   };
 
-  /** Healing payload export configuration. */
+  /** Healing payload export + auto-PR configuration. */
   healing?: {
     enabled: boolean;
     exportPath?: string;
     exportMarkdownPath?: string;
     analysisOnly?: boolean;
+
+    /**
+     * Automatically create a topic branch, apply AI patches, and open a
+     * draft PR after each run. Requires ai.enabled: true + autofix credentials.
+     */
+    generatePR?: boolean;
+
+    /** Platform, branch, and credentials for the auto-PR workflow. */
+    autofix?: {
+      platform?: "github" | "azure";   // default: "github"
+      baseBranch?: string;             // default: "main"
+      draft?: boolean;                 // default: true
+      labels?: string[];               // default: ["auto-fix","test-failure","ai-generated"]
+      minConfidence?: number;          // 0–1, default: 0.7
+      createBackup?: boolean;          // backup original files, default: true
+      githubToken?: string;            // falls back to GITHUB_TOKEN
+      githubRepo?: string;             // "owner/repo", falls back to GITHUB_REPOSITORY
+      azureOrg?: string;               // https://dev.azure.com/myorg, falls back to AZDO_ORG
+      azureProject?: string;           // falls back to AZDO_PROJECT
+      azureRepo?: string;              // falls back to AZDO_REPO
+      azureToken?: string;             // falls back to AZDO_TOKEN
+    };
   };
 
   /**
@@ -288,7 +318,7 @@ type SpecDocReporterConfig = {
     resultsPath: string;          // path to your manual-results.md file
   };
 
-  /** Jira issue commenting — posts results to any issue tagged with @PROJECT-123. */
+  /** Jira issue commenting + auto-bug creation. */
   jira?: {
     enabled: boolean;
     baseUrl: string;              // https://yourorg.atlassian.net
@@ -301,6 +331,23 @@ type SpecDocReporterConfig = {
     includeScreenshots?: boolean;    // upload & embed screenshots inline, default: true
     includeApiTraffic?: boolean;     // include API request/response logs, default: true
     commentCooldownMs?: number;      // skip if a comment was posted within this window, default: 0
+
+    /**
+     * Automatically create Jira Bug tickets for failed tests.
+     * No @PROJECT-123 tag required — bugs are created in the configured project.
+     */
+    autoBugs?: {
+      enabled: boolean;
+      projectKey: string;             // e.g. "QA" — falls back to JIRA_PROJECT_KEY env var
+      issueType?: string;             // default: "Bug"
+      defaultPriority?: string;       // default: "Medium"
+      labels?: string[];              // default: ["auto-generated","playwright"]
+      onlyForAIAnalyzed?: boolean;    // skip tests without AI analysis, default: true
+      deduplicateByTestName?: boolean;// skip if open bug exists, default: true
+      includeScreenshots?: boolean;   // attach screenshots, default: true
+      includeVideos?: boolean;        // attach video recordings, default: true
+      includeApiTraffic?: boolean;    // embed API traffic in description, default: true
+    };
   };
 
   /** Factory for a custom AI provider. */
@@ -692,6 +739,177 @@ The annotation signal is the primary one for CI — it fires whenever the real P
 
 ---
 
+## Auto-Healing PR Generation
+
+> **Requires `ai.enabled: true`** and a GitHub or Azure DevOps personal access token.
+
+When AI analysis identifies fixable test failures, the reporter can automatically:
+
+1. Create a topic branch `autofix/<test-name>-<timestamp>`
+2. Apply AI-suggested patches to the failing test files
+3. Commit the fixes with a detailed message
+4. Push the branch to origin
+5. Open a **draft PR** with rich description, diff panels, and a test-plan checklist
+6. Apply labels: `auto-fix`, `test-failure`, `ai-generated`
+
+### Quick start
+
+```ts
+// playwright.config.ts
+healing: {
+  enabled: true,
+  generatePR: true,            // ← enable auto-PR
+  autofix: {
+    platform: "github",        // or "azure"
+    baseBranch: "main",
+    minConfidence: 0.7,        // only apply patches with ≥70% AI confidence
+    draft: true,               // always open as draft for mandatory review
+  },
+}
+```
+
+### GitHub setup
+
+```bash
+# .env (gitignored)
+GITHUB_TOKEN=ghp_...           # Personal Access Token with repo + pull_request scopes
+GITHUB_REPOSITORY=owner/repo   # e.g. pnakhat/playwright-spec-doc-reporter
+```
+
+```ts
+autofix: {
+  platform: "github",
+  githubToken: process.env.GITHUB_TOKEN,     // or just use env vars
+  githubRepo: process.env.GITHUB_REPOSITORY, // "owner/repo"
+  baseBranch: "main",
+  draft: true,
+  labels: ["auto-fix", "test-failure", "ai-generated"],
+}
+```
+
+**GitHub Actions** — use the built-in `GITHUB_TOKEN`:
+
+```yaml
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write       # push branch
+      pull-requests: write  # create PR
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0    # needed for git diff
+
+      - name: Run Playwright tests
+        run: npx playwright test
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+```
+
+> The `GITHUB_TOKEN` provided by Actions has `contents: write` and `pull-requests: write` when those permissions are granted in the job.
+
+### Azure DevOps setup
+
+```bash
+# .env (gitignored)
+AZDO_ORG=https://dev.azure.com/myorg
+AZDO_PROJECT=MyProject
+AZDO_REPO=my-repo
+AZDO_TOKEN=...   # Personal Access Token with Code (Read & Write) + Pull Request (Read & Write)
+```
+
+```ts
+autofix: {
+  platform: "azure",
+  azureOrg: process.env.AZDO_ORG,
+  azureProject: process.env.AZDO_PROJECT,
+  azureRepo: process.env.AZDO_REPO,
+  azureToken: process.env.AZDO_TOKEN,
+  baseBranch: "main",
+  draft: true,
+}
+```
+
+**Azure Pipelines** — use the system access token:
+
+```yaml
+variables:
+  AZDO_ORG: https://dev.azure.com/$(System.TeamFoundationCollectionUri)
+  AZDO_PROJECT: $(System.TeamProject)
+  AZDO_REPO: $(Build.Repository.Name)
+
+steps:
+  - checkout: self
+    fetchDepth: 0
+
+  - script: npx playwright test
+    displayName: Run Playwright tests
+    env:
+      ANTHROPIC_API_KEY: $(ANTHROPIC_API_KEY)
+      AZDO_TOKEN: $(System.AccessToken)
+      AZDO_ORG: $(AZDO_ORG)
+      AZDO_PROJECT: $(AZDO_PROJECT)
+      AZDO_REPO: $(AZDO_REPO)
+```
+
+> Grant the pipeline **Contribute** and **Create pull requests** permissions on the repository under _Project Settings → Repositories → Security_.
+
+### What the auto-fix PR looks like
+
+When Glossy pushes an `autofix/<name>-<timestamp>` branch and opens a draft PR, the PR body shows exactly what was patched and what the reviewer needs to do:
+
+![Auto-fix PR](docs/screenshots/autofix-pr.png)
+
+The PR body includes:
+- Branch name and commit SHA for traceability
+- **Patched files** — every file touched by the AI fix
+- **Test plan checklist** — review patches → run `npx playwright test` → approve when green
+- Generated-by footer linking back to Glossy
+
+The PR also receives a test report comment showing pass/fail counts, failed test errors, and AI analysis summary:
+
+![PR Comment](docs/screenshots/pr-comment.png)
+
+### CLI usage
+
+Run the healing agent manually against an existing `healing.md`:
+
+```bash
+# Apply Claude fixes + open a draft PR in one command
+npx tsx node_modules/playwright-spec-doc-reporter/src/healing/healingAgent.ts \
+  spec-doc-report/healing.md \
+  --backup \
+  --create-pr \
+  --base main
+
+# Environment variables required:
+# ANTHROPIC_API_KEY — for Claude to apply fixes
+# GITHUB_TOKEN      — to create the PR
+# GITHUB_REPOSITORY — "owner/repo"
+```
+
+### Configuration reference
+
+| Option | Type | Default | Description |
+|---|---|---|---|
+| `platform` | `"github" \| "azure"` | `"github"` | Target VCS platform |
+| `baseBranch` | `string` | `"main"` | PR target branch |
+| `draft` | `boolean` | `true` | Open PR as draft |
+| `labels` | `string[]` | `["auto-fix","test-failure","ai-generated"]` | PR labels |
+| `minConfidence` | `number` | `0.7` | Minimum AI confidence to apply a patch |
+| `createBackup` | `boolean` | `true` | Save `.backup` of original files |
+| `githubToken` | `string` | `GITHUB_TOKEN` | GitHub PAT |
+| `githubRepo` | `string` | `GITHUB_REPOSITORY` | `"owner/repo"` |
+| `azureOrg` | `string` | `AZDO_ORG` | Azure DevOps org URL |
+| `azureProject` | `string` | `AZDO_PROJECT` | Azure DevOps project |
+| `azureRepo` | `string` | `AZDO_REPO` | Repository name |
+| `azureToken` | `string` | `AZDO_TOKEN` | Azure DevOps PAT |
+
+---
+
 ## PR Comment Mode
 
 Instead of downloading a report artifact, engineers reviewing a PR get test results inline — right where they're already looking.
@@ -706,28 +924,15 @@ prComment: {
 }
 ```
 
-This writes `spec-doc-report/pr-comment.md` after each run:
+This writes `spec-doc-report/pr-comment.md` after each run and posts it directly into the pull request — engineers see test results without leaving GitHub or Azure DevOps:
 
-```markdown
-## 🎭 Test Report — `feat/payment-flow` · Run #142
+![PR Comment](docs/screenshots/pr-comment.png)
 
-| | Result |
-|---|---|
-| ✅ Passed | 84 |
-| ❌ Failed | 3 |
-| ⏭️ Skipped | 2 |
-| 📊 Total | 89 |
-| ⏱️ Duration | 4m 12s |
-
-### ❌ Failed Tests
-- ❌ `Checkout › Payment › should process card with 3DS` — *Element not found: [data-testid="confirm-btn"]*
-- ❌ `Checkout › Payment › should show error on decline` — *Timeout 30000ms exceeded*
-- ❌ `Auth › Login › should redirect after SSO` — *Expected URL to contain /dashboard*
-
-> 🤖 **AI Analysis** (92% confidence): Failures suggest a recent DOM change in the payment confirmation step. [View full analysis →](https://your-artifact-url/report.html)
-
-[📊 Full Report →](https://your-artifact-url/report.html)
-```
+The comment includes:
+- Pass / fail / skip counts and total duration
+- Every failed test with its error message
+- AI analysis summary with confidence score
+- Direct links to the full HTML report and live report
 
 ### Posting the comment on GitHub
 
@@ -956,6 +1161,169 @@ jira: {
 | `JIRA_EMAIL` | Jira account email (Basic auth) |
 | `JIRA_API_TOKEN` | Jira API token |
 | `JIRA_BASE_URL` | Optional — overrides `baseUrl` in config |
+
+---
+
+## Jira Auto-Bug Creation
+
+> Complements the [Jira Test Results Integration](#jira-test-results-integration) — that feature comments on **user stories** you explicitly tag. This feature creates **Bug tickets** automatically for every failed test, with no tagging required.
+
+### How it works
+
+After each run the reporter:
+
+1. Finds all failed / timed-out tests
+2. Optionally checks for an existing open bug with the same test name (deduplication)
+3. Creates a `Bug` issue with a full ADF description containing:
+   - Test name, file, duration, browser, retries
+   - Error message + stack trace
+   - AI analysis (root cause, confidence, remediation, suggested patch)
+   - BDD steps (Given/When/Then behaviours)
+   - API request/response traffic
+4. Uploads Playwright **screenshots** and **video recordings** as attachments
+
+### Setup
+
+```bash
+# .env (gitignored)
+JIRA_BASE_URL=https://yourorg.atlassian.net
+JIRA_EMAIL=you@example.com
+JIRA_API_TOKEN=ATATT3x...      # https://id.atlassian.com/manage-profile/security/api-tokens
+JIRA_PROJECT_KEY=QA            # project where bugs will be created
+```
+
+```ts
+// playwright.config.ts
+jira: {
+  enabled: !!process.env.JIRA_API_TOKEN,
+  baseUrl: process.env.JIRA_BASE_URL ?? "https://yourorg.atlassian.net",
+  email: process.env.JIRA_EMAIL,
+  apiToken: process.env.JIRA_API_TOKEN,
+
+  autoBugs: {
+    enabled: !!process.env.JIRA_API_TOKEN,
+    projectKey: process.env.JIRA_PROJECT_KEY ?? "QA",
+    issueType: "Bug",
+    defaultPriority: "Medium",
+    labels: ["auto-generated", "playwright"],
+    onlyForAIAnalyzed: false,           // create bugs for ALL failed tests
+    deduplicateByTestName: true,        // skip if open bug already exists
+    includeScreenshots: true,           // attach screenshots
+    includeVideos: true,                // attach video recordings (.webm)
+    includeApiTraffic: true,            // embed API logs in description
+  },
+}
+```
+
+### What the Jira bug looks like
+
+```
+Summary: [Playwright] intentional failure for AI analysis demo @regression
+
+Description:
+─────────────────────────────────────────────────────
+🐛 Failing Test
+  Test:     AI Failure Analysis › intentional failure for AI analysis demo
+  File:     tests/ui/saucedemo.spec.js
+  Status:   failed
+  Duration: 7.1s
+  Browser:  chromium
+
+❌ Error
+  Error: expect(locator).toBeVisible() failed
+  Locator: getByRole('heading', { name: 'Non Existing Header' })
+  Expected: visible — element(s) not found
+
+🤖 AI Analysis
+  Summary:   The assertion checks for a heading that does not exist.
+  Root cause: Sentinel heading name used for demo — element absent by design.
+  Category:  assertion_issue | Confidence: 97%
+  Action:    fix_assertion
+  Remediation: Replace 'Non Existing Header' with the actual heading 'Products'.
+
+  Suggested Patch:
+    - await expect(page.getByRole('heading', { name: 'Non Existing Header' })).toBeVisible();
+    + await expect(page.getByRole('heading', { name: 'Products' })).toBeVisible();
+
+📋 Test Steps
+  • Standard user logs in successfully
+  • Page contains a heading that does not exist — assertion fails intentionally
+
+🌐 API Traffic
+  → GET https://www.saucedemo.com/
+  ← 200 https://www.saucedemo.com/
+─────────────────────────────────────────────────────
+Attachments: test-finished-1.png, video.webm
+Labels: auto-generated, playwright
+Priority: Medium
+```
+
+### Deduplication
+
+When `deduplicateByTestName: true` (default), the reporter runs a Jira JQL search before creating a bug:
+
+```
+project = "QA" AND issuetype = Bug AND status != Done
+  AND summary ~ "<test name>"
+```
+
+If an open bug is found, creation is skipped and the existing issue key is logged:
+
+```
+[glossy-reporter] Jira bug skipped (duplicate) → QA-42 for: my failing test
+```
+
+### GitHub Actions example
+
+```yaml
+- name: Run tests
+  run: npx playwright test
+  env:
+    ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+    JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+    JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
+    JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+    JIRA_PROJECT_KEY: QA
+```
+
+### Azure Pipelines example
+
+```yaml
+- script: npx playwright test
+  displayName: Run Playwright tests
+  env:
+    ANTHROPIC_API_KEY: $(ANTHROPIC_API_KEY)
+    JIRA_BASE_URL: $(JIRA_BASE_URL)
+    JIRA_EMAIL: $(JIRA_EMAIL)
+    JIRA_API_TOKEN: $(JIRA_API_TOKEN)
+    JIRA_PROJECT_KEY: QA
+```
+
+Store all secrets under _Pipelines → Library → Variable groups_ and link the group to the pipeline.
+
+### Configuration reference
+
+| Option | Type | Default | Description |
+|---|---|---|---|
+| `enabled` | `boolean` | — | Enable auto-bug creation |
+| `projectKey` | `string` | `JIRA_PROJECT_KEY` | Jira project key, e.g. `"QA"` |
+| `issueType` | `string` | `"Bug"` | Jira issue type |
+| `defaultPriority` | `string` | `"Medium"` | Issue priority |
+| `labels` | `string[]` | `["auto-generated","playwright"]` | Labels applied to the bug |
+| `onlyForAIAnalyzed` | `boolean` | `true` | Skip tests without AI analysis |
+| `deduplicateByTestName` | `boolean` | `true` | Skip if open bug exists |
+| `includeScreenshots` | `boolean` | `true` | Upload screenshots as attachments |
+| `includeVideos` | `boolean` | `true` | Upload video recordings as attachments |
+| `includeApiTraffic` | `boolean` | `true` | Embed API request/response in description |
+
+### Environment variable reference
+
+| Variable | Purpose |
+|---|---|
+| `JIRA_BASE_URL` | Jira instance URL, e.g. `https://yourorg.atlassian.net` |
+| `JIRA_EMAIL` | Atlassian account email (Basic auth) |
+| `JIRA_API_TOKEN` | Jira API token |
+| `JIRA_PROJECT_KEY` | Project key for auto-bug creation |
 
 ---
 
