@@ -3,7 +3,7 @@
 ##  › chromium › ui/saucedemo.spec.js › AI Failure Analysis › intentional failure for AI analysis demo @regression
 - File: tests/ui/saucedemo.spec.js
 - Step: intentional failure for AI analysis demo @regression
-- Action: update_assertion
+- Action: fix_assertion
 - Confidence: 0.98
 - Error: Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
 
@@ -17,17 +17,20 @@ Call log:
 [2m  - waiting for getByRole('heading', { name: 'Non Existing Header' })[22m
 
 - Failed locator: getByRole('heading', { name: 'Products' })
-- Candidate locators: getByRole('heading', { name: 'Products' }), getByRole('heading', { name: 'Swag Labs' }), locator('.title'), locator('[data-test="title"]')
+- Candidate locators: getByRole('heading', { name: 'Products' }), getByRole('heading', { name: 'Swag Labs' }), locator('.title'), locator('.header_label'), getByText('Products')
 - Suggested patch:
 ```diff
-// Option 1: Fix the locator to target a real heading (e.g., 'Products' on the inventory page)
+// Option 1: Fix the heading name to match the actual page heading
 await expect(page.getByRole('heading', { name: 'Products' })).toBeVisible();
 
-// Option 2: Mark the test as intentionally failing so CI remains green
+// Option 2: If intentional failure is desired for demo, mark it explicitly
 test.fail();
 await expect(page.getByRole('heading', { name: 'Non Existing Header' })).toBeVisible();
+
+// Option 3: Assert the element does NOT exist
+await expect(page.getByRole('heading', { name: 'Non Existing Header' })).not.toBeVisible();
 ```
-- Reasoning: The assertion references a heading ('Non Existing Header') that has no corresponding element in the application's DOM. The failure is deterministic and reproducible — it will always fail because the element simply does not exist. The test name and file context confirm this is intentional. The fix is either to correct the locator to match a real element, or to annotate the test with `test.fail()` to signal the expected failure state.
+- Reasoning: The assertion targets a heading named 'Non Existing Header' which is not present in the SauceDemo application at any point in its UI flow. The element will never be found, so toBeVisible() will always time out. The test name and file context confirm this is intentional. The correct fix is to either align the locator with a real heading or use test.fail() to formally declare the expected failure.
 
 ## Shopping Cart › Cart persists items after page refresh
 - File: tests/manual-results.md
@@ -52,22 +55,21 @@ await expect(page.getByRole('heading', { name: 'Non Existing Header' })).toBeVis
 - Confidence: 0.82
 - Error: Cancel on step 2 navigates to /cart.html instead of /inventory.html — unexpected destination
 - Failed locator: [data-test="cancel"]
-- Candidate locators: [data-test="cancel"], button:has-text('Cancel'), .cart_cancel_link, a:has-text('Cancel'), #cancel
+- Candidate locators: [data-test="cancel"], button:has-text('Cancel'), .cart_cancel_link, a[href='/inventory.html']:has-text('Cancel'), a[href='/cart.html']:has-text('Cancel')
 - Suggested patch:
 ```diff
-// If app behavior is confirmed as a regression, keep test as-is and mark it as a known failure:
-test('Checkout cancel on step 2 returns to inventory', async ({ page }) => {
-  // ... navigate to checkout step 2 ...
-  await page.click('[data-test="cancel"]'); // Cancel button on overview page
-  
-  // Assert correct destination — should be inventory, not cart
-  await expect(page).toHaveURL(/\/inventory\.html$/, {
-    timeout: 5000
-  });
-  // If app is routing to /cart.html, this is a regression — file bug
-});
+// If the correct behavior is /inventory.html (app bug path):
+// File a bug and keep the assertion as-is:
+await page.click('[data-test="cancel"]'); // on checkout step 2
+await expect(page).toHaveURL(/.*\/inventory\.html/);
 
-// If product confirms /cart.html is the NEW intended behavior, update to:
-await expect(page).toHaveURL(/\/cart\.html$/, { timeout: 5000 });
+// If the correct behavior is /cart.html (spec correction path):
+// Update the assertion:
+await page.click('[data-test="cancel"]'); // on checkout step 2
+await expect(page).toHaveURL(/.*\/cart\.html/);
+
+// Recommended: add a descriptive comment either way
+// 'Cancel on step 2 (order overview) should return user to [inventory|cart]'
+// to make the contract explicit for future maintainers.
 ```
-- Reasoning: The cancel button on checkout step 2 is navigating to '/cart.html' rather than '/inventory.html'. Given that standard SauceDemo behavior routes cancel-on-overview to '/inventory.html', this strongly suggests an application regression. The test expectation appears correct per the canonical spec. The fix should be applied to the application, not the test, unless the product requirement has changed.
+- Reasoning: The error message explicitly states the observed URL is '/cart.html' while '/inventory.html' is expected. The test logic itself is sound — it is asserting a URL after a cancel action. The failure is rooted in the application's routing behavior not matching the specification. This is not a locator, timing, or environment issue; the navigation completes but lands on the wrong page.
