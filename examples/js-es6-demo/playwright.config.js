@@ -45,7 +45,7 @@ export default defineConfig({
         },
         jira: {
           enabled: !!process.env.JIRA_API_TOKEN,
-          baseUrl: process.env.JIRA_BASE_URL ?? "https://pnakhat.atlassian.net",
+          baseUrl: process.env.JIRA_BASE_URL ?? "https://yourorg.atlassian.net",
           email: process.env.JIRA_EMAIL,
           apiToken: process.env.JIRA_API_TOKEN,
           includeScreenshots: true,
