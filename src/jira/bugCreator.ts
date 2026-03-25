@@ -338,7 +338,7 @@ export async function createJiraBugs(opts: {
   const createdThisRun = new Set<string>();
 
   for (const test of failedTests) {
-    const analysis = analysisByTest.get(test.title);
+    const analysis = analysisByTest.get((test as NormalizedTestResult).fullName ?? test.title);
 
     if (onlyForAI && !analysis) {
       results.push({
