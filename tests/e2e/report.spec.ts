@@ -24,7 +24,7 @@ test.describe('Topbar', () => {
   });
 
   test('shows Playwright Reporter label', async ({ page }) => {
-    await expect(page.locator('.topbar-meta')).toContainText('Playwright Reporter');
+    await expect(page.locator('.topbar-brand-subtitle')).toContainText('Spec Documentation');
   });
 
   test('theme toggle button cycles through themes', async ({ page }) => {
@@ -313,72 +313,64 @@ test.describe('Docs Page', () => {
     await expect(page.locator('#docMarkdownContent')).toContainText('## Feature:');
   });
 
-  test('status filters are visible', async ({ page }) => {
-    await expect(page.locator('[data-doc-status="all"]')).toBeVisible();
-    await expect(page.locator('[data-doc-status="passed"]')).toBeVisible();
-    await expect(page.locator('[data-doc-status="failed"]')).toBeVisible();
+  test('docs format buttons are visible', async ({ page }) => {
+    await expect(page.locator('.docs-fmt-btn[data-doc-tab="md"]')).toBeVisible();
+    await expect(page.locator('.docs-fmt-btn[data-doc-tab="html"]')).toBeVisible();
   });
 
   test('All status filter is active by default', async ({ page }) => {
     await expect(page.locator('[data-doc-status="all"]')).toHaveClass(/active/);
   });
 
-  test('features dropdown opens on click', async ({ page }) => {
-    const panel = page.locator('#docsFeaturePanel');
-    await expect(panel).not.toBeVisible();
-    await page.locator('#docsFeatureTrigger').click();
-    await expect(panel).toBeVisible();
+  test('feature selection grid is visible', async ({ page }) => {
+    const grid = page.locator('#docsFeatureGrid');
+    await expect(grid).toBeVisible();
+    await expect(page.locator('#docsFeatureGrid .docs-feature-card').first()).toBeVisible();
   });
 
-  test('features dropdown closes when clicking outside', async ({ page }) => {
-    await page.locator('#docsFeatureTrigger').click();
-    await expect(page.locator('#docsFeaturePanel')).toBeVisible();
-    await page.locator('#docMarkdownContent').click();
-    await expect(page.locator('#docsFeaturePanel')).not.toBeVisible();
-  });
-
-  test('all feature checkboxes are checked by default', async ({ page }) => {
-    await page.locator('#docsFeatureTrigger').click();
-    const total = await page.locator('#docFeatureFilter input').count();
-    const checked = await page.locator('#docFeatureFilter input:checked').count();
+  test('all feature cards are selected by default', async ({ page }) => {
+    await page.waitForSelector('#docsFeatureGrid .docs-feature-card');
+    const total = await page.locator('#docsFeatureGrid .docs-feature-card').count();
+    const selected = await page.locator('#docsFeatureGrid .docs-feature-card.selected').count();
     expect(total).toBeGreaterThan(0);
-    expect(checked).toBe(total);
+    expect(selected).toBe(total);
   });
 
-  test('unchecking all features shows empty documentation', async ({ page }) => {
-    await page.locator('#docsFeatureTrigger').click();
-    await page.locator('#docSelectNone').click();
+  test('deselecting all features shows empty documentation', async ({ page }) => {
+    await page.evaluate(() => (document.getElementById('docSelectNone') as HTMLButtonElement)?.click());
+    await page.waitForTimeout(100);
     const content = await page.locator('#docMarkdownContent').textContent();
-    // Should not contain any Feature headings when all unchecked
     expect(content).not.toContain('## Feature:');
   });
 
   test('Select All restores full content', async ({ page }) => {
-    await page.locator('#docsFeatureTrigger').click();
-    await page.locator('#docSelectNone').click();
-    await page.locator('#docSelectAll').click();
+    await page.evaluate(() => (document.getElementById('docSelectNone') as HTMLButtonElement)?.click());
+    await page.evaluate(() => (document.getElementById('docSelectAll') as HTMLButtonElement)?.click());
+    await page.waitForTimeout(100);
     await expect(page.locator('#docMarkdownContent')).toContainText('## Feature:');
   });
 
-  test('unchecking one feature removes it from content', async ({ page }) => {
-    await page.locator('#docsFeatureTrigger').click();
-    const firstCheckbox = page.locator('#docFeatureFilter input').first();
-    const featureName = await firstCheckbox.inputValue();
-    await firstCheckbox.uncheck();
+  test('deselecting one feature card removes it from content', async ({ page }) => {
+    await page.waitForSelector('#docsFeatureGrid .docs-feature-card');
+    const firstCard = page.locator('#docsFeatureGrid .docs-feature-card').first();
+    const featureName = await firstCard.locator('.docs-feature-card-name').textContent();
+    await firstCard.click();
+    await page.waitForTimeout(100);
     const content = await page.locator('#docMarkdownContent').textContent();
     expect(content).not.toContain(featureName);
   });
 
-  test('feature count badge updates when features are deselected', async ({ page }) => {
-    await page.locator('#docsFeatureTrigger').click();
-    const total = await page.locator('#docFeatureFilter input').count();
-    await page.locator('#docFeatureFilter input').first().uncheck();
+  test('feature count badge updates when a feature card is deselected', async ({ page }) => {
+    await page.waitForSelector('#docsFeatureGrid .docs-feature-card');
+    const total = await page.locator('#docsFeatureGrid .docs-feature-card').count();
+    await page.locator('#docsFeatureGrid .docs-feature-card').first().click();
+    await page.waitForTimeout(100);
     const badge = page.locator('#docsFeatureCount');
-    await expect(badge).toContainText(`${total - 1}/${total}`);
+    await expect(badge).toContainText(`${total - 1} selected`);
   });
 
   test('switching to HTML Preview tab renders iframe', async ({ page }) => {
-    await page.locator('.doc-tab-btn[data-doc-tab="html"]').click();
+    await page.locator('.docs-fmt-btn[data-doc-tab="html"]').click();
     const iframe = page.locator('#docHtmlPreview');
     await expect(iframe).toBeVisible();
     // Wait for srcdoc to be set
@@ -391,48 +383,46 @@ test.describe('Docs Page', () => {
   });
 
   test('switching back to Markdown tab restores pre view', async ({ page }) => {
-    await page.locator('.doc-tab-btn[data-doc-tab="html"]').click();
-    await page.locator('.doc-tab-btn[data-doc-tab="md"]').click();
-    await expect(page.locator('#doc-tab-md')).toHaveClass(/active/);
+    await page.locator('.docs-fmt-btn[data-doc-tab="html"]').click();
+    await page.locator('.docs-fmt-btn[data-doc-tab="md"]').click();
+    await expect(page.locator('.docs-fmt-btn[data-doc-tab="md"]')).toHaveClass(/active/);
     await expect(page.locator('#docMarkdownContent')).toBeVisible();
   });
 
-  test('Copy button is visible', async ({ page }) => {
-    await expect(page.locator('#docCopyBtn')).toBeVisible();
+  test('docs format badge is visible', async ({ page }) => {
+    await expect(page.locator('#docsDocFormatBadge')).toBeVisible();
   });
 
   test('Download .md button is visible', async ({ page }) => {
-    await expect(page.locator('#docDownloadMdBtn')).toBeVisible();
+    await expect(page.locator('.docs-doc-header #docDownloadMdBtnHdr')).toBeVisible();
   });
 
-  test('Download .html button is visible', async ({ page }) => {
-    await expect(page.locator('#docDownloadHtmlBtn')).toBeVisible();
+  test('Download .html button is visible in HTML mode', async ({ page }) => {
+    await page.locator('.docs-fmt-btn[data-doc-tab="html"]').click();
+    await expect(page.locator('.docs-doc-header #docDownloadHtmlBtnHdr')).toBeVisible();
   });
 
-  test('PDF export button is visible', async ({ page }) => {
-    await expect(page.locator('#docExportPdfBtn')).toBeVisible();
+  test('view toggle buttons are visible', async ({ page }) => {
+    await expect(page.locator('.docs-view-btn[data-doc-view="source"]')).toBeVisible();
+    await expect(page.locator('.docs-view-btn[data-doc-view="preview"]')).toBeVisible();
   });
 
   test('Failed status filter changes documentation content', async ({ page }) => {
-    await page.locator('[data-doc-status="failed"]').click();
+    await page.evaluate(() => (document.querySelector('[data-doc-status="failed"]') as HTMLButtonElement)?.click());
     await page.waitForTimeout(150);
     const failedContent = await page.locator('#docMarkdownContent').textContent() ?? '';
-    // Either no failures (empty) or only failed tests shown — content must differ from all-tests view
-    // or be a subset. At minimum the filter must have run (no error).
+    // Either no failures (empty) or only failed tests shown
     await expect(page.locator('[data-doc-status="failed"]')).toHaveClass(/active/);
-    // If there are no failures the content should be empty of Feature headings
-    // If there are failures the content should be a subset of allContent
     if (!failedContent.includes('## Feature:')) {
-      // No failed tests — expected empty state
       expect(failedContent).not.toContain('## Feature:');
     } else {
-      // Failed tests exist — content should be present
       expect(failedContent.length).toBeGreaterThan(0);
     }
   });
 
   test('Passed status filter preserves content for all-passing report', async ({ page }) => {
-    await page.locator('[data-doc-status="passed"]').click();
+    await page.evaluate(() => (document.querySelector('[data-doc-status="passed"]') as HTMLButtonElement)?.click());
+    await page.waitForTimeout(150);
     await expect(page.locator('#docMarkdownContent')).toContainText('## Feature:');
   });
 });

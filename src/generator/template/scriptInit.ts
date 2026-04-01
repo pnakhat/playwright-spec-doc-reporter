@@ -6,6 +6,7 @@ export function getScriptInit(): string {
   renderProgressBar();
   renderStats();
   renderBddSummary();
+  renderTestHealthMetrics();
   renderHealerActivity();
   renderAI();
   renderTabs();
@@ -27,6 +28,18 @@ export function getScriptInit(): string {
   renderFooter();
 
   document.getElementById('btnExportPdf').addEventListener('click', function() { window.print(); });
+
+  var btnShare = document.getElementById('btnShare');
+  if (btnShare) {
+    btnShare.addEventListener('click', function() {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(window.location.href).then(function() {
+          btnShare.textContent = '\\u2713 Copied!';
+          setTimeout(function() { btnShare.innerHTML = '\\ud83d\\udd17 Share'; }, 1800);
+        });
+      }
+    });
+  }
 
   // Theme toggle
   (function initTheme() {

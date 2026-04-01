@@ -421,23 +421,48 @@ export function getScriptInteractions(): string {
     var total = document.querySelectorAll('#docFeatureFilter input').length;
     var checked = document.querySelectorAll('#docFeatureFilter input:checked').length;
     var el = document.getElementById('docsFeatureCount');
-    if (el) el.textContent = checked === total ? '' : checked + '/' + total;
+    if (el) el.textContent = checked + ' selected';
   }
 
   function renderDocFilters() {
-    // Feature checkboxes — deduplicate by name so features shared across
-    // multiple files (e.g. automated + manual) produce a single checkbox
     var features = buildBddHierarchy(tests);
     var seen = {};
     var featHtml = '';
+    var featureList = [];
     features.forEach(function(f) {
       if (seen[f.name]) return;
       seen[f.name] = true;
       var id = 'docfeat_' + f.name.replace(/\\W/g, '_');
       featHtml += '<label class="doc-feature-check"><input type="checkbox" id="' + id + '" value="' + escHtml(f.name) + '" checked> ' + escHtml(f.name) + '</label>';
+      featureList.push({ name: f.name, id: id, count: f.scenarios ? f.scenarios.length : 0 });
     });
     document.getElementById('docFeatureFilter').innerHTML = featHtml;
+
+    // Build feature selection cards grid
+    var grid = document.getElementById('docsFeatureGrid');
+    if (grid) {
+      grid.innerHTML = featureList.map(function(f) {
+        return '<div class="docs-feature-card selected" data-feat-id="' + f.id + '" onclick="toggleDocFeatureCard(this)">' +
+          '<div class="docs-feature-card-check">\\u2713</div>' +
+          '<div>' +
+            '<div class="docs-feature-card-name">' + escHtml(f.name) + '</div>' +
+            '<div class="docs-feature-card-count">' + f.count + ' scenario' + (f.count !== 1 ? 's' : '') + '</div>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+    }
     updateFeatureCount();
+  }
+
+  function toggleDocFeatureCard(card) {
+    var featId = card.getAttribute('data-feat-id');
+    var cb = document.getElementById(featId);
+    if (cb) {
+      cb.checked = !cb.checked;
+      card.classList.toggle('selected', cb.checked);
+      updateFeatureCount();
+      refreshDocContent();
+    }
   }
 
   function refreshDocContent() {
@@ -451,6 +476,67 @@ export function getScriptInteractions(): string {
   }
 
   function bindDocPage() {
+    // Docs page header actions
+    var docsHeaderActions = document.getElementById('docs-header-actions');
+    if (docsHeaderActions) {
+      docsHeaderActions.innerHTML = '<button class="btn-sm btn-accent" id="docsDownloadAll">\\u2193 Download All</button>';
+      document.getElementById('docsDownloadAll').addEventListener('click', function() {
+        var md = generateDocumentation(getDocFilteredTests());
+        var htmlDoc = generateHtmlDocumentation(getDocFilteredTests());
+        var blob = new Blob([md], { type: 'text/markdown' });
+        var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'behaviour-spec.md';
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      });
+    }
+
+    // Move format buttons (Copy/.md/.html/PDF) to the section header actions area
+    var docsFormatActions = document.getElementById('docs-format-actions');
+    if (docsFormatActions) {
+      docsFormatActions.innerHTML =
+        '<div style="display:flex;gap:0.4rem;align-items:center">' +
+          '<div class="doc-view-tabs" style="margin-right:0.25rem">' +
+            '<button class="doc-tab-btn active" data-doc-tab="md">&#128196; Markdown</button>' +
+            '<button class="doc-tab-btn" data-doc-tab="html">&#127760; Preview</button>' +
+          '</div>' +
+          '<button class="btn-sm" id="docCopyBtnHdr">&#128203; Copy</button>' +
+          '<button class="btn-sm" id="docDownloadMdBtnHdr">&#8595; .md</button>' +
+          '<button class="btn-sm" id="docDownloadHtmlBtnHdr">&#8595; .html</button>' +
+          '<button class="btn-sm btn-accent" id="docExportPdfBtnHdr">&#128438; PDF</button>' +
+        '</div>';
+      document.querySelectorAll('[data-doc-tab]', docsFormatActions).forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          document.querySelectorAll('.doc-tab-btn').forEach(function(b) { b.classList.remove('active'); });
+          document.querySelectorAll('.doc-tab-panel').forEach(function(p) { p.classList.remove('active'); });
+          btn.classList.add('active');
+          // Also sync the original toolbar tabs
+          var tab = btn.getAttribute('data-doc-tab');
+          document.getElementById('doc-tab-' + tab).classList.add('active');
+          if (tab === 'html') document.getElementById('docHtmlPreview').srcdoc = generateHtmlDocumentation(getDocFilteredTests());
+        });
+      });
+      document.getElementById('docCopyBtnHdr').addEventListener('click', function() {
+        navigator.clipboard.writeText(generateDocumentation(getDocFilteredTests())).then(function() {
+          var btn = document.getElementById('docCopyBtnHdr');
+          btn.textContent = '\\u2713 Copied!';
+          setTimeout(function() { btn.innerHTML = '&#128203; Copy'; }, 1800);
+        });
+      });
+      document.getElementById('docDownloadMdBtnHdr').addEventListener('click', function() {
+        var blob = new Blob([generateDocumentation(getDocFilteredTests())], { type: 'text/markdown' });
+        var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'behaviour-spec.md';
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      });
+      document.getElementById('docDownloadHtmlBtnHdr').addEventListener('click', function() {
+        var blob = new Blob([generateHtmlDocumentation(getDocFilteredTests())], { type: 'text/html' });
+        var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'behaviour-spec.html';
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      });
+      document.getElementById('docExportPdfBtnHdr').addEventListener('click', function() {
+        var win = window.open('', '_blank');
+        if (win) { win.document.write(generateHtmlDocumentation(getDocFilteredTests())); win.document.close(); win.print(); }
+      });
+    }
+
     renderDocFilters();
     refreshDocContent();
 
@@ -537,6 +623,62 @@ export function getScriptInteractions(): string {
       var win = window.open('', '_blank');
       if (win) { win.document.write(generateHtmlDocumentation(getDocFilteredTests())); win.document.close(); win.print(); }
     });
+
+    // New format buttons (docs-fmt-btn)
+    document.querySelectorAll('.docs-fmt-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.docs-fmt-btn').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        var tab = btn.getAttribute('data-doc-tab');
+        document.querySelectorAll('.doc-tab-panel').forEach(function(p) { p.classList.remove('active'); });
+        document.getElementById('doc-tab-' + tab).classList.add('active');
+        var badge = document.getElementById('docsDocFormatBadge');
+        if (badge) badge.textContent = tab === 'md' ? '\\ud83d\\udcc4 MARKDOWN Document' : tab === 'html' ? '\\ud83c\\udf10 HTML Document' : '\\u007b\\u007d JSON Document';
+        var exportMd = document.querySelector('.docs-doc-header #docDownloadMdBtnHdr');
+        var exportHtml = document.querySelector('.docs-doc-header #docDownloadHtmlBtnHdr');
+        if (exportMd) exportMd.style.display = tab === 'html' ? 'none' : '';
+        if (exportHtml) exportHtml.style.display = tab === 'html' ? '' : 'none';
+        if (tab === 'html') document.getElementById('docHtmlPreview').srcdoc = generateHtmlDocumentation(getDocFilteredTests());
+      });
+    });
+
+    // Source/Preview toggle
+    document.querySelectorAll('.docs-view-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.docs-view-btn').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        // Source always shows the pre, Preview shows iframe for HTML tab
+        var view = btn.getAttribute('data-doc-view');
+        var activeFmt = document.querySelector('.docs-fmt-btn.active');
+        var tab = activeFmt ? activeFmt.getAttribute('data-doc-tab') : 'md';
+        if (view === 'preview' && tab === 'html') {
+          document.querySelectorAll('.doc-tab-panel').forEach(function(p) { p.classList.remove('active'); });
+          document.getElementById('doc-tab-html').classList.add('active');
+          document.getElementById('docHtmlPreview').srcdoc = generateHtmlDocumentation(getDocFilteredTests());
+        } else {
+          document.querySelectorAll('.doc-tab-panel').forEach(function(p) { p.classList.remove('active'); });
+          document.getElementById('doc-tab-md').classList.add('active');
+        }
+      });
+    });
+
+    // Export button in doc header
+    var exportMdBtn = document.querySelector('.docs-doc-header #docDownloadMdBtnHdr');
+    if (exportMdBtn) {
+      exportMdBtn.addEventListener('click', function() {
+        var blob = new Blob([generateDocumentation(getDocFilteredTests())], { type: 'text/markdown' });
+        var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'behaviour-spec.md';
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      });
+    }
+    var exportHtmlBtn = document.querySelector('.docs-doc-header #docDownloadHtmlBtnHdr');
+    if (exportHtmlBtn) {
+      exportHtmlBtn.addEventListener('click', function() {
+        var blob = new Blob([generateHtmlDocumentation(getDocFilteredTests())], { type: 'text/html' });
+        var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'behaviour-spec.html';
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      });
+    }
   }
 
   function initPageNav() {
