@@ -421,36 +421,76 @@ export function getScriptInteractions(): string {
     var total = document.querySelectorAll('#docFeatureFilter input').length;
     var checked = document.querySelectorAll('#docFeatureFilter input:checked').length;
     var el = document.getElementById('docsFeatureCount');
-    if (el) el.textContent = checked === total ? '' : checked + '/' + total;
+    if (el) el.textContent = checked + ' selected';
   }
 
   function renderDocFilters() {
-    // Feature checkboxes — deduplicate by name so features shared across
-    // multiple files (e.g. automated + manual) produce a single checkbox
     var features = buildBddHierarchy(tests);
     var seen = {};
     var featHtml = '';
+    var featureList = [];
     features.forEach(function(f) {
       if (seen[f.name]) return;
       seen[f.name] = true;
       var id = 'docfeat_' + f.name.replace(/\\W/g, '_');
       featHtml += '<label class="doc-feature-check"><input type="checkbox" id="' + id + '" value="' + escHtml(f.name) + '" checked> ' + escHtml(f.name) + '</label>';
+      featureList.push({ name: f.name, id: id, count: f.scenarios ? f.scenarios.length : 0 });
     });
     document.getElementById('docFeatureFilter').innerHTML = featHtml;
+
+    // Build feature selection cards grid
+    var grid = document.getElementById('docsFeatureGrid');
+    if (grid) {
+      grid.innerHTML = featureList.map(function(f) {
+        return '<div class="docs-feature-card selected" data-feat-id="' + f.id + '" onclick="toggleDocFeatureCard(this)">' +
+          '<div class="docs-feature-card-check">\\u2713</div>' +
+          '<div>' +
+            '<div class="docs-feature-card-name">' + escHtml(f.name) + '</div>' +
+            '<div class="docs-feature-card-count">' + f.count + ' scenario' + (f.count !== 1 ? 's' : '') + '</div>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+    }
     updateFeatureCount();
+  }
+
+  function toggleDocFeatureCard(card) {
+    var featId = card.getAttribute('data-feat-id');
+    var cb = document.getElementById(featId);
+    if (cb) {
+      cb.checked = !cb.checked;
+      card.classList.toggle('selected', cb.checked);
+      updateFeatureCount();
+      refreshDocContent();
+    }
   }
 
   function refreshDocContent() {
     var filtered = getDocFilteredTests();
     var md = generateDocumentation(filtered);
     document.getElementById('docMarkdownContent').textContent = md;
-    var activeTab = document.querySelector('.doc-tab-btn.active');
+    var activeTab = document.querySelector('.docs-fmt-btn.active') || document.querySelector('.doc-tab-btn.active');
     if (activeTab && activeTab.getAttribute('data-doc-tab') === 'html') {
       document.getElementById('docHtmlPreview').srcdoc = generateHtmlDocumentation(filtered);
     }
   }
 
   function bindDocPage() {
+    // Docs page header actions
+    var docsHeaderActions = document.getElementById('docs-header-actions');
+    if (docsHeaderActions) {
+      docsHeaderActions.innerHTML = '<button class="btn-sm btn-accent" id="docsDownloadAll">\\u2193 Download All</button>';
+      document.getElementById('docsDownloadAll').addEventListener('click', function() {
+        var md = generateDocumentation(getDocFilteredTests());
+        var htmlDoc = generateHtmlDocumentation(getDocFilteredTests());
+        var blob = new Blob([md], { type: 'text/markdown' });
+        var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'behaviour-spec.md';
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      });
+    }
+
+    // Docs header actions (download/export) are bound directly on the static markup buttons
+
     renderDocFilters();
     refreshDocContent();
 
@@ -537,6 +577,62 @@ export function getScriptInteractions(): string {
       var win = window.open('', '_blank');
       if (win) { win.document.write(generateHtmlDocumentation(getDocFilteredTests())); win.document.close(); win.print(); }
     });
+
+    // New format buttons (docs-fmt-btn)
+    document.querySelectorAll('.docs-fmt-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.docs-fmt-btn').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        var tab = btn.getAttribute('data-doc-tab');
+        document.querySelectorAll('.doc-tab-panel').forEach(function(p) { p.classList.remove('active'); });
+        document.getElementById('doc-tab-' + tab).classList.add('active');
+        var badge = document.getElementById('docsDocFormatBadge');
+        if (badge) badge.textContent = tab === 'md' ? '\\ud83d\\udcc4 MARKDOWN Document' : tab === 'html' ? '\\ud83c\\udf10 HTML Document' : '\\u007b\\u007d JSON Document';
+        var exportMd = document.querySelector('.docs-doc-header #docDownloadMdBtnHdr');
+        var exportHtml = document.querySelector('.docs-doc-header #docDownloadHtmlBtnHdr');
+        if (exportMd) exportMd.style.display = tab === 'html' ? 'none' : '';
+        if (exportHtml) exportHtml.style.display = tab === 'html' ? '' : 'none';
+        if (tab === 'html') document.getElementById('docHtmlPreview').srcdoc = generateHtmlDocumentation(getDocFilteredTests());
+      });
+    });
+
+    // Source/Preview toggle
+    document.querySelectorAll('.docs-view-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.docs-view-btn').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        // Source always shows the pre, Preview shows iframe for HTML tab
+        var view = btn.getAttribute('data-doc-view');
+        var activeFmt = document.querySelector('.docs-fmt-btn.active');
+        var tab = activeFmt ? activeFmt.getAttribute('data-doc-tab') : 'md';
+        if (view === 'preview' && tab === 'html') {
+          document.querySelectorAll('.doc-tab-panel').forEach(function(p) { p.classList.remove('active'); });
+          document.getElementById('doc-tab-html').classList.add('active');
+          document.getElementById('docHtmlPreview').srcdoc = generateHtmlDocumentation(getDocFilteredTests());
+        } else {
+          document.querySelectorAll('.doc-tab-panel').forEach(function(p) { p.classList.remove('active'); });
+          document.getElementById('doc-tab-md').classList.add('active');
+        }
+      });
+    });
+
+    // Export button in doc header
+    var exportMdBtn = document.querySelector('.docs-doc-header #docDownloadMdBtnHdr');
+    if (exportMdBtn) {
+      exportMdBtn.addEventListener('click', function() {
+        var blob = new Blob([generateDocumentation(getDocFilteredTests())], { type: 'text/markdown' });
+        var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'behaviour-spec.md';
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      });
+    }
+    var exportHtmlBtn = document.querySelector('.docs-doc-header #docDownloadHtmlBtnHdr');
+    if (exportHtmlBtn) {
+      exportHtmlBtn.addEventListener('click', function() {
+        var blob = new Blob([generateHtmlDocumentation(getDocFilteredTests())], { type: 'text/html' });
+        var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'behaviour-spec.html';
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      });
+    }
   }
 
   function initPageNav() {

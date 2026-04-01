@@ -3,16 +3,20 @@ export function getMarkup(): string {
 <div class="topbar">
   <div class="topbar-brand">
     <div class="topbar-logo">&#127917;</div>
-    <span id="brand-title"></span>
+    <div class="topbar-brand-text">
+      <span id="brand-title"></span>
+      <span class="topbar-brand-subtitle">Spec Documentation</span>
+    </div>
   </div>
   <div class="topbar-right">
     <div class="topbar-meta">
       <span class="topbar-meta-item" id="meta-time"></span>
+      <span class="topbar-meta-sep"></span>
       <span class="topbar-meta-item" id="meta-duration"></span>
-      <span class="topbar-meta-item" style="color:var(--text3)">Playwright Reporter</span>
     </div>
     <button class="btn-theme-toggle" id="btnThemeToggle" title="Toggle light/dark theme">&#9728;&#65039;</button>
-    <button class="btn-sm" id="btnExportPdf">&#128438; Print</button>
+    <button class="btn-sm btn-share" id="btnShare">&#128279; Share</button>
+    <button class="btn-sm btn-export" id="btnExportPdf">&#11014; Export</button>
   </div>
 </div>
 
@@ -53,12 +57,14 @@ export function getMarkup(): string {
       </div>
     </div>
 
+    <div class="stats-grid" id="stats-grid"></div>
+
     <div class="progress-section">
       <div class="progress-stack" id="progress-stack"></div>
       <div class="progress-labels" id="progress-labels"></div>
     </div>
 
-    <div class="stats-grid" id="stats-grid"></div>
+    <section class="section" id="test-health-section" style="margin-bottom:1rem"></section>
 
     <div class="bdd-summary-bar" id="bdd-summary"></div>
 
@@ -88,9 +94,10 @@ export function getMarkup(): string {
           </div>
           <div class="filter-group">
             <button class="filter-btn active" data-filter="all">All</button>
-            <button class="filter-btn" data-filter="passed">&#10003; Pass</button>
-            <button class="filter-btn" data-filter="failed">&#10007; Fail</button>
-            <button class="filter-btn" data-filter="skipped">&#8212; Skip</button>
+            <button class="filter-btn filter-btn-pass" data-filter="passed">PASSED</button>
+            <button class="filter-btn filter-btn-fail" data-filter="failed">FAILED</button>
+            <button class="filter-btn filter-btn-skip" data-filter="skipped">SKIPPED</button>
+            <button class="filter-btn filter-btn-flaky" data-filter="flaky">FLAKY</button>
           </div>
           <div class="filter-divider"></div>
           <div class="filter-group" id="typeFilterGroup"></div>
@@ -112,6 +119,7 @@ export function getMarkup(): string {
 
   <!-- AI Insights Page -->
   <div class="page-panel" id="page-ai">
+    <div id="ai-insight-header"></div>
     <section class="section" id="ai-section"></section>
   </div>
 
@@ -119,77 +127,110 @@ export function getMarkup(): string {
   <div class="page-panel" id="page-trends">
     <div class="trends-header">
       <div class="trends-header-left">
-        <div class="trends-title">&#128200; Run History &amp; Trends</div>
-        <div class="trends-subtitle" id="trends-subtitle"></div>
+        <div class="trends-page-title">Run History &amp; Trends</div>
+        <div class="trends-page-subtitle" id="trends-subtitle">Analyzing patterns across recent test runs</div>
       </div>
-      <div class="trends-header-right" id="trends-header-actions"></div>
+      <div class="trends-header-right" id="trends-header-actions">
+        <button class="btn-sm" id="btnExportTrends">&#11014; Export Report</button>
+      </div>
     </div>
     <div class="trends-charts-row" id="trends-charts-row"></div>
     <div class="trends-tables-row">
       <div class="trends-table-card" id="trends-regression-card">
-        <div class="trends-card-title">&#128683; Regressions</div>
+        <div class="trends-card-title trends-card-title-fail">&#128683; Test Regressions</div>
         <div id="trends-regression-list"></div>
       </div>
       <div class="trends-table-card" id="trends-perf-card">
-        <div class="trends-card-title">&#9201; Performance Changes</div>
+        <div class="trends-card-title trends-card-title-warn">&#9201; Performance Changes</div>
         <div id="trends-perf-list"></div>
       </div>
     </div>
     <div class="trends-history-card" id="trends-history-card">
-      <div class="trends-card-title">&#128196; Run History</div>
+      <div class="trends-card-title">&#10022; Recent Test Runs</div>
       <div id="trends-run-table"></div>
     </div>
   </div>
 
   <!-- Docs Page -->
   <div class="page-panel" id="page-docs">
-    <div class="section">
-
-      <div class="docs-toolbar">
-        <div class="docs-toolbar-left">
-          <span class="docs-toolbar-label">Status</span>
-          <div class="filter-group">
-            <button class="filter-btn active" data-doc-status="all">All</button>
-            <button class="filter-btn" data-doc-status="passed">&#10003; Passed</button>
-            <button class="filter-btn" data-doc-status="failed">&#10007; Failed</button>
-          </div>
-          <div class="docs-feature-dropdown" id="docsFeatureDropdownWrap">
-            <button class="btn-sm docs-feature-trigger" id="docsFeatureTrigger">
-              &#128203; Features <span class="docs-feature-count" id="docsFeatureCount"></span> &#9660;
-            </button>
-            <div class="docs-feature-panel" id="docsFeaturePanel">
-              <div class="docs-feature-panel-hdr">
-                <span style="font-size:0.72rem;font-weight:700;color:var(--text2)">Filter features</span>
-                <div style="display:flex;gap:4px">
-                  <button class="btn-sm" id="docSelectAll" style="padding:2px 8px;font-size:0.68rem">All</button>
-                  <button class="btn-sm" id="docSelectNone" style="padding:2px 8px;font-size:0.68rem">None</button>
-                </div>
+    <!-- Docs toolbar: features count + format + view toggle -->
+    <div class="docs-new-toolbar">
+      <div class="docs-new-toolbar-left">
+        <span class="docs-toolbar-section-label">FEATURES</span>
+        <span class="docs-features-badge" id="docsFeatureCount">0 selected</span>
+        <div class="docs-toolbar-sep"></div>
+        <span class="docs-toolbar-section-label">FORMAT</span>
+        <div class="docs-format-group" id="docsFormatGroup">
+          <button class="docs-fmt-btn active" data-doc-tab="md">&#128196; Markdown</button>
+          <button class="docs-fmt-btn" data-doc-tab="html">&#127760; HTML</button>
+          <button class="docs-fmt-btn" data-doc-tab="json" style="display:none">&#123;&#125; JSON</button>
+        </div>
+        <div class="docs-toolbar-sep"></div>
+        <div class="docs-view-group">
+          <button class="docs-view-btn active" data-doc-view="source">&#60;/&#62; Source</button>
+          <button class="docs-view-btn" data-doc-view="preview">&#128065; Preview</button>
+        </div>
+      </div>
+      <!-- Hidden elements for JS compatibility -->
+      <div style="display:none">
+        <div class="doc-view-tabs">
+          <button class="doc-tab-btn active" data-doc-tab="md">Markdown</button>
+          <button class="doc-tab-btn" data-doc-tab="html">Preview</button>
+        </div>
+        <button id="docCopyBtn"></button>
+        <button id="docDownloadMdBtn"></button>
+        <button id="docDownloadHtmlBtn"></button>
+        <button id="docExportPdfBtn"></button>
+        <div id="docs-header-actions"></div>
+        <div id="docs-format-actions"></div>
+        <div class="docs-feature-dropdown" id="docsFeatureDropdownWrap">
+          <button class="btn-sm docs-feature-trigger" id="docsFeatureTrigger"></button>
+          <div class="docs-feature-panel" id="docsFeaturePanel">
+            <div class="docs-feature-panel-hdr">
+              <div style="display:flex;gap:4px">
+                <button class="btn-sm" id="docSelectAll">All</button>
+                <button class="btn-sm" id="docSelectNone">None</button>
               </div>
-              <div class="doc-feature-checks" id="docFeatureFilter"></div>
+            </div>
+            <div class="doc-feature-checks" id="docFeatureFilter"></div>
+          </div>
+        </div>
+        <div class="docs-toolbar">
+          <div class="docs-toolbar-left">
+            <div class="filter-group">
+              <button class="filter-btn active" data-doc-status="all">All</button>
+              <button class="filter-btn" data-doc-status="passed">Passed</button>
+              <button class="filter-btn" data-doc-status="failed">Failed</button>
             </div>
           </div>
         </div>
-        <div class="docs-toolbar-right">
-          <div class="doc-view-tabs">
-            <button class="doc-tab-btn active" data-doc-tab="md">&#128196; Markdown</button>
-            <button class="doc-tab-btn" data-doc-tab="html">&#127760; Preview</button>
-          </div>
-          <button class="btn-sm" id="docCopyBtn">&#128203; Copy</button>
-          <button class="btn-sm" id="docDownloadMdBtn">&#8595; .md</button>
-          <button class="btn-sm" id="docDownloadHtmlBtn">&#8595; .html</button>
-          <button class="btn-sm btn-accent" id="docExportPdfBtn">&#128438; PDF</button>
-        </div>
       </div>
+    </div>
 
-      <div class="doc-page-body">
-        <div class="doc-tab-panel active" id="doc-tab-md">
-          <pre id="docMarkdownContent" class="doc-pre"></pre>
+    <!-- Document area -->
+    <div class="docs-doc-area">
+      <div class="docs-doc-header">
+        <div class="docs-doc-header-left">
+          <span class="docs-doc-format-badge" id="docsDocFormatBadge">&#128196; MARKDOWN Document</span>
         </div>
-        <div class="doc-tab-panel" id="doc-tab-html">
-          <iframe id="docHtmlPreview" class="doc-iframe" title="HTML Documentation Preview"></iframe>
-        </div>
+        <button class="btn-sm btn-export" id="docDownloadMdBtnHdr">&#11014; Export</button>
+        <button class="btn-sm" id="docDownloadHtmlBtnHdr" style="display:none">&#11014; Export HTML</button>
       </div>
+      <div class="doc-tab-panel active" id="doc-tab-md">
+        <pre id="docMarkdownContent" class="doc-pre docs-pre-new"></pre>
+      </div>
+      <div class="doc-tab-panel" id="doc-tab-html">
+        <iframe id="docHtmlPreview" class="doc-iframe" title="HTML Documentation Preview"></iframe>
+      </div>
+    </div>
 
+    <!-- Feature Selection -->
+    <div class="docs-feature-selection">
+      <div class="docs-feature-selection-header">
+        <div class="docs-feature-sel-title">Feature Selection</div>
+        <div class="docs-feature-sel-subtitle">Choose which features to include in the export</div>
+      </div>
+      <div class="docs-feature-grid" id="docsFeatureGrid"></div>
     </div>
   </div>
 
