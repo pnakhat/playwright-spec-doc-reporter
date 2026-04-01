@@ -15,6 +15,7 @@ test.describe("Dedup Demo", () => {
   });
 
   test("broken selector always fails — dedup demo @regression", async ({ page }) => {
+    test.fail(); // intentionally failing — demonstrates Jira dedup across runs
     addScenario("This test is intentionally broken to trigger Jira bug creation");
     addBehaviour("Navigate to saucedemo login page");
     await page.goto("https://www.saucedemo.com/");
