@@ -1018,7 +1018,7 @@ export function getScriptRenderers(): string {
         '<div class="trends-chart-current" style="color:' + passRateColor + '">' + latestPassRate + '% ' +
           (passRateDelta !== 0 ? '<span style="font-size:0.75rem;color:' + passRateDeltaColor + '">' + passRateDeltaSign + passRateDelta + '%</span>' : '') +
         '</div>' +
-        renderSparkline(passRates, 'var(--fail)', '#ef4444') +
+        renderSparkline(passRates, 'var(--pass)', '#22c55e') +
       '</div>' +
       '<div class="trends-chart-card">' +
         '<div class="trends-chart-label">AVG DURATION</div>' +
@@ -1070,11 +1070,10 @@ export function getScriptRenderers(): string {
         regressionEl.innerHTML = '<div class="trends-empty">\\u2705 No regressions detected between the last two runs.</div>';
       } else {
         regressionEl.innerHTML = regressionItems.slice(0, 20).map(function(item) {
-          var runsCount = Math.floor(Math.random() * 3) + 1; // approximate
-          var badgeLabel = item.status === 'regressed' ? runsCount + ' run' + (runsCount !== 1 ? 's' : '') : item.status === 'recovered' ? 'fixed' : 'new';
+          var badgeLabel = item.status === 'regressed' ? '1 run' : item.status === 'recovered' ? 'fixed' : 'new';
           var badgeCls = item.status === 'regressed' ? 'trend-badge-regressed' : item.status === 'recovered' ? 'trend-badge-recovered' : 'trend-badge-new-fail';
           var fromLabel = item.status === 'regressed' ? 'passing' : item.status === 'new_fail' ? 'not run' : 'failing';
-          var fromCls = item.status === 'recovered' ? 'treg-from-pass' : 'treg-from-skip';
+          var fromCls = item.status === 'regressed' ? 'treg-from-pass' : item.status === 'new_fail' ? 'treg-from-skip' : 'treg-from-fail';
           var toLabel = item.status === 'recovered' ? 'passing' : 'failing';
           var toCls = item.status === 'recovered' ? 'treg-to-pass' : 'treg-to-fail';
           var parts = item.key.split('::');

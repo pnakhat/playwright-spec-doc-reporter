@@ -338,15 +338,13 @@ test.describe('Docs Page', () => {
 
   test('deselecting all features shows empty documentation', async ({ page }) => {
     await page.evaluate(() => (document.getElementById('docSelectNone') as HTMLButtonElement)?.click());
-    await page.waitForTimeout(100);
-    const content = await page.locator('#docMarkdownContent').textContent();
-    expect(content).not.toContain('## Feature:');
+    await expect(page.locator('#docMarkdownContent')).not.toContainText('## Feature:');
   });
 
   test('Select All restores full content', async ({ page }) => {
     await page.evaluate(() => (document.getElementById('docSelectNone') as HTMLButtonElement)?.click());
+    await expect(page.locator('#docMarkdownContent')).not.toContainText('## Feature:');
     await page.evaluate(() => (document.getElementById('docSelectAll') as HTMLButtonElement)?.click());
-    await page.waitForTimeout(100);
     await expect(page.locator('#docMarkdownContent')).toContainText('## Feature:');
   });
 
@@ -355,7 +353,7 @@ test.describe('Docs Page', () => {
     const firstCard = page.locator('#docsFeatureGrid .docs-feature-card').first();
     const featureName = await firstCard.locator('.docs-feature-card-name').textContent();
     await firstCard.click();
-    await page.waitForTimeout(100);
+    await expect(page.locator('#docsFeatureGrid .docs-feature-card.selected').first()).not.toHaveText(featureName!);
     const content = await page.locator('#docMarkdownContent').textContent();
     expect(content).not.toContain(featureName);
   });
@@ -364,7 +362,6 @@ test.describe('Docs Page', () => {
     await page.waitForSelector('#docsFeatureGrid .docs-feature-card');
     const total = await page.locator('#docsFeatureGrid .docs-feature-card').count();
     await page.locator('#docsFeatureGrid .docs-feature-card').first().click();
-    await page.waitForTimeout(100);
     const badge = page.locator('#docsFeatureCount');
     await expect(badge).toContainText(`${total - 1} selected`);
   });
@@ -409,10 +406,9 @@ test.describe('Docs Page', () => {
 
   test('Failed status filter changes documentation content', async ({ page }) => {
     await page.evaluate(() => (document.querySelector('[data-doc-status="failed"]') as HTMLButtonElement)?.click());
-    await page.waitForTimeout(150);
+    await expect(page.locator('[data-doc-status="failed"]')).toHaveClass(/active/);
     const failedContent = await page.locator('#docMarkdownContent').textContent() ?? '';
     // Either no failures (empty) or only failed tests shown
-    await expect(page.locator('[data-doc-status="failed"]')).toHaveClass(/active/);
     if (!failedContent.includes('## Feature:')) {
       expect(failedContent).not.toContain('## Feature:');
     } else {
@@ -422,7 +418,7 @@ test.describe('Docs Page', () => {
 
   test('Passed status filter preserves content for all-passing report', async ({ page }) => {
     await page.evaluate(() => (document.querySelector('[data-doc-status="passed"]') as HTMLButtonElement)?.click());
-    await page.waitForTimeout(150);
+    await expect(page.locator('[data-doc-status="passed"]')).toHaveClass(/active/);
     await expect(page.locator('#docMarkdownContent')).toContainText('## Feature:');
   });
 });

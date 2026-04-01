@@ -469,7 +469,7 @@ export function getScriptInteractions(): string {
     var filtered = getDocFilteredTests();
     var md = generateDocumentation(filtered);
     document.getElementById('docMarkdownContent').textContent = md;
-    var activeTab = document.querySelector('.doc-tab-btn.active');
+    var activeTab = document.querySelector('.docs-fmt-btn.active') || document.querySelector('.doc-tab-btn.active');
     if (activeTab && activeTab.getAttribute('data-doc-tab') === 'html') {
       document.getElementById('docHtmlPreview').srcdoc = generateHtmlDocumentation(filtered);
     }
@@ -489,53 +489,7 @@ export function getScriptInteractions(): string {
       });
     }
 
-    // Move format buttons (Copy/.md/.html/PDF) to the section header actions area
-    var docsFormatActions = document.getElementById('docs-format-actions');
-    if (docsFormatActions) {
-      docsFormatActions.innerHTML =
-        '<div style="display:flex;gap:0.4rem;align-items:center">' +
-          '<div class="doc-view-tabs" style="margin-right:0.25rem">' +
-            '<button class="doc-tab-btn active" data-doc-tab="md">&#128196; Markdown</button>' +
-            '<button class="doc-tab-btn" data-doc-tab="html">&#127760; Preview</button>' +
-          '</div>' +
-          '<button class="btn-sm" id="docCopyBtnHdr">&#128203; Copy</button>' +
-          '<button class="btn-sm" id="docDownloadMdBtnHdr">&#8595; .md</button>' +
-          '<button class="btn-sm" id="docDownloadHtmlBtnHdr">&#8595; .html</button>' +
-          '<button class="btn-sm btn-accent" id="docExportPdfBtnHdr">&#128438; PDF</button>' +
-        '</div>';
-      document.querySelectorAll('[data-doc-tab]', docsFormatActions).forEach(function(btn) {
-        btn.addEventListener('click', function() {
-          document.querySelectorAll('.doc-tab-btn').forEach(function(b) { b.classList.remove('active'); });
-          document.querySelectorAll('.doc-tab-panel').forEach(function(p) { p.classList.remove('active'); });
-          btn.classList.add('active');
-          // Also sync the original toolbar tabs
-          var tab = btn.getAttribute('data-doc-tab');
-          document.getElementById('doc-tab-' + tab).classList.add('active');
-          if (tab === 'html') document.getElementById('docHtmlPreview').srcdoc = generateHtmlDocumentation(getDocFilteredTests());
-        });
-      });
-      document.getElementById('docCopyBtnHdr').addEventListener('click', function() {
-        navigator.clipboard.writeText(generateDocumentation(getDocFilteredTests())).then(function() {
-          var btn = document.getElementById('docCopyBtnHdr');
-          btn.textContent = '\\u2713 Copied!';
-          setTimeout(function() { btn.innerHTML = '&#128203; Copy'; }, 1800);
-        });
-      });
-      document.getElementById('docDownloadMdBtnHdr').addEventListener('click', function() {
-        var blob = new Blob([generateDocumentation(getDocFilteredTests())], { type: 'text/markdown' });
-        var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'behaviour-spec.md';
-        document.body.appendChild(a); a.click(); document.body.removeChild(a);
-      });
-      document.getElementById('docDownloadHtmlBtnHdr').addEventListener('click', function() {
-        var blob = new Blob([generateHtmlDocumentation(getDocFilteredTests())], { type: 'text/html' });
-        var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'behaviour-spec.html';
-        document.body.appendChild(a); a.click(); document.body.removeChild(a);
-      });
-      document.getElementById('docExportPdfBtnHdr').addEventListener('click', function() {
-        var win = window.open('', '_blank');
-        if (win) { win.document.write(generateHtmlDocumentation(getDocFilteredTests())); win.document.close(); win.print(); }
-      });
-    }
+    // Docs header actions (download/export) are bound directly on the static markup buttons
 
     renderDocFilters();
     refreshDocContent();

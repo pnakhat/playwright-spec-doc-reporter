@@ -599,7 +599,7 @@ export function getStyles(): string {
     .bdd-summary-sep { width: 1px; height: 18px; background: var(--border2); margin: 0 0.2rem; }
 
     /* --- Multi-select filter --- */
-    .filter-btn.active { background: var(--accent2); color: #fff; border-color: var(--accent2); box-shadow: 0 2px 8px rgba(127,135,247,0.35); }
+    .filter-btn.active[data-filter] { background: var(--accent2); color: #fff; border-color: var(--accent2); box-shadow: 0 2px 8px rgba(127,135,247,0.35); }
     .filter-btn.active[data-filter="passed"] { background: rgba(15,186,129,0.18); color: var(--pass); border-color: rgba(15,186,129,0.35); box-shadow: none; }
     .filter-btn.active[data-filter="failed"] { background: rgba(240,64,64,0.18); color: var(--fail); border-color: rgba(240,64,64,0.35); box-shadow: none; }
     .filter-btn.active[data-filter="skipped"] { background: rgba(91,95,240,0.18); color: var(--skip); border-color: rgba(91,95,240,0.35); box-shadow: none; }
