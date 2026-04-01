@@ -3,18 +3,18 @@
     "testName": " › chromium › ui/dedup-demo.spec.js › Dedup Demo › broken selector always fails — dedup demo @regression",
     "file": "tests/ui/dedup-demo.spec.js",
     "stepName": "broken selector always fails — dedup demo @regression",
-    "failedLocator": "[data-testid=\"your-real-element\"]",
+    "failedLocator": "#this-element-does-not-exist",
     "candidateLocators": [
-      "[data-testid=\"your-real-element\"]",
-      "#actual-element-id",
-      "role=button[name='Submit']",
-      ".your-real-css-class"
+      "#this-element-does-not-exist",
+      "body",
+      "main",
+      "[data-testid]"
     ],
     "errorMessage": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('#this-element-does-not-exist')\nExpected: visible\nTimeout: 3000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 3000ms\u001b[22m\n\u001b[2m  - waiting for locator('#this-element-does-not-exist')\u001b[22m\n",
-    "suggestedPatch": "// Before (broken):\nawait expect(page.locator('#this-element-does-not-exist')).toBeVisible({ timeout: 3000 });\n\n// After (example fix — replace with the actual target element selector):\nawait expect(page.locator('[data-testid=\"your-real-element\"]')).toBeVisible({ timeout: 5000 });\n\n// OR, if the intent is to assert the element is absent:\nawait expect(page.locator('#this-element-does-not-exist')).toBeHidden({ timeout: 3000 });",
-    "reasoning": "The selector '#this-element-does-not-exist' is explicitly named to indicate it is a placeholder/broken locator. It does not correspond to any real DOM element. The failure is deterministic and 100% reproducible because the selector was never intended to resolve. If this is a real test scenario, the locator must be updated to target an element that actually exists on the page under test.",
+    "suggestedPatch": "// Option 1: Mark as intentionally failing (recommended for demo/dedup purposes)\ntest('broken selector always fails — dedup demo @regression', async ({ page }) => {\n  test.fail(); // This test is expected to fail — used for dedup demo\n  await expect(page.locator('#this-element-does-not-exist')).toBeVisible({ timeout: 3000 });\n});\n\n// Option 2: Replace with a real, stable locator\ntest('element is visible — dedup demo @regression', async ({ page }) => {\n  await expect(page.locator('#real-element-id')).toBeVisible({ timeout: 3000 });\n});\n\n// Option 3: Skip the test\ntest.skip('broken selector always fails — dedup demo @regression', async ({ page }) => {\n  await expect(page.locator('#this-element-does-not-exist')).toBeVisible({ timeout: 3000 });\n});",
+    "reasoning": "The selector '#this-element-does-not-exist' is a placeholder/dummy selector that will never match any DOM element. The failure is 100% deterministic and reproducible — it is not timing-related or environment-related. The test name itself ('broken selector always fails') confirms this is a known-bad locator used intentionally for demo purposes. The correct remediation depends on intent: mark as expected-failure with test.fail(), replace with a real selector, or skip the test.",
     "confidence": 0.97,
-    "actionType": "update_locator"
+    "actionType": "fix_locator"
   },
   {
     "testName": " › chromium › ui/saucedemo.spec.js › AI Failure Analysis › intentional failure for AI analysis demo @regression",
@@ -25,13 +25,14 @@
       "getByRole('heading', { name: 'Products' })",
       "getByRole('heading', { name: 'Swag Labs' })",
       "locator('.title')",
-      "locator('span.title')"
+      "locator('h2.title')",
+      "getByRole('heading', { level: 2 })"
     ],
     "errorMessage": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'Non Existing Header' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'Non Existing Header' })\u001b[22m\n",
-    "suggestedPatch": "// Option 1: Skip the test to prevent CI failure\ntest.skip('intentional failure for AI analysis demo @regression', async ({ page }) => {\n  // Intentionally skipped — demo test for AI failure analysis tooling\n});\n\n// Option 2: Replace with a real heading that exists on the page\nawait expect(page.getByRole('heading', { name: 'Products' })).toBeVisible();\n\n// Option 3: Use expect.soft() to allow the suite to continue\nawait expect.soft(page.getByRole('heading', { name: 'Non Existing Header' })).toBeVisible({ timeout: 5000 });\n// Document: This assertion is intentionally failing for AI demo purposes.",
-    "reasoning": "The assertion targets a heading named 'Non Existing Header' which is explicitly fabricated and absent from the SauceDemo application UI. The test name itself confirms this is intentional ('intentional failure for AI analysis demo'). The failure is 100% reproducible and deterministic — it will always fail because the element does not exist. The issue category is assertion_issue because the assertion is incorrect relative to the actual DOM state, even though the incorrectness is deliberate.",
-    "confidence": 0.97,
-    "actionType": "fix_assertion"
+    "suggestedPatch": "// Option 1: Fix to assert a real heading that exists on the page\nawait expect(page.getByRole('heading', { name: 'Products' })).toBeVisible();\n\n// Option 2: Assert the non-existent heading is NOT visible (invert intent)\nawait expect(page.getByRole('heading', { name: 'Non Existing Header' })).not.toBeVisible();\n\n// Option 3: Skip the test to prevent CI blocking\ntest.skip(' intentional failure for AI analysis demo @regression', async ({ page }) => {\n  // demo placeholder\n});",
+    "reasoning": "The element 'Non Existing Header' does not exist in the application's DOM at any point during the test execution. The failure is deterministic and reproducible — it is not a timing or flakiness issue. The test name explicitly confirms this is intentional. The assertion should either be corrected to target a real heading, negated to assert non-existence, or the test should be skipped/removed to prevent false CI failures.",
+    "confidence": 0.98,
+    "actionType": "fix_locator_or_assertion"
   },
   {
     "testName": "Shopping Cart › Cart persists items after page refresh",
@@ -57,10 +58,18 @@
     "testName": "Product Detail › Checkout cancel on step 2 returns to inventory",
     "file": "tests/manual-results.md",
     "stepName": "Checkout cancel on step 2 returns to inventory",
-    "candidateLocators": [],
+    "failedLocator": "[data-test=\"cancel\"]",
+    "candidateLocators": [
+      "[data-test=\"cancel\"]",
+      "button:has-text('Cancel')",
+      ".cart_cancel_link",
+      "a:has-text('Cancel')",
+      "#cancel"
+    ],
     "errorMessage": "Cancel on step 2 navigates to /cart.html instead of /inventory.html — unexpected destination",
-    "reasoning": "Provider failed to return a valid analysis.",
-    "confidence": 0,
-    "actionType": "investigate"
+    "suggestedPatch": "// If /cart.html is the correct destination (recommended after spec review):\nawait page.click('[data-test=\"cancel\"]'); // Cancel button on checkout step 2\nawait expect(page).toHaveURL(/cart\\.html/);\n\n// If /inventory.html is confirmed correct per spec, investigate app cancel handler:\n// File: (app source) checkout-step-two route cancel handler\n// Expected: redirect to /inventory.html\n// Actual: redirect to /cart.html\n// Fix the route handler or button onClick to navigate to '/inventory.html'",
+    "reasoning": "The cancel button on checkout step 2 navigates to '/cart.html'. The test expects '/inventory.html'. This is either a test assertion that does not match the actual (and possibly correct) app behavior, or a genuine app regression. The most likely scenario is the test expectation is incorrect — returning to cart after reviewing the order summary is standard e-commerce UX. The test should be reviewed against the product specification before deciding whether to fix the test or the app.",
+    "confidence": 0.82,
+    "actionType": "update_assertion_or_file_bug"
   }
 ]
