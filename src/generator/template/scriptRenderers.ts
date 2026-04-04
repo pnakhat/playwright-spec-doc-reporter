@@ -228,12 +228,17 @@ export function getScriptRenderers(): string {
     const validAnalyses = aiAnalyses.filter(a => (Number(a.confidence) || 0) > 0);
     if (validAnalyses.length === 0 && aiAnalyses.length > 0) {
       // AI was enabled and ran but all analyses failed (e.g. API key missing at run time)
+      var firstError = aiAnalyses[0] && aiAnalyses[0].likelyRootCause ? aiAnalyses[0].likelyRootCause : null;
+      var errorDetail = firstError
+        ? '<div style="font-size:0.74rem;margin-top:0.5rem;padding:0.45rem 0.6rem;background:rgba(255,255,255,0.05);border-radius:6px;border:1px solid var(--border);color:var(--text3);font-family:var(--font-mono);word-break:break-all">' + escHtml(firstError) + '</div>'
+        : '';
       el.innerHTML =
         '<div class="section-header"><div class="section-title">\\ud83e\\udd16 AI Analysis</div></div>' +
         '<div class="ai-disabled">' +
           '<div class="ai-disabled-icon">\\ud83d\\udd11</div>' +
           '<div style="font-size:0.86rem;font-weight:700;color:var(--text1);margin-bottom:0.3rem">Analysis Failed</div>' +
-          '<div style="font-size:0.78rem;margin-bottom:0.6rem">AI analysis ran but the provider returned no results — likely a missing or invalid API key. Set your <code style="background:rgba(255,255,255,0.08);padding:1px 5px;border-radius:4px">ANTHROPIC_API_KEY</code> (or <code style="background:rgba(255,255,255,0.08);padding:1px 5px;border-radius:4px">OPENAI_API_KEY</code>) and rerun.</div>' +
+          '<div style="font-size:0.78rem;margin-bottom:0.6rem">AI analysis ran but the provider returned no results. Check your API key and provider config (<code style="background:rgba(255,255,255,0.08);padding:1px 5px;border-radius:4px">ANTHROPIC_API_KEY</code>, <code style="background:rgba(255,255,255,0.08);padding:1px 5px;border-radius:4px">OPENAI_API_KEY</code>, <code style="background:rgba(255,255,255,0.08);padding:1px 5px;border-radius:4px">AZURE_CLAUDE_API_KEY</code>, or <code style="background:rgba(255,255,255,0.08);padding:1px 5px;border-radius:4px">ai.apiKey</code>) and rerun.</div>' +
+          errorDetail +
         '</div>';
       return;
     }

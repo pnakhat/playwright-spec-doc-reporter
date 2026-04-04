@@ -17,9 +17,11 @@ function parseJson<T>(raw: string): T {
  * Authentication uses the `x-api-key` header with your Azure API key.
  *
  * Required config:
- *   - `baseURL`: Your Azure Cognitive Services endpoint, e.g.
- *       "https://<resource>.cognitiveservices.azure.com"
- *   - `model`: Your Claude deployment name (e.g. "claude-haiku45-gdf-np-un-001")
+ *   - `baseURL`: Your Azure endpoint origin. Works with both:
+ *       - Cognitive Services: "https://<resource>.cognitiveservices.azure.com"
+ *       - Azure AI Foundry:   "https://<resource>.services.ai.azure.com"
+ *       Note: only the origin is used — any path (e.g. /api/projects/...) is ignored.
+ *   - `model`: Your Claude deployment name (e.g. "claude-sonnet45-gdf-np-un-001")
  *   - `apiKey` or env var `AZURE_CLAUDE_API_KEY` / `AZURE_API_KEY`
  */
 export class AzureClaudeProvider implements AIProvider {
@@ -36,12 +38,22 @@ export class AzureClaudeProvider implements AIProvider {
     if (!config.baseURL) {
       throw new Error(
         "Azure Claude provider requires ai.baseURL. " +
-        "Set it to your Azure Cognitive Services endpoint, e.g. " +
-        "\"https://<resource>.cognitiveservices.azure.com\"."
+        "Set it to your Azure Cognitive Services or Azure AI Foundry endpoint, e.g. " +
+        "\"https://<resource>.cognitiveservices.azure.com\" or " +
+        "\"https://<resource>.services.ai.azure.com\"."
       );
     }
 
-    const baseURL = config.baseURL.replace(/\/$/, "");
+    // Strip any path beyond the origin — Azure exposes the Anthropic Messages API
+    // at /anthropic/v1/messages on both Cognitive Services and AI Foundry endpoints.
+    // If the user pastes a full project URL (e.g. from AI Foundry's "Use endpoint" button
+    // that includes /api/projects/...) we extract just the origin so the path is correct.
+    let baseURL: string;
+    try {
+      baseURL = new URL(config.baseURL).origin;
+    } catch {
+      baseURL = config.baseURL.replace(/\/$/, "");
+    }
     const url = `${baseURL}/anthropic/v1/messages`;
 
     const prompt = buildFailurePrompt(input, config.customPrompt);
