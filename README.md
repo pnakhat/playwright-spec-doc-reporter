@@ -1555,3 +1555,7 @@ The selected theme is persisted in `localStorage`. Set a default via config:
 ## License
 
 [MIT](LICENSE)
+
+---
+
+Built by [Pankaj Nakhat](https://pankajnakhat.com)
