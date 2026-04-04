@@ -3,7 +3,7 @@
 ##  › chromium › ui/dedup-demo.spec.js › Dedup Demo › broken selector always fails — dedup demo @regression
 - File: tests/ui/dedup-demo.spec.js
 - Step: broken selector always fails — dedup demo @regression
-- Action: update_locator
+- Action: fix_locator
 - Confidence: 0.97
 - Error: Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
 
@@ -17,25 +17,26 @@ Call log:
 [2m  - waiting for locator('#this-element-does-not-exist')[22m
 
 - Failed locator: #this-element-does-not-exist
-- Candidate locators: #this-element-does-not-exist, [data-testid='target-element'], role=main, body
+- Candidate locators: #this-element-does-not-exist, body, [data-testid]
 - Suggested patch:
 ```diff
-// Option A: Mark as intentionally failing (for demo/dedup tooling purposes)
+// Option 1: Mark as expected failure (keeps it as a demo without breaking CI)
 test.fail('broken selector always fails — dedup demo @regression', async ({ page }) => {
-  // This test is intentionally broken to demonstrate deduplication reporting.
   await expect(page.locator('#this-element-does-not-exist')).toBeVisible({ timeout: 3000 });
 });
 
-// Option B: Fix with the correct selector if this was meant to test a real element
-// Replace '#this-element-does-not-exist' with the actual selector, e.g.:
-// await expect(page.locator('#real-element-id')).toBeVisible({ timeout: 3000 });
+// Option 2: Replace with a real locator if this was a mistake
+// await expect(page.locator('#actual-element-id')).toBeVisible({ timeout: 3000 });
+
+// Option 3: Skip entirely
+// test.skip('broken selector always fails — dedup demo @regression', ...);
 ```
-- Reasoning: The selector '#this-element-does-not-exist' is a placeholder/intentionally invalid selector. It will never resolve to a real DOM element, so the toBeVisible() assertion will always fail. The fix depends on intent: if this is a demo of a failing test, wrap it with test.fail(); if it represents a real UI element, the selector must be corrected to match the actual element's ID, class, or accessible role.
+- Reasoning: The selector '#this-element-does-not-exist' is a hard-coded, intentionally invalid ID that will never match any DOM element. The test name itself ('broken selector always fails') confirms this is a known-bad locator used for demonstration. The failure is 100% reproducible and deterministic — not flaky, not environment-dependent. The fix depends on intent: either annotate with test.fail() for demo purposes, replace with a real locator, or skip/remove the test.
 
 ##  › chromium › ui/saucedemo.spec.js › AI Failure Analysis › intentional failure for AI analysis demo @regression
 - File: tests/ui/saucedemo.spec.js
 - Step: intentional failure for AI analysis demo @regression
-- Action: update_locator_and_assertion
+- Action: update_assertion
 - Confidence: 0.98
 - Error: Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
 
@@ -49,23 +50,19 @@ Call log:
 [2m  - waiting for getByRole('heading', { name: 'Non Existing Header' })[22m
 
 - Failed locator: getByRole('heading', { name: 'Products' })
-- Candidate locators: getByRole('heading', { name: 'Products' }), getByRole('heading', { name: 'Swag Labs' }), locator('.title'), locator('[data-test="title"]')
+- Candidate locators: getByRole('heading', { name: 'Products' }), getByRole('heading', { name: 'Swag Labs' }), locator('.title'), locator('h2.title')
 - Suggested patch:
 ```diff
-// Option 1: Fix the locator to target a real heading (e.g., 'Products' on inventory page)
-// Before (line ~116):
-await expect(page.getByRole('heading', { name: 'Non Existing Header' })).toBeVisible();
-
-// After:
+// Option 1: Fix the locator to target a real heading (e.g., after login on the inventory page)
 await expect(page.getByRole('heading', { name: 'Products' })).toBeVisible();
 
-// Option 2: Mark as intentionally failing to keep CI green while documenting the known failure
-test.fail('intentional failure for AI analysis demo @regression', async ({ page }) => {
-  // ... existing test body ...
+// Option 2: Mark the test as intentionally failing (preserves demo intent)
+test('intentional failure for AI analysis demo @regression', async ({ page }) => {
+  test.fail(); // Declares this test is expected to fail
   await expect(page.getByRole('heading', { name: 'Non Existing Header' })).toBeVisible();
 });
 ```
-- Reasoning: The root cause is a purposefully invalid locator string ('Non Existing Header') used in a `toBeVisible()` assertion. The element does not exist in the application at any point during the test lifecycle. The failure is deterministic and reproducible — not flaky — because the target heading is never part of the rendered DOM. The test name explicitly confirms this is intentional. The fix is either to correct the locator to a real element or to formally declare the test as expected-to-fail using Playwright's `test.fail()` API.
+- Reasoning: The assertion targets a heading named 'Non Existing Header' which is confirmed to never exist in the application UI. The failure is deterministic and reproducible — not a flake, timing race, or environment issue. The test name explicitly states it is an intentional failure. The fix is either to point the locator at a real element or to formally declare the test as expected-to-fail using Playwright's `test.fail()` API.
 
 ## Shopping Cart › Cart persists items after page refresh
 - File: tests/manual-results.md
