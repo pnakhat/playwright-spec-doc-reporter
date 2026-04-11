@@ -27,6 +27,8 @@ import { parseDiff, type HealingDiff } from "../healing/diffParser.js";
 import { detectHealingEvent } from "../healing/healingDetector.js";
 import { HealingIndex } from "../healing/HealingIndex.js";
 import { writeJson } from "../utils/fs.js";
+import { extractCucumberMeta, parseGherkinStepTitle, gherkinStepCategory } from "../cucumber/cucumberDetector.js";
+import { parseCucumberJsonReports } from "../cucumber/adapter.js";
 
 function projectName(test: TestCase): string | undefined {
   return test.parent.project()?.name || undefined;
@@ -265,6 +267,29 @@ export class GlossyPlaywrightReporter implements Reporter {
     const healingEvt = detectHealingEvent(relTestFile, result, this.diffIndex);
     if (healingEvt) this.healingIndex.add(healingEvt);
 
+    // Detect and extract Cucumber/playwright-bdd metadata when enabled (default: true)
+    const cucumberEnhance = this.config.cucumber?.enhancePlaywrightBdd !== false;
+    const cucumberMeta = cucumberEnhance ? extractCucumberMeta(test) : { isCucumber: false, tags: [] as string[] };
+
+    // Merge base tags with Cucumber-detected tags, applying autoTags if configured
+    let mergedTags = extractTags(test);
+    if (cucumberMeta.isCucumber) {
+      const autoTags = this.config.cucumber?.autoTags ?? ["@cucumber"];
+      const cucumberTagSet = new Set([...mergedTags, ...cucumberMeta.tags, ...autoTags]);
+      mergedTags = [...cucumberTagSet];
+    }
+
+    // When playwright-bdd is detected, override steps to include Gherkin keyword categories
+    const extractedSteps = extractSteps(result.steps, outputDirAbs);
+    if (cucumberMeta.isCucumber) {
+      for (const step of extractedSteps) {
+        const parsed = parseGherkinStepTitle(step.title);
+        if (parsed.keyword) {
+          step.category = gherkinStepCategory(parsed.keyword);
+        }
+      }
+    }
+
     const normalized: NormalizedTestResult = {
       id: shortId(`${test.parent.project()?.name ?? ""}:${test.location.file}:${test.location.line}:${test.title}:${result.retry}`),
       suite: test.parent.title || this.rootSuiteTitle,
@@ -289,13 +314,18 @@ export class GlossyPlaywrightReporter implements Reporter {
         videos: this.config.includeVideos ? artifacts.videos : [],
         traces: this.config.includeTraces ? artifacts.traces : []
       },
-      tags: extractTags(test),
-      featureMeta: extractFeatureMeta(test),
-      scenarioDescription: extractScenarioDescription(test),
+      tags: mergedTags,
+      // Cucumber metadata takes precedence over plain annotations when detected
+      featureMeta: cucumberMeta.isCucumber && cucumberMeta.featureName
+        ? { name: cucumberMeta.featureName, description: cucumberMeta.featureDescription }
+        : extractFeatureMeta(test),
+      scenarioDescription: cucumberMeta.isCucumber && cucumberMeta.scenarioName
+        ? cucumberMeta.scenarioName
+        : extractScenarioDescription(test),
       behaviours: extractBehaviours(test),
       apiEntries: extractApiEntries(test),
       consoleLogs: toConsoleLogs(result),
-      steps: extractSteps(result.steps, outputDirAbs),
+      steps: extractedSteps,
       startedAt: result.startTime?.toISOString(),
       finishedAt: result.startTime ? new Date(result.startTime.getTime() + result.duration).toISOString() : undefined,
       specPath,
@@ -343,6 +373,28 @@ export class GlossyPlaywrightReporter implements Reporter {
         }
       } catch (err) {
         console.warn(`[glossy-reporter] Could not read manual tests file ${manualPath} — skipping. Error:`, err);
+      }
+    }
+
+    // Merge Cucumber JSON report(s) if configured
+    const cucumberJsonPaths = this.config.cucumber?.jsonReports;
+    if (cucumberJsonPaths) {
+      const paths = Array.isArray(cucumberJsonPaths) ? cucumberJsonPaths : [cucumberJsonPaths];
+      try {
+        const autoTags = this.config.cucumber?.autoTags ?? ["@cucumber"];
+        const resolvedOutputDir = path.resolve(process.cwd(), this.config.outputDir ?? defaultConfig.outputDir);
+        const cucumberTests = parseCucumberJsonReports(paths, resolvedOutputDir);
+        // Apply any configured autoTags to all cucumber results
+        for (const t of cucumberTests) {
+          const tagSet = new Set([...t.tags, ...autoTags]);
+          t.tags = [...tagSet];
+          uniqueById.set(t.id, t);
+        }
+        if (cucumberTests.length > 0) {
+          console.log(`[glossy-reporter] Merged ${cucumberTests.length} Cucumber scenario(s) from ${paths.join(", ")}`);
+        }
+      } catch (err) {
+        console.warn(`[glossy-reporter] Could not merge Cucumber JSON reports — skipping. Error:`, err);
       }
     }
 

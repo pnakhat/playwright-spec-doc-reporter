@@ -1,0 +1,22 @@
+{
+  "name": "cucumber-playwright-js-example",
+  "version": "1.0.0",
+  "description": "Example: Cucumber BDD with Playwright using JavaScript + playwright-spec-doc-reporter",
+  "type": "module",
+  "scripts": {
+    "test:cucumber": "cucumber-js --config cucumber.config.js",
+    "test:playwright": "playwright test",
+    "test": "npm run test:cucumber && npm run test:playwright",
+    "test:headed": "playwright test --headed",
+    "report": "open glossy-report/index.html || xdg-open glossy-report/index.html || start glossy-report/index.html"
+  },
+  "devDependencies": {
+    "@cucumber/cucumber": "^11.0.0",
+    "@playwright/test": "^1.52.0",
+    "playwright": "^1.52.0",
+    "playwright-spec-doc-reporter": "../../"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

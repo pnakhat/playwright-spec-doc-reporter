@@ -17,6 +17,10 @@
     "./reporter": {
       "import": "./dist/reporter-entry.js",
       "types": "./dist/reporter-entry.d.ts"
+    },
+    "./cucumber-annotations": {
+      "import": "./dist/cucumber/cucumberAnnotations.js",
+      "types": "./dist/cucumber/cucumberAnnotations.d.ts"
     }
   },
   "files": [
@@ -68,7 +72,7 @@
     "test execution",
     "ci reporter"
   ],
-  "author": "Pankaj Nakhat <pnakhat@gmail.com>",
+  "author": "Pankaj Nakhat <pnakhat@gmail.com> (https://pankajnakhat.com)",
   "license": "MIT",
   "repository": {
     "type": "git",
