@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, afterEach } from "vitest";
 import { parseCucumberJsonReport } from "../src/cucumber/adapter.js";
 import {
   isCucumberTest,
@@ -493,9 +493,14 @@ describe("isCucumberTest — detection", () => {
     expect(isCucumberTest(tc)).toBe(true);
   });
 
-  it("detects test via 'Feature > Scenario' title pattern", () => {
-    const tc = makeTestCase({ title: "Login Feature > Standard login" });
+  it("detects test via 'Feature: … > …' title pattern", () => {
+    const tc = makeTestCase({ title: "Feature: Login > Standard login" });
     expect(isCucumberTest(tc)).toBe(true);
+  });
+
+  it("does NOT detect plain test with '>' separator as Cucumber", () => {
+    const tc = makeTestCase({ title: "Login Feature > Standard login" });
+    expect(isCucumberTest(tc)).toBe(false);
   });
 
   it("returns false for a plain Playwright test", () => {
@@ -748,6 +753,15 @@ describe("attachApiRequest / attachApiResponse", () => {
 // Helpers for writing temp files
 // ---------------------------------------------------------------------------
 
+const tmpFiles: string[] = [];
+
+afterEach(() => {
+  for (const f of tmpFiles) {
+    try { fs.rmSync(f); } catch { /* already gone */ }
+  }
+  tmpFiles.length = 0;
+});
+
 function writeTmp(json: unknown): string {
   return writeTmpRaw(JSON.stringify(json));
 }
@@ -755,5 +769,6 @@ function writeTmp(json: unknown): string {
 function writeTmpRaw(content: string): string {
   const tmp = path.join(os.tmpdir(), `cucumber-test-${Date.now()}-${Math.random().toString(36).slice(2)}.json`);
   fs.writeFileSync(tmp, content, "utf-8");
+  tmpFiles.push(tmp);
   return tmp;
 }

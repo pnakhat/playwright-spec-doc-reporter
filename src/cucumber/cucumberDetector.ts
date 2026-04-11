@@ -50,10 +50,12 @@ const PLAYWRIGHT_BDD_ANNOTATION_TYPES = new Set([
 
 /**
  * Patterns that suggest a test title follows Cucumber format.
- * e.g. "Feature > Scenario", "Feature: Name > Scenario: Name"
+ * e.g. "Feature: Name > Scenario: Name"
+ * The Feature/Scenario prefix is required to avoid false-positives on plain
+ * Playwright tests that happen to use ">" as a separator.
  */
 const CUCUMBER_TITLE_PATTERNS = [
-  /^.+\s*[>›]\s*.+$/,                   // "Feature > Scenario"
+  /^Feature:.+[>›].+/i,                 // "Feature: Login > Scenario: …"
   /^Feature:\s*(.+)/i,                   // "Feature: …"
   /^Scenario:\s*(.+)/i,                  // "Scenario: …"
   /^Scenario Outline:\s*(.+)/i,          // "Scenario Outline: …"

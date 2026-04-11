@@ -478,10 +478,13 @@ export interface CucumberConfig {
   enhancePlaywrightBdd?: boolean;
 
   /**
-   * Tag(s) to automatically apply to all Cucumber-sourced test results.
-   * Useful for filtering Cucumber vs Playwright tests in the report.
+   * Additional tag(s) to automatically apply to all Cucumber-sourced test results,
+   * on top of the always-present `@cucumber` tag.
+   * Useful for further filtering (e.g. adding `@bdd` or `@regression`).
    *
-   * Default: ["@cucumber"]
+   * Note: `@cucumber` is always injected regardless of this setting.
+   *
+   * Default: [] (no extra tags beyond `@cucumber`)
    */
   autoTags?: string[];
 }

@@ -1,0 +1,9 @@
+node_modules/
+dist/
+glossy-report/
+test-results/
+playwright-report/
+blob-report/
+.features-gen/
+.env
+.env.*

@@ -26,6 +26,7 @@ import {
   CUCUMBER_API_REQUEST_MIME,
   CUCUMBER_API_RESPONSE_MIME,
 } from "./cucumberAnnotations.js";
+import { gherkinStepCategory } from "./cucumberDetector.js";
 
 /**
  * Map Cucumber step result status to reporter TestStatus.
@@ -137,22 +138,27 @@ function extractApiEntriesFromSteps(steps: NormalizedCucumberStep[]): ApiEntry[]
 
 /**
  * Extract screenshot paths from Cucumber step embeddings (image/png or image/jpeg).
+ * Uses path.basename to prevent path traversal and verifies the resolved path
+ * stays within outputDir before writing.
  */
 function extractScreenshotsFromSteps(steps: NormalizedCucumberStep[], outputDir?: string): string[] {
   const screenshots: string[] = [];
+  if (!outputDir) return screenshots;
+  const resolvedOutputDir = path.resolve(outputDir);
   for (const step of steps) {
     if (!step.embeddings) continue;
     for (const emb of step.embeddings) {
-      if (emb.mime_type?.startsWith("image/")) {
-        // Write embedded image to a temp file so the report can display it
-        if (outputDir && emb.name) {
-          const imgPath = path.join(outputDir, emb.name);
-          try {
-            fs.writeFileSync(imgPath, Buffer.from(emb.data, "base64"));
-            screenshots.push(emb.name);
-          } catch {
-            // skip if can't write
-          }
+      if (emb.mime_type?.startsWith("image/") && emb.name) {
+        // Use basename only to prevent path traversal attacks
+        const safeName = path.basename(emb.name);
+        const imgPath = path.join(resolvedOutputDir, safeName);
+        // Verify the resolved path stays within the output directory
+        if (!path.resolve(imgPath).startsWith(resolvedOutputDir + path.sep)) continue;
+        try {
+          fs.writeFileSync(imgPath, Buffer.from(emb.data, "base64"));
+          screenshots.push(safeName);
+        } catch {
+          // skip if can't write
         }
       }
     }
@@ -167,25 +173,15 @@ function scenarioToTestResult(
   scenario: NormalizedCucumberScenario,
   outputDir?: string
 ): NormalizedTestResult {
-  const allTags = [...new Set(scenario.scenarioTags)].map(t =>
+  // Deduplicate tags, normalise @-prefix, always include @cucumber
+  const rawTags = [...new Set(scenario.scenarioTags)].map(t =>
     t.startsWith("@") ? t : `@${t}`
   );
-
-  // Assign Gherkin keyword categories to steps for timeline coloring in report
-  const gherkinKeywordCategory = (kw: string): string => {
-    switch (kw.toLowerCase()) {
-      case "given": return "given";
-      case "when": return "when";
-      case "then": return "then";
-      case "and":
-      case "but": return "and";
-      default: return "test";
-    }
-  };
+  const allTags = [...new Set([...rawTags, "@cucumber"])];
 
   const steps: TestStepInfo[] = scenario.steps.map(step => ({
     title: `${step.keyword} ${step.text}`,
-    category: gherkinKeywordCategory(step.keyword),
+    category: gherkinStepCategory(step.keyword),
     durationMs: step.durationMs,
     status: step.status === "failed" ? "failed" : "passed",
     error: step.errorMessage,
@@ -223,7 +219,7 @@ function scenarioToTestResult(
     retryIndex: 0,
     durationMs: scenario.durationMs,
     source: "automated",
-    tags: [...allTags, "@cucumber"],
+    tags: allTags,
     featureMeta: { name: scenario.featureName },
     scenarioDescription: scenario.scenarioName,
     behaviours: scenario.steps.map(s => `${s.keyword} ${s.text}`),
