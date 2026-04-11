@@ -3,7 +3,7 @@
 ##  › chromium › ui/dedup-demo.spec.js › Dedup Demo › broken selector always fails — dedup demo @regression
 - File: tests/ui/dedup-demo.spec.js
 - Step: broken selector always fails — dedup demo @regression
-- Action: fix_locator_or_mark_expected_failure
+- Action: update_locator_or_mark_expected_failure
 - Confidence: 0.97
 - Error: Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
 
@@ -17,29 +17,28 @@ Call log:
 [2m  - waiting for locator('#this-element-does-not-exist')[22m
 
 - Failed locator: #this-element-does-not-exist
-- Candidate locators: #this-element-does-not-exist, [data-testid='target-element'], #actual-element-id
+- Candidate locators: #this-element-does-not-exist, /* Replace with actual target element selector, e.g.: */, [data-testid='target-element'], .target-class, #real-element-id
 - Suggested patch:
 ```diff
-// Option 1 — Mark as intentionally failing (demo/dedup use case)
-test('broken selector always fails — dedup demo @regression', async ({ page }) => {
-  test.fail(); // This test is expected to fail — used for dedup demo
-  await page.goto('/');
+// Option 1: Mark as intentionally failing (demo/dedup purposes)
+test.fail('broken selector always fails — dedup demo @regression', async ({ page }) => {
+  // This test is intentionally broken to demonstrate dedup/reporting behavior
   await expect(page.locator('#this-element-does-not-exist')).toBeVisible({ timeout: 3000 });
 });
 
-// Option 2 — Replace with a valid locator if this was a real test
-test('element is visible — dedup demo @regression', async ({ page }) => {
-  await page.goto('/');
-  // Replace '#this-element-does-not-exist' with the actual stable selector
-  await expect(page.locator('#actual-element-id')).toBeVisible({ timeout: 3000 });
-});
+// Option 2: Replace with a real selector if this should be a genuine regression test
+// Replace '#this-element-does-not-exist' with the actual target element selector
+// e.g., await expect(page.locator('#real-element-id')).toBeVisible({ timeout: 3000 });
+
+// Option 3: Remove @regression tag if keeping as a demo-only test
+// test('broken selector always fails — dedup demo', ...)
 ```
-- Reasoning: The selector '#this-element-does-not-exist' is a placeholder/stub that has no corresponding element in the application. The test name itself ('broken selector always fails') confirms this is intentional. In a real regression suite this pattern would be a locator_drift issue where a selector no longer matches the DOM. The correct remediation depends on intent: (1) if the failure is intentional for demo purposes, use test.fail() to declare it; (2) if it was once a real selector that drifted, replace it with the correct current selector.
+- Reasoning: The selector '#this-element-does-not-exist' is a self-documenting placeholder that will never match any DOM element. The test name itself ('broken selector always fails') confirms this is intentional. The failure is 100% reproducible and deterministic. The appropriate fix depends on intent: mark as expected failure with test.fail() for demo purposes, or replace the selector with a real one for a genuine regression test. The @regression tag is inappropriate for a test designed to always fail.
 
 ##  › chromium › ui/saucedemo.spec.js › AI Failure Analysis › intentional failure for AI analysis demo @regression
 - File: tests/ui/saucedemo.spec.js
 - Step: intentional failure for AI analysis demo @regression
-- Action: update_assertion
+- Action: fix_locator_or_assertion
 - Confidence: 0.98
 - Error: Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
 
@@ -53,17 +52,21 @@ Call log:
 [2m  - waiting for getByRole('heading', { name: 'Non Existing Header' })[22m
 
 - Failed locator: getByRole('heading', { name: 'Products' })
-- Candidate locators: getByRole('heading', { name: 'Products' }), getByRole('heading', { name: 'Swag Labs' }), locator('.title'), locator('h2.title')
+- Candidate locators: getByRole('heading', { name: 'Products' }), getByRole('heading', { name: 'Swag Labs' }), getByRole('heading', { name: 'Checkout: Your Information' }), locator('.title'), locator('[data-test="title"]')
 - Suggested patch:
 ```diff
-// Option 1: Fix the assertion to match the real heading (e.g., on the inventory page)
+// Option 1: Fix the locator to target a real heading (e.g., on the inventory page after login)
 await expect(page.getByRole('heading', { name: 'Products' })).toBeVisible();
 
-// Option 2: Mark the test as intentionally failing to avoid CI noise
-test.fail();
-await expect(page.getByRole('heading', { name: 'Non Existing Header' })).toBeVisible();
+// Option 2: If the intentional failure must be preserved as a demo, mark it explicitly
+test('intentional failure for AI analysis demo @regression', async ({ page }) => {
+  test.fail(); // Marks this test as expected to fail
+  await expect(
+    page.getByRole('heading', { name: 'Non Existing Header' })
+  ).toBeVisible({ timeout: 5000 });
+});
 ```
-- Reasoning: The assertion references a heading name ('Non Existing Header') that has no corresponding element in the application's DOM. The element is not missing due to timing, environment drift, or a locator strategy mismatch — it simply does not exist. The test name explicitly confirms this is intentional. The fix is either to correct the expected heading text to match what the application actually renders, or to wrap the test with `test.fail()` to formally declare the expected failure.
+- Reasoning: The element targeted by the locator simply does not exist in the application. The heading name 'Non Existing Header' is a placeholder string with no corresponding DOM element. The failure is deterministic and reproducible — it will always fail regardless of timing, environment, or test data. The test name itself confirms this is intentional. The fix is either to correct the heading name to one that exists, or to formally declare the test as expected-to-fail using Playwright's test.fail() API.
 
 ## Shopping Cart › Cart persists items after page refresh
 - File: tests/manual-results.md
@@ -84,7 +87,22 @@ await expect(page.getByRole('heading', { name: 'Non Existing Header' })).toBeVis
 ## Product Detail › Checkout cancel on step 2 returns to inventory
 - File: tests/manual-results.md
 - Step: Checkout cancel on step 2 returns to inventory
-- Action: investigate
-- Confidence: 0
+- Action: update_assertion_or_file_bug
+- Confidence: 0.82
 - Error: Cancel on step 2 navigates to /cart.html instead of /inventory.html — unexpected destination
-- Reasoning: Provider failed to return a valid analysis.
+- Failed locator: //button[contains(text(), 'Cancel')]
+- Candidate locators: //button[contains(text(), 'Cancel')], button#cancel, [data-test='cancel'], a.cart_cancel_link, button:has-text('Cancel')
+- Suggested patch:
+```diff
+// Current assertion (likely in test):
+await expect(page).toHaveURL(/.*inventory.html/);
+
+// If app bug is confirmed and fixed, keep assertion as-is.
+// If spec says /cart.html is correct, update to:
+await expect(page).toHaveURL(/.*cart.html/);
+
+// Recommended: add explicit wait for navigation stability
+await page.waitForURL(/.*\/(inventory|cart)\.html/, { timeout: 5000 });
+await expect(page).toHaveURL(/.*inventory\.html/); // adjust based on confirmed spec
+```
+- Reasoning: The error message explicitly states the navigation destination is '/cart.html' when '/inventory.html' is expected. The test logic itself is sound — it is asserting a URL after a Cancel action. The mismatch is in the application's routing behavior. SauceDemo's documented behavior routes the step-2 Cancel to '/inventory.html', so the app deviating from this is the root cause. The test assertion should be validated against the spec before changing it.

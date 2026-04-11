@@ -1,5 +1,5 @@
-## 🎭 Test Report — `feature/cucumber-playwright-support` · Run #84
-commit `285f6c7f`
+## 🎭 Test Report — `feature/cucumber-playwright-support` · Run #85
+commit `0b42a8c0`
 
 | | Result |
 |---|---|
@@ -16,6 +16,6 @@ commit `285f6c7f`
 - ❌ `Authentication › Login error clears when user starts retyping` — *Error message persists even after the user clears the username field — no auto-dismiss*
 - ❌ `Product Detail › Checkout cancel on step 2 returns to inventory` — *Cancel on step 2 navigates to /cart.html instead of /inventory.html — unexpected destination*
 
-> 🤖 **AI Analysis** (5 failures analysed) (97% confidence): The test 'broken selector always fails — dedup demo' intentionally uses a non-existent CSS selector '#this-element-does-not-exist' and asserts it is visible. The element is never present in the DOM, c [View full analysis →](https://pnakhat.github.io/playwright-spec-doc-reporter/reports/pr-18/)
+> 🤖 **AI Analysis** (5 failures analysed) (97% confidence): The test 'broken selector always fails — dedup demo @regression' intentionally uses a non-existent CSS selector '#this-element-does-not-exist' and asserts it is visible, causing a guaranteed failure.  [View full analysis →](https://pnakhat.github.io/playwright-spec-doc-reporter/reports/pr-18/)
 
 [📊 Full Report →](https://pnakhat.github.io/playwright-spec-doc-reporter/reports/pr-18/)
