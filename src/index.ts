@@ -13,6 +13,18 @@ export { postJiraTestResults } from "./jira/index.js";
 export { parseManualResults } from "./manual/parser.js";
 export { computeFlakinessScores, flakinessLevel } from "./utils/flakiness.js";
 export type { PrCommentRunMeta } from "./prComment/generator.js";
+export { parseCucumberJsonReport, parseCucumberJsonReports } from "./cucumber/adapter.js";
+export { isCucumberTest, extractCucumberMeta, parseGherkinStepTitle, gherkinStepCategory } from "./cucumber/cucumberDetector.js";
+export { attachApiRequest, attachApiResponse, CUCUMBER_API_REQUEST_MIME, CUCUMBER_API_RESPONSE_MIME } from "./cucumber/cucumberAnnotations.js";
+export type { CucumberWorldLike } from "./cucumber/cucumberAnnotations.js";
+export type { CucumberTestMeta } from "./cucumber/cucumberDetector.js";
+export type {
+  CucumberFeature,
+  CucumberElement,
+  CucumberStep,
+  NormalizedCucumberScenario,
+  NormalizedCucumberStep,
+} from "./cucumber/types.js";
 export type {
   AIAnalysisInput,
   AIAnalysisResult,
@@ -20,6 +32,7 @@ export type {
   AIProvider,
   AIProviderConfig,
   ApiEntry,
+  CucumberConfig,
   GlossyReporterConfig,
   HealingConfig,
   HealingPayload,

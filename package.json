@@ -17,6 +17,10 @@
     "./reporter": {
       "import": "./dist/reporter-entry.js",
       "types": "./dist/reporter-entry.d.ts"
+    },
+    "./cucumber-annotations": {
+      "import": "./dist/cucumber/cucumberAnnotations.js",
+      "types": "./dist/cucumber/cucumberAnnotations.d.ts"
     }
   },
   "files": [

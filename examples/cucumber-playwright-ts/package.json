@@ -1,0 +1,28 @@
+{
+  "name": "cucumber-playwright-ts-example",
+  "version": "1.0.0",
+  "description": "Example: Cucumber BDD with Playwright using TypeScript + playwright-spec-doc-reporter",
+  "type": "module",
+  "scripts": {
+    "prebddgen": "echo '--- Generating Playwright tests from .feature files ---'",
+    "bddgen": "bddgen",
+    "test": "npm run bddgen && playwright test",
+    "test:cucumber": "cucumber-js --config cucumber.config.ts",
+    "test:headed": "npm run bddgen && playwright test --headed",
+    "test:ui": "npm run bddgen && playwright test --ui",
+    "report": "open glossy-report/index.html || xdg-open glossy-report/index.html || start glossy-report/index.html"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@cucumber/cucumber": "^11.0.0",
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^22.0.0",
+    "playwright-bdd": "^8.0.0",
+    "playwright-spec-doc-reporter": "../../",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
