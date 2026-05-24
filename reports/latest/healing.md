@@ -21,8 +21,8 @@ Call log:
 ##  › chromium › ui/saucedemo.spec.js › AI Failure Analysis › intentional failure for AI analysis demo @regression
 - File: tests/ui/saucedemo.spec.js
 - Step: intentional failure for AI analysis demo @regression
-- Action: update_assertion
-- Confidence: 0.98
+- Action: investigate
+- Confidence: 0
 - Error: Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
 
 Locator: getByRole('heading', { name: 'Non Existing Header' })
@@ -34,18 +34,7 @@ Call log:
 [2m  - Expect "toBeVisible" with timeout 5000ms[22m
 [2m  - waiting for getByRole('heading', { name: 'Non Existing Header' })[22m
 
-- Failed locator: getByRole('heading', { name: 'Products' })
-- Candidate locators: getByRole('heading', { name: 'Products' }), getByRole('heading', { name: 'Swag Labs' }), getByRole('heading', { name: 'Checkout: Overview' }), .title
-- Suggested patch:
-```diff
-// Option 1: Fix the locator to match a real heading on the page
-await expect(page.getByRole('heading', { name: 'Products' })).toBeVisible();
-
-// Option 2: Mark the test as intentionally failing (preserves demo intent)
-test.fail();
-await expect(page.getByRole('heading', { name: 'Non Existing Header' })).toBeVisible();
-```
-- Reasoning: The assertion targets a heading ('Non Existing Header') that is confirmed to never exist in the application DOM. The failure is deterministic and not flaky — it will always fail because the element is fabricated. The test name explicitly states this is intentional. The fix is either to correct the locator to match a real heading, or to use `test.fail()` to formally declare the expected failure.
+- Reasoning: Provider failed to return a valid analysis.
 
 ## Shopping Cart › Cart persists items after page refresh
 - File: tests/manual-results.md
