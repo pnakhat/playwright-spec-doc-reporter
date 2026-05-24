@@ -1808,4 +1808,10 @@ The selected theme is persisted in `localStorage`. Set a default via config:
 
 ---
 
+## Author
+
+Built by [Pankaj Nakhat](https://www.pankajnakhat.com/) — Director of Quality Engineering, Abu Dhabi.
+
+QA leadership, AI-powered testing, and engineering mentorship → [pankajnakhat.com](https://www.pankajnakhat.com/)
+
 Built by [Pankaj Nakhat](https://pankajnakhat.com)
