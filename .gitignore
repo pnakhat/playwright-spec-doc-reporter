@@ -27,6 +27,11 @@ results.json
 .env.*
 !.env.example
 
+# Agent / Claude Code — share team config, keep personal/secret state local
+.claude/settings.local.json
+.claude/projects/
+.adk/
+
 # Editor / IDE
 .vscode/
 .idea/

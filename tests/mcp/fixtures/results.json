@@ -1,0 +1,157 @@
+{
+  "title": "Demo Suite",
+  "generatedAt": "2026-06-22T10:00:00.000Z",
+  "environment": {
+    "nodeVersion": "v20.0.0",
+    "platform": "darwin",
+    "os": "macOS",
+    "ci": "github",
+    "playwrightVersion": "1.52.0",
+    "projects": ["chromium"],
+    "browsers": ["chromium"],
+    "workers": 4
+  },
+  "summary": {
+    "total": 4,
+    "passed": 2,
+    "failed": 1,
+    "skipped": 0,
+    "flaky": 1,
+    "timedOut": 0,
+    "interrupted": 0,
+    "durationMs": 5400,
+    "averageDurationMs": 1350
+  },
+  "tests": [
+    {
+      "id": "t-login-ok",
+      "suite": "auth",
+      "file": "tests/login.spec.ts",
+      "title": "logs in with valid credentials",
+      "fullName": "auth > logs in with valid credentials",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "flaky": false,
+      "retries": 0,
+      "retryIndex": 0,
+      "durationMs": 1200,
+      "attachments": [],
+      "artifacts": { "screenshots": [], "videos": [], "traces": [] },
+      "consoleLogs": [],
+      "tags": ["@smoke"],
+      "steps": [],
+      "specPath": "specs/login.md"
+    },
+    {
+      "id": "t-login-fail",
+      "suite": "auth",
+      "file": "tests/login.spec.ts",
+      "title": "rejects an invalid password",
+      "fullName": "auth > rejects an invalid password",
+      "status": "failed",
+      "expectedStatus": "passed",
+      "flaky": false,
+      "retries": 2,
+      "retryIndex": 2,
+      "durationMs": 2000,
+      "errorMessage": "locator.click: Timeout 5000ms exceeded.",
+      "stackTrace": "at tests/login.spec.ts:24:18",
+      "attachments": [],
+      "artifacts": { "screenshots": [], "videos": [], "traces": [] },
+      "consoleLogs": [],
+      "tags": ["@smoke"],
+      "steps": [],
+      "specPath": "specs/login.md"
+    },
+    {
+      "id": "t-cart-flaky",
+      "suite": "cart",
+      "file": "tests/cart.spec.ts",
+      "title": "adds an item to the cart",
+      "fullName": "cart > adds an item to the cart",
+      "status": "flaky",
+      "expectedStatus": "passed",
+      "flaky": true,
+      "retries": 1,
+      "retryIndex": 1,
+      "durationMs": 1800,
+      "attachments": [],
+      "artifacts": { "screenshots": [], "videos": [], "traces": [] },
+      "consoleLogs": [],
+      "tags": [],
+      "steps": []
+    },
+    {
+      "id": "t-cart-ok",
+      "suite": "cart",
+      "file": "tests/cart.spec.ts",
+      "title": "removes an item from the cart",
+      "fullName": "cart > removes an item from the cart",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "flaky": false,
+      "retries": 0,
+      "retryIndex": 0,
+      "durationMs": 400,
+      "attachments": [],
+      "artifacts": { "screenshots": [], "videos": [], "traces": [] },
+      "consoleLogs": [],
+      "tags": [],
+      "steps": []
+    }
+  ],
+  "trends": { "schemaVersion": "1", "notes": "" },
+  "aiEnabled": true,
+  "aiAnalyses": [
+    {
+      "testName": "rejects an invalid password",
+      "file": "tests/login.spec.ts",
+      "summary": "The login button selector changed.",
+      "likelyRootCause": "Locator drift on the submit button.",
+      "confidence": 0.82,
+      "suggestedRemediation": "Update the locator to data-testid=submit.",
+      "issueCategory": "locator_drift",
+      "structuredFeedback": {
+        "actionType": "locator_update",
+        "reasoning": "The button id changed between releases.",
+        "candidateLocators": ["[data-testid=submit]"]
+      }
+    }
+  ],
+  "healingPayloads": [
+    {
+      "testName": "rejects an invalid password",
+      "file": "tests/login.spec.ts",
+      "stepName": "click submit",
+      "failedLocator": "#login-btn",
+      "candidateLocators": ["[data-testid=submit]", "button[type=submit]"],
+      "errorMessage": "locator.click: Timeout 5000ms exceeded.",
+      "suggestedPatch": "- page.locator('#login-btn')\n+ page.getByTestId('submit')",
+      "reasoning": "The button id changed between releases.",
+      "confidence": 0.82,
+      "actionType": "locator_update"
+    }
+  ],
+  "healingSummary": {
+    "totalAutoHealed": 1,
+    "totalSkippedAppBroken": 0,
+    "flakinessSignal": "medium",
+    "events": [
+      { "outcome": "auto-healed", "reason": "locator drift", "patchSummary": "1 file" }
+    ]
+  },
+  "traceabilityIndex": {
+    "specs": [
+      { "filePath": "specs/login.md", "title": "Login", "scenarios": ["valid login", "invalid password"] },
+      { "filePath": "specs/checkout.md", "title": "Checkout", "scenarios": ["empty cart"] }
+    ],
+    "mapping": {
+      "specs/login.md": ["t-login-ok", "t-login-fail"],
+      "specs/checkout.md": []
+    },
+    "reverseMapping": {
+      "t-login-ok": "specs/login.md",
+      "t-login-fail": "specs/login.md"
+    }
+  }
+}
