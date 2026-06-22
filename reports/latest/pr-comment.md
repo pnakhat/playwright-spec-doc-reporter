@@ -1,5 +1,5 @@
-## 🎭 Test Report · Run #92
-commit `2fe94114`
+## 🎭 Test Report · Run #94
+commit `1db9d327`
 
 | | Result |
 |---|---|
@@ -7,7 +7,7 @@ commit `2fe94114`
 | ❌ Failed | 5 |
 | ⏭️ Skipped | 2 |
 | 📊 Total | 31 |
-| ⏱️ Duration | 23s |
+| ⏱️ Duration | 22s |
 
 ### ❌ Failed Tests
 - ❌ ` › chromium › ui/dedup-demo.spec.js › Dedup Demo › broken selector always fails — dedup demo @regression` — *Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed*
