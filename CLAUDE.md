@@ -41,8 +41,20 @@ Published to npm as an **ESM-only** package. Consumers use it via `playwright.co
 | Clean | `npm run clean` |
 
 **Before declaring any change done, run `npm run build && npm test`.** CI (`.github/workflows/ci.yml`)
-runs build → unit tests → example API/UI tests → E2E report tests, then auto-releases a patch version
-on merge to `main`.
+runs build → unit tests → example API/UI tests → E2E report tests, then runs the release job on merge
+to `main`.
+
+### Releasing
+
+Releases are **intentional, not automatic-per-merge** (publish-on-version-change):
+
+- To cut a release, **bump `version` in `package.json` in your PR**. On merge to `main`, the `auto-release`
+  job publishes that version to npm (with provenance) and tags `v<version>` — but only if that version is
+  not already on npm.
+- A merge that does **not** change the version is a **no-op** — nothing is published.
+- A version can also be published by pushing a manual `v<version>` git tag (the `publish-npm` job). The
+  `auto-release` job is idempotent against this: it skips publishing/tagging a version already on npm, so
+  merging the same release to `main` afterward won't double-publish.
 
 ## Architecture (`src/`)
 
