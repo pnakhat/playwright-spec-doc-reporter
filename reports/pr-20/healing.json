@@ -1,0 +1,59 @@
+[
+  {
+    "testName": " › chromium › ui/dedup-demo.spec.js › Dedup Demo › broken selector always fails — dedup demo @regression",
+    "file": "tests/ui/dedup-demo.spec.js",
+    "stepName": "broken selector always fails — dedup demo @regression",
+    "failedLocator": "#this-element-does-not-exist",
+    "candidateLocators": [
+      "#this-element-does-not-exist",
+      "[data-testid='target-element']",
+      ".target-class",
+      "text='Expected Content'"
+    ],
+    "errorMessage": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('#this-element-does-not-exist')\nExpected: visible\nTimeout: 3000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 3000ms\u001b[22m\n\u001b[2m  - waiting for locator('#this-element-does-not-exist')\u001b[22m\n",
+    "suggestedPatch": "// Option 1: Mark as intentionally failing (recommended for demo/dedup purposes)\ntest.fail('broken selector always fails — dedup demo @regression', async ({ page }) => {\n  await page.goto('/');\n  await expect(page.locator('#this-element-does-not-exist')).toBeVisible({ timeout: 3000 });\n});\n\n// Option 2: Fix with the correct selector if targeting a real element\n// Replace '#this-element-does-not-exist' with the actual element selector, e.g.:\n// await expect(page.locator('#real-element-id')).toBeVisible({ timeout: 3000 });",
+    "reasoning": "The selector '#this-element-does-not-exist' is a placeholder/intentionally broken locator. It does not correspond to any real DOM element. The test name itself ('broken selector always fails') confirms this is deliberate. The correct remediation depends on intent: (1) if this is a demo of a failing test, wrap with test.fail() so the suite reports correctly; (2) if it was meant to target a real element, the selector must be corrected to match the actual element's ID or attributes.",
+    "confidence": 0.97,
+    "actionType": "update_locator_or_mark_expected_failure"
+  },
+  {
+    "testName": " › chromium › ui/saucedemo.spec.js › AI Failure Analysis › intentional failure for AI analysis demo @regression",
+    "file": "tests/ui/saucedemo.spec.js",
+    "stepName": "intentional failure for AI analysis demo @regression",
+    "candidateLocators": [],
+    "errorMessage": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'Non Existing Header' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'Non Existing Header' })\u001b[22m\n",
+    "reasoning": "Provider failed to return a valid analysis.",
+    "confidence": 0,
+    "actionType": "investigate"
+  },
+  {
+    "testName": "Shopping Cart › Cart persists items after page refresh",
+    "file": "tests/manual-results.md",
+    "stepName": "Cart persists items after page refresh",
+    "candidateLocators": [],
+    "errorMessage": "Cart badge resets to 0 after hard refresh — session storage not persisted",
+    "reasoning": "Provider failed to return a valid analysis.",
+    "confidence": 0,
+    "actionType": "investigate"
+  },
+  {
+    "testName": "Authentication › Login error clears when user starts retyping",
+    "file": "tests/manual-results.md",
+    "stepName": "Login error clears when user starts retyping",
+    "candidateLocators": [],
+    "errorMessage": "Error message persists even after the user clears the username field — no auto-dismiss",
+    "reasoning": "Provider failed to return a valid analysis.",
+    "confidence": 0,
+    "actionType": "investigate"
+  },
+  {
+    "testName": "Product Detail › Checkout cancel on step 2 returns to inventory",
+    "file": "tests/manual-results.md",
+    "stepName": "Checkout cancel on step 2 returns to inventory",
+    "candidateLocators": [],
+    "errorMessage": "Cancel on step 2 navigates to /cart.html instead of /inventory.html — unexpected destination",
+    "reasoning": "Provider failed to return a valid analysis.",
+    "confidence": 0,
+    "actionType": "investigate"
+  }
+]
