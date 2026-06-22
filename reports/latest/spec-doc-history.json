@@ -2,10 +2,10 @@
   "schemaVersion": "1.0",
   "runs": [
     {
-      "runId": "8a1ea896dbb94c94",
-      "timestamp": "2026-05-24T11:48:51.576Z",
-      "branch": "main",
-      "commit": "44ed19ea",
+      "runId": "892037935911e7a9",
+      "timestamp": "2026-06-22T19:39:20.210Z",
+      "branch": "v1.0.0",
+      "commit": "ee692ae2",
       "passRate": 77,
       "playwrightVersion": "1.58.2",
       "summary": {
@@ -14,93 +14,93 @@
         "failed": 5,
         "skipped": 2,
         "flaky": 0,
-        "durationMs": 21431
+        "durationMs": 22511
       },
       "testSnapshots": [
         {
           "key": "tests/ui/checkout.spec.js::checkout requires first name @validation",
           "status": "passed",
-          "durationMs": 1147
+          "durationMs": 1260
         },
         {
           "key": "tests/ui/checkout.spec.js::complete checkout with one item @smoke @critical",
           "status": "passed",
-          "durationMs": 1255
+          "durationMs": 1352
         },
         {
           "key": "tests/ui/checkout.spec.js::checkout requires last name @validation",
           "status": "passed",
-          "durationMs": 898
+          "durationMs": 1001
         },
         {
           "key": "tests/ui/checkout.spec.js::checkout requires postal code @validation",
           "status": "passed",
-          "durationMs": 963
-        },
-        {
-          "key": "tests/ui/checkout.spec.js::checkout with all 6 items shows correct count @regression",
-          "status": "passed",
-          "durationMs": 1014
+          "durationMs": 1033
         },
         {
           "key": "tests/ui/checkout.spec.js::cancel checkout returns to inventory @regression",
           "status": "passed",
-          "durationMs": 900
+          "durationMs": 966
+        },
+        {
+          "key": "tests/ui/checkout.spec.js::checkout with all 6 items shows correct count @regression",
+          "status": "passed",
+          "durationMs": 1137
         },
         {
           "key": "tests/ui/checkout.spec.js::clicking product name opens detail page @smoke",
           "status": "passed",
-          "durationMs": 808
+          "durationMs": 845
         },
         {
           "key": "tests/ui/checkout.spec.js::back button on detail page returns to inventory @smoke",
           "status": "passed",
-          "durationMs": 934
+          "durationMs": 949
         },
         {
           "key": "tests/ui/checkout.spec.js::add to cart from detail page updates badge @regression",
           "status": "passed",
-          "durationMs": 717
+          "durationMs": 789
         },
         {
           "key": "tests/ui/saucedemo.spec.js::standard user can login and add item to cart @smoke @critical @SCRUM-1",
           "status": "passed",
-          "durationMs": 723
+          "durationMs": 765
         },
         {
           "key": "tests/ui/saucedemo.spec.js::user can remove item from cart @smoke",
           "status": "passed",
-          "durationMs": 609
+          "durationMs": 668
         },
         {
           "key": "tests/ui/saucedemo.spec.js::user can sort products by price @regression",
           "status": "passed",
-          "durationMs": 635
+          "durationMs": 648
         },
         {
           "key": "tests/ui/saucedemo.spec.js::locked out user sees expected error @smoke @auth",
           "status": "passed",
-          "durationMs": 482
+          "durationMs": 565
         },
         {
           "key": "tests/ui/dedup-demo.spec.js::broken selector always fails — dedup demo @regression",
           "status": "failed",
-          "durationMs": 3711
+          "durationMs": 3780
         },
         {
           "key": "tests/ui/saucedemo.spec.js::cart icon navigates to cart page (auto-healed) @smoke @critical",
           "status": "passed",
-          "durationMs": 525
+          "durationMs": 622
         },
         {
           "key": "tests/ui/saucedemo.spec.js::checkout button is visible on cart page (skipped-app-broken) @regression",
           "status": "skipped",
-          "durationMs": 166
+          "durationMs": 170
         },
         {
           "key": "tests/ui/saucedemo.spec.js::intentional failure for AI analysis demo @regression",
           "status": "failed",
-          "durationMs": 5944
+          "durationMs": 5961
         },
         {
           "key": "tests/manual-results.md::Standard user can view the product catalogue",
