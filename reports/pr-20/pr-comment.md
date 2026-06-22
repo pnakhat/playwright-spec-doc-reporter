@@ -1,5 +1,5 @@
-## 🎭 Test Report — `feat/mcp-server-v1.0.0` · Run #89
-commit `df97b0bb`
+## 🎭 Test Report — `feat/mcp-server-v1.0.0` · Run #91
+commit `99b4b209`
 
 | | Result |
 |---|---|
@@ -16,6 +16,6 @@ commit `df97b0bb`
 - ❌ `Authentication › Login error clears when user starts retyping` — *Error message persists even after the user clears the username field — no auto-dismiss*
 - ❌ `Product Detail › Checkout cancel on step 2 returns to inventory` — *Cancel on step 2 navigates to /cart.html instead of /inventory.html — unexpected destination*
 
-> 🤖 **AI Analysis** (5 failures analysed) (97% confidence): The test 'broken selector always fails — dedup demo' intentionally uses a non-existent CSS selector '#this-element-does-not-exist' and asserts it is visible. The element is never present in the DOM, c [View full analysis →](https://pnakhat.github.io/playwright-spec-doc-reporter/reports/pr-20/)
+> 🤖 **AI Analysis** (5 failures analysed) (98% confidence): The test 'broken selector always fails — dedup demo' intentionally uses a non-existent CSS selector '#this-element-does-not-exist' and asserts it is visible. The element is never present in the DOM, c [View full analysis →](https://pnakhat.github.io/playwright-spec-doc-reporter/reports/pr-20/)
 
 [📊 Full Report →](https://pnakhat.github.io/playwright-spec-doc-reporter/reports/pr-20/)
