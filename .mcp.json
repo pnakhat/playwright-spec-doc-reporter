@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "spec-doc-reporter": {
+      "command": "node",
+      "args": [
+        "/Users/pankajnakhat/code/playwright-spec-doc-reporter/bin/cli.js",
+        "mcp",
+        "--stdio",
+        "--output",
+        "tests/mcp/fixtures"
+      ]
+    }
+  }
+}

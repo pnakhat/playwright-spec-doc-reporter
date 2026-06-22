@@ -167,4 +167,144 @@ describe("computeFlakinessScores", () => {
     // 2 meaningful statuses, 1 transition → 100%
     expect(scores["a::t1"]).toBe(100);
   });
+
+  // ─── Non-meaningful statuses beyond "skipped" ───────────────────────────────
+
+  it("ignores timedOut status when computing flakiness", () => {
+    const history = makeHistory([
+      makeRun([{ key: "a::t1", status: "passed" }]),
+      makeRun([{ key: "a::t1", status: "timedOut" }]),
+      makeRun([{ key: "a::t1", status: "passed" }]),
+    ]);
+    const scores = computeFlakinessScores(history);
+    // timedOut is non-meaningful → only 2 passed statuses, 0 transitions → score 0
+    expect(scores["a::t1"]).toBe(0);
+  });
+
+  it("ignores interrupted status when computing flakiness", () => {
+    const history = makeHistory([
+      makeRun([{ key: "a::t1", status: "passed" }]),
+      makeRun([{ key: "a::t1", status: "interrupted" }]),
+      makeRun([{ key: "a::t1", status: "failed" }]),
+    ]);
+    const scores = computeFlakinessScores(history);
+    // interrupted is non-meaningful → passed then failed = 1 transition over 1 interval → 100
+    expect(scores["a::t1"]).toBe(100);
+  });
+
+  it("ignores flaky status when computing flakiness", () => {
+    const history = makeHistory([
+      makeRun([{ key: "a::t1", status: "failed" }]),
+      makeRun([{ key: "a::t1", status: "flaky" }]),
+      makeRun([{ key: "a::t1", status: "failed" }]),
+    ]);
+    const scores = computeFlakinessScores(history);
+    // flaky is non-meaningful → only 2 failed statuses, 0 transitions → score 0
+    expect(scores["a::t1"]).toBe(0);
+  });
+
+  // ─── Score rounding ──────────────────────────────────────────────────────────
+
+  it("rounds fractional scores to the nearest integer", () => {
+    // 1 transition over 3 intervals → (1/3)*100 = 33.33 → rounds to 33
+    const history = makeHistory([
+      makeRun([{ key: "a::t1", status: "passed" }]),
+      makeRun([{ key: "a::t1", status: "failed" }]),
+      makeRun([{ key: "a::t1", status: "failed" }]),
+      makeRun([{ key: "a::t1", status: "failed" }]),
+    ]);
+    const scores = computeFlakinessScores(history);
+    expect(scores["a::t1"]).toBe(33);
+  });
+
+  it("rounds 0.5-interval scores using standard rounding", () => {
+    // 1 transition over 2 intervals → (1/2)*100 = 50 → exact, no rounding needed
+    // Use 3 transitions over 5 intervals → (3/5)*100 = 60 → exact
+    const history = makeHistory([
+      makeRun([{ key: "a::t1", status: "passed" }]),
+      makeRun([{ key: "a::t1", status: "failed" }]),
+      makeRun([{ key: "a::t1", status: "passed" }]),
+      makeRun([{ key: "a::t1", status: "failed" }]),
+      makeRun([{ key: "a::t1", status: "passed" }]),
+      makeRun([{ key: "a::t1", status: "failed" }]),
+    ]);
+    const scores = computeFlakinessScores(history);
+    // 5 transitions over 5 intervals → 100
+    expect(scores["a::t1"]).toBe(100);
+  });
+
+  // ─── windowSize boundary ─────────────────────────────────────────────────────
+
+  it("uses exactly the last windowSize runs when history is larger", () => {
+    // 12 runs total: first 2 are alternating, last 10 are all passing
+    const earlyRuns = [
+      makeRun([{ key: "a::t1", status: "passed" }]),
+      makeRun([{ key: "a::t1", status: "failed" }]),
+    ];
+    const stableRuns = Array.from({ length: 10 }, () =>
+      makeRun([{ key: "a::t1", status: "passed" }])
+    );
+    const history = makeHistory([...earlyRuns, ...stableRuns]);
+    // windowSize=10 → only the last 10 (all passed) → 0 transitions → score 0
+    const scores = computeFlakinessScores(history, 10);
+    expect(scores["a::t1"]).toBe(0);
+  });
+
+  it("includes all runs when history size equals windowSize", () => {
+    const runs = Array.from({ length: 4 }, (_, i) =>
+      makeRun([{ key: "a::t1", status: i % 2 === 0 ? "passed" : "failed" }])
+    );
+    const history = makeHistory(runs);
+    // windowSize=4, 3 transitions over 3 intervals → score 100
+    const scores = computeFlakinessScores(history, 4);
+    expect(scores["a::t1"]).toBe(100);
+  });
+
+  it("uses default windowSize of 10 (no custom arg needed)", () => {
+    // 15 runs: first 5 are stable-failed, last 10 alternate
+    const stableRuns = Array.from({ length: 5 }, () =>
+      makeRun([{ key: "a::t1", status: "failed" }])
+    );
+    // 10 alternating runs → 9 transitions / 9 intervals → score 100
+    const alternatingRuns = Array.from({ length: 10 }, (_, i) =>
+      makeRun([{ key: "a::t1", status: i % 2 === 0 ? "passed" : "failed" }])
+    );
+    const history = makeHistory([...stableRuns, ...alternatingRuns]);
+    const scores = computeFlakinessScores(history); // default windowSize=10
+    expect(scores["a::t1"]).toBe(100);
+  });
+
+  // ─── Exact 2-run minimum ─────────────────────────────────────────────────────
+
+  it("scores a test with exactly 2 meaningful statuses (no transition)", () => {
+    const history = makeHistory([
+      makeRun([{ key: "a::t1", status: "passed" }]),
+      makeRun([{ key: "a::t1", status: "passed" }]),
+    ]);
+    const scores = computeFlakinessScores(history);
+    expect(scores["a::t1"]).toBe(0);
+  });
+
+  it("scores a test with exactly 2 meaningful statuses (one transition)", () => {
+    const history = makeHistory([
+      makeRun([{ key: "a::t1", status: "passed" }]),
+      makeRun([{ key: "a::t1", status: "failed" }]),
+    ]);
+    const scores = computeFlakinessScores(history);
+    // 1 transition over 1 interval → 100
+    expect(scores["a::t1"]).toBe(100);
+  });
+
+  // ─── Mixed: excluded key alongside scored key ─────────────────────────────────
+
+  it("excludes keys with only 1 meaningful status while scoring others", () => {
+    const history = makeHistory([
+      // "a::sparse" appears only once with a meaningful status; "b::full" twice
+      makeRun([{ key: "a::sparse", status: "passed" }, { key: "b::full", status: "passed" }]),
+      makeRun([{ key: "b::full", status: "failed" }]),
+    ]);
+    const scores = computeFlakinessScores(history);
+    expect(scores["a::sparse"]).toBeUndefined();
+    expect(scores["b::full"]).toBe(100);
+  });
 });

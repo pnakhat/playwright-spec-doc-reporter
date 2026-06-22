@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1",
+  "runs": [
+    {
+      "runId": "run-1",
+      "timestamp": "2026-06-20T10:00:00.000Z",
+      "branch": "main",
+      "passRate": 100,
+      "summary": { "total": 4, "passed": 4, "failed": 0, "skipped": 0, "flaky": 0, "durationMs": 5000 },
+      "testSnapshots": [
+        { "key": "tests/login.spec.ts::rejects an invalid password", "status": "passed", "durationMs": 1000 }
+      ]
+    },
+    {
+      "runId": "run-2",
+      "timestamp": "2026-06-21T10:00:00.000Z",
+      "branch": "main",
+      "passRate": 75,
+      "summary": { "total": 4, "passed": 3, "failed": 1, "skipped": 0, "flaky": 0, "durationMs": 5200 },
+      "testSnapshots": [
+        { "key": "tests/login.spec.ts::rejects an invalid password", "status": "failed", "durationMs": 2000 }
+      ]
+    },
+    {
+      "runId": "run-3",
+      "timestamp": "2026-06-22T10:00:00.000Z",
+      "branch": "main",
+      "passRate": 50,
+      "summary": { "total": 4, "passed": 2, "failed": 1, "skipped": 0, "flaky": 1, "durationMs": 5400 },
+      "testSnapshots": [
+        { "key": "tests/login.spec.ts::rejects an invalid password", "status": "failed", "durationMs": 2000 }
+      ]
+    }
+  ]
+}

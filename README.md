@@ -61,6 +61,7 @@ A beautiful, production-ready Playwright reporter with BDD-style annotations, in
 - **Manual test results** — merge manually-authored test results (Gherkin or plain prose) into the report; `@manual` badge and filter; Jira tagging works identically
 - **Cucumber integration** — two modes: (1) auto-detect and enrich [playwright-bdd](https://vitalets.github.io/playwright-bdd/) tests with Feature/Scenario/Gherkin-step metadata; (2) ingest `@cucumber/cucumber` JSON reports and merge scenarios alongside Playwright tests in one unified report; inline API traffic via `attachApiRequest`/`attachApiResponse` helpers
 - **Flakiness scoring** — per-test stability badges computed from run history (0–100%)
+- **MCP server** — expose the report's artifacts (run summary, failed tests, healing payloads, traceability, trends) to AI agents over the [Model Context Protocol](https://modelcontextprotocol.io); optional, lazy-loaded, keeps the core dependency-free (see [MCP Server](#mcp-server))
 - **Theme switcher** — dark-glossy, dark, and light themes with localStorage persistence
 - **Zero runtime dependencies** — single self-contained HTML file output
 
@@ -1763,6 +1764,75 @@ The reporter computes a **flakiness score (0–100%)** per test from the last 10
 - A summary card on the Overview page lists the most flaky tests
 
 Flakiness requires at least **2 prior runs** in history. No history = no badges.
+
+---
+
+## MCP Server
+
+Expose your latest run to AI coding agents (Claude Code, Cursor, etc.) over the
+[Model Context Protocol](https://modelcontextprotocol.io). The server reads the
+artifacts the reporter already writes (`results.json`, `spec-doc-history.json`,
+`traceability.json`) and serves them as tools, so an agent can ask "what failed?"
+or "show me the healing payload for the login test" and act on the answer.
+
+### Quick start (stdio)
+
+```bash
+# 1. Install the optional MCP dependencies (kept out of the core install)
+npm install @modelcontextprotocol/sdk zod express
+
+# 2. Run your suite so the reporter writes spec-doc-report/
+npx playwright test
+
+# 3. Start the server over stdio, pointed at the reporter's output dir
+npx playwright-spec-doc-reporter mcp --stdio --output spec-doc-report
+```
+
+### Claude Code / `mcp.json`
+
+```json
+{
+  "mcpServers": {
+    "spec-doc-reporter": {
+      "command": "npx",
+      "args": [
+        "playwright-spec-doc-reporter",
+        "mcp",
+        "--stdio",
+        "--output",
+        "spec-doc-report"
+      ]
+    }
+  }
+}
+```
+
+### Tools
+
+| Tool | Purpose |
+|------|---------|
+| `get_run_summary` | Totals, pass rate, environment, AI/healing status |
+| `get_failed_tests` | Failed (and optionally flaky) tests with error messages |
+| `get_test_detail` | Full detail for one test + AI analysis + healing payloads |
+| `get_healing_payloads` | Self-healing locator suggestions |
+| `get_trends` | Historical run snapshots (most recent first) |
+| `get_traceability` | Spec-to-test mapping and coverage stats |
+| `trigger_rerun` | Re-run the suite (optional `--grep`/`--project`), capture output |
+
+### Transports & flags
+
+| Flag | Description |
+|------|-------------|
+| `--stdio` | Stdio transport (local agents) |
+| `--port <n>` | HTTP/SSE transport on this port |
+| `--output <path>` | Reporter output directory (default `spec-doc-report`) |
+| `--token <secret>` | Require `Authorization: Bearer <secret>` (SSE) |
+| `--cors <origin>` | CORS allow-origin for SSE (default `*`) |
+| `--log-level <level>` | `error` \| `warn` \| `info` \| `debug` (default `warn`) |
+| `--watch` | Watch the output dir and emit change notifications (needs `chokidar`) |
+
+The MCP dependencies are **optional** — the core reporter stays dependency-free.
+If they are missing, the `mcp` command prints an install hint and exits.
 
 ---
 

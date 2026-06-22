@@ -1,0 +1,14 @@
+{
+  "specs": [
+    { "filePath": "specs/login.md", "title": "Login", "scenarios": ["valid login", "invalid password"] },
+    { "filePath": "specs/checkout.md", "title": "Checkout", "scenarios": ["empty cart"] }
+  ],
+  "mapping": {
+    "specs/login.md": ["t-login-ok", "t-login-fail"],
+    "specs/checkout.md": []
+  },
+  "reverseMapping": {
+    "t-login-ok": "specs/login.md",
+    "t-login-fail": "specs/login.md"
+  }
+}
