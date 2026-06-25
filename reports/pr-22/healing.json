@@ -1,0 +1,67 @@
+[
+  {
+    "testName": " › chromium › ui/dedup-demo.spec.js › Dedup Demo › broken selector always fails — dedup demo @regression",
+    "file": "tests/ui/dedup-demo.spec.js",
+    "stepName": "broken selector always fails — dedup demo @regression",
+    "failedLocator": "page.getByTestId('your-real-element')",
+    "candidateLocators": [
+      "page.getByTestId('your-real-element')",
+      "page.getByRole('heading', { name: 'Expected Heading' })",
+      "page.locator('[data-testid=\"your-real-element\"]')",
+      "page.locator('#actual-existing-element-id')"
+    ],
+    "errorMessage": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('#this-element-does-not-exist')\nExpected: visible\nTimeout: 3000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 3000ms\u001b[22m\n\u001b[2m  - waiting for locator('#this-element-does-not-exist')\u001b[22m\n",
+    "suggestedPatch": "// Option 1: Mark as intentionally broken for demo purposes\ntest.fixme('broken selector always fails — dedup demo @regression', async ({ page }) => {\n  // This test is intentionally broken for dedup demo purposes\n  await expect(page.locator('#this-element-does-not-exist')).toBeVisible({ timeout: 3000 });\n});\n\n// Option 2: Replace with a real locator if this should be a valid test\ntest('broken selector always fails — dedup demo @regression', async ({ page }) => {\n  // Replace with a real, stable selector\n  await expect(page.getByTestId('your-real-element')).toBeVisible({ timeout: 3000 });\n});",
+    "reasoning": "The selector '#this-element-does-not-exist' is a hardcoded placeholder that will never match any real DOM element. This is either an intentional demo artifact or a forgotten stub. The fix is either to replace it with a real locator or to explicitly mark the test as skipped/fixme to prevent it from polluting CI results.",
+    "confidence": 0.97,
+    "actionType": "update_locator"
+  },
+  {
+    "testName": " › chromium › ui/saucedemo.spec.js › AI Failure Analysis › intentional failure for AI analysis demo @regression",
+    "file": "tests/ui/saucedemo.spec.js",
+    "stepName": "intentional failure for AI analysis demo @regression",
+    "failedLocator": "getByRole('heading', { name: 'Products' })",
+    "candidateLocators": [
+      "getByRole('heading', { name: 'Products' })",
+      "getByRole('heading', { name: 'Swag Labs' })",
+      "getByRole('heading', { name: 'Checkout: Your Information' })",
+      "locator('.title')",
+      "locator('.app_logo')"
+    ],
+    "errorMessage": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'Non Existing Header' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'Non Existing Header' })\u001b[22m\n",
+    "suggestedPatch": "// Option 1: Fix the locator to target a real heading\nawait expect(page.getByRole('heading', { name: 'Products' })).toBeVisible();\n\n// Option 2: Mark as an intentionally failing test\ntest.fail();\nawait expect(page.getByRole('heading', { name: 'Non Existing Header' })).toBeVisible();\n\n// Option 3: Skip the test entirely\ntest.skip(true, 'Intentional failure for AI demo — skipping in CI');",
+    "reasoning": "The element 'Non Existing Header' does not exist in the SauceDemo application at any point during the test lifecycle. The failure is deterministic and not flaky — it will always fail because the heading name is fictitious. The test name explicitly confirms this is intentional. The fix is either to correct the heading name to one that actually exists in the app, or to use test.fail() to formally declare the expected failure.",
+    "confidence": 0.97,
+    "actionType": "update_locator_or_assertion"
+  },
+  {
+    "testName": "Shopping Cart › Cart persists items after page refresh",
+    "file": "tests/manual-results.md",
+    "stepName": "Cart persists items after page refresh",
+    "candidateLocators": [],
+    "errorMessage": "Cart badge resets to 0 after hard refresh — session storage not persisted",
+    "reasoning": "Provider failed to return a valid analysis.",
+    "confidence": 0,
+    "actionType": "investigate"
+  },
+  {
+    "testName": "Authentication › Login error clears when user starts retyping",
+    "file": "tests/manual-results.md",
+    "stepName": "Login error clears when user starts retyping",
+    "candidateLocators": [],
+    "errorMessage": "Error message persists even after the user clears the username field — no auto-dismiss",
+    "reasoning": "Provider failed to return a valid analysis.",
+    "confidence": 0,
+    "actionType": "investigate"
+  },
+  {
+    "testName": "Product Detail › Checkout cancel on step 2 returns to inventory",
+    "file": "tests/manual-results.md",
+    "stepName": "Checkout cancel on step 2 returns to inventory",
+    "candidateLocators": [],
+    "errorMessage": "Cancel on step 2 navigates to /cart.html instead of /inventory.html — unexpected destination",
+    "reasoning": "Provider failed to return a valid analysis.",
+    "confidence": 0,
+    "actionType": "investigate"
+  }
+]
