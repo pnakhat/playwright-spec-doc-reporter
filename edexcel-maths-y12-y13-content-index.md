@@ -23,11 +23,17 @@ qualification and unit, listing the main topic areas within each unit.
 ## Part 1 — Mathematics ("normal maths")
 
 ### P1 — Pure Mathematics 1
-- Algebra and functions (indices, surds, quadratics, simultaneous equations, inequalities, polynomials, graphs and transformations)
-- Coordinate geometry in the (x, y) plane (straight lines, circles)
-- Trigonometry (ratios, identities, equations, sine and cosine rules)
-- Differentiation (from first principles, gradients, tangents/normals, stationary points)
-- Integration (indefinite and definite, area under a curve)
+*Aligned to the Pearson Edexcel IAL Pure Mathematics 1 student book (9 chapters).*
+
+1. **Algebraic expressions** — index laws; expanding brackets; factorising; negative and fractional indices; surds; rationalising denominators
+2. **Quadratics** — solving quadratic equations; completing the square; functions; quadratic graphs; the discriminant
+3. **Equations and inequalities** — linear simultaneous equations; quadratic simultaneous equations; simultaneous equations on graphs; linear inequalities; quadratic inequalities; inequalities on graphs; regions
+4. **Graphs and transformations** — cubic graphs; reciprocal graphs; points of intersection; translating graphs; stretching graphs; transforming functions
+5. **Straight line graphs** — y = mx + c; equations of straight lines; parallel and perpendicular lines; length and area
+6. **Trigonometric ratios** — the cosine rule; the sine rule; areas of triangles; solving triangle problems; graphs of sine, cosine and tangent; transforming trigonometric graphs
+7. **Radians** — radian measure; arc length; areas of sectors and segments
+8. **Differentiation** — gradients of curves; finding the derivative; differentiating xⁿ; differentiating quadratics; functions with two or more terms; gradients, tangents and normals; second order derivatives
+9. **Integration** — integrating xⁿ; indefinite integrals; finding functions
 
 ### P2 — Pure Mathematics 2
 - Proof
