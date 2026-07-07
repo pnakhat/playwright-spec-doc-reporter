@@ -13,9 +13,12 @@
   .intro p { margin: 3px 0; }
   .note { background: #fff8e6; border-left: 4px solid #e0b400; padding: 7px 11px; font-size: 8.8pt; border-radius: 4px; margin: 7px 0; }
   .note.blue { background:#eef4ff; border-left-color:#3b6fd6; }
+  .note.green { background:#e9f8ef; border-left-color:#0a7a3f; }
   h2.part { font-size: 14pt; color: #fff; background: #0a2540; padding: 5px 11px; border-radius: 5px; margin: 18px 0 10px; }
   h3.unit { font-size: 12.5pt; color: #0a2540; border-bottom: 2px solid #0a2540; padding-bottom: 2px; margin: 13px 0 5px; page-break-after: avoid; }
-  .verified { display:inline-block; font-size:7pt; font-weight:700; color:#0a7a3f; background:#e3f6ea; border:1px solid #b6e2c6; border-radius:10px; padding:1px 7px; margin-left:8px; vertical-align: middle; }
+  .tag { display:inline-block; font-size:7pt; font-weight:700; border-radius:10px; padding:1px 7px; margin-left:8px; vertical-align: middle; }
+  .tag.v { color:#0a7a3f; background:#e3f6ea; border:1px solid #b6e2c6; }
+  .tag.c { color:#1f5199; background:#e6effb; border:1px solid #b9d2f0; }
   .ch { margin: 3px 0 9px; padding-left: 0; list-style: none; }
   .ch > li { margin-bottom: 5px; page-break-inside: avoid; }
   .ch > li > .cht { font-weight: 700; color: #17324f; }
@@ -42,12 +45,12 @@
 
 <div class="note blue"><b>Year split (typical).</b> Y12 (International AS) usually covers P1, P2 and one applied unit; Y13 (International A2) covers P3, P4 and a second applied unit. For Further Maths, FP1 and lower-numbered applied units sit in Y12, with FP2/FP3 and higher applied units in Y13. Exact sequencing varies by centre.</div>
 
-<div class="note"><b>Accuracy note.</b> <b>P1 sub-sections are exact</b> (from the book contents page). For the other 11 units the chapters and sub-sections are reconstructed from the Pearson IAL student books — accurate in coverage, but validate the exact sub-section numbering against each book's contents page.</div>
+<div class="note green"><b>Accuracy.</b> <span class="tag v">VERIFIED</span> = confirmed against the Pearson IAL book contents page. <span class="tag c">RESEARCHED</span> = chapter structure confirmed via research of the Pearson IAL books; sub-section titles within are best-effort and worth a final spot-check. The source PDFs cannot be opened directly from this environment, so verification was done through search.</div>
 
 <h2 class="part">Part 1 — Mathematics ("normal maths")</h2>
 
 <div class="unit-block">
-<h3 class="unit">P1 — Pure Mathematics 1 <span class="verified">SUB-SECTIONS VERIFIED</span></h3>
+<h3 class="unit">P1 — Pure Mathematics 1 <span class="tag v">VERIFIED</span></h3>
 <ul class="ch">
 <li><span class="cht">1 &nbsp;Algebraic expressions</span><ul class="ss"><li><span class="n">1.1</span> Index laws</li><li><span class="n">1.2</span> Expanding brackets</li><li><span class="n">1.3</span> Factorising</li><li><span class="n">1.4</span> Negative and fractional indices</li><li><span class="n">1.5</span> Surds</li><li><span class="n">1.6</span> Rationalising denominators</li></ul></li>
 <li><span class="cht">2 &nbsp;Quadratics</span><ul class="ss"><li><span class="n">2.1</span> Solving quadratic equations</li><li><span class="n">2.2</span> Completing the square</li><li><span class="n">2.3</span> Functions</li><li><span class="n">2.4</span> Quadratic graphs</li><li><span class="n">2.5</span> The discriminant</li></ul></li>
@@ -62,7 +65,7 @@
 </div>
 
 <div class="unit-block">
-<h3 class="unit">P2 — Pure Mathematics 2</h3>
+<h3 class="unit">P2 — Pure Mathematics 2 <span class="tag c">RESEARCHED</span></h3>
 <ul class="ch">
 <li><span class="cht">1 &nbsp;Algebraic methods</span><ul class="ss"><li><span class="n">1.1</span> Proof (deduction, exhaustion, counter-example)</li><li><span class="n">1.2</span> Dividing polynomials</li><li><span class="n">1.3</span> The factor theorem</li></ul></li>
 <li><span class="cht">2 &nbsp;Coordinate geometry in the (x, y) plane</span><ul class="ss"><li><span class="n">2.1</span> Midpoints and perpendicular bisectors</li><li><span class="n">2.2</span> Equation of a circle</li><li><span class="n">2.3</span> Intersections of straight lines and circles</li><li><span class="n">2.4</span> Tangent and chord properties</li><li><span class="n">2.5</span> Circles and triangles</li></ul></li>
@@ -76,10 +79,10 @@
 </div>
 
 <div class="unit-block">
-<h3 class="unit">P3 — Pure Mathematics 3</h3>
+<h3 class="unit">P3 — Pure Mathematics 3 <span class="tag c">RESEARCHED</span></h3>
 <ul class="ch">
 <li><span class="cht">1 &nbsp;Algebraic methods</span><ul class="ss"><li><span class="n">1.1</span> Simplifying algebraic fractions</li><li><span class="n">1.2</span> Multiplying and dividing algebraic fractions</li><li><span class="n">1.3</span> Adding and subtracting algebraic fractions</li><li><span class="n">1.4</span> Dividing algebraic expressions</li></ul></li>
-<li><span class="cht">2 &nbsp;Functions and graphs</span><ul class="ss"><li><span class="n">2.1</span> The modulus function</li><li><span class="n">2.2</span> Functions and mappings</li><li><span class="n">2.3</span> Composite functions</li><li><span class="n">2.4</span> Inverse functions</li><li><span class="n">2.5</span> y = |f(x)| and y = f(|x|)</li><li><span class="n">2.6</span> Combining transformations</li></ul></li>
+<li><span class="cht">2 &nbsp;Functions and graphs</span><ul class="ss"><li><span class="n">2.1</span> The modulus function</li><li><span class="n">2.2</span> Functions and mappings</li><li><span class="n">2.3</span> Composite functions</li><li><span class="n">2.4</span> Inverse functions</li><li><span class="n">2.5</span> y = |f(x)| and y = f(|x|)</li><li><span class="n">2.6</span> Combining transformations</li><li><span class="n">2.7</span> Solving modulus problems</li></ul></li>
 <li><span class="cht">3 &nbsp;Trigonometric functions</span><ul class="ss"><li><span class="n">3.1</span> Secant, cosecant and cotangent</li><li><span class="n">3.2</span> Graphs of sec, cosec and cot</li><li><span class="n">3.3</span> Using sec, cosec and cot</li><li><span class="n">3.4</span> Trigonometric identities</li><li><span class="n">3.5</span> Inverse trigonometric functions</li></ul></li>
 <li><span class="cht">4 &nbsp;Trigonometric addition formulae</span><ul class="ss"><li><span class="n">4.1</span> Addition formulae</li><li><span class="n">4.2</span> Double-angle formulae</li><li><span class="n">4.3</span> Solving trigonometric equations</li><li><span class="n">4.4</span> The form R cos(θ ± α) / R sin(θ ± α)</li><li><span class="n">4.5</span> Proving trigonometric identities</li></ul></li>
 <li><span class="cht">5 &nbsp;Exponentials and logarithms</span><ul class="ss"><li><span class="n">5.1</span> eˣ and ln x</li><li><span class="n">5.2</span> Derivatives of eˣ and ln x</li><li><span class="n">5.3</span> Exponential modelling, growth and decay</li></ul></li>
@@ -90,7 +93,7 @@
 </div>
 
 <div class="unit-block">
-<h3 class="unit">P4 — Pure Mathematics 4</h3>
+<h3 class="unit">P4 — Pure Mathematics 4 <span class="tag c">RESEARCHED</span></h3>
 <ul class="ch">
 <li><span class="cht">1 &nbsp;Proof</span><ul class="ss"><li><span class="n">1.1</span> Proof by contradiction</li></ul></li>
 <li><span class="cht">2 &nbsp;Partial fractions</span><ul class="ss"><li><span class="n">2.1</span> Partial fractions</li><li><span class="n">2.2</span> Repeated factors</li><li><span class="n">2.3</span> Improper fractions</li></ul></li>
@@ -103,7 +106,7 @@
 </div>
 
 <div class="unit-block">
-<h3 class="unit">M1 — Mechanics 1</h3>
+<h3 class="unit">M1 — Mechanics 1 <span class="tag c">RESEARCHED</span></h3>
 <ul class="ch">
 <li><span class="cht">1 &nbsp;Mathematical models in mechanics</span><ul class="ss"><li><span class="n">1.1</span> Constructing a model</li><li><span class="n">1.2</span> Modelling assumptions</li><li><span class="n">1.3</span> Quantities and units</li></ul></li>
 <li><span class="cht">2 &nbsp;Constant acceleration</span><ul class="ss"><li><span class="n">2.1</span> Displacement–time graphs</li><li><span class="n">2.2</span> Velocity–time graphs</li><li><span class="n">2.3</span> Constant acceleration formulae (suvat)</li><li><span class="n">2.4</span> Vertical motion under gravity</li></ul></li>
@@ -117,26 +120,25 @@
 </div>
 
 <div class="unit-block">
-<h3 class="unit">S1 — Statistics 1</h3>
+<h3 class="unit">S1 — Statistics 1 <span class="tag c">RESEARCHED</span></h3>
 <ul class="ch">
-<li><span class="cht">1 &nbsp;Mathematical models in probability and statistics</span><ul class="ss"><li><span class="n">1.1</span> Statistical modelling</li><li><span class="n">1.2</span> The modelling process</li></ul></li>
+<li><span class="cht">1 &nbsp;Mathematical modelling</span><ul class="ss"><li><span class="n">1.1</span> Mathematical models</li><li><span class="n">1.2</span> Designing a model</li></ul></li>
 <li><span class="cht">2 &nbsp;Measures of location and spread</span><ul class="ss"><li><span class="n">2.1</span> Measures of central tendency (mean, median, mode)</li><li><span class="n">2.2</span> Quartiles and percentiles</li><li><span class="n">2.3</span> Measures of spread</li><li><span class="n">2.4</span> Variance and standard deviation</li><li><span class="n">2.5</span> Coding</li></ul></li>
-<li><span class="cht">3 &nbsp;Representation of data</span><ul class="ss"><li><span class="n">3.1</span> Histograms</li><li><span class="n">3.2</span> Outliers</li><li><span class="n">3.3</span> Box plots</li><li><span class="n">3.4</span> Skewness</li><li><span class="n">3.5</span> Comparing distributions</li></ul></li>
-<li><span class="cht">4 &nbsp;Probability</span><ul class="ss"><li><span class="n">4.1</span> Sample spaces and events</li><li><span class="n">4.2</span> Venn diagrams and set notation</li><li><span class="n">4.3</span> Mutually exclusive and independent events</li><li><span class="n">4.4</span> Conditional probability</li><li><span class="n">4.5</span> Tree diagrams</li></ul></li>
-<li><span class="cht">5 &nbsp;Correlation</span><ul class="ss"><li><span class="n">5.1</span> Scatter diagrams</li><li><span class="n">5.2</span> Linear correlation</li><li><span class="n">5.3</span> The product moment correlation coefficient</li></ul></li>
-<li><span class="cht">6 &nbsp;Regression</span><ul class="ss"><li><span class="n">6.1</span> The least-squares regression line</li><li><span class="n">6.2</span> Interpolation and extrapolation</li></ul></li>
-<li><span class="cht">7 &nbsp;Discrete random variables</span><ul class="ss"><li><span class="n">7.1</span> Probability distributions</li><li><span class="n">7.2</span> The cumulative distribution function</li><li><span class="n">7.3</span> Expectation E(X)</li><li><span class="n">7.4</span> Variance Var(X)</li></ul></li>
-<li><span class="cht">8 &nbsp;The Normal distribution</span><ul class="ss"><li><span class="n">8.1</span> The normal distribution</li><li><span class="n">8.2</span> The standard normal distribution</li><li><span class="n">8.3</span> Finding probabilities</li><li><span class="n">8.4</span> Finding unknown μ and σ</li></ul></li>
+<li><span class="cht">3 &nbsp;Representations of data</span><ul class="ss"><li><span class="n">3.1</span> Histograms</li><li><span class="n">3.2</span> Outliers</li><li><span class="n">3.3</span> Box plots</li><li><span class="n">3.4</span> Skewness</li><li><span class="n">3.5</span> Comparing distributions</li></ul></li>
+<li><span class="cht">4 &nbsp;Probability</span><ul class="ss"><li><span class="n">4.1</span> Understanding the vocabulary of probability</li><li><span class="n">4.2</span> Venn diagrams</li><li><span class="n">4.3</span> Mutually exclusive and independent events</li><li><span class="n">4.4</span> Set notation</li><li><span class="n">4.5</span> Conditional probability</li><li><span class="n">4.6</span> Tree diagrams</li></ul></li>
+<li><span class="cht">5 &nbsp;Correlation and regression</span><ul class="ss"><li><span class="n">5.1</span> Scatter diagrams and correlation</li><li><span class="n">5.2</span> The product moment correlation coefficient</li><li><span class="n">5.3</span> The least-squares regression line</li><li><span class="n">5.4</span> Interpolation and extrapolation</li></ul></li>
+<li><span class="cht">6 &nbsp;Discrete random variables</span><ul class="ss"><li><span class="n">6.1</span> Discrete random variables</li><li><span class="n">6.2</span> The cumulative distribution function</li><li><span class="n">6.3</span> Expected value E(X)</li><li><span class="n">6.4</span> Variance Var(X)</li><li><span class="n">6.5</span> Expected value and variance of a function of X</li><li><span class="n">6.6</span> Solving problems involving random variables</li><li><span class="n">6.7</span> The discrete uniform distribution</li></ul></li>
+<li><span class="cht">7 &nbsp;The Normal distribution</span><ul class="ss"><li><span class="n">7.1</span> The normal distribution</li><li><span class="n">7.2</span> Using tables to find probabilities</li><li><span class="n">7.3</span> Finding the value of z given a probability</li><li><span class="n">7.4</span> The standard normal distribution</li><li><span class="n">7.5</span> Finding μ and σ</li></ul></li>
 </ul>
 </div>
 
 <h2 class="part">Part 2 — Further Mathematics</h2>
 
 <div class="unit-block">
-<h3 class="unit">FP1 — Further Pure Mathematics 1</h3>
+<h3 class="unit">FP1 — Further Pure Mathematics 1 <span class="tag c">RESEARCHED</span></h3>
 <ul class="ch">
 <li><span class="cht">1 &nbsp;Complex numbers</span><ul class="ss"><li><span class="n">1.1</span> Imaginary and complex numbers</li><li><span class="n">1.2</span> Multiplying complex numbers</li><li><span class="n">1.3</span> Complex conjugation</li><li><span class="n">1.4</span> Argand diagrams</li><li><span class="n">1.5</span> Modulus and argument</li><li><span class="n">1.6</span> Modulus–argument form</li></ul></li>
-<li><span class="cht">2 &nbsp;Roots of quadratic equations</span><ul class="ss"><li><span class="n">2.1</span> Roots of a quadratic equation</li><li><span class="n">2.2</span> Sums and products of roots</li><li><span class="n">2.3</span> Forming new equations</li></ul></li>
+<li><span class="cht">2 &nbsp;Roots of quadratic equations</span><ul class="ss"><li><span class="n">2.1</span> Roots of a quadratic equation</li><li><span class="n">2.2</span> Solving cubic and quartic equations</li><li><span class="n">2.3</span> Sums and products of roots</li></ul></li>
 <li><span class="cht">3 &nbsp;Numerical solutions of equations</span><ul class="ss"><li><span class="n">3.1</span> Locating roots</li><li><span class="n">3.2</span> Interval bisection</li><li><span class="n">3.3</span> Linear interpolation</li><li><span class="n">3.4</span> The Newton–Raphson method</li></ul></li>
 <li><span class="cht">4 &nbsp;Coordinate systems</span><ul class="ss"><li><span class="n">4.1</span> Parametric equations</li><li><span class="n">4.2</span> The parabola</li><li><span class="n">4.3</span> The rectangular hyperbola</li><li><span class="n">4.4</span> Tangents and normals</li><li><span class="n">4.5</span> Loci</li></ul></li>
 <li><span class="cht">5 &nbsp;Matrices</span><ul class="ss"><li><span class="n">5.1</span> Introduction to matrices</li><li><span class="n">5.2</span> Matrix multiplication</li><li><span class="n">5.3</span> Determinants</li><li><span class="n">5.4</span> Inverting a 2 × 2 matrix</li></ul></li>
@@ -147,62 +149,66 @@
 </div>
 
 <div class="unit-block">
-<h3 class="unit">FP2 — Further Pure Mathematics 2</h3>
+<h3 class="unit">FP2 — Further Pure Mathematics 2 <span class="tag c">RESEARCHED</span></h3>
 <ul class="ch">
-<li><span class="cht">1 &nbsp;Inequalities</span><ul class="ss"><li><span class="n">1.1</span> Solving algebraic inequalities</li><li><span class="n">1.2</span> Inequalities involving the modulus</li><li><span class="n">1.3</span> Inequalities using graphs</li></ul></li>
+<li><span class="cht">1 &nbsp;Inequalities</span><ul class="ss"><li><span class="n">1.1</span> Algebraic methods</li><li><span class="n">1.2</span> Using graphs to solve inequalities</li><li><span class="n">1.3</span> Modulus inequalities</li></ul></li>
 <li><span class="cht">2 &nbsp;Series</span><ul class="ss"><li><span class="n">2.1</span> The method of differences</li></ul></li>
-<li><span class="cht">3 &nbsp;Further complex numbers</span><ul class="ss"><li><span class="n">3.1</span> de Moivre's theorem</li><li><span class="n">3.2</span> Trigonometric identities</li><li><span class="n">3.3</span> Sums of series</li><li><span class="n">3.4</span> nth roots of a complex number</li><li><span class="n">3.5</span> Loci and regions in the Argand diagram</li><li><span class="n">3.6</span> The exponential form re^{iθ}</li></ul></li>
-<li><span class="cht">4 &nbsp;First order differential equations</span><ul class="ss"><li><span class="n">4.1</span> Separating the variables</li><li><span class="n">4.2</span> Exact equations</li><li><span class="n">4.3</span> Integrating factors</li><li><span class="n">4.4</span> Reducible first order equations</li></ul></li>
-<li><span class="cht">5 &nbsp;Second order differential equations</span><ul class="ss"><li><span class="n">5.1</span> Homogeneous equations (auxiliary equation)</li><li><span class="n">5.2</span> Non-homogeneous equations (particular integral)</li><li><span class="n">5.3</span> Using boundary conditions</li><li><span class="n">5.4</span> Reducible second order equations</li></ul></li>
-<li><span class="cht">6 &nbsp;Maclaurin and Taylor series</span><ul class="ss"><li><span class="n">6.1</span> Maclaurin series</li><li><span class="n">6.2</span> Taylor series</li><li><span class="n">6.3</span> Series solutions of differential equations</li></ul></li>
-<li><span class="cht">7 &nbsp;Polar coordinates</span><ul class="ss"><li><span class="n">7.1</span> Polar and Cartesian coordinates</li><li><span class="n">7.2</span> Sketching polar curves</li><li><span class="n">7.3</span> Area enclosed by a polar curve</li><li><span class="n">7.4</span> Tangents to polar curves</li></ul></li>
+<li><span class="cht">3 &nbsp;Complex numbers</span><ul class="ss"><li><span class="n">3.1</span> Exponential form of a complex number</li><li><span class="n">3.2</span> de Moivre's theorem</li><li><span class="n">3.3</span> Trigonometric identities</li><li><span class="n">3.4</span> Sums of series</li><li><span class="n">3.5</span> nth roots of a complex number</li></ul></li>
+<li><span class="cht">4 &nbsp;Further Argand diagrams</span><ul class="ss"><li><span class="n">4.1</span> Loci in the Argand diagram</li><li><span class="n">4.2</span> Regions in the Argand diagram</li><li><span class="n">4.3</span> Transformations of the complex plane</li></ul></li>
+<li><span class="cht">5 &nbsp;First order differential equations</span><ul class="ss"><li><span class="n">5.1</span> Separating the variables</li><li><span class="n">5.2</span> Exact equations</li><li><span class="n">5.3</span> Integrating factors</li><li><span class="n">5.4</span> Reducible first order equations</li></ul></li>
+<li><span class="cht">6 &nbsp;Second order differential equations</span><ul class="ss"><li><span class="n">6.1</span> Homogeneous equations (auxiliary equation)</li><li><span class="n">6.2</span> Non-homogeneous equations (particular integral)</li><li><span class="n">6.3</span> Using boundary conditions</li><li><span class="n">6.4</span> Reducible second order equations</li></ul></li>
+<li><span class="cht">7 &nbsp;Maclaurin and Taylor series</span><ul class="ss"><li><span class="n">7.1</span> Maclaurin series</li><li><span class="n">7.2</span> Taylor series</li><li><span class="n">7.3</span> Series solutions of differential equations</li></ul></li>
+<li><span class="cht">8 &nbsp;Polar coordinates</span><ul class="ss"><li><span class="n">8.1</span> Polar and Cartesian coordinates</li><li><span class="n">8.2</span> Sketching polar curves</li><li><span class="n">8.3</span> Area enclosed by a polar curve</li><li><span class="n">8.4</span> Tangents to polar curves</li></ul></li>
 </ul>
 </div>
 
 <div class="unit-block">
-<h3 class="unit">FP3 — Further Pure Mathematics 3</h3>
+<h3 class="unit">FP3 — Further Pure Mathematics 3 <span class="tag c">RESEARCHED</span></h3>
 <ul class="ch">
 <li><span class="cht">1 &nbsp;Hyperbolic functions</span><ul class="ss"><li><span class="n">1.1</span> Introduction to hyperbolic functions</li><li><span class="n">1.2</span> Inverse hyperbolic functions</li><li><span class="n">1.3</span> Identities and equations</li></ul></li>
-<li><span class="cht">2 &nbsp;Further coordinate systems</span><ul class="ss"><li><span class="n">2.1</span> Ellipses</li><li><span class="n">2.2</span> Hyperbolas</li><li><span class="n">2.3</span> Eccentricity, foci and directrices</li><li><span class="n">2.4</span> Tangents and normals</li><li><span class="n">2.5</span> Loci</li></ul></li>
-<li><span class="cht">3 &nbsp;Differentiation</span><ul class="ss"><li><span class="n">3.1</span> Differentiating hyperbolic functions</li><li><span class="n">3.2</span> Differentiating inverse hyperbolic functions</li><li><span class="n">3.3</span> Differentiating inverse trigonometric functions</li></ul></li>
-<li><span class="cht">4 &nbsp;Integration</span><ul class="ss"><li><span class="n">4.1</span> Standard integrals</li><li><span class="n">4.2</span> Inverse trig and hyperbolic forms</li><li><span class="n">4.3</span> Reduction formulae</li><li><span class="n">4.4</span> The length of an arc</li><li><span class="n">4.5</span> The area of a surface of revolution</li></ul></li>
+<li><span class="cht">2 &nbsp;Further coordinate systems</span><ul class="ss"><li><span class="n">2.1</span> Cartesian and parametric equations of ellipses and hyperbolas</li><li><span class="n">2.2</span> Eccentricity, foci and directrices</li><li><span class="n">2.3</span> Tangents and normals</li><li><span class="n">2.4</span> Loci</li></ul></li>
+<li><span class="cht">3 &nbsp;Differentiation</span><ul class="ss"><li><span class="n">3.1</span> Differentiating hyperbolic functions</li><li><span class="n">3.2</span> Differentiating inverse trigonometric and hyperbolic functions</li></ul></li>
+<li><span class="cht">4 &nbsp;Integration</span><ul class="ss"><li><span class="n">4.1</span> Integration of hyperbolic functions</li><li><span class="n">4.2</span> Inverse trig and hyperbolic forms</li><li><span class="n">4.3</span> Integration using hyperbolic and trigonometric substitution</li><li><span class="n">4.4</span> Reduction formulae</li><li><span class="n">4.5</span> Arc length and area of a surface of revolution</li></ul></li>
 <li><span class="cht">5 &nbsp;Vectors</span><ul class="ss"><li><span class="n">5.1</span> The vector (cross) product</li><li><span class="n">5.2</span> The scalar triple product</li><li><span class="n">5.3</span> Straight lines</li><li><span class="n">5.4</span> Planes</li><li><span class="n">5.5</span> Distances and angles</li></ul></li>
 <li><span class="cht">6 &nbsp;Further matrix algebra</span><ul class="ss"><li><span class="n">6.1</span> Determinants of 3 × 3 matrices</li><li><span class="n">6.2</span> The inverse of a 3 × 3 matrix</li><li><span class="n">6.3</span> Solving systems of linear equations</li><li><span class="n">6.4</span> Eigenvalues and eigenvectors</li><li><span class="n">6.5</span> Diagonalising a matrix</li></ul></li>
 </ul>
 </div>
 
 <div class="unit-block">
-<h3 class="unit">D1 — Decision Mathematics 1</h3>
+<h3 class="unit">D1 — Decision Mathematics 1 <span class="tag c">RESEARCHED</span></h3>
 <ul class="ch">
 <li><span class="cht">1 &nbsp;Algorithms</span><ul class="ss"><li><span class="n">1.1</span> Using and understanding algorithms</li><li><span class="n">1.2</span> Flow charts</li><li><span class="n">1.3</span> Bubble sort</li><li><span class="n">1.4</span> Quick sort</li><li><span class="n">1.5</span> Bin-packing algorithms</li><li><span class="n">1.6</span> Order of an algorithm</li></ul></li>
-<li><span class="cht">2 &nbsp;Graphs and networks</span><ul class="ss"><li><span class="n">2.1</span> Modelling with graphs</li><li><span class="n">2.2</span> Graph theory terminology</li><li><span class="n">2.3</span> Special types of graph</li><li><span class="n">2.4</span> Representing graphs using matrices</li></ul></li>
+<li><span class="cht">2 &nbsp;Graphs and networks</span><ul class="ss"><li><span class="n">2.1</span> Modelling with graphs</li><li><span class="n">2.2</span> Graph theory terminology</li><li><span class="n">2.3</span> Special types of graph</li><li><span class="n">2.4</span> Representing graphs and networks using matrices</li></ul></li>
 <li><span class="cht">3 &nbsp;Algorithms on graphs</span><ul class="ss"><li><span class="n">3.1</span> Kruskal's algorithm</li><li><span class="n">3.2</span> Prim's algorithm</li><li><span class="n">3.3</span> Prim's algorithm from a matrix</li><li><span class="n">3.4</span> Dijkstra's algorithm (shortest path)</li></ul></li>
 <li><span class="cht">4 &nbsp;Route inspection</span><ul class="ss"><li><span class="n">4.1</span> The route inspection (Chinese postman) problem</li></ul></li>
-<li><span class="cht">5 &nbsp;Critical path analysis</span><ul class="ss"><li><span class="n">5.1</span> Precedence tables</li><li><span class="n">5.2</span> Activity networks</li><li><span class="n">5.3</span> Dummy activities</li><li><span class="n">5.4</span> Early and late event times</li><li><span class="n">5.5</span> Critical activities and float</li><li><span class="n">5.6</span> Gantt (cascade) charts</li><li><span class="n">5.7</span> Scheduling</li></ul></li>
-<li><span class="cht">6 &nbsp;Linear programming</span><ul class="ss"><li><span class="n">6.1</span> Formulating problems</li><li><span class="n">6.2</span> Graphical methods</li><li><span class="n">6.3</span> The objective line (ruler) method</li><li><span class="n">6.4</span> The vertex method</li><li><span class="n">6.5</span> Integer solutions</li></ul></li>
-<li><span class="cht">7 &nbsp;Matchings</span><ul class="ss"><li><span class="n">7.1</span> Modelling with bipartite graphs</li><li><span class="n">7.2</span> Matchings</li><li><span class="n">7.3</span> The maximum matching algorithm</li></ul></li>
+<li><span class="cht">5 &nbsp;The travelling salesman problem</span><ul class="ss"><li><span class="n">5.1</span> The classical and practical problems</li><li><span class="n">5.2</span> Using a minimum spanning tree to find bounds</li><li><span class="n">5.3</span> The nearest neighbour algorithm</li></ul></li>
+<li><span class="cht">6 &nbsp;Critical path analysis</span><ul class="ss"><li><span class="n">6.1</span> Precedence tables</li><li><span class="n">6.2</span> Activity networks and dummy activities</li><li><span class="n">6.3</span> Early and late event times</li><li><span class="n">6.4</span> Critical activities and float</li><li><span class="n">6.5</span> Gantt (cascade) charts and scheduling</li></ul></li>
+<li><span class="cht">7 &nbsp;Linear programming</span><ul class="ss"><li><span class="n">7.1</span> Formulating linear programming problems</li><li><span class="n">7.2</span> Graphical methods</li><li><span class="n">7.3</span> The objective line (ruler) method</li><li><span class="n">7.4</span> The vertex method</li><li><span class="n">7.5</span> Integer solutions</li></ul></li>
 </ul>
 </div>
 
 <div class="unit-block">
-<h3 class="unit">M2 — Mechanics 2</h3>
+<h3 class="unit">M2 — Mechanics 2 <span class="tag c">RESEARCHED</span></h3>
 <ul class="ch">
-<li><span class="cht">1 &nbsp;Kinematics</span><ul class="ss"><li><span class="n">1.1</span> Motion with variable acceleration</li><li><span class="n">1.2</span> Using calculus</li><li><span class="n">1.3</span> Motion in two dimensions (vectors and calculus)</li><li><span class="n">1.4</span> Projectiles</li><li><span class="n">1.5</span> The projectile formulae</li></ul></li>
-<li><span class="cht">2 &nbsp;Centres of mass</span><ul class="ss"><li><span class="n">2.1</span> Centre of mass of a system of particles</li><li><span class="n">2.2</span> Centre of mass of a uniform lamina</li><li><span class="n">2.3</span> Standard uniform laminae</li><li><span class="n">2.4</span> Frameworks</li><li><span class="n">2.5</span> Laminae in equilibrium (suspended)</li></ul></li>
-<li><span class="cht">3 &nbsp;Work, energy and power</span><ul class="ss"><li><span class="n">3.1</span> Work done by a force</li><li><span class="n">3.2</span> Kinetic and potential energy</li><li><span class="n">3.3</span> The work–energy principle</li><li><span class="n">3.4</span> Power</li></ul></li>
-<li><span class="cht">4 &nbsp;Collisions</span><ul class="ss"><li><span class="n">4.1</span> Momentum and impulse</li><li><span class="n">4.2</span> Conservation of momentum</li><li><span class="n">4.3</span> Newton's law of restitution</li><li><span class="n">4.4</span> Direct impact</li><li><span class="n">4.5</span> Impact with a smooth surface</li><li><span class="n">4.6</span> Successive impacts</li></ul></li>
-<li><span class="cht">5 &nbsp;Statics of rigid bodies</span><ul class="ss"><li><span class="n">5.1</span> Static rigid bodies</li><li><span class="n">5.2</span> Moments</li><li><span class="n">5.3</span> Rigid bodies with friction</li></ul></li>
+<li><span class="cht">1 &nbsp;Kinematics</span><ul class="ss"><li><span class="n">1.1</span> Motion with variable acceleration (calculus)</li><li><span class="n">1.2</span> Motion in two dimensions with vectors</li><li><span class="n">1.3</span> Projectiles</li><li><span class="n">1.4</span> The projectile formulae</li></ul></li>
+<li><span class="cht">2 &nbsp;Centres of mass</span><ul class="ss"><li><span class="n">2.1</span> Centre of mass of a system of particles</li><li><span class="n">2.2</span> Centre of mass of a uniform lamina</li><li><span class="n">2.3</span> Standard uniform laminae and frameworks</li><li><span class="n">2.4</span> Laminae in equilibrium (suspended)</li></ul></li>
+<li><span class="cht">3 &nbsp;Work, energy and power</span><ul class="ss"><li><span class="n">3.1</span> Work done by a force</li><li><span class="n">3.2</span> Kinetic and potential energy</li><li><span class="n">3.3</span> Conservation of mechanical energy and the work–energy principle</li><li><span class="n">3.4</span> Power</li></ul></li>
+<li><span class="cht">4 &nbsp;Impulses and collisions</span><ul class="ss"><li><span class="n">4.1</span> Momentum as a vector</li><li><span class="n">4.2</span> Direct impact and Newton's law of restitution</li><li><span class="n">4.3</span> Direct collisions with a smooth plane</li><li><span class="n">4.4</span> Loss of kinetic energy</li><li><span class="n">4.5</span> Successive direct impacts</li></ul></li>
+<li><span class="cht">5 &nbsp;Statics of rigid bodies</span><ul class="ss"><li><span class="n">5.1</span> Static rigid bodies</li><li><span class="n">5.2</span> Moments and equilibrium</li><li><span class="n">5.3</span> Rigid bodies with friction</li></ul></li>
 </ul>
+<div class="note" style="margin-top:2px">M2 chapter split (work/energy/power and collisions) can run across an extra chapter in some editions — worth a quick check against the contents page.</div>
 </div>
 
 <div class="unit-block">
-<h3 class="unit">S2 — Statistics 2</h3>
+<h3 class="unit">S2 — Statistics 2 <span class="tag c">RESEARCHED</span></h3>
 <ul class="ch">
 <li><span class="cht">1 &nbsp;The binomial distribution</span><ul class="ss"><li><span class="n">1.1</span> The binomial distribution</li><li><span class="n">1.2</span> Using binomial tables</li><li><span class="n">1.3</span> Mean and variance</li></ul></li>
-<li><span class="cht">2 &nbsp;The Poisson distribution</span><ul class="ss"><li><span class="n">2.1</span> The Poisson distribution</li><li><span class="n">2.2</span> Using Poisson tables</li><li><span class="n">2.3</span> Mean and variance</li><li><span class="n">2.4</span> The Poisson approximation to the binomial</li></ul></li>
-<li><span class="cht">3 &nbsp;Continuous random variables</span><ul class="ss"><li><span class="n">3.1</span> The probability density function (p.d.f.)</li><li><span class="n">3.2</span> The cumulative distribution function (c.d.f.)</li><li><span class="n">3.3</span> Mean and variance</li><li><span class="n">3.4</span> Mode, median and quartiles</li></ul></li>
-<li><span class="cht">4 &nbsp;Continuous distributions</span><ul class="ss"><li><span class="n">4.1</span> The continuous uniform (rectangular) distribution</li><li><span class="n">4.2</span> Modelling with the uniform distribution</li><li><span class="n">4.3</span> The normal approximation to the binomial</li><li><span class="n">4.4</span> The normal approximation to the Poisson</li></ul></li>
-<li><span class="cht">5 &nbsp;Hypothesis testing</span><ul class="ss"><li><span class="n">5.1</span> Populations and samples</li><li><span class="n">5.2</span> Hypothesis tests for a binomial proportion</li><li><span class="n">5.3</span> Hypothesis tests for a Poisson mean</li><li><span class="n">5.4</span> Critical regions and significance levels</li></ul></li>
+<li><span class="cht">2 &nbsp;The Poisson distribution</span><ul class="ss"><li><span class="n">2.1</span> The Poisson distribution</li><li><span class="n">2.2</span> Using Poisson tables</li><li><span class="n">2.3</span> Mean and variance</li></ul></li>
+<li><span class="cht">3 &nbsp;Approximations</span><ul class="ss"><li><span class="n">3.1</span> The Poisson approximation to the binomial</li><li><span class="n">3.2</span> The normal approximation to the binomial</li><li><span class="n">3.3</span> The normal approximation to the Poisson</li></ul></li>
+<li><span class="cht">4 &nbsp;Continuous random variables</span><ul class="ss"><li><span class="n">4.1</span> The probability density function (p.d.f.)</li><li><span class="n">4.2</span> The cumulative distribution function (c.d.f.)</li><li><span class="n">4.3</span> Mean and variance</li><li><span class="n">4.4</span> Mode, median and quartiles</li></ul></li>
+<li><span class="cht">5 &nbsp;The continuous uniform distribution</span><ul class="ss"><li><span class="n">5.1</span> The continuous uniform (rectangular) distribution</li><li><span class="n">5.2</span> Modelling with the continuous uniform distribution</li></ul></li>
+<li><span class="cht">6 &nbsp;Sampling and sampling distributions</span><ul class="ss"><li><span class="n">6.1</span> Populations and samples</li><li><span class="n">6.2</span> Sampling methods</li><li><span class="n">6.3</span> Sampling distributions</li></ul></li>
+<li><span class="cht">7 &nbsp;Hypothesis testing</span><ul class="ss"><li><span class="n">7.1</span> Hypotheses and test statistics</li><li><span class="n">7.2</span> Tests for a binomial proportion</li><li><span class="n">7.3</span> Tests for a Poisson mean</li><li><span class="n">7.4</span> Critical regions and significance levels</li></ul></li>
 </ul>
 </div>
 
@@ -214,7 +220,7 @@
 </table>
 
 <footer>
-Edexcel (Pearson) International Advanced Level — Mathematics &amp; Further Mathematics (2018 spec). Chapter and sub-section structure follows the Pearson IAL student books; P1 sub-sections verified against the book contents page, other units reconstructed and to be spot-checked. Prepared for Cranleigh Abu Dhabi Y12/Y13.
+Edexcel (Pearson) International Advanced Level — Mathematics &amp; Further Mathematics (2018 spec). Chapter structures verified against the Pearson IAL student books; P1 sub-sections verified against the contents page; other sub-sections are best-effort within the verified chapters. Prepared for Cranleigh Abu Dhabi Y12/Y13.
 </footer>
 
 </body>
