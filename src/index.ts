@@ -18,6 +18,10 @@ export { isCucumberTest, extractCucumberMeta, parseGherkinStepTitle, gherkinStep
 export { attachApiRequest, attachApiResponse, CUCUMBER_API_REQUEST_MIME, CUCUMBER_API_RESPONSE_MIME } from "./cucumber/cucumberAnnotations.js";
 export type { CucumberWorldLike } from "./cucumber/cucumberAnnotations.js";
 export type { CucumberTestMeta } from "./cucumber/cucumberDetector.js";
+export { parseFeature, parseFeatureFileSync, clearFeatureCache } from "./cucumber/featureParser.js";
+export type { ParsedFeature, ParsedScenario, ParsedFeatureStep, ParsedExamples, ParsedRule } from "./cucumber/featureParser.js";
+export { enrichBddTest, readGeneratedFromHeader, clearBddEnricherCache } from "./cucumber/bddEnricher.js";
+export type { BddEnrichment } from "./cucumber/bddEnricher.js";
 export type {
   CucumberFeature,
   CucumberElement,

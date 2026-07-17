@@ -1388,6 +1388,26 @@ npx bddgen          # generates .features-gen/ from .feature files
 npx playwright test # runs tests + produces glossy report
 ```
 
+**Feature-file enrichment** — the generated specs don't carry the feature narrative,
+scenario descriptions, or `Rule:` context. The reporter recovers them automatically:
+it follows each generated spec's `// Generated from: <path>` header back to the source
+`.feature` file, parses it (zero dependencies), and enriches every test result with:
+
+| Enrichment | Where it appears |
+|---|---|
+| Feature narrative (As a… / I want… / So that…) | BDD tab + Docs export |
+| Scenario description (free-form text under `Scenario:`) | test detail view |
+| `Rule:` block name | `ruleName` in `results.json` |
+| Examples row values for `Scenario Outline` (`Example #N` titles) | appended to the scenario description |
+| Feature + scenario `@tags` | filter pills, Jira integration |
+| Source `.feature` file path | `featureFilePath` in `results.json` |
+| Background steps (run in a `beforeEach` hook) | step timeline, keyword-colored |
+
+No configuration needed — enrichment activates whenever `enhancePlaywrightBdd` is on
+(the default) and the `.feature` file referenced by the header exists on disk.
+
+See [`examples/playwright-bdd-demo`](examples/playwright-bdd-demo) for a complete runnable project.
+
 **Inline API traffic in playwright-bdd steps** — add `apiRequest` / `apiResponse` fixtures to your custom fixture file:
 
 ```ts
@@ -1575,6 +1595,7 @@ cucumber?: {
 |---------|----------|-------------|
 | [`examples/cucumber-playwright-ts`](examples/cucumber-playwright-ts/) | TypeScript | playwright-bdd, UI + API scenarios |
 | [`examples/cucumber-playwright-js`](examples/cucumber-playwright-js/) | JavaScript | @cucumber/cucumber JSON ingestion + Playwright |
+| [`examples/npm-package-demo`](examples/npm-package-demo/) | TypeScript | Consumes the **published npm** package (`^1.0.0`), not a local path |
 
 ---
 

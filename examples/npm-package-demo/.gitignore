@@ -1,0 +1,7 @@
+node_modules/
+spec-doc-report/
+test-results/
+playwright-report/
+blob-report/
+.env
+.env.*

@@ -1,0 +1,23 @@
+{
+  "name": "playwright-bdd-demo",
+  "version": "1.0.0",
+  "description": "Example: playwright-bdd v9 + playwright-spec-doc-reporter with full .feature-file enrichment",
+  "type": "module",
+  "scripts": {
+    "bddgen": "bddgen",
+    "test": "npm run bddgen && playwright test",
+    "test:headed": "npm run bddgen && playwright test --headed",
+    "test:ui": "npm run bddgen && playwright test --ui",
+    "report": "open glossy-report/index.html || xdg-open glossy-report/index.html || start glossy-report/index.html"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^22.0.0",
+    "playwright-bdd": "^9.0.0",
+    "playwright-spec-doc-reporter": "../../",
+    "typescript": "^5.8.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

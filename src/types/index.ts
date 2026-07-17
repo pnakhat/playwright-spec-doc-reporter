@@ -76,6 +76,10 @@ export interface NormalizedTestResult {
   tags: string[];
   featureMeta?: { name: string; description?: string };
   scenarioDescription?: string;
+  /** Source .feature file path for playwright-bdd/Cucumber tests, e.g. "features/login.feature" */
+  featureFilePath?: string;
+  /** Gherkin Rule block name enclosing the scenario, if any. */
+  ruleName?: string;
   behaviours?: string[];
   apiEntries?: ApiEntry[];
   steps: TestStepInfo[];
