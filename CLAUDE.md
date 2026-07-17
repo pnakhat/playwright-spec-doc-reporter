@@ -55,6 +55,11 @@ Releases are **intentional, not automatic-per-merge** (publish-on-version-change
 - A version can also be published by pushing a manual `v<version>` git tag (the `publish-npm` job). The
   `auto-release` job is idempotent against this: it skips publishing/tagging a version already on npm, so
   merging the same release to `main` afterward won't double-publish.
+- **When you bump `version` for a release, also bump the pinned range in
+  `examples/npm-package-demo/package.json`** (`playwright-spec-doc-reporter`) and the version mentioned in
+  that demo's `README.md` to match. That example installs the reporter from npm (not a `file:` path), so it
+  must track the latest published release to keep smoke-testing real installs. The other examples use a
+  local `file:../..` path and need no change.
 
 ## Architecture (`src/`)
 
@@ -70,7 +75,7 @@ Releases are **intentional, not automatic-per-merge** (publish-on-version-change
 | Self-healing | `healing/` | `diffParser`, `healingDetector`, `healingAgent`, `payload`, `HealingIndex` |
 | Auto-fix PRs | `autofix/` | `branchManager`, `prGenerator` (GitHub/Azure DevOps draft PRs) |
 | Traceability | `traceability/` | maps `specs/*.md` → tests via `// spec:` comments |
-| Cucumber | `cucumber/` | adapter, detector, World annotation helpers |
+| Cucumber | `cucumber/` | adapter, detector, World annotation helpers; `featureParser` (zero-dep Gherkin parser) + `bddEnricher` (follows playwright-bdd's `// Generated from:` header to enrich tests from source `.feature` files) |
 | Jira | `jira/` | `jiraClient`, `commentBuilder`, `bugCreator` (ADF formatting) |
 | Manual tests | `manual/parser.ts` | merge hand-authored Gherkin/prose results |
 | PR comment | `prComment/generator.ts` | compact markdown summary for PR comments |

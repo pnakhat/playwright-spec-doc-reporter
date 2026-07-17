@@ -28,6 +28,7 @@ import { detectHealingEvent } from "../healing/healingDetector.js";
 import { HealingIndex } from "../healing/HealingIndex.js";
 import { writeJson } from "../utils/fs.js";
 import { extractCucumberMeta, parseGherkinStepTitle, gherkinStepCategory } from "../cucumber/cucumberDetector.js";
+import { enrichBddTest } from "../cucumber/bddEnricher.js";
 import { parseCucumberJsonReports } from "../cucumber/adapter.js";
 
 function projectName(test: TestCase): string | undefined {
@@ -67,6 +68,26 @@ function extractScenarioDescription(test: TestCase): string | undefined {
   return test.annotations.find(a => a.type === "scenario")?.description ?? undefined;
 }
 
+/**
+ * Build the scenario description from feature-file enrichment: the free-form
+ * description under the Scenario header, plus the resolved Examples row for
+ * Scenario Outline tests.
+ */
+function composeBddScenarioDescription(
+  enrichment: ReturnType<typeof enrichBddTest>
+): string | undefined {
+  if (!enrichment) return undefined;
+  const parts: string[] = [];
+  if (enrichment.scenarioDescription) parts.push(enrichment.scenarioDescription);
+  if (enrichment.exampleRow) {
+    const row = Object.entries(enrichment.exampleRow)
+      .map(([key, value]) => `${key}: ${value}`)
+      .join(", ");
+    if (row) parts.push(`Examples row — ${row}`);
+  }
+  return parts.length > 0 ? parts.join("\n") : undefined;
+}
+
 function extractBehaviours(test: TestCase): string[] | undefined {
   const behaviours = test.annotations
     .filter(ann => ann.type === "behaviour" || ann.type === "behavior")
@@ -85,11 +106,22 @@ function extractApiEntries(test: TestCase): ApiEntry[] | undefined {
   return entries.length > 0 ? entries : undefined;
 }
 
-function extractSteps(steps: TestStep[], outputDirAbs: string): TestStepInfo[] {
+const GHERKIN_STEP_TITLE_RE = /^(Given|When|Then|And|But)\s+/;
+
+function extractSteps(steps: TestStep[], outputDirAbs: string, includeHookGherkinSteps = false): TestStepInfo[] {
   const result: TestStepInfo[] = [];
   for (const step of steps) {
-    // Skip internal fixture/hook steps — keep user-visible actions
-    if (step.category === 'fixture' || step.category === 'hook') continue;
+    // Skip internal fixture/hook steps — keep user-visible actions.
+    // Exception: playwright-bdd runs Background steps inside a beforeEach hook,
+    // so for BDD tests surface Gherkin-titled steps nested in hooks.
+    if (step.category === 'fixture' || step.category === 'hook') {
+      if (includeHookGherkinSteps && step.steps.length > 0) {
+        const nested = extractSteps(step.steps, outputDirAbs, true)
+          .filter(s => GHERKIN_STEP_TITLE_RE.test(s.title));
+        result.push(...nested);
+      }
+      continue;
+    }
     const screenshots = step.attachments
       .filter(a => a.contentType?.startsWith('image/'))
       .map(a => a.path ? toWebPath(a.path, outputDirAbs) : '')
@@ -105,7 +137,7 @@ function extractSteps(steps: TestStep[], outputDirAbs: string): TestStepInfo[] {
     });
     // Recurse into nested steps
     if (step.steps.length > 0) {
-      result.push(...extractSteps(step.steps, outputDirAbs));
+      result.push(...extractSteps(step.steps, outputDirAbs, includeHookGherkinSteps));
     }
   }
   return result;
@@ -271,16 +303,21 @@ export class GlossyPlaywrightReporter implements Reporter {
     const cucumberEnhance = this.config.cucumber?.enhancePlaywrightBdd !== false;
     const cucumberMeta = cucumberEnhance ? extractCucumberMeta(test) : { isCucumber: false, tags: [] as string[] };
 
+    // For playwright-bdd generated tests, follow the "// Generated from:" header
+    // back to the source .feature file for feature description, scenario
+    // description, rule name, and tags that the generated spec doesn't carry.
+    const bddEnrichment = cucumberMeta.isCucumber ? enrichBddTest(test, this.projectRoot) : undefined;
+
     // Merge base tags with Cucumber-detected tags, applying autoTags if configured
     let mergedTags = extractTags(test);
     if (cucumberMeta.isCucumber) {
       const autoTags = this.config.cucumber?.autoTags ?? ["@cucumber"];
-      const cucumberTagSet = new Set([...mergedTags, ...cucumberMeta.tags, ...autoTags]);
+      const cucumberTagSet = new Set([...mergedTags, ...cucumberMeta.tags, ...(bddEnrichment?.tags ?? []), ...autoTags]);
       mergedTags = [...cucumberTagSet];
     }
 
     // When playwright-bdd is detected, override steps to include Gherkin keyword categories
-    const extractedSteps = extractSteps(result.steps, outputDirAbs);
+    const extractedSteps = extractSteps(result.steps, outputDirAbs, cucumberMeta.isCucumber);
     if (cucumberMeta.isCucumber) {
       for (const step of extractedSteps) {
         const parsed = parseGherkinStepTitle(step.title);
@@ -315,13 +352,18 @@ export class GlossyPlaywrightReporter implements Reporter {
         traces: this.config.includeTraces ? artifacts.traces : []
       },
       tags: mergedTags,
-      // Cucumber metadata takes precedence over plain annotations when detected
-      featureMeta: cucumberMeta.isCucumber && cucumberMeta.featureName
-        ? { name: cucumberMeta.featureName, description: cucumberMeta.featureDescription }
-        : extractFeatureMeta(test),
-      scenarioDescription: cucumberMeta.isCucumber && cucumberMeta.scenarioName
-        ? cucumberMeta.scenarioName
-        : extractScenarioDescription(test),
+      // Feature-file enrichment > detected Cucumber metadata > plain annotations
+      featureMeta: bddEnrichment
+        ? { name: bddEnrichment.featureName, description: bddEnrichment.featureDescription }
+        : cucumberMeta.isCucumber && cucumberMeta.featureName
+          ? { name: cucumberMeta.featureName, description: cucumberMeta.featureDescription }
+          : extractFeatureMeta(test),
+      scenarioDescription: composeBddScenarioDescription(bddEnrichment)
+        ?? (cucumberMeta.isCucumber && cucumberMeta.scenarioName
+          ? cucumberMeta.scenarioName
+          : extractScenarioDescription(test)),
+      featureFilePath: bddEnrichment?.featureFilePath ?? cucumberMeta.featureFilePath,
+      ruleName: bddEnrichment?.ruleName ?? cucumberMeta.ruleName,
       behaviours: extractBehaviours(test),
       apiEntries: extractApiEntries(test),
       consoleLogs: toConsoleLogs(result),
