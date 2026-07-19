@@ -3,7 +3,7 @@
 ##  › chromium › ui/dedup-demo.spec.js › Dedup Demo › broken selector always fails — dedup demo @regression
 - File: tests/ui/dedup-demo.spec.js
 - Step: broken selector always fails — dedup demo @regression
-- Action: update_locator_or_mark_expected_failure
+- Action: fix_locator
 - Confidence: 0.97
 - Error: Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
 
@@ -16,30 +16,28 @@ Call log:
 [2m  - Expect "toBeVisible" with timeout 3000ms[22m
 [2m  - waiting for locator('#this-element-does-not-exist')[22m
 
-- Failed locator: page.locator('#actual-element-id')
-- Candidate locators: page.locator('#actual-element-id'), page.getByRole('heading', { name: 'Expected Heading' }), page.getByTestId('target-element'), page.locator('[data-testid="dedup-demo-element"]')
+- Failed locator: page.getByRole('heading', { level: 1 })
+- Candidate locators: page.getByRole('heading', { level: 1 }), page.getByRole('main'), page.locator('body'), #real-element-id
 - Suggested patch:
 ```diff
-// Option 1: Mark as intentionally failing (recommended for demo/dedup purposes)
-test('broken selector always fails — dedup demo @regression', async ({ page }) => {
-  test.fail(); // This test is expected to fail — used for dedup demo
-  await page.goto('/');
-  await expect(page.locator('#this-element-does-not-exist')).toBeVisible({ timeout: 3000 });
-});
+// Option A — Mark as intentionally failing (keeps demo intent, stops CI noise)
+test.fail();
+await expect(page.locator('#this-element-does-not-exist')).toBeVisible({ timeout: 3000 });
 
-// Option 2: Replace with a valid locator if this should be a real test
-test('element is visible — dedup demo @regression', async ({ page }) => {
-  await page.goto('/');
-  await expect(page.locator('#actual-element-id')).toBeVisible({ timeout: 3000 });
-});
+// Option B — Replace with a real, stable locator
+await expect(page.getByRole('button', { name: 'Submit' })).toBeVisible({ timeout: 3000 });
+// or
+await expect(page.locator('#real-element-id')).toBeVisible({ timeout: 3000 });
+
+// Option C — Remove the test from @regression tag if it is demo-only
 ```
-- Reasoning: The selector '#this-element-does-not-exist' is a stub/placeholder that will never match any DOM element. The test name itself ('broken selector always fails') confirms this is intentional. The correct remediation depends on intent: (1) if this is a demo of a failing test, wrap with test.fail() to signal expected failure; (2) if this was meant to target a real element, the locator must be corrected to match an actual element in the rendered page.
+- Reasoning: The selector '#this-element-does-not-exist' is a placeholder/intentionally invalid identifier. It will never match any DOM element, making the `toBeVisible()` assertion impossible to satisfy. The fix depends on intent: either annotate the test as expected-to-fail with `test.fail()`, replace the selector with the real target element's locator, or remove the test from regression gating.
 
 ##  › chromium › ui/saucedemo.spec.js › AI Failure Analysis › intentional failure for AI analysis demo @regression
 - File: tests/ui/saucedemo.spec.js
 - Step: intentional failure for AI analysis demo @regression
-- Action: update_assertion
-- Confidence: 0.97
+- Action: fix_assertion
+- Confidence: 0.98
 - Error: Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
 
 Locator: getByRole('heading', { name: 'Non Existing Header' })
@@ -52,20 +50,17 @@ Call log:
 [2m  - waiting for getByRole('heading', { name: 'Non Existing Header' })[22m
 
 - Failed locator: getByRole('heading', { name: 'Products' })
-- Candidate locators: getByRole('heading', { name: 'Products' }), getByRole('heading', { name: 'Swag Labs' }), locator('.title'), locator('.app_logo')
+- Candidate locators: getByRole('heading', { name: 'Products' }), getByRole('heading', { name: 'Swag Labs' }), getByRole('heading', { name: 'Checkout: Your Information' }), locator('.title'), locator('.app_logo')
 - Suggested patch:
 ```diff
-// Option 1: Fix the assertion to use a real heading
+// Option 1: Fix the assertion to target a real heading (e.g., after login on inventory page)
 await expect(page.getByRole('heading', { name: 'Products' })).toBeVisible();
 
-// Option 2: Mark as intentionally failing (keeps demo intent intact)
+// Option 2: Mark as intentionally failing to prevent CI breakage
 test.fail();
 await expect(page.getByRole('heading', { name: 'Non Existing Header' })).toBeVisible();
-
-// Option 3: Skip the test to prevent CI breakage
-test.skip(true, 'Intentional demo failure - excluded from regression run');
 ```
-- Reasoning: The assertion targets a heading named 'Non Existing Header' which is confirmed to not exist on the SauceDemo application. The test name itself ('intentional failure for AI analysis demo') confirms this is a deliberately broken assertion. The fix is to either replace the heading name with one that actually exists on the page, mark the test as expected to fail with `test.fail()`, or skip it entirely. No application bug is involved.
+- Reasoning: The assertion targets a heading with text 'Non Existing Header' which is confirmed to not exist on the SauceDemo application. The test name itself ('intentional failure for AI analysis demo') confirms this is a deliberately broken assertion. The element is not missing due to timing, locator drift, or environment issues — it simply does not exist in the application's DOM. The fix is either to correct the expected heading name to one that actually renders on the page, or to use `test.fail()` to formally declare the test as an expected failure.
 
 ## Shopping Cart › Cart persists items after page refresh
 - File: tests/manual-results.md
