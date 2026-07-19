@@ -1,6 +1,6 @@
 {
   "title": "Multi-Browser Stress Test Report",
-  "generatedAt": "2026-07-19T09:03:08.805Z",
+  "generatedAt": "2026-07-19T09:39:19.354Z",
   "environment": {
     "nodeVersion": "v20.20.2",
     "platform": "linux",
@@ -14,8 +14,8 @@
     "projects": [
       "chromium"
     ],
-    "startedAt": "2026-07-19T09:01:41.649Z",
-    "finishedAt": "2026-07-19T09:01:53.703Z",
+    "startedAt": "2026-07-19T09:37:51.162Z",
+    "finishedAt": "2026-07-19T09:38:06.025Z",
     "workers": 2
   },
   "summary": {
@@ -26,8 +26,8 @@
     "flaky": 0,
     "timedOut": 0,
     "interrupted": 0,
-    "durationMs": 17697,
-    "averageDurationMs": 571
+    "durationMs": 21463,
+    "averageDurationMs": 692
   },
   "tests": [
     {
@@ -41,7 +41,7 @@
       "flaky": false,
       "retries": 0,
       "retryIndex": 0,
-      "durationMs": 769,
+      "durationMs": 2552,
       "browser": "chromium",
       "projectName": "chromium",
       "workerIndex": 1,
@@ -85,88 +85,88 @@
         {
           "title": "Navigate to \"/\"",
           "category": "pw:api",
-          "durationMs": 262,
+          "durationMs": 1572,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:42.727Z"
+          "startedAt": "2026-07-19T09:37:53.530Z"
         },
         {
           "title": "Fill \"standard_user\" getByPlaceholder('Username')",
           "category": "pw:api",
-          "durationMs": 59,
+          "durationMs": 87,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:42.999Z"
+          "startedAt": "2026-07-19T09:37:55.110Z"
         },
         {
           "title": "Fill \"secret_sauce\" getByPlaceholder('Password')",
           "category": "pw:api",
-          "durationMs": 14,
+          "durationMs": 12,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.059Z"
+          "startedAt": "2026-07-19T09:37:55.198Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Login' })",
           "category": "pw:api",
-          "durationMs": 99,
+          "durationMs": 109,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.075Z"
+          "startedAt": "2026-07-19T09:37:55.211Z"
         },
         {
           "title": "Wait for load state \"load\"",
           "category": "pw:api",
-          "durationMs": 1,
+          "durationMs": 6,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.176Z"
+          "startedAt": "2026-07-19T09:37:55.325Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Add to cart' }).first()",
           "category": "pw:api",
-          "durationMs": 42,
+          "durationMs": 44,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.178Z"
+          "startedAt": "2026-07-19T09:37:55.333Z"
         },
         {
           "title": "Click locator('.shopping_cart_link')",
           "category": "pw:api",
-          "durationMs": 32,
+          "durationMs": 49,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.222Z"
+          "startedAt": "2026-07-19T09:37:55.379Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Checkout' })",
           "category": "pw:api",
-          "durationMs": 38,
+          "durationMs": 42,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.254Z"
+          "startedAt": "2026-07-19T09:37:55.429Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Continue' })",
           "category": "pw:api",
-          "durationMs": 31,
+          "durationMs": 34,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.293Z"
+          "startedAt": "2026-07-19T09:37:55.472Z"
         },
         {
           "title": "Expect \"toContainText\" locator('[data-test=\"error\"]')",
           "category": "expect",
-          "durationMs": 8,
+          "durationMs": 5,
           "status": "passed",
           "screenshots": [
             "../test-results/ui-checkout-Checkout-Flow--7a841-uires-first-name-validation-chromium/test-finished-1.png"
           ],
-          "startedAt": "2026-07-19T09:01:43.326Z"
+          "startedAt": "2026-07-19T09:37:55.507Z"
         }
       ],
-      "startedAt": "2026-07-19T09:01:42.378Z",
-      "finishedAt": "2026-07-19T09:01:43.147Z"
+      "startedAt": "2026-07-19T09:37:51.915Z",
+      "finishedAt": "2026-07-19T09:37:54.467Z"
     },
     {
       "id": "9f2da2b367c0a51ca7",
@@ -179,7 +179,7 @@
       "flaky": false,
       "retries": 0,
       "retryIndex": 0,
-      "durationMs": 882,
+      "durationMs": 2687,
       "browser": "chromium",
       "projectName": "chromium",
       "workerIndex": 0,
@@ -228,66 +228,66 @@
         {
           "title": "Navigate to \"/\"",
           "category": "pw:api",
-          "durationMs": 259,
+          "durationMs": 1527,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:42.722Z"
+          "startedAt": "2026-07-19T09:37:53.574Z"
         },
         {
           "title": "Fill \"standard_user\" getByPlaceholder('Username')",
           "category": "pw:api",
-          "durationMs": 73,
+          "durationMs": 84,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:42.985Z"
+          "startedAt": "2026-07-19T09:37:55.108Z"
         },
         {
           "title": "Fill \"secret_sauce\" getByPlaceholder('Password')",
           "category": "pw:api",
-          "durationMs": 20,
+          "durationMs": 24,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.059Z"
+          "startedAt": "2026-07-19T09:37:55.196Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Login' })",
           "category": "pw:api",
-          "durationMs": 81,
+          "durationMs": 140,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.080Z"
+          "startedAt": "2026-07-19T09:37:55.221Z"
         },
         {
           "title": "Wait for load state \"load\"",
           "category": "pw:api",
-          "durationMs": 6,
+          "durationMs": 3,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.163Z"
+          "startedAt": "2026-07-19T09:37:55.364Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Add to cart' }).first()",
           "category": "pw:api",
-          "durationMs": 49,
+          "durationMs": 52,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.170Z"
+          "startedAt": "2026-07-19T09:37:55.368Z"
         },
         {
           "title": "Expect \"toHaveText\" locator('.shopping_cart_badge')",
           "category": "expect",
-          "durationMs": 6,
+          "durationMs": 9,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.221Z"
+          "startedAt": "2026-07-19T09:37:55.423Z"
         },
         {
           "title": "Click locator('.shopping_cart_link')",
           "category": "pw:api",
-          "durationMs": 44,
+          "durationMs": 41,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.228Z"
+          "startedAt": "2026-07-19T09:37:55.433Z"
         },
         {
           "title": "Expect \"toHaveURL\"",
@@ -295,63 +295,63 @@
           "durationMs": 2,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.272Z"
+          "startedAt": "2026-07-19T09:37:55.475Z"
         },
         {
           "title": "Expect \"toHaveCount\" locator('.cart_item')",
           "category": "expect",
-          "durationMs": 2,
+          "durationMs": 6,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.275Z"
+          "startedAt": "2026-07-19T09:37:55.477Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Checkout' })",
           "category": "pw:api",
-          "durationMs": 42,
+          "durationMs": 41,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.278Z"
+          "startedAt": "2026-07-19T09:37:55.484Z"
         },
         {
           "title": "Expect \"toHaveURL\"",
           "category": "expect",
-          "durationMs": 2,
+          "durationMs": 3,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.321Z"
+          "startedAt": "2026-07-19T09:37:55.525Z"
         },
         {
           "title": "Fill \"Test\" getByPlaceholder('First Name')",
           "category": "pw:api",
-          "durationMs": 7,
+          "durationMs": 10,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.323Z"
+          "startedAt": "2026-07-19T09:37:55.528Z"
         },
         {
           "title": "Fill \"User\" getByPlaceholder('Last Name')",
           "category": "pw:api",
-          "durationMs": 14,
+          "durationMs": 9,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.330Z"
+          "startedAt": "2026-07-19T09:37:55.539Z"
         },
         {
           "title": "Fill \"12345\" getByPlaceholder('Zip/Postal Code')",
           "category": "pw:api",
-          "durationMs": 13,
+          "durationMs": 7,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.344Z"
+          "startedAt": "2026-07-19T09:37:55.550Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Continue' })",
           "category": "pw:api",
-          "durationMs": 46,
+          "durationMs": 35,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.357Z"
+          "startedAt": "2026-07-19T09:37:55.558Z"
         },
         {
           "title": "Expect \"toHaveURL\"",
@@ -359,23 +359,23 @@
           "durationMs": 2,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.404Z"
+          "startedAt": "2026-07-19T09:37:55.593Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Finish' })",
           "category": "pw:api",
-          "durationMs": 30,
+          "durationMs": 44,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.407Z"
+          "startedAt": "2026-07-19T09:37:55.595Z"
         },
         {
           "title": "Expect \"toHaveURL\"",
           "category": "expect",
-          "durationMs": 1,
+          "durationMs": 2,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.438Z"
+          "startedAt": "2026-07-19T09:37:55.640Z"
         },
         {
           "title": "Expect \"toBeVisible\" getByText('Thank you for your order!')",
@@ -385,11 +385,11 @@
           "screenshots": [
             "../test-results/ui-checkout-Checkout-Flow--a31c6-ith-one-item-smoke-critical-chromium/test-finished-1.png"
           ],
-          "startedAt": "2026-07-19T09:01:43.440Z"
+          "startedAt": "2026-07-19T09:37:55.643Z"
         }
       ],
-      "startedAt": "2026-07-19T09:01:42.360Z",
-      "finishedAt": "2026-07-19T09:01:43.242Z"
+      "startedAt": "2026-07-19T09:37:51.919Z",
+      "finishedAt": "2026-07-19T09:37:54.606Z"
     },
     {
       "id": "d1e5f8214048d9815e",
@@ -402,7 +402,7 @@
       "flaky": false,
       "retries": 0,
       "retryIndex": 0,
-      "durationMs": 601,
+      "durationMs": 660,
       "browser": "chromium",
       "projectName": "chromium",
       "workerIndex": 1,
@@ -446,96 +446,96 @@
         {
           "title": "Navigate to \"/\"",
           "category": "pw:api",
-          "durationMs": 141,
+          "durationMs": 167,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.500Z"
+          "startedAt": "2026-07-19T09:37:55.684Z"
         },
         {
           "title": "Fill \"standard_user\" getByPlaceholder('Username')",
           "category": "pw:api",
-          "durationMs": 31,
+          "durationMs": 35,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.642Z"
+          "startedAt": "2026-07-19T09:37:55.853Z"
         },
         {
           "title": "Fill \"secret_sauce\" getByPlaceholder('Password')",
           "category": "pw:api",
-          "durationMs": 6,
+          "durationMs": 17,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.673Z"
+          "startedAt": "2026-07-19T09:37:55.890Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Login' })",
           "category": "pw:api",
-          "durationMs": 63,
+          "durationMs": 114,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.679Z"
+          "startedAt": "2026-07-19T09:37:55.908Z"
         },
         {
           "title": "Wait for load state \"load\"",
           "category": "pw:api",
-          "durationMs": 0,
+          "durationMs": 1,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.743Z"
+          "startedAt": "2026-07-19T09:37:56.023Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Add to cart' }).first()",
           "category": "pw:api",
-          "durationMs": 52,
+          "durationMs": 45,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.745Z"
+          "startedAt": "2026-07-19T09:37:56.027Z"
         },
         {
           "title": "Click locator('.shopping_cart_link')",
           "category": "pw:api",
-          "durationMs": 45,
+          "durationMs": 35,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.797Z"
+          "startedAt": "2026-07-19T09:37:56.073Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Checkout' })",
           "category": "pw:api",
-          "durationMs": 46,
+          "durationMs": 30,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.842Z"
+          "startedAt": "2026-07-19T09:37:56.109Z"
         },
         {
           "title": "Fill \"Test\" getByPlaceholder('First Name')",
           "category": "pw:api",
-          "durationMs": 5,
+          "durationMs": 7,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.889Z"
+          "startedAt": "2026-07-19T09:37:56.140Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Continue' })",
           "category": "pw:api",
-          "durationMs": 48,
+          "durationMs": 46,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.895Z"
+          "startedAt": "2026-07-19T09:37:56.147Z"
         },
         {
           "title": "Expect \"toContainText\" locator('[data-test=\"error\"]')",
           "category": "expect",
-          "durationMs": 3,
+          "durationMs": 7,
           "status": "passed",
           "screenshots": [
             "../test-results/ui-checkout-Checkout-Flow--ecbc7-quires-last-name-validation-chromium/test-finished-1.png"
           ],
-          "startedAt": "2026-07-19T09:01:43.944Z"
+          "startedAt": "2026-07-19T09:37:56.194Z"
         }
       ],
-      "startedAt": "2026-07-19T09:01:43.460Z",
-      "finishedAt": "2026-07-19T09:01:44.061Z"
+      "startedAt": "2026-07-19T09:37:55.651Z",
+      "finishedAt": "2026-07-19T09:37:56.311Z"
     },
     {
       "id": "0adc7a558482e2d177",
@@ -548,7 +548,7 @@
       "flaky": false,
       "retries": 0,
       "retryIndex": 0,
-      "durationMs": 649,
+      "durationMs": 665,
       "browser": "chromium",
       "projectName": "chromium",
       "workerIndex": 0,
@@ -592,104 +592,104 @@
         {
           "title": "Navigate to \"/\"",
           "category": "pw:api",
-          "durationMs": 194,
+          "durationMs": 151,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.599Z"
+          "startedAt": "2026-07-19T09:37:55.806Z"
         },
         {
           "title": "Fill \"standard_user\" getByPlaceholder('Username')",
           "category": "pw:api",
-          "durationMs": 38,
+          "durationMs": 59,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.795Z"
+          "startedAt": "2026-07-19T09:37:55.958Z"
         },
         {
           "title": "Fill \"secret_sauce\" getByPlaceholder('Password')",
           "category": "pw:api",
-          "durationMs": 6,
+          "durationMs": 24,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.834Z"
+          "startedAt": "2026-07-19T09:37:56.018Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Login' })",
           "category": "pw:api",
-          "durationMs": 80,
+          "durationMs": 107,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.841Z"
+          "startedAt": "2026-07-19T09:37:56.043Z"
         },
         {
           "title": "Wait for load state \"load\"",
           "category": "pw:api",
-          "durationMs": 0,
+          "durationMs": 1,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.923Z"
+          "startedAt": "2026-07-19T09:37:56.154Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Add to cart' }).first()",
           "category": "pw:api",
-          "durationMs": 49,
+          "durationMs": 35,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.924Z"
+          "startedAt": "2026-07-19T09:37:56.155Z"
         },
         {
           "title": "Click locator('.shopping_cart_link')",
           "category": "pw:api",
-          "durationMs": 39,
+          "durationMs": 36,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:43.974Z"
+          "startedAt": "2026-07-19T09:37:56.191Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Checkout' })",
           "category": "pw:api",
-          "durationMs": 40,
+          "durationMs": 43,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:44.014Z"
+          "startedAt": "2026-07-19T09:37:56.228Z"
         },
         {
           "title": "Fill \"Test\" getByPlaceholder('First Name')",
           "category": "pw:api",
-          "durationMs": 5,
+          "durationMs": 6,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:44.054Z"
+          "startedAt": "2026-07-19T09:37:56.271Z"
         },
         {
           "title": "Fill \"User\" getByPlaceholder('Last Name')",
           "category": "pw:api",
-          "durationMs": 6,
+          "durationMs": 9,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:44.060Z"
+          "startedAt": "2026-07-19T09:37:56.278Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Continue' })",
           "category": "pw:api",
-          "durationMs": 42,
+          "durationMs": 35,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:44.067Z"
+          "startedAt": "2026-07-19T09:37:56.288Z"
         },
         {
           "title": "Expect \"toContainText\" locator('[data-test=\"error\"]')",
           "category": "expect",
-          "durationMs": 3,
+          "durationMs": 5,
           "status": "passed",
           "screenshots": [
             "../test-results/ui-checkout-Checkout-Flow--26073-ires-postal-code-validation-chromium/test-finished-1.png"
           ],
-          "startedAt": "2026-07-19T09:01:44.110Z"
+          "startedAt": "2026-07-19T09:37:56.324Z"
         }
       ],
-      "startedAt": "2026-07-19T09:01:43.567Z",
-      "finishedAt": "2026-07-19T09:01:44.216Z"
+      "startedAt": "2026-07-19T09:37:55.774Z",
+      "finishedAt": "2026-07-19T09:37:56.439Z"
     },
     {
       "id": "5ac225dbae7be407bc",
@@ -702,7 +702,7 @@
       "flaky": false,
       "retries": 0,
       "retryIndex": 0,
-      "durationMs": 619,
+      "durationMs": 613,
       "browser": "chromium",
       "projectName": "chromium",
       "workerIndex": 0,
@@ -746,18 +746,18 @@
         {
           "title": "Navigate to \"/\"",
           "category": "pw:api",
-          "durationMs": 180,
+          "durationMs": 147,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:44.253Z"
+          "startedAt": "2026-07-19T09:37:56.477Z"
         },
         {
           "title": "Fill \"standard_user\" getByPlaceholder('Username')",
           "category": "pw:api",
-          "durationMs": 40,
+          "durationMs": 58,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:44.434Z"
+          "startedAt": "2026-07-19T09:37:56.625Z"
         },
         {
           "title": "Fill \"secret_sauce\" getByPlaceholder('Password')",
@@ -765,69 +765,69 @@
           "durationMs": 11,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:44.475Z"
+          "startedAt": "2026-07-19T09:37:56.684Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Login' })",
           "category": "pw:api",
-          "durationMs": 58,
+          "durationMs": 82,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:44.488Z"
+          "startedAt": "2026-07-19T09:37:56.696Z"
         },
         {
           "title": "Wait for load state \"load\"",
           "category": "pw:api",
-          "durationMs": 2,
+          "durationMs": 0,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:44.547Z"
+          "startedAt": "2026-07-19T09:37:56.779Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Add to cart' }).first()",
           "category": "pw:api",
-          "durationMs": 51,
+          "durationMs": 40,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:44.552Z"
+          "startedAt": "2026-07-19T09:37:56.780Z"
         },
         {
           "title": "Click locator('.shopping_cart_link')",
           "category": "pw:api",
-          "durationMs": 36,
+          "durationMs": 35,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:44.603Z"
+          "startedAt": "2026-07-19T09:37:56.821Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Checkout' })",
           "category": "pw:api",
-          "durationMs": 34,
+          "durationMs": 32,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:44.640Z"
+          "startedAt": "2026-07-19T09:37:56.857Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Cancel' })",
           "category": "pw:api",
-          "durationMs": 30,
+          "durationMs": 33,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:44.674Z"
+          "startedAt": "2026-07-19T09:37:56.889Z"
         },
         {
           "title": "Expect \"toHaveURL\"",
           "category": "expect",
-          "durationMs": 2,
+          "durationMs": 3,
           "status": "passed",
           "screenshots": [
             "../test-results/ui-checkout-Checkout-Flow--0bd10-rns-to-inventory-regression-chromium/test-finished-1.png"
           ],
-          "startedAt": "2026-07-19T09:01:44.705Z"
+          "startedAt": "2026-07-19T09:37:56.923Z"
         }
       ],
-      "startedAt": "2026-07-19T09:01:44.226Z",
-      "finishedAt": "2026-07-19T09:01:44.845Z"
+      "startedAt": "2026-07-19T09:37:56.449Z",
+      "finishedAt": "2026-07-19T09:37:57.062Z"
     },
     {
       "id": "d89fbdbad1a6fc21be",
@@ -884,82 +884,58 @@
         {
           "title": "Navigate to \"/\"",
           "category": "pw:api",
-          "durationMs": 172,
+          "durationMs": 166,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:44.105Z"
+          "startedAt": "2026-07-19T09:37:56.356Z"
         },
         {
           "title": "Fill \"standard_user\" getByPlaceholder('Username')",
           "category": "pw:api",
-          "durationMs": 32,
+          "durationMs": 40,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:44.278Z"
+          "startedAt": "2026-07-19T09:37:56.523Z"
         },
         {
           "title": "Fill \"secret_sauce\" getByPlaceholder('Password')",
           "category": "pw:api",
-          "durationMs": 7,
+          "durationMs": 5,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:44.311Z"
+          "startedAt": "2026-07-19T09:37:56.563Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Login' })",
           "category": "pw:api",
-          "durationMs": 58,
+          "durationMs": 74,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:44.320Z"
+          "startedAt": "2026-07-19T09:37:56.569Z"
         },
         {
           "title": "Wait for load state \"load\"",
           "category": "pw:api",
-          "durationMs": 1,
+          "durationMs": 0,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:44.380Z"
+          "startedAt": "2026-07-19T09:37:56.644Z"
         },
         {
           "title": "Query count getByRole('button', { name: 'Add to cart' })",
           "category": "pw:api",
-          "durationMs": 5,
+          "durationMs": 11,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:44.381Z"
+          "startedAt": "2026-07-19T09:37:56.645Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Add to cart' }).first()",
           "category": "pw:api",
-          "durationMs": 67,
+          "durationMs": 47,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:44.387Z"
-        },
-        {
-          "title": "Click getByRole('button', { name: 'Add to cart' }).first()",
-          "category": "pw:api",
-          "durationMs": 42,
-          "status": "passed",
-          "screenshots": [],
-          "startedAt": "2026-07-19T09:01:44.454Z"
-        },
-        {
-          "title": "Click getByRole('button', { name: 'Add to cart' }).first()",
-          "category": "pw:api",
-          "durationMs": 40,
-          "status": "passed",
-          "screenshots": [],
-          "startedAt": "2026-07-19T09:01:44.497Z"
-        },
-        {
-          "title": "Click getByRole('button', { name: 'Add to cart' }).first()",
-          "category": "pw:api",
-          "durationMs": 49,
-          "status": "passed",
-          "screenshots": [],
-          "startedAt": "2026-07-19T09:01:44.538Z"
+          "startedAt": "2026-07-19T09:37:56.657Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Add to cart' }).first()",
@@ -967,31 +943,55 @@
           "durationMs": 30,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:44.588Z"
+          "startedAt": "2026-07-19T09:37:56.705Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Add to cart' }).first()",
           "category": "pw:api",
-          "durationMs": 33,
+          "durationMs": 48,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:44.619Z"
+          "startedAt": "2026-07-19T09:37:56.736Z"
         },
         {
-          "title": "Expect \"toHaveText\" locator('.shopping_cart_badge')",
-          "category": "expect",
-          "durationMs": 4,
-          "status": "passed",
-          "screenshots": [],
-          "startedAt": "2026-07-19T09:01:44.653Z"
-        },
-        {
-          "title": "Click locator('.shopping_cart_link')",
+          "title": "Click getByRole('button', { name: 'Add to cart' }).first()",
           "category": "pw:api",
           "durationMs": 34,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:44.658Z"
+          "startedAt": "2026-07-19T09:37:56.785Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Add to cart' }).first()",
+          "category": "pw:api",
+          "durationMs": 32,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-07-19T09:37:56.820Z"
+        },
+        {
+          "title": "Click getByRole('button', { name: 'Add to cart' }).first()",
+          "category": "pw:api",
+          "durationMs": 34,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-07-19T09:37:56.852Z"
+        },
+        {
+          "title": "Expect \"toHaveText\" locator('.shopping_cart_badge')",
+          "category": "expect",
+          "durationMs": 3,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-07-19T09:37:56.887Z"
+        },
+        {
+          "title": "Click locator('.shopping_cart_link')",
+          "category": "pw:api",
+          "durationMs": 33,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-07-19T09:37:56.891Z"
         },
         {
           "title": "Expect \"toHaveCount\" locator('.cart_item')",
@@ -1001,11 +1001,11 @@
           "screenshots": [
             "../test-results/ui-checkout-Checkout-Flow--53b21-ws-correct-count-regression-chromium/test-finished-1.png"
           ],
-          "startedAt": "2026-07-19T09:01:44.693Z"
+          "startedAt": "2026-07-19T09:37:56.925Z"
         }
       ],
-      "startedAt": "2026-07-19T09:01:44.074Z",
-      "finishedAt": "2026-07-19T09:01:44.850Z"
+      "startedAt": "2026-07-19T09:37:56.321Z",
+      "finishedAt": "2026-07-19T09:37:57.097Z"
     },
     {
       "id": "a910ed62b56fd3f64c",
@@ -1018,7 +1018,7 @@
       "flaky": false,
       "retries": 0,
       "retryIndex": 0,
-      "durationMs": 556,
+      "durationMs": 541,
       "browser": "chromium",
       "projectName": "chromium",
       "workerIndex": 0,
@@ -1061,34 +1061,34 @@
         {
           "title": "Navigate to \"/\"",
           "category": "pw:api",
-          "durationMs": 149,
+          "durationMs": 166,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:44.887Z"
+          "startedAt": "2026-07-19T09:37:57.103Z"
         },
         {
           "title": "Fill \"standard_user\" getByPlaceholder('Username')",
           "category": "pw:api",
-          "durationMs": 48,
+          "durationMs": 38,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:45.037Z"
+          "startedAt": "2026-07-19T09:37:57.270Z"
         },
         {
           "title": "Fill \"secret_sauce\" getByPlaceholder('Password')",
           "category": "pw:api",
-          "durationMs": 11,
+          "durationMs": 15,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:45.085Z"
+          "startedAt": "2026-07-19T09:37:57.309Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Login' })",
           "category": "pw:api",
-          "durationMs": 88,
+          "durationMs": 86,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:45.097Z"
+          "startedAt": "2026-07-19T09:37:57.325Z"
         },
         {
           "title": "Wait for load state \"load\"",
@@ -1096,53 +1096,53 @@
           "durationMs": 0,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:45.186Z"
+          "startedAt": "2026-07-19T09:37:57.414Z"
         },
         {
           "title": "Click locator('.inventory_item_name').first()",
           "category": "pw:api",
-          "durationMs": 61,
+          "durationMs": 44,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:45.189Z"
+          "startedAt": "2026-07-19T09:37:57.416Z"
         },
         {
           "title": "Expect \"toHaveURL\"",
           "category": "expect",
-          "durationMs": 4,
+          "durationMs": 5,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:45.251Z"
+          "startedAt": "2026-07-19T09:37:57.460Z"
         },
         {
           "title": "Expect \"toBeVisible\" locator('.inventory_details_name')",
           "category": "expect",
-          "durationMs": 3,
+          "durationMs": 8,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:45.257Z"
+          "startedAt": "2026-07-19T09:37:57.465Z"
         },
         {
           "title": "Expect \"toBeVisible\" locator('.inventory_details_price')",
           "category": "expect",
-          "durationMs": 2,
+          "durationMs": 3,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:45.261Z"
+          "startedAt": "2026-07-19T09:37:57.477Z"
         },
         {
           "title": "Expect \"toBeVisible\" locator('.inventory_details_desc')",
           "category": "expect",
-          "durationMs": 2,
+          "durationMs": 4,
           "status": "passed",
           "screenshots": [
             "../test-results/ui-checkout-Product-Detail-0d17e-ame-opens-detail-page-smoke-chromium/test-finished-1.png"
           ],
-          "startedAt": "2026-07-19T09:01:45.264Z"
+          "startedAt": "2026-07-19T09:37:57.480Z"
         }
       ],
-      "startedAt": "2026-07-19T09:01:44.854Z",
-      "finishedAt": "2026-07-19T09:01:45.410Z"
+      "startedAt": "2026-07-19T09:37:57.072Z",
+      "finishedAt": "2026-07-19T09:37:57.613Z"
     },
     {
       "id": "367eefad39e7ea8ef6",
@@ -1155,7 +1155,7 @@
       "flaky": false,
       "retries": 0,
       "retryIndex": 0,
-      "durationMs": 648,
+      "durationMs": 630,
       "browser": "chromium",
       "projectName": "chromium",
       "workerIndex": 1,
@@ -1199,18 +1199,18 @@
         {
           "title": "Navigate to \"/\"",
           "category": "pw:api",
-          "durationMs": 180,
+          "durationMs": 156,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:44.894Z"
+          "startedAt": "2026-07-19T09:37:57.135Z"
         },
         {
           "title": "Fill \"standard_user\" getByPlaceholder('Username')",
           "category": "pw:api",
-          "durationMs": 47,
+          "durationMs": 52,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:45.075Z"
+          "startedAt": "2026-07-19T09:37:57.293Z"
         },
         {
           "title": "Fill \"secret_sauce\" getByPlaceholder('Password')",
@@ -1218,31 +1218,31 @@
           "durationMs": 9,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:45.123Z"
+          "startedAt": "2026-07-19T09:37:57.346Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Login' })",
           "category": "pw:api",
-          "durationMs": 90,
+          "durationMs": 111,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:45.133Z"
+          "startedAt": "2026-07-19T09:37:57.356Z"
         },
         {
           "title": "Wait for load state \"load\"",
           "category": "pw:api",
-          "durationMs": 1,
+          "durationMs": 5,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:45.223Z"
+          "startedAt": "2026-07-19T09:37:57.468Z"
         },
         {
           "title": "Click locator('.inventory_item_name').first()",
           "category": "pw:api",
-          "durationMs": 49,
+          "durationMs": 50,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:45.225Z"
+          "startedAt": "2026-07-19T09:37:57.475Z"
         },
         {
           "title": "Expect \"toHaveURL\"",
@@ -1250,29 +1250,29 @@
           "durationMs": 3,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:45.275Z"
+          "startedAt": "2026-07-19T09:37:57.525Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Back to products' })",
           "category": "pw:api",
-          "durationMs": 55,
+          "durationMs": 45,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:45.278Z"
+          "startedAt": "2026-07-19T09:37:57.529Z"
         },
         {
           "title": "Expect \"toHaveURL\"",
           "category": "expect",
-          "durationMs": 6,
+          "durationMs": 2,
           "status": "passed",
           "screenshots": [
             "../test-results/ui-checkout-Product-Detail-854e7--returns-to-inventory-smoke-chromium/test-finished-1.png"
           ],
-          "startedAt": "2026-07-19T09:01:45.334Z"
+          "startedAt": "2026-07-19T09:37:57.574Z"
         }
       ],
-      "startedAt": "2026-07-19T09:01:44.860Z",
-      "finishedAt": "2026-07-19T09:01:45.508Z"
+      "startedAt": "2026-07-19T09:37:57.108Z",
+      "finishedAt": "2026-07-19T09:37:57.738Z"
     },
     {
       "id": "6b2103417204a2ddf0",
@@ -1285,7 +1285,7 @@
       "flaky": false,
       "retries": 0,
       "retryIndex": 0,
-      "durationMs": 553,
+      "durationMs": 566,
       "browser": "chromium",
       "projectName": "chromium",
       "workerIndex": 0,
@@ -1329,72 +1329,72 @@
         {
           "title": "Navigate to \"/\"",
           "category": "pw:api",
-          "durationMs": 155,
+          "durationMs": 165,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:45.459Z"
+          "startedAt": "2026-07-19T09:37:57.670Z"
         },
         {
           "title": "Fill \"standard_user\" getByPlaceholder('Username')",
           "category": "pw:api",
-          "durationMs": 40,
+          "durationMs": 44,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:45.615Z"
+          "startedAt": "2026-07-19T09:37:57.836Z"
         },
         {
           "title": "Fill \"secret_sauce\" getByPlaceholder('Password')",
           "category": "pw:api",
-          "durationMs": 8,
+          "durationMs": 7,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:45.656Z"
+          "startedAt": "2026-07-19T09:37:57.881Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Login' })",
           "category": "pw:api",
-          "durationMs": 68,
+          "durationMs": 69,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:45.665Z"
+          "startedAt": "2026-07-19T09:37:57.889Z"
         },
         {
           "title": "Wait for load state \"load\"",
           "category": "pw:api",
-          "durationMs": 0,
+          "durationMs": 1,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:45.734Z"
+          "startedAt": "2026-07-19T09:37:57.959Z"
         },
         {
           "title": "Click locator('.inventory_item_name').first()",
           "category": "pw:api",
-          "durationMs": 59,
+          "durationMs": 49,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:45.735Z"
+          "startedAt": "2026-07-19T09:37:57.961Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Add to cart' })",
           "category": "pw:api",
-          "durationMs": 40,
+          "durationMs": 41,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:45.795Z"
+          "startedAt": "2026-07-19T09:37:58.010Z"
         },
         {
           "title": "Expect \"toHaveText\" locator('.shopping_cart_badge')",
           "category": "expect",
-          "durationMs": 2,
+          "durationMs": 4,
           "status": "passed",
           "screenshots": [
             "../test-results/ui-checkout-Product-Detail-378be-ge-updates-badge-regression-chromium/test-finished-1.png"
           ],
-          "startedAt": "2026-07-19T09:01:45.836Z"
+          "startedAt": "2026-07-19T09:37:58.052Z"
         }
       ],
-      "startedAt": "2026-07-19T09:01:45.422Z",
-      "finishedAt": "2026-07-19T09:01:45.975Z"
+      "startedAt": "2026-07-19T09:37:57.625Z",
+      "finishedAt": "2026-07-19T09:37:58.191Z"
     },
     {
       "id": "08e4ff9e94a88baf1e",
@@ -1407,7 +1407,7 @@
       "flaky": false,
       "retries": 0,
       "retryIndex": 0,
-      "durationMs": 599,
+      "durationMs": 656,
       "browser": "chromium",
       "projectName": "chromium",
       "workerIndex": 0,
@@ -1461,42 +1461,42 @@
         {
           "title": "Navigate to \"/\"",
           "category": "pw:api",
-          "durationMs": 150,
+          "durationMs": 176,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:46.020Z"
+          "startedAt": "2026-07-19T09:37:58.235Z"
         },
         {
           "title": "Fill \"standard_user\" getByPlaceholder('Username')",
           "category": "pw:api",
-          "durationMs": 33,
+          "durationMs": 35,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:46.171Z"
+          "startedAt": "2026-07-19T09:37:58.412Z"
         },
         {
           "title": "Fill \"secret_sauce\" getByPlaceholder('Password')",
           "category": "pw:api",
-          "durationMs": 7,
+          "durationMs": 5,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:46.205Z"
+          "startedAt": "2026-07-19T09:37:58.448Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Login' })",
           "category": "pw:api",
-          "durationMs": 61,
+          "durationMs": 75,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:46.212Z"
+          "startedAt": "2026-07-19T09:37:58.454Z"
         },
         {
           "title": "Expect \"toHaveURL\"",
           "category": "expect",
-          "durationMs": 7,
+          "durationMs": 6,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:46.273Z"
+          "startedAt": "2026-07-19T09:37:58.530Z"
         },
         {
           "title": "Expect \"toBeVisible\" getByText('Products')",
@@ -1504,15 +1504,15 @@
           "durationMs": 6,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:46.281Z"
+          "startedAt": "2026-07-19T09:37:58.539Z"
         },
         {
           "title": "Screenshot",
           "category": "pw:api",
-          "durationMs": 83,
+          "durationMs": 78,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:46.288Z"
+          "startedAt": "2026-07-19T09:37:58.546Z"
         },
         {
           "title": "Attach \"products-page\"",
@@ -1520,15 +1520,15 @@
           "durationMs": 1,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:46.372Z"
+          "startedAt": "2026-07-19T09:37:58.624Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Add to cart' }).first()",
           "category": "pw:api",
-          "durationMs": 28,
+          "durationMs": 25,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:46.373Z"
+          "startedAt": "2026-07-19T09:37:58.627Z"
         },
         {
           "title": "Expect \"toHaveText\" locator('.shopping_cart_badge')",
@@ -1536,7 +1536,7 @@
           "durationMs": 2,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:46.401Z"
+          "startedAt": "2026-07-19T09:37:58.653Z"
         },
         {
           "title": "Screenshot",
@@ -1544,7 +1544,7 @@
           "durationMs": 52,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:46.404Z"
+          "startedAt": "2026-07-19T09:37:58.656Z"
         },
         {
           "title": "Attach \"cart-badge-visible\"",
@@ -1554,11 +1554,11 @@
           "screenshots": [
             "../test-results/ui-saucedemo-Shopping-Cart-61324-cart-smoke-critical-SCRUM-1-chromium/test-finished-1.png"
           ],
-          "startedAt": "2026-07-19T09:01:46.456Z"
+          "startedAt": "2026-07-19T09:37:58.708Z"
         }
       ],
-      "startedAt": "2026-07-19T09:01:45.993Z",
-      "finishedAt": "2026-07-19T09:01:46.592Z"
+      "startedAt": "2026-07-19T09:37:58.210Z",
+      "finishedAt": "2026-07-19T09:37:58.866Z"
     },
     {
       "id": "01371c430f27e24e4a",
@@ -1571,7 +1571,7 @@
       "flaky": false,
       "retries": 0,
       "retryIndex": 0,
-      "durationMs": 522,
+      "durationMs": 535,
       "browser": "chromium",
       "projectName": "chromium",
       "workerIndex": 0,
@@ -1615,18 +1615,18 @@
         {
           "title": "Navigate to \"/\"",
           "category": "pw:api",
-          "durationMs": 163,
+          "durationMs": 172,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:46.627Z"
+          "startedAt": "2026-07-19T09:37:58.901Z"
         },
         {
           "title": "Fill \"standard_user\" getByPlaceholder('Username')",
           "category": "pw:api",
-          "durationMs": 32,
+          "durationMs": 33,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:46.791Z"
+          "startedAt": "2026-07-19T09:37:59.074Z"
         },
         {
           "title": "Fill \"secret_sauce\" getByPlaceholder('Password')",
@@ -1634,47 +1634,47 @@
           "durationMs": 5,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:46.824Z"
+          "startedAt": "2026-07-19T09:37:59.108Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Login' })",
           "category": "pw:api",
-          "durationMs": 60,
+          "durationMs": 63,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:46.829Z"
+          "startedAt": "2026-07-19T09:37:59.114Z"
         },
         {
           "title": "Expect \"toHaveURL\"",
           "category": "expect",
-          "durationMs": 5,
+          "durationMs": 3,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:46.889Z"
+          "startedAt": "2026-07-19T09:37:59.177Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Add to cart' }).first()",
           "category": "pw:api",
-          "durationMs": 42,
+          "durationMs": 56,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:46.894Z"
+          "startedAt": "2026-07-19T09:37:59.181Z"
         },
         {
           "title": "Expect \"toHaveText\" locator('.shopping_cart_badge')",
           "category": "expect",
-          "durationMs": 2,
+          "durationMs": 3,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:46.937Z"
+          "startedAt": "2026-07-19T09:37:59.237Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Remove' }).first()",
           "category": "pw:api",
-          "durationMs": 27,
+          "durationMs": 28,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:46.940Z"
+          "startedAt": "2026-07-19T09:37:59.240Z"
         },
         {
           "title": "Expect \"not toBeVisible\" locator('.shopping_cart_badge')",
@@ -1684,11 +1684,11 @@
           "screenshots": [
             "../test-results/ui-saucedemo-Shopping-Cart-0f30b-remove-item-from-cart-smoke-chromium/test-finished-1.png"
           ],
-          "startedAt": "2026-07-19T09:01:46.967Z"
+          "startedAt": "2026-07-19T09:37:59.268Z"
         }
       ],
-      "startedAt": "2026-07-19T09:01:46.602Z",
-      "finishedAt": "2026-07-19T09:01:47.124Z"
+      "startedAt": "2026-07-19T09:37:58.875Z",
+      "finishedAt": "2026-07-19T09:37:59.410Z"
     },
     {
       "id": "58f7ebdb6df79b6c73",
@@ -1701,7 +1701,7 @@
       "flaky": false,
       "retries": 0,
       "retryIndex": 0,
-      "durationMs": 463,
+      "durationMs": 470,
       "browser": "chromium",
       "projectName": "chromium",
       "workerIndex": 0,
@@ -1745,42 +1745,42 @@
         {
           "title": "Navigate to \"/\"",
           "category": "pw:api",
-          "durationMs": 168,
+          "durationMs": 175,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:47.156Z"
+          "startedAt": "2026-07-19T09:37:59.456Z"
         },
         {
           "title": "Fill \"standard_user\" getByPlaceholder('Username')",
           "category": "pw:api",
-          "durationMs": 35,
+          "durationMs": 36,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:47.325Z"
+          "startedAt": "2026-07-19T09:37:59.632Z"
         },
         {
           "title": "Fill \"secret_sauce\" getByPlaceholder('Password')",
           "category": "pw:api",
-          "durationMs": 6,
+          "durationMs": 5,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:47.360Z"
+          "startedAt": "2026-07-19T09:37:59.668Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Login' })",
           "category": "pw:api",
-          "durationMs": 59,
+          "durationMs": 49,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:47.367Z"
+          "startedAt": "2026-07-19T09:37:59.674Z"
         },
         {
           "title": "Expect \"toHaveURL\"",
           "category": "expect",
-          "durationMs": 4,
+          "durationMs": 6,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:47.427Z"
+          "startedAt": "2026-07-19T09:37:59.724Z"
         },
         {
           "title": "Select option locator('.product_sort_container')",
@@ -1788,15 +1788,15 @@
           "durationMs": 16,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:47.432Z"
+          "startedAt": "2026-07-19T09:37:59.731Z"
         },
         {
           "title": "Evaluate locator('.inventory_item_price')",
           "category": "pw:api",
-          "durationMs": 22,
+          "durationMs": 18,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:47.449Z"
+          "startedAt": "2026-07-19T09:37:59.749Z"
         },
         {
           "title": "Expect \"toBeLessThanOrEqual\"",
@@ -1806,11 +1806,11 @@
           "screenshots": [
             "../test-results/ui-saucedemo-Shopping-Cart-576cf-roducts-by-price-regression-chromium/test-finished-1.png"
           ],
-          "startedAt": "2026-07-19T09:01:47.471Z"
+          "startedAt": "2026-07-19T09:37:59.768Z"
         }
       ],
-      "startedAt": "2026-07-19T09:01:47.132Z",
-      "finishedAt": "2026-07-19T09:01:47.595Z"
+      "startedAt": "2026-07-19T09:37:59.418Z",
+      "finishedAt": "2026-07-19T09:37:59.888Z"
     },
     {
       "id": "e7f53012b8239ee8da",
@@ -1823,7 +1823,7 @@
       "flaky": false,
       "retries": 0,
       "retryIndex": 0,
-      "durationMs": 408,
+      "durationMs": 402,
       "browser": "chromium",
       "projectName": "chromium",
       "workerIndex": 0,
@@ -1867,48 +1867,48 @@
         {
           "title": "Navigate to \"/\"",
           "category": "pw:api",
-          "durationMs": 165,
+          "durationMs": 162,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:47.628Z"
+          "startedAt": "2026-07-19T09:37:59.925Z"
         },
         {
           "title": "Fill \"locked_out_user\" getByPlaceholder('Username')",
           "category": "pw:api",
-          "durationMs": 33,
+          "durationMs": 36,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:47.793Z"
+          "startedAt": "2026-07-19T09:38:00.089Z"
         },
         {
           "title": "Fill \"secret_sauce\" getByPlaceholder('Password')",
           "category": "pw:api",
-          "durationMs": 5,
+          "durationMs": 6,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:47.826Z"
+          "startedAt": "2026-07-19T09:38:00.125Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Login' })",
           "category": "pw:api",
-          "durationMs": 41,
+          "durationMs": 43,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:47.832Z"
+          "startedAt": "2026-07-19T09:38:00.132Z"
         },
         {
           "title": "Expect \"toContainText\" locator('h3[data-test=\"error\"]')",
           "category": "expect",
-          "durationMs": 2,
+          "durationMs": 3,
           "status": "passed",
           "screenshots": [
             "../test-results/ui-saucedemo-Authenticatio-4c4f0-s-expected-error-smoke-auth-chromium/test-finished-1.png"
           ],
-          "startedAt": "2026-07-19T09:01:47.874Z"
+          "startedAt": "2026-07-19T09:38:00.176Z"
         }
       ],
-      "startedAt": "2026-07-19T09:01:47.603Z",
-      "finishedAt": "2026-07-19T09:01:48.011Z"
+      "startedAt": "2026-07-19T09:37:59.897Z",
+      "finishedAt": "2026-07-19T09:38:00.299Z"
     },
     {
       "id": "6865121c048e1e181d",
@@ -1921,7 +1921,7 @@
       "flaky": false,
       "retries": 0,
       "retryIndex": 0,
-      "durationMs": 3430,
+      "durationMs": 3462,
       "browser": "chromium",
       "projectName": "chromium",
       "workerIndex": 1,
@@ -2013,25 +2013,25 @@
         {
           "title": "Navigate to \"/\"",
           "category": "pw:api",
-          "durationMs": 187,
+          "durationMs": 191,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:45.557Z"
+          "startedAt": "2026-07-19T09:37:57.787Z"
         },
         {
           "title": "Expect \"toBeVisible\" locator('#this-element-does-not-exist')",
           "category": "expect",
-          "durationMs": 3003,
+          "durationMs": 3004,
           "status": "failed",
           "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('#this-element-does-not-exist')\nExpected: visible\nTimeout: 3000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 3000ms\u001b[22m\n\u001b[2m  - waiting for locator('#this-element-does-not-exist')\u001b[22m\n",
           "screenshots": [
             "../test-results/ui-dedup-demo-Dedup-Demo-b-df7d7-ils-—-dedup-demo-regression-chromium/test-finished-1.png"
           ],
-          "startedAt": "2026-07-19T09:01:45.745Z"
+          "startedAt": "2026-07-19T09:37:57.980Z"
         }
       ],
-      "startedAt": "2026-07-19T09:01:45.526Z",
-      "finishedAt": "2026-07-19T09:01:48.956Z"
+      "startedAt": "2026-07-19T09:37:57.759Z",
+      "finishedAt": "2026-07-19T09:38:01.221Z"
     },
     {
       "id": "9cce5099a4b9207f1e",
@@ -2044,7 +2044,7 @@
       "flaky": false,
       "retries": 0,
       "retryIndex": 0,
-      "durationMs": 463,
+      "durationMs": 448,
       "browser": "chromium",
       "projectName": "chromium",
       "workerIndex": 1,
@@ -2089,64 +2089,64 @@
         {
           "title": "Navigate to \"/\"",
           "category": "pw:api",
-          "durationMs": 169,
+          "durationMs": 174,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:49.007Z"
+          "startedAt": "2026-07-19T09:38:01.267Z"
         },
         {
           "title": "Fill \"standard_user\" getByPlaceholder('Username')",
           "category": "pw:api",
-          "durationMs": 31,
+          "durationMs": 33,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:49.176Z"
+          "startedAt": "2026-07-19T09:38:01.443Z"
         },
         {
           "title": "Fill \"secret_sauce\" getByPlaceholder('Password')",
           "category": "pw:api",
-          "durationMs": 4,
+          "durationMs": 6,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:49.207Z"
+          "startedAt": "2026-07-19T09:38:01.477Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Login' })",
           "category": "pw:api",
-          "durationMs": 60,
+          "durationMs": 58,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:49.212Z"
-        },
-        {
-          "title": "Expect \"toHaveURL\"",
-          "category": "expect",
-          "durationMs": 3,
-          "status": "passed",
-          "screenshots": [],
-          "startedAt": "2026-07-19T09:01:49.273Z"
-        },
-        {
-          "title": "Click locator('.shopping_cart_link')",
-          "category": "pw:api",
-          "durationMs": 69,
-          "status": "passed",
-          "screenshots": [],
-          "startedAt": "2026-07-19T09:01:49.276Z"
+          "startedAt": "2026-07-19T09:38:01.484Z"
         },
         {
           "title": "Expect \"toHaveURL\"",
           "category": "expect",
           "durationMs": 5,
           "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-07-19T09:38:01.543Z"
+        },
+        {
+          "title": "Click locator('.shopping_cart_link')",
+          "category": "pw:api",
+          "durationMs": 40,
+          "status": "passed",
+          "screenshots": [],
+          "startedAt": "2026-07-19T09:38:01.549Z"
+        },
+        {
+          "title": "Expect \"toHaveURL\"",
+          "category": "expect",
+          "durationMs": 1,
+          "status": "passed",
           "screenshots": [
             "../test-results/ui-saucedemo-Healer-Simula-81e71--auto-healed-smoke-critical-chromium/test-finished-1.png"
           ],
-          "startedAt": "2026-07-19T09:01:49.346Z"
+          "startedAt": "2026-07-19T09:38:01.590Z"
         }
       ],
-      "startedAt": "2026-07-19T09:01:48.981Z",
-      "finishedAt": "2026-07-19T09:01:49.444Z",
+      "startedAt": "2026-07-19T09:38:01.240Z",
+      "finishedAt": "2026-07-19T09:38:01.688Z",
       "healingEvent": {
         "outcome": "auto-healed",
         "reason": "page.locator('.shopping_cart_link') was stale after app update. Healer matched page.getByRole('link', { name: /cart/i }) with 94% confidence. Patched automatically."
@@ -2163,7 +2163,7 @@
       "flaky": false,
       "retries": 0,
       "retryIndex": 0,
-      "durationMs": 115,
+      "durationMs": 125,
       "browser": "chromium",
       "projectName": "chromium",
       "workerIndex": 1,
@@ -2199,8 +2199,8 @@
       "scenarioDescription": "Verifies that the Proceed to Checkout button is visible on the cart page",
       "consoleLogs": [],
       "steps": [],
-      "startedAt": "2026-07-19T09:01:49.452Z",
-      "finishedAt": "2026-07-19T09:01:49.567Z",
+      "startedAt": "2026-07-19T09:38:01.698Z",
+      "finishedAt": "2026-07-19T09:38:01.823Z",
       "healingEvent": {
         "outcome": "skipped-app-broken",
         "reason": "page.getByRole('button', { name: 'Proceed to Checkout' }) — element not found after redesign. Healer could not match with sufficient confidence. Skipped for manual review."
@@ -2217,7 +2217,7 @@
       "flaky": false,
       "retries": 0,
       "retryIndex": 0,
-      "durationMs": 5644,
+      "durationMs": 5675,
       "browser": "chromium",
       "projectName": "chromium",
       "workerIndex": 0,
@@ -2309,10 +2309,10 @@
         {
           "title": "Navigate to \"/\"",
           "category": "pw:api",
-          "durationMs": 163,
+          "durationMs": 178,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:48.043Z"
+          "startedAt": "2026-07-19T09:38:00.333Z"
         },
         {
           "title": "Fill \"standard_user\" getByPlaceholder('Username')",
@@ -2320,7 +2320,7 @@
           "durationMs": 31,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:48.207Z"
+          "startedAt": "2026-07-19T09:38:00.513Z"
         },
         {
           "title": "Fill \"secret_sauce\" getByPlaceholder('Password')",
@@ -2328,30 +2328,30 @@
           "durationMs": 5,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:48.239Z"
+          "startedAt": "2026-07-19T09:38:00.544Z"
         },
         {
           "title": "Click getByRole('button', { name: 'Login' })",
           "category": "pw:api",
-          "durationMs": 60,
+          "durationMs": 58,
           "status": "passed",
           "screenshots": [],
-          "startedAt": "2026-07-19T09:01:48.245Z"
+          "startedAt": "2026-07-19T09:38:00.549Z"
         },
         {
           "title": "Expect \"toBeVisible\" getByRole('heading', { name: 'Non Existing Header' })",
           "category": "expect",
-          "durationMs": 5001,
+          "durationMs": 5000,
           "status": "failed",
           "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'Non Existing Header' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'Non Existing Header' })\u001b[22m\n",
           "screenshots": [
             "../test-results/ui-saucedemo-AI-Failure-An-d5d6f-AI-analysis-demo-regression-chromium/test-finished-1.png"
           ],
-          "startedAt": "2026-07-19T09:01:48.305Z"
+          "startedAt": "2026-07-19T09:38:00.608Z"
         }
       ],
-      "startedAt": "2026-07-19T09:01:48.020Z",
-      "finishedAt": "2026-07-19T09:01:53.664Z"
+      "startedAt": "2026-07-19T09:38:00.308Z",
+      "finishedAt": "2026-07-19T09:38:05.983Z"
     },
     {
       "id": "1ccb9a952719",
@@ -3152,31 +3152,30 @@
     {
       "testName": " › chromium › ui/dedup-demo.spec.js › Dedup Demo › broken selector always fails — dedup demo @regression",
       "file": "tests/ui/dedup-demo.spec.js",
-      "summary": "The test 'broken selector always fails — dedup demo' intentionally uses a non-existent CSS selector '#this-element-does-not-exist' and asserts it is visible, causing a guaranteed failure. The element is never present in the DOM, so the locator times out after 3000ms.",
-      "likelyRootCause": "The test is deliberately written with a broken/invalid selector ('#this-element-does-not-exist') as a demonstration or deduplication example. This is an intentional test failure by design — the selector references an element that does not exist and never will exist in the application under test. The assertion `toBeVisible()` cannot pass because the element is absent from the DOM.",
+      "summary": "The test 'broken selector always fails — dedup demo' intentionally uses a non-existent CSS selector '#this-element-does-not-exist' and asserts it is visible. The element is never present in the DOM, causing the locator to time out after 3000ms and the assertion to fail. This appears to be a deliberately broken test case, likely used to demonstrate deduplication behavior in the reporting framework.",
+      "likelyRootCause": "The test is intentionally authored with a known-bad selector ('#this-element-does-not-exist') that will never resolve to a DOM element. The test name itself ('broken selector always fails') confirms this is a purposely failing test used as a demo/regression fixture for the playwright-spec-doc-reporter project, not a genuine application or infrastructure failure.",
       "confidence": 0.97,
-      "suggestedRemediation": "1. If this test is intentionally broken for deduplication/demo purposes, mark it with `test.fail()` so Playwright expects the failure and the suite remains green. 2. If the test is meant to validate a real element, replace '#this-element-does-not-exist' with the correct, stable CSS selector or a role/text-based Playwright locator for the target element. 3. If the test serves no production value, remove it from the regression suite or move it to a dedicated 'demo' suite excluded from CI gating.",
+      "suggestedRemediation": "No remediation is needed if this test is intentionally failing as a demo fixture. If it should be a real test, replace '#this-element-does-not-exist' with a valid, stable selector targeting an element that actually exists on the page. If the intent is to assert that an element does NOT exist, change the assertion to `toBeHidden()` or `not.toBeVisible()`. If this test must remain as a known-failing demo, consider marking it with `test.fail()` so Playwright treats the failure as expected and does not pollute CI results.",
       "issueCategory": "locator_drift",
       "structuredFeedback": {
-        "actionType": "fix_locator",
-        "reasoning": "The selector '#this-element-does-not-exist' is a placeholder/intentionally invalid identifier. It will never match any DOM element, making the `toBeVisible()` assertion impossible to satisfy. The fix depends on intent: either annotate the test as expected-to-fail with `test.fail()`, replace the selector with the real target element's locator, or remove the test from regression gating.",
-        "suggestedPatch": "// Option A — Mark as intentionally failing (keeps demo intent, stops CI noise)\ntest.fail();\nawait expect(page.locator('#this-element-does-not-exist')).toBeVisible({ timeout: 3000 });\n\n// Option B — Replace with a real, stable locator\nawait expect(page.getByRole('button', { name: 'Submit' })).toBeVisible({ timeout: 3000 });\n// or\nawait expect(page.locator('#real-element-id')).toBeVisible({ timeout: 3000 });\n\n// Option C — Remove the test from @regression tag if it is demo-only",
+        "actionType": "update_locator_or_mark_expected_failure",
+        "reasoning": "The selector '#this-element-does-not-exist' is a placeholder/intentionally invalid ID that will never match any DOM element. The test name explicitly states it 'always fails', confirming deliberate authorship. The fix depends on intent: (1) if demoing a broken selector, wrap with test.fail(); (2) if testing element absence, invert the assertion; (3) if this should be a real test, supply a correct selector.",
+        "suggestedPatch": "// Option A — Mark as intentionally failing (recommended for demo purposes)\ntest.fail();\nawait expect(page.locator('#this-element-does-not-exist')).toBeVisible({ timeout: 3000 });\n\n// Option B — Assert element is NOT visible (if testing absence)\nawait expect(page.locator('#this-element-does-not-exist')).not.toBeVisible({ timeout: 3000 });\n\n// Option C — Replace with a real, stable locator\nawait expect(page.locator('#actual-element-id')).toBeVisible({ timeout: 3000 });",
         "candidateLocators": [
-          "page.getByRole('heading', { level: 1 })",
-          "page.getByRole('main')",
-          "page.locator('body')",
-          "#real-element-id"
+          "#this-element-does-not-exist",
+          "role=main",
+          "data-testid=dedup-demo-target"
         ]
       },
       "rawModelResponse": {
         "model": "claude-sonnet-4-6",
-        "id": "msg_011CdB9M73MGXdnNLAoYHdB8",
+        "id": "msg_011CdBC7EiRamKxg4khGMZPd",
         "type": "message",
         "role": "assistant",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"summary\": \"The test 'broken selector always fails — dedup demo' intentionally uses a non-existent CSS selector '#this-element-does-not-exist' and asserts it is visible, causing a guaranteed failure. The element is never present in the DOM, so the locator times out after 3000ms.\",\n  \"likelyRootCause\": \"The test is deliberately written with a broken/invalid selector ('#this-element-does-not-exist') as a demonstration or deduplication example. This is an intentional test failure by design — the selector references an element that does not exist and never will exist in the application under test. The assertion `toBeVisible()` cannot pass because the element is absent from the DOM.\",\n  \"confidence\": 0.97,\n  \"suggestedRemediation\": \"1. If this test is intentionally broken for deduplication/demo purposes, mark it with `test.fail()` so Playwright expects the failure and the suite remains green. 2. If the test is meant to validate a real element, replace '#this-element-does-not-exist' with the correct, stable CSS selector or a role/text-based Playwright locator for the target element. 3. If the test serves no production value, remove it from the regression suite or move it to a dedicated 'demo' suite excluded from CI gating.\",\n  \"issueCategory\": \"locator_drift\",\n  \"structuredFeedback\": {\n    \"actionType\": \"fix_locator\",\n    \"reasoning\": \"The selector '#this-element-does-not-exist' is a placeholder/intentionally invalid identifier. It will never match any DOM element, making the `toBeVisible()` assertion impossible to satisfy. The fix depends on intent: either annotate the test as expected-to-fail with `test.fail()`, replace the selector with the real target element's locator, or remove the test from regression gating.\",\n    \"suggestedPatch\": \"// Option A — Mark as intentionally failing (keeps demo intent, stops CI noise)\\ntest.fail();\\nawait expect(page.locator('#this-element-does-not-exist')).toBeVisible({ timeout: 3000 });\\n\\n// Option B — Replace with a real, stable locator\\nawait expect(page.getByRole('button', { name: 'Submit' })).toBeVisible({ timeout: 3000 });\\n// or\\nawait expect(page.locator('#real-element-id')).toBeVisible({ timeout: 3000 });\\n\\n// Option C — Remove the test from @regression tag if it is demo-only\",\n    \"candidateLocators\": [\n      \"page.getByRole('heading', { level: 1 })\",\n      \"page.getByRole('main')\",\n      \"page.locator('body')\",\n      \"#real-element-id\"\n    ]\n  }\n}\n```"
+            "text": "```json\n{\n  \"summary\": \"The test 'broken selector always fails — dedup demo' intentionally uses a non-existent CSS selector '#this-element-does-not-exist' and asserts it is visible. The element is never present in the DOM, causing the locator to time out after 3000ms and the assertion to fail. This appears to be a deliberately broken test case, likely used to demonstrate deduplication behavior in the reporting framework.\",\n  \"likelyRootCause\": \"The test is intentionally authored with a known-bad selector ('#this-element-does-not-exist') that will never resolve to a DOM element. The test name itself ('broken selector always fails') confirms this is a purposely failing test used as a demo/regression fixture for the playwright-spec-doc-reporter project, not a genuine application or infrastructure failure.\",\n  \"confidence\": 0.97,\n  \"suggestedRemediation\": \"No remediation is needed if this test is intentionally failing as a demo fixture. If it should be a real test, replace '#this-element-does-not-exist' with a valid, stable selector targeting an element that actually exists on the page. If the intent is to assert that an element does NOT exist, change the assertion to `toBeHidden()` or `not.toBeVisible()`. If this test must remain as a known-failing demo, consider marking it with `test.fail()` so Playwright treats the failure as expected and does not pollute CI results.\",\n  \"issueCategory\": \"locator_drift\",\n  \"structuredFeedback\": {\n    \"actionType\": \"update_locator_or_mark_expected_failure\",\n    \"reasoning\": \"The selector '#this-element-does-not-exist' is a placeholder/intentionally invalid ID that will never match any DOM element. The test name explicitly states it 'always fails', confirming deliberate authorship. The fix depends on intent: (1) if demoing a broken selector, wrap with test.fail(); (2) if testing element absence, invert the assertion; (3) if this should be a real test, supply a correct selector.\",\n    \"suggestedPatch\": \"// Option A — Mark as intentionally failing (recommended for demo purposes)\\ntest.fail();\\nawait expect(page.locator('#this-element-does-not-exist')).toBeVisible({ timeout: 3000 });\\n\\n// Option B — Assert element is NOT visible (if testing absence)\\nawait expect(page.locator('#this-element-does-not-exist')).not.toBeVisible({ timeout: 3000 });\\n\\n// Option C — Replace with a real, stable locator\\nawait expect(page.locator('#actual-element-id')).toBeVisible({ timeout: 3000 });\",\n    \"candidateLocators\": [\n      \"#this-element-does-not-exist\",\n      \"role=main\",\n      \"data-testid=dedup-demo-target\"\n    ]\n  }\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -3190,7 +3189,7 @@
             "ephemeral_5m_input_tokens": 0,
             "ephemeral_1h_input_tokens": 0
           },
-          "output_tokens": 681,
+          "output_tokens": 697,
           "service_tier": "standard",
           "inference_geo": "global"
         }
@@ -3199,32 +3198,32 @@
     {
       "testName": " › chromium › ui/saucedemo.spec.js › AI Failure Analysis › intentional failure for AI analysis demo @regression",
       "file": "tests/ui/saucedemo.spec.js",
-      "summary": "The test 'intentional failure for AI analysis demo @regression' fails because it attempts to assert visibility of a heading element with the text 'Non Existing Header', which does not exist in the DOM. The locator `getByRole('heading', { name: 'Non Existing Header' })` never resolves within the 5000ms timeout, causing the `toBeVisible()` assertion to fail with 'element(s) not found'.",
-      "likelyRootCause": "The test is intentionally written to fail as a demo/example for AI failure analysis. The heading 'Non Existing Header' does not exist on the SauceDemo page at any point during the test execution. This is a deliberately incorrect assertion targeting a non-existent element, not a transient or environmental issue.",
+      "summary": "The test intentionally attempts to locate a heading element with the text 'Non Existing Header' using getByRole, which does not exist in the DOM. The assertion toBeVisible() fails after the 5000ms timeout because no such element is present on the page.",
+      "likelyRootCause": "This is a deliberately introduced test failure for demonstration purposes. The locator getByRole('heading', { name: 'Non Existing Header' }) targets a heading that was never rendered in the application, making the toBeVisible() assertion guaranteed to fail. The test name explicitly states 'intentional failure for AI analysis demo', confirming this is by design.",
       "confidence": 0.98,
-      "suggestedRemediation": "Since this is an intentional failure for demonstration purposes, no production fix is needed. However, if the intent is to make the test pass, replace 'Non Existing Header' with an actual heading that exists on the target page (e.g., 'Products' on the inventory page, or 'Swag Labs' in the header). If the test must remain as a demo of failure, consider marking it with `test.fail()` to explicitly document the expected failure and prevent it from breaking CI pipelines.",
+      "suggestedRemediation": "Since this is an intentional demo failure, no production fix is required. However, if this test needs to pass, replace 'Non Existing Header' with the actual heading text rendered on the page at that point in the user flow (e.g., 'Products' on the inventory page or 'Checkout' on the checkout page). Alternatively, if the intent is to validate a negative case (element should NOT exist), change the assertion to toBeHidden() or not.toBeVisible() to correctly express that expectation.",
       "issueCategory": "assertion_issue",
       "structuredFeedback": {
-        "actionType": "fix_assertion",
-        "reasoning": "The assertion targets a heading with text 'Non Existing Header' which is confirmed to not exist on the SauceDemo application. The test name itself ('intentional failure for AI analysis demo') confirms this is a deliberately broken assertion. The element is not missing due to timing, locator drift, or environment issues — it simply does not exist in the application's DOM. The fix is either to correct the expected heading name to one that actually renders on the page, or to use `test.fail()` to formally declare the test as an expected failure.",
-        "suggestedPatch": "// Option 1: Fix the assertion to target a real heading (e.g., after login on inventory page)\nawait expect(page.getByRole('heading', { name: 'Products' })).toBeVisible();\n\n// Option 2: Mark as intentionally failing to prevent CI breakage\ntest.fail();\nawait expect(page.getByRole('heading', { name: 'Non Existing Header' })).toBeVisible();",
+        "actionType": "update_assertion_or_locator",
+        "reasoning": "The failure is caused by a combination of a non-existent element name in the locator and a positive visibility assertion. The test name and context confirm this is intentional. The fix depends on intent: (1) if the test should pass, update the locator name to match a real heading; (2) if the test is validating absence of an element, invert the assertion. No timing or environment issues are present — the element simply does not exist in the DOM.",
+        "suggestedPatch": "// Option 1: Fix to assert a real heading that exists on the page\nawait expect(page.getByRole('heading', { name: 'Products' })).toBeVisible();\n\n// Option 2: If validating element absence, invert the assertion\nawait expect(page.getByRole('heading', { name: 'Non Existing Header' })).toBeHidden();\n// or\nawait expect(page.getByRole('heading', { name: 'Non Existing Header' })).not.toBeVisible();",
         "candidateLocators": [
           "getByRole('heading', { name: 'Products' })",
-          "getByRole('heading', { name: 'Swag Labs' })",
           "getByRole('heading', { name: 'Checkout: Your Information' })",
-          "locator('.title')",
-          "locator('.app_logo')"
+          "getByRole('heading', { name: 'Checkout: Overview' })",
+          "getByRole('heading', { name: 'Checkout: Complete!' })",
+          "locator('.title')"
         ]
       },
       "rawModelResponse": {
         "model": "claude-sonnet-4-6",
-        "id": "msg_011CdB9N4sQTrhhi6TNZdebf",
+        "id": "msg_011CdBC8DSoNC4aYBc42i6Zf",
         "type": "message",
         "role": "assistant",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"summary\": \"The test 'intentional failure for AI analysis demo @regression' fails because it attempts to assert visibility of a heading element with the text 'Non Existing Header', which does not exist in the DOM. The locator `getByRole('heading', { name: 'Non Existing Header' })` never resolves within the 5000ms timeout, causing the `toBeVisible()` assertion to fail with 'element(s) not found'.\",\n  \"likelyRootCause\": \"The test is intentionally written to fail as a demo/example for AI failure analysis. The heading 'Non Existing Header' does not exist on the SauceDemo page at any point during the test execution. This is a deliberately incorrect assertion targeting a non-existent element, not a transient or environmental issue.\",\n  \"confidence\": 0.98,\n  \"suggestedRemediation\": \"Since this is an intentional failure for demonstration purposes, no production fix is needed. However, if the intent is to make the test pass, replace 'Non Existing Header' with an actual heading that exists on the target page (e.g., 'Products' on the inventory page, or 'Swag Labs' in the header). If the test must remain as a demo of failure, consider marking it with `test.fail()` to explicitly document the expected failure and prevent it from breaking CI pipelines.\",\n  \"issueCategory\": \"assertion_issue\",\n  \"structuredFeedback\": {\n    \"actionType\": \"fix_assertion\",\n    \"reasoning\": \"The assertion targets a heading with text 'Non Existing Header' which is confirmed to not exist on the SauceDemo application. The test name itself ('intentional failure for AI analysis demo') confirms this is a deliberately broken assertion. The element is not missing due to timing, locator drift, or environment issues — it simply does not exist in the application's DOM. The fix is either to correct the expected heading name to one that actually renders on the page, or to use `test.fail()` to formally declare the test as an expected failure.\",\n    \"suggestedPatch\": \"// Option 1: Fix the assertion to target a real heading (e.g., after login on inventory page)\\nawait expect(page.getByRole('heading', { name: 'Products' })).toBeVisible();\\n\\n// Option 2: Mark as intentionally failing to prevent CI breakage\\ntest.fail();\\nawait expect(page.getByRole('heading', { name: 'Non Existing Header' })).toBeVisible();\",\n    \"candidateLocators\": [\n      \"getByRole('heading', { name: 'Products' })\",\n      \"getByRole('heading', { name: 'Swag Labs' })\",\n      \"getByRole('heading', { name: 'Checkout: Your Information' })\",\n      \"locator('.title')\",\n      \"locator('.app_logo')\"\n    ]\n  }\n}\n```"
+            "text": "```json\n{\n  \"summary\": \"The test intentionally attempts to locate a heading element with the text 'Non Existing Header' using getByRole, which does not exist in the DOM. The assertion toBeVisible() fails after the 5000ms timeout because no such element is present on the page.\",\n  \"likelyRootCause\": \"This is a deliberately introduced test failure for demonstration purposes. The locator getByRole('heading', { name: 'Non Existing Header' }) targets a heading that was never rendered in the application, making the toBeVisible() assertion guaranteed to fail. The test name explicitly states 'intentional failure for AI analysis demo', confirming this is by design.\",\n  \"confidence\": 0.98,\n  \"suggestedRemediation\": \"Since this is an intentional demo failure, no production fix is required. However, if this test needs to pass, replace 'Non Existing Header' with the actual heading text rendered on the page at that point in the user flow (e.g., 'Products' on the inventory page or 'Checkout' on the checkout page). Alternatively, if the intent is to validate a negative case (element should NOT exist), change the assertion to toBeHidden() or not.toBeVisible() to correctly express that expectation.\",\n  \"issueCategory\": \"assertion_issue\",\n  \"structuredFeedback\": {\n    \"actionType\": \"update_assertion_or_locator\",\n    \"reasoning\": \"The failure is caused by a combination of a non-existent element name in the locator and a positive visibility assertion. The test name and context confirm this is intentional. The fix depends on intent: (1) if the test should pass, update the locator name to match a real heading; (2) if the test is validating absence of an element, invert the assertion. No timing or environment issues are present — the element simply does not exist in the DOM.\",\n    \"suggestedPatch\": \"// Option 1: Fix to assert a real heading that exists on the page\\nawait expect(page.getByRole('heading', { name: 'Products' })).toBeVisible();\\n\\n// Option 2: If validating element absence, invert the assertion\\nawait expect(page.getByRole('heading', { name: 'Non Existing Header' })).toBeHidden();\\n// or\\nawait expect(page.getByRole('heading', { name: 'Non Existing Header' })).not.toBeVisible();\",\n    \"candidateLocators\": [\n      \"getByRole('heading', { name: 'Products' })\",\n      \"getByRole('heading', { name: 'Checkout: Your Information' })\",\n      \"getByRole('heading', { name: 'Checkout: Overview' })\",\n      \"getByRole('heading', { name: 'Checkout: Complete!' })\",\n      \"locator('.title')\"\n    ]\n  }\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -3238,7 +3237,7 @@
             "ephemeral_5m_input_tokens": 0,
             "ephemeral_1h_input_tokens": 0
           },
-          "output_tokens": 688,
+          "output_tokens": 681,
           "service_tier": "standard",
           "inference_geo": "global"
         }
@@ -3289,18 +3288,17 @@
       "testName": " › chromium › ui/dedup-demo.spec.js › Dedup Demo › broken selector always fails — dedup demo @regression",
       "file": "tests/ui/dedup-demo.spec.js",
       "stepName": "broken selector always fails — dedup demo @regression",
-      "failedLocator": "page.getByRole('heading', { level: 1 })",
+      "failedLocator": "#this-element-does-not-exist",
       "candidateLocators": [
-        "page.getByRole('heading', { level: 1 })",
-        "page.getByRole('main')",
-        "page.locator('body')",
-        "#real-element-id"
+        "#this-element-does-not-exist",
+        "role=main",
+        "data-testid=dedup-demo-target"
       ],
       "errorMessage": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('#this-element-does-not-exist')\nExpected: visible\nTimeout: 3000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 3000ms\u001b[22m\n\u001b[2m  - waiting for locator('#this-element-does-not-exist')\u001b[22m\n",
-      "suggestedPatch": "// Option A — Mark as intentionally failing (keeps demo intent, stops CI noise)\ntest.fail();\nawait expect(page.locator('#this-element-does-not-exist')).toBeVisible({ timeout: 3000 });\n\n// Option B — Replace with a real, stable locator\nawait expect(page.getByRole('button', { name: 'Submit' })).toBeVisible({ timeout: 3000 });\n// or\nawait expect(page.locator('#real-element-id')).toBeVisible({ timeout: 3000 });\n\n// Option C — Remove the test from @regression tag if it is demo-only",
-      "reasoning": "The selector '#this-element-does-not-exist' is a placeholder/intentionally invalid identifier. It will never match any DOM element, making the `toBeVisible()` assertion impossible to satisfy. The fix depends on intent: either annotate the test as expected-to-fail with `test.fail()`, replace the selector with the real target element's locator, or remove the test from regression gating.",
+      "suggestedPatch": "// Option A — Mark as intentionally failing (recommended for demo purposes)\ntest.fail();\nawait expect(page.locator('#this-element-does-not-exist')).toBeVisible({ timeout: 3000 });\n\n// Option B — Assert element is NOT visible (if testing absence)\nawait expect(page.locator('#this-element-does-not-exist')).not.toBeVisible({ timeout: 3000 });\n\n// Option C — Replace with a real, stable locator\nawait expect(page.locator('#actual-element-id')).toBeVisible({ timeout: 3000 });",
+      "reasoning": "The selector '#this-element-does-not-exist' is a placeholder/intentionally invalid ID that will never match any DOM element. The test name explicitly states it 'always fails', confirming deliberate authorship. The fix depends on intent: (1) if demoing a broken selector, wrap with test.fail(); (2) if testing element absence, invert the assertion; (3) if this should be a real test, supply a correct selector.",
       "confidence": 0.97,
-      "actionType": "fix_locator"
+      "actionType": "update_locator_or_mark_expected_failure"
     },
     {
       "testName": " › chromium › ui/saucedemo.spec.js › AI Failure Analysis › intentional failure for AI analysis demo @regression",
@@ -3309,16 +3307,16 @@
       "failedLocator": "getByRole('heading', { name: 'Products' })",
       "candidateLocators": [
         "getByRole('heading', { name: 'Products' })",
-        "getByRole('heading', { name: 'Swag Labs' })",
         "getByRole('heading', { name: 'Checkout: Your Information' })",
-        "locator('.title')",
-        "locator('.app_logo')"
+        "getByRole('heading', { name: 'Checkout: Overview' })",
+        "getByRole('heading', { name: 'Checkout: Complete!' })",
+        "locator('.title')"
       ],
       "errorMessage": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'Non Existing Header' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'Non Existing Header' })\u001b[22m\n",
-      "suggestedPatch": "// Option 1: Fix the assertion to target a real heading (e.g., after login on inventory page)\nawait expect(page.getByRole('heading', { name: 'Products' })).toBeVisible();\n\n// Option 2: Mark as intentionally failing to prevent CI breakage\ntest.fail();\nawait expect(page.getByRole('heading', { name: 'Non Existing Header' })).toBeVisible();",
-      "reasoning": "The assertion targets a heading with text 'Non Existing Header' which is confirmed to not exist on the SauceDemo application. The test name itself ('intentional failure for AI analysis demo') confirms this is a deliberately broken assertion. The element is not missing due to timing, locator drift, or environment issues — it simply does not exist in the application's DOM. The fix is either to correct the expected heading name to one that actually renders on the page, or to use `test.fail()` to formally declare the test as an expected failure.",
+      "suggestedPatch": "// Option 1: Fix to assert a real heading that exists on the page\nawait expect(page.getByRole('heading', { name: 'Products' })).toBeVisible();\n\n// Option 2: If validating element absence, invert the assertion\nawait expect(page.getByRole('heading', { name: 'Non Existing Header' })).toBeHidden();\n// or\nawait expect(page.getByRole('heading', { name: 'Non Existing Header' })).not.toBeVisible();",
+      "reasoning": "The failure is caused by a combination of a non-existent element name in the locator and a positive visibility assertion. The test name and context confirm this is intentional. The fix depends on intent: (1) if the test should pass, update the locator name to match a real heading; (2) if the test is validating absence of an element, invert the assertion. No timing or environment issues are present — the element simply does not exist in the DOM.",
       "confidence": 0.98,
-      "actionType": "fix_assertion"
+      "actionType": "update_assertion_or_locator"
     },
     {
       "testName": "Shopping Cart › Cart persists items after page refresh",
@@ -3351,7 +3349,38 @@
       "actionType": "investigate"
     }
   ],
-  "healingMarkdown": "# Healing Suggestions\n\n##  › chromium › ui/dedup-demo.spec.js › Dedup Demo › broken selector always fails — dedup demo @regression\n- File: tests/ui/dedup-demo.spec.js\n- Step: broken selector always fails — dedup demo @regression\n- Action: fix_locator\n- Confidence: 0.97\n- Error: Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('#this-element-does-not-exist')\nExpected: visible\nTimeout: 3000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 3000ms\u001b[22m\n\u001b[2m  - waiting for locator('#this-element-does-not-exist')\u001b[22m\n\n- Failed locator: page.getByRole('heading', { level: 1 })\n- Candidate locators: page.getByRole('heading', { level: 1 }), page.getByRole('main'), page.locator('body'), #real-element-id\n- Suggested patch:\n```diff\n// Option A — Mark as intentionally failing (keeps demo intent, stops CI noise)\ntest.fail();\nawait expect(page.locator('#this-element-does-not-exist')).toBeVisible({ timeout: 3000 });\n\n// Option B — Replace with a real, stable locator\nawait expect(page.getByRole('button', { name: 'Submit' })).toBeVisible({ timeout: 3000 });\n// or\nawait expect(page.locator('#real-element-id')).toBeVisible({ timeout: 3000 });\n\n// Option C — Remove the test from @regression tag if it is demo-only\n```\n- Reasoning: The selector '#this-element-does-not-exist' is a placeholder/intentionally invalid identifier. It will never match any DOM element, making the `toBeVisible()` assertion impossible to satisfy. The fix depends on intent: either annotate the test as expected-to-fail with `test.fail()`, replace the selector with the real target element's locator, or remove the test from regression gating.\n\n##  › chromium › ui/saucedemo.spec.js › AI Failure Analysis › intentional failure for AI analysis demo @regression\n- File: tests/ui/saucedemo.spec.js\n- Step: intentional failure for AI analysis demo @regression\n- Action: fix_assertion\n- Confidence: 0.98\n- Error: Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'Non Existing Header' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'Non Existing Header' })\u001b[22m\n\n- Failed locator: getByRole('heading', { name: 'Products' })\n- Candidate locators: getByRole('heading', { name: 'Products' }), getByRole('heading', { name: 'Swag Labs' }), getByRole('heading', { name: 'Checkout: Your Information' }), locator('.title'), locator('.app_logo')\n- Suggested patch:\n```diff\n// Option 1: Fix the assertion to target a real heading (e.g., after login on inventory page)\nawait expect(page.getByRole('heading', { name: 'Products' })).toBeVisible();\n\n// Option 2: Mark as intentionally failing to prevent CI breakage\ntest.fail();\nawait expect(page.getByRole('heading', { name: 'Non Existing Header' })).toBeVisible();\n```\n- Reasoning: The assertion targets a heading with text 'Non Existing Header' which is confirmed to not exist on the SauceDemo application. The test name itself ('intentional failure for AI analysis demo') confirms this is a deliberately broken assertion. The element is not missing due to timing, locator drift, or environment issues — it simply does not exist in the application's DOM. The fix is either to correct the expected heading name to one that actually renders on the page, or to use `test.fail()` to formally declare the test as an expected failure.\n\n## Shopping Cart › Cart persists items after page refresh\n- File: tests/manual-results.md\n- Step: Cart persists items after page refresh\n- Action: investigate\n- Confidence: 0\n- Error: Cart badge resets to 0 after hard refresh — session storage not persisted\n- Reasoning: Provider failed to return a valid analysis.\n\n## Authentication › Login error clears when user starts retyping\n- File: tests/manual-results.md\n- Step: Login error clears when user starts retyping\n- Action: investigate\n- Confidence: 0\n- Error: Error message persists even after the user clears the username field — no auto-dismiss\n- Reasoning: Provider failed to return a valid analysis.\n\n## Product Detail › Checkout cancel on step 2 returns to inventory\n- File: tests/manual-results.md\n- Step: Checkout cancel on step 2 returns to inventory\n- Action: investigate\n- Confidence: 0\n- Error: Cancel on step 2 navigates to /cart.html instead of /inventory.html — unexpected destination\n- Reasoning: Provider failed to return a valid analysis.\n",
+  "healingMarkdown": "# Healing Suggestions\n\n##  › chromium › ui/dedup-demo.spec.js › Dedup Demo › broken selector always fails — dedup demo @regression\n- File: tests/ui/dedup-demo.spec.js\n- Step: broken selector always fails — dedup demo @regression\n- Action: update_locator_or_mark_expected_failure\n- Confidence: 0.97\n- Error: Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('#this-element-does-not-exist')\nExpected: visible\nTimeout: 3000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 3000ms\u001b[22m\n\u001b[2m  - waiting for locator('#this-element-does-not-exist')\u001b[22m\n\n- Failed locator: #this-element-does-not-exist\n- Candidate locators: #this-element-does-not-exist, role=main, data-testid=dedup-demo-target\n- Suggested patch:\n```diff\n// Option A — Mark as intentionally failing (recommended for demo purposes)\ntest.fail();\nawait expect(page.locator('#this-element-does-not-exist')).toBeVisible({ timeout: 3000 });\n\n// Option B — Assert element is NOT visible (if testing absence)\nawait expect(page.locator('#this-element-does-not-exist')).not.toBeVisible({ timeout: 3000 });\n\n// Option C — Replace with a real, stable locator\nawait expect(page.locator('#actual-element-id')).toBeVisible({ timeout: 3000 });\n```\n- Reasoning: The selector '#this-element-does-not-exist' is a placeholder/intentionally invalid ID that will never match any DOM element. The test name explicitly states it 'always fails', confirming deliberate authorship. The fix depends on intent: (1) if demoing a broken selector, wrap with test.fail(); (2) if testing element absence, invert the assertion; (3) if this should be a real test, supply a correct selector.\n\n##  › chromium › ui/saucedemo.spec.js › AI Failure Analysis › intentional failure for AI analysis demo @regression\n- File: tests/ui/saucedemo.spec.js\n- Step: intentional failure for AI analysis demo @regression\n- Action: update_assertion_or_locator\n- Confidence: 0.98\n- Error: Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'Non Existing Header' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'Non Existing Header' })\u001b[22m\n\n- Failed locator: getByRole('heading', { name: 'Products' })\n- Candidate locators: getByRole('heading', { name: 'Products' }), getByRole('heading', { name: 'Checkout: Your Information' }), getByRole('heading', { name: 'Checkout: Overview' }), getByRole('heading', { name: 'Checkout: Complete!' }), locator('.title')\n- Suggested patch:\n```diff\n// Option 1: Fix to assert a real heading that exists on the page\nawait expect(page.getByRole('heading', { name: 'Products' })).toBeVisible();\n\n// Option 2: If validating element absence, invert the assertion\nawait expect(page.getByRole('heading', { name: 'Non Existing Header' })).toBeHidden();\n// or\nawait expect(page.getByRole('heading', { name: 'Non Existing Header' })).not.toBeVisible();\n```\n- Reasoning: The failure is caused by a combination of a non-existent element name in the locator and a positive visibility assertion. The test name and context confirm this is intentional. The fix depends on intent: (1) if the test should pass, update the locator name to match a real heading; (2) if the test is validating absence of an element, invert the assertion. No timing or environment issues are present — the element simply does not exist in the DOM.\n\n## Shopping Cart › Cart persists items after page refresh\n- File: tests/manual-results.md\n- Step: Cart persists items after page refresh\n- Action: investigate\n- Confidence: 0\n- Error: Cart badge resets to 0 after hard refresh — session storage not persisted\n- Reasoning: Provider failed to return a valid analysis.\n\n## Authentication › Login error clears when user starts retyping\n- File: tests/manual-results.md\n- Step: Login error clears when user starts retyping\n- Action: investigate\n- Confidence: 0\n- Error: Error message persists even after the user clears the username field — no auto-dismiss\n- Reasoning: Provider failed to return a valid analysis.\n\n## Product Detail › Checkout cancel on step 2 returns to inventory\n- File: tests/manual-results.md\n- Step: Checkout cancel on step 2 returns to inventory\n- Action: investigate\n- Confidence: 0\n- Error: Cancel on step 2 navigates to /cart.html instead of /inventory.html — unexpected destination\n- Reasoning: Provider failed to return a valid analysis.\n",
+  "flakinessScores": {
+    "tests/ui/checkout.spec.js::checkout requires first name @validation": 0,
+    "tests/ui/checkout.spec.js::complete checkout with one item @smoke @critical": 0,
+    "tests/ui/checkout.spec.js::checkout requires last name @validation": 0,
+    "tests/ui/checkout.spec.js::checkout requires postal code @validation": 0,
+    "tests/ui/checkout.spec.js::cancel checkout returns to inventory @regression": 0,
+    "tests/ui/checkout.spec.js::checkout with all 6 items shows correct count @regression": 0,
+    "tests/ui/checkout.spec.js::clicking product name opens detail page @smoke": 0,
+    "tests/ui/checkout.spec.js::back button on detail page returns to inventory @smoke": 0,
+    "tests/ui/checkout.spec.js::add to cart from detail page updates badge @regression": 0,
+    "tests/ui/saucedemo.spec.js::standard user can login and add item to cart @smoke @critical @SCRUM-1": 0,
+    "tests/ui/saucedemo.spec.js::user can remove item from cart @smoke": 0,
+    "tests/ui/saucedemo.spec.js::user can sort products by price @regression": 0,
+    "tests/ui/saucedemo.spec.js::locked out user sees expected error @smoke @auth": 0,
+    "tests/ui/dedup-demo.spec.js::broken selector always fails — dedup demo @regression": 0,
+    "tests/ui/saucedemo.spec.js::cart icon navigates to cart page (auto-healed) @smoke @critical": 0,
+    "tests/ui/saucedemo.spec.js::intentional failure for AI analysis demo @regression": 0,
+    "tests/manual-results.md::Standard user can view the product catalogue": 0,
+    "tests/manual-results.md::Product images load correctly on inventory page": 0,
+    "tests/manual-results.md::Cart persists items after page refresh": 0,
+    "tests/manual-results.md::User can sort products by name Z-A": 0,
+    "tests/manual-results.md::Standard user login with correct credentials": 0,
+    "tests/manual-results.md::Login page shows password field as masked": 0,
+    "tests/manual-results.md::Login error clears when user starts retyping": 0,
+    "tests/manual-results.md::Complete checkout happy path — exploratory session": 0,
+    "tests/manual-results.md::Checkout requires all three address fields": 0,
+    "tests/manual-results.md::Order summary shows correct item price before finishing": 0,
+    "tests/manual-results.md::Checkout cancel on step 2 returns to inventory": 0,
+    "tests/manual-results.md::Product detail page shows all required information": 0,
+    "tests/manual-results.md::Adding product from detail page updates cart badge": 0
+  },
   "theme": "dark-glossy",
   "healingSummary": {
     "totalAutoHealed": 1,
