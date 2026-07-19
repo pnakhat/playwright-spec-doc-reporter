@@ -966,6 +966,106 @@ export function getScriptRenderers(): string {
       '</svg>';
   }
 
+  var ROOT_CAUSE_LABELS = {
+    locator_drift: 'Locator drift',
+    timing_issue: 'Timing issue',
+    environment_issue: 'Environment issue',
+    test_data_issue: 'Test data issue',
+    assertion_issue: 'Assertion issue',
+    app_bug: 'App bug',
+    unknown: 'Unknown'
+  };
+  var ROOT_CAUSE_COLORS = {
+    locator_drift: '#f59e0b',
+    timing_issue: '#eab308',
+    environment_issue: '#8b5cf6',
+    test_data_issue: '#06b6d4',
+    assertion_issue: '#3b82f6',
+    app_bug: '#ef4444',
+    unknown: '#636b84'
+  };
+
+  // Mirrors aggregateRootCauseTrends() in src/utils/rootCauseTrends.ts — keep in sync.
+  function computeRootCauseMix(allRuns) {
+    var WINDOW = 10;
+    var runs = allRuns.slice(-WINDOW);
+    var points = [];
+    runs.forEach(function(run) {
+      var counts = {};
+      var total = 0;
+      (run.testSnapshots || []).forEach(function(s) {
+        var isFailure = s.status === 'failed' || s.status === 'timedOut';
+        if (!isFailure || !s.issueCategory) return;
+        counts[s.issueCategory] = (counts[s.issueCategory] || 0) + 1;
+        total++;
+      });
+      if (total === 0) return;
+      var percentages = {};
+      Object.keys(counts).forEach(function(cat) {
+        percentages[cat] = Math.round((counts[cat] / total) * 100);
+      });
+      points.push({ runId: run.runId, timestamp: run.timestamp, totalCategorized: total, counts: counts, percentages: percentages });
+    });
+    var latest = points[points.length - 1];
+    var earliest = points[0];
+    var deltas = null;
+    if (points.length >= 2) {
+      deltas = {};
+      var cats = {};
+      Object.keys(latest.percentages).forEach(function(c) { cats[c] = true; });
+      Object.keys(earliest.percentages).forEach(function(c) { cats[c] = true; });
+      Object.keys(cats).forEach(function(cat) {
+        deltas[cat] = (latest.percentages[cat] || 0) - (earliest.percentages[cat] || 0);
+      });
+    }
+    return { runsWithData: points.length, latest: latest, earliest: earliest, deltas: deltas };
+  }
+
+  function renderRootCauseTrends(allRuns) {
+    var body = document.getElementById('trends-rootcause-body');
+    if (!body) return;
+    var mix = computeRootCauseMix(allRuns);
+    if (!mix.latest) {
+      body.innerHTML = '<div class="trends-empty">No categorized failures yet \\u2014 enable AI analysis (ai.enabled) to see root-cause trends.</div>';
+      return;
+    }
+    var latest = mix.latest;
+    var order = Object.keys(latest.counts).sort(function(a, b) { return (latest.counts[b] || 0) - (latest.counts[a] || 0); });
+    var barHtml = order.map(function(cat) {
+      var pct = latest.percentages[cat] || 0;
+      var color = ROOT_CAUSE_COLORS[cat] || '#636b84';
+      return '<div class="trends-rootcause-bar-segment" style="width:' + pct + '%;background:' + color + '" title="' + escHtml(ROOT_CAUSE_LABELS[cat] || cat) + ': ' + pct + '%"></div>';
+    }).join('');
+    var legendHtml = order.map(function(cat) {
+      var pct = latest.percentages[cat] || 0;
+      var count = latest.counts[cat] || 0;
+      var color = ROOT_CAUSE_COLORS[cat] || '#636b84';
+      var deltaLabelHtml = '';
+      if (mix.deltas) {
+        var d = mix.deltas[cat] || 0;
+        if (d === 0) {
+          deltaLabelHtml = '<span class="trends-rootcause-legend-delta neutral">\\u2192 0</span>';
+        } else {
+          var up = d > 0;
+          deltaLabelHtml = '<span class="trends-rootcause-legend-delta ' + (up ? 'up' : 'down') + '">' + (up ? '\\u2191 +' : '\\u2193 ') + d + '</span>';
+        }
+      }
+      return '<div class="trends-rootcause-legend-item">' +
+        '<span class="trends-rootcause-legend-swatch" style="background:' + color + '"></span>' +
+        '<span class="trends-rootcause-legend-name">' + escHtml(ROOT_CAUSE_LABELS[cat] || cat) + '</span>' +
+        '<span style="color:var(--text3)">' + count + ' failure' + (count !== 1 ? 's' : '') + '</span>' +
+        '<span class="trends-rootcause-legend-pct">' + pct + '%</span>' +
+        deltaLabelHtml +
+      '</div>';
+    }).join('');
+    var noteHtml = mix.runsWithData < 2
+      ? '<div class="trends-rootcause-note">Based on the most recent analyzed run. Need \\u22652 AI-analyzed runs to show a trend direction.</div>'
+      : '<div class="trends-rootcause-note">Mix as of the latest analyzed run, vs. the earliest analyzed run in the last 10 \\u2014 ' + mix.runsWithData + ' run' + (mix.runsWithData !== 1 ? 's' : '') + ' with AI-categorized failures.</div>';
+    body.innerHTML = noteHtml +
+      '<div class="trends-rootcause-bar-track">' + barHtml + '</div>' +
+      '<div class="trends-rootcause-legend">' + legendHtml + '</div>';
+  }
+
   function renderTrends() {
     var runs = historyRuns;
     var subtitleEl = document.getElementById('trends-subtitle');
@@ -977,7 +1077,7 @@ export function getScriptRenderers(): string {
     if (runs.length === 0) {
       var chartsRow = document.getElementById('trends-charts-row');
       if (chartsRow) chartsRow.innerHTML = '<div class="trends-no-data" style="grid-column:1/-1"><div class="trends-no-data-icon">\\ud83d\\udcc8</div><div style="font-size:0.85rem;font-weight:700;color:var(--text1);margin-bottom:0.3rem">No history yet</div><div>Run your tests a few times to see trends, regressions, and performance analytics here.</div></div>';
-      ['trends-regression-list','trends-perf-list','trends-run-table'].forEach(function(id) {
+      ['trends-regression-list','trends-perf-list','trends-run-table','trends-rootcause-body'].forEach(function(id) {
         var el = document.getElementById(id);
         if (el) el.innerHTML = '<div class="trends-empty">No data yet.</div>';
       });
@@ -1039,6 +1139,9 @@ export function getScriptRenderers(): string {
       '</div>';
     var chartsRow = document.getElementById('trends-charts-row');
     if (chartsRow) chartsRow.innerHTML = chartsHtml;
+
+    // --- Root-cause trends ---
+    renderRootCauseTrends(runs);
 
     // --- Regressions ---
     var regressionItems = [];

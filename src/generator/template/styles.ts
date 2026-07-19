@@ -835,6 +835,18 @@ export function getStyles(): string {
     .trends-run-table td:first-child { color: var(--text1); font-weight: 600; }
     .trend-pass-rate-bar { display: inline-block; height: 6px; border-radius: 3px; background: var(--pass); min-width: 4px; vertical-align: middle; margin-right: 4px; }
     .trends-empty { padding: 1.5rem; text-align: center; color: var(--text3); font-size: 0.78rem; }
+    .trends-rootcause-note { font-size: 0.72rem; color: var(--text3); margin-bottom: 0.7rem; }
+    .trends-rootcause-bar-track { display: flex; width: 100%; height: 10px; border-radius: 5px; overflow: hidden; background: var(--bg3); margin-bottom: 0.85rem; }
+    .trends-rootcause-bar-segment { height: 100%; }
+    .trends-rootcause-legend { display: flex; flex-direction: column; gap: 0.4rem; }
+    .trends-rootcause-legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.78rem; color: var(--text2); }
+    .trends-rootcause-legend-swatch { width: 9px; height: 9px; border-radius: 2px; flex-shrink: 0; }
+    .trends-rootcause-legend-name { flex: 1; color: var(--text1); font-weight: 600; }
+    .trends-rootcause-legend-pct { font-family: var(--font-mono); font-weight: 700; color: var(--text1); min-width: 2.6em; text-align: right; }
+    .trends-rootcause-legend-delta { font-size: 0.72rem; font-weight: 600; min-width: 4.2em; text-align: right; }
+    .trends-rootcause-legend-delta.up { color: var(--fail); }
+    .trends-rootcause-legend-delta.down { color: var(--pass); }
+    .trends-rootcause-legend-delta.neutral { color: var(--text3); }
 
     /* Regression transition pills */
     .treg-transition { display: flex; align-items: center; gap: 5px; margin-top: 4px; }

@@ -20,6 +20,7 @@ import type {
 } from "../types/index.js";
 import { healingPayloadsToMarkdown } from "../healing/payload.js";
 import { computeFlakinessScores } from "../utils/flakiness.js";
+import { buildTestSnapshots } from "../utils/rootCauseTrends.js";
 
 const HISTORY_MAX_RUNS = 30;
 const HISTORY_FILE = "spec-doc-history.json";
@@ -80,25 +81,15 @@ function loadHistory(outputDir: string): HistoryData {
 function buildRunSnapshot(
   tests: NormalizedTestResult[],
   summary: ReportData["summary"],
-  env: ReportData["environment"]
+  env: ReportData["environment"],
+  analyses: AIAnalysisResult[]
 ): RunSnapshot {
   const runId = createHash("sha1")
     .update(`${new Date().toISOString()}:${summary.total}:${summary.passed}`)
     .digest("hex")
     .slice(0, 16);
 
-  // Deduplicate by file::title (last status wins, same as uniqueById logic)
-  const deduped = new Map<string, NormalizedTestResult>();
-  for (const t of tests) {
-    const key = `${t.file}::${t.title}`;
-    deduped.set(key, t);
-  }
-
-  const testSnapshots = [...deduped.entries()].map(([key, t]) => ({
-    key,
-    status: t.status,
-    durationMs: t.durationMs
-  }));
+  const testSnapshots = buildTestSnapshots(tests, analyses);
 
   return {
     runId,
@@ -167,7 +158,7 @@ export async function generateReport(
   };
 
   // Update and save history
-  const snapshot = buildRunSnapshot(tests, summary, environment);
+  const snapshot = buildRunSnapshot(tests, summary, environment, analyses);
   history.runs.push(snapshot);
   if (history.runs.length > HISTORY_MAX_RUNS) {
     history.runs = history.runs.slice(-HISTORY_MAX_RUNS);

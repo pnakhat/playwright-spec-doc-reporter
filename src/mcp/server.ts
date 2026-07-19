@@ -14,6 +14,7 @@ import { getFailedTestsTool } from "./tools/get-failed-tests.js";
 import { getHealingPayloadsTool } from "./tools/get-healing-payloads.js";
 import { getTestDetailTool } from "./tools/get-test-detail.js";
 import { getTrendsTool } from "./tools/get-trends.js";
+import { getRootCauseTrendsTool } from "./tools/get-root-cause-trends.js";
 import { getTraceabilityTool } from "./tools/get-traceability.js";
 import { triggerRerunTool } from "./tools/trigger-rerun.js";
 import { createLogger } from "./logger.js";
@@ -62,6 +63,7 @@ export function wireServer(config: McpServerConfig): {
     getTestDetailTool(outputDir),
     getHealingPayloadsTool(outputDir),
     getTrendsTool(outputDir),
+    getRootCauseTrendsTool(outputDir),
     getTraceabilityTool(outputDir),
     triggerRerunTool(outputDir),
   ];

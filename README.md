@@ -1613,6 +1613,7 @@ History is capped at **30 runs** (oldest entries dropped automatically).
 
 The Trends tab shows:
 - Pass rate / failure count / duration charts over time
+- **Root-cause trends** — when AI analysis (`ai.enabled: true`) is on, each failure's diagnosed category (`locator_drift`, `timing_issue`, `environment_issue`, `test_data_issue`, `assertion_issue`, `app_bug`, `unknown`) is persisted into history, so you can see whether failures are trending toward brittle locators or real app bugs
 - Regressions (tests that newly failed vs previous run)
 - Performance changes (tests that got significantly slower or faster)
 - Full run history table with branch and commit info
@@ -1837,6 +1838,7 @@ npx playwright-spec-doc-reporter mcp --stdio --output spec-doc-report
 | `get_test_detail` | Full detail for one test + AI analysis + healing payloads |
 | `get_healing_payloads` | Self-healing locator suggestions |
 | `get_trends` | Historical run snapshots (most recent first) |
+| `get_root_cause_trends` | Category-mix-over-time summary (locator_drift vs app_bug etc.), pre-aggregated |
 | `get_traceability` | Spec-to-test mapping and coverage stats |
 | `trigger_rerun` | Re-run the suite (optional `--grep`/`--project`), capture output |
 

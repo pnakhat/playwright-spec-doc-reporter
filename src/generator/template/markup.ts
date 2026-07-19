@@ -135,6 +135,10 @@ export function getMarkup(): string {
       </div>
     </div>
     <div class="trends-charts-row" id="trends-charts-row"></div>
+    <div class="trends-history-card" id="trends-rootcause-card">
+      <div class="trends-card-title">&#128269; Root-Cause Trends</div>
+      <div id="trends-rootcause-body"></div>
+    </div>
     <div class="trends-tables-row">
       <div class="trends-table-card" id="trends-regression-card">
         <div class="trends-card-title trends-card-title-fail">&#128683; Test Regressions</div>

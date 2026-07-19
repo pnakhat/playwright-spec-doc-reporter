@@ -103,6 +103,10 @@ export interface TestSnapshot {
   key: string;        // "file::title" stable identifier
   status: string;
   durationMs: number;
+  /** Root-cause category from a successful AI analysis, attached only to
+   *  failed/timedOut tests. Absent when AI is disabled, the test wasn't
+   *  analyzed, or the provider call failed. */
+  issueCategory?: IssueCategory;
 }
 
 export interface RunSnapshot {

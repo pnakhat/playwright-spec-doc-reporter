@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "1.0",
+  "runs": [
+    {
+      "runId": "run-1",
+      "timestamp": "2026-06-20T10:00:00.000Z",
+      "branch": "main",
+      "passRate": 50,
+      "summary": { "total": 2, "passed": 0, "failed": 2, "skipped": 0, "flaky": 0, "durationMs": 5000 },
+      "testSnapshots": [
+        { "key": "tests/login.spec.ts::t1", "status": "failed", "durationMs": 1000, "issueCategory": "locator_drift" },
+        { "key": "tests/login.spec.ts::t2", "status": "failed", "durationMs": 1000, "issueCategory": "locator_drift" }
+      ]
+    },
+    {
+      "runId": "run-2",
+      "timestamp": "2026-06-21T10:00:00.000Z",
+      "branch": "main",
+      "passRate": 75,
+      "summary": { "total": 2, "passed": 0, "failed": 2, "skipped": 0, "flaky": 0, "durationMs": 5200 },
+      "testSnapshots": [
+        { "key": "tests/login.spec.ts::t1", "status": "failed", "durationMs": 2000, "issueCategory": "app_bug" },
+        { "key": "tests/login.spec.ts::t2", "status": "failed", "durationMs": 2000, "issueCategory": "app_bug" }
+      ]
+    }
+  ]
+}

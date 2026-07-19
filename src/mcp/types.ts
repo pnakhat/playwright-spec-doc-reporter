@@ -6,7 +6,9 @@ import type {
   RunSnapshot,
   TraceabilityIndexData,
   HealingSummaryData,
+  IssueCategory,
 } from "../types/index.js";
+import type { RootCauseTrendPoint } from "../utils/rootCauseTrends.js";
 
 // ─── Server config & lifecycle ───
 
@@ -133,6 +135,17 @@ export interface TrendsResult {
   totalRuns: number;
   returned: number;
   runs: RunSnapshot[];
+}
+
+export interface RootCauseTrendsResult {
+  schemaVersion: string;
+  windowSize: number;
+  runsConsidered: number;
+  runsWithData: number;
+  points: RootCauseTrendPoint[];
+  latest?: RootCauseTrendPoint;
+  earliest?: RootCauseTrendPoint;
+  deltas?: Partial<Record<IssueCategory, number>>;
 }
 
 export interface TraceabilityResult {
