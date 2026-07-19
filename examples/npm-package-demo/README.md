@@ -5,7 +5,7 @@ A minimal example that consumes **the published npm package** —
 
 Unlike the other examples (which use a local `file:../..` path so they run
 against your working copy), this one pins the reporter to a registry version
-range (`^1.1.0` in [`package.json`](package.json)). Use it to smoke-test that a
+range (`^1.2.0` in [`package.json`](package.json)). Use it to smoke-test that a
 freshly published release installs and runs cleanly.
 
 ## Run it

@@ -7,6 +7,6 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.52.0",
-    "playwright-spec-doc-reporter": "^1.1.0"
+    "playwright-spec-doc-reporter": "^1.2.0"
   }
 }
