@@ -16,6 +16,7 @@ export function getScriptUtils(): string {
   const flakinessScores = (report.flakinessScores && typeof report.flakinessScores === 'object') ? report.flakinessScores : {};
   const traceabilityIndex = (report.traceabilityIndex && typeof report.traceabilityIndex === 'object') ? report.traceabilityIndex : null;
   const healingSummary = (report.healingSummary && typeof report.healingSummary === 'object') ? report.healingSummary : null;
+  const agenticInsights = (report.agenticInsights && typeof report.agenticInsights === 'object') ? report.agenticInsights : null;
   const galleryState = { items: [], index: 0, timer: null, title: '' };
 
   function getFlakinessScore(test) {

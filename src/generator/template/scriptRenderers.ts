@@ -1450,5 +1450,79 @@ export function getScriptRenderers(): string {
       '<div class="treq-cards-list">' + reqCardsHtml + '</div>';
   }
 
+  // ── Agentic Insights ──────────────────────────────────────────────────────
+  function renderAgenticInsights() {
+    var section = document.getElementById('agentic-insights-section');
+    if (!section) return;
+    if (!agenticInsights) return;
+
+    section.style.display = '';
+
+    var priIcon = { high: '\\ud83d\\udd34', medium: '\\ud83d\\udfe1', low: '\\ud83d\\udfe2' };
+
+    // Summary bar
+    var html = '<div class="section-header"><div class="section-title">\\ud83e\\udd16 Agentic Insights</div></div>';
+    html += '<div style="font-size:0.88rem;color:var(--text2);margin-bottom:1.25rem;line-height:1.6">' + escHtml(agenticInsights.summary) + '</div>';
+
+    // Recommendations
+    var recs = Array.isArray(agenticInsights.recommendations) ? agenticInsights.recommendations : [];
+    if (recs.length > 0) {
+      html += '<div style="font-size:0.78rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:0.75rem">Recommendations</div>';
+      html += '<div style="display:flex;flex-direction:column;gap:0.6rem">';
+      for (var ri = 0; ri < recs.length; ri++) {
+        var rec = recs[ri];
+        var icon = priIcon[rec.priority] || '\\u2022';
+        html +=
+          '<div style="display:flex;gap:0.7rem;align-items:flex-start;padding:0.6rem 0.9rem;background:var(--card2);border-radius:8px;border-left:3px solid var(--' + (rec.priority === 'high' ? 'fail' : rec.priority === 'medium' ? 'warn' : 'pass') + ')">' +
+            '<span style="font-size:1rem;line-height:1.4;flex-shrink:0">' + icon + '</span>' +
+            '<div>' +
+              '<div style="font-size:0.7rem;font-weight:700;color:var(--text3);text-transform:uppercase;margin-bottom:0.2rem">' + escHtml(rec.priority) + ' \\u00b7 ' + escHtml(rec.type.replace(/_/g,' ')) + '</div>' +
+              '<div style="font-size:0.82rem;color:var(--text1)">' + escHtml(rec.action) + '</div>' +
+            '</div>' +
+          '</div>';
+      }
+      html += '</div>';
+    }
+
+    // Overlap groups (collapsible)
+    var groups = Array.isArray(agenticInsights.overlapGroups) ? agenticInsights.overlapGroups : [];
+    if (groups.length > 0) {
+      html += '<details style="margin-top:1.25rem"><summary style="cursor:pointer;font-size:0.78rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.07em">Step Overlap Groups (' + groups.length + ')</summary>';
+      html += '<div style="margin-top:0.75rem;display:flex;flex-direction:column;gap:0.5rem">';
+      for (var gi = 0; gi < groups.length; gi++) {
+        var g = groups[gi];
+        html +=
+          '<div style="padding:0.6rem 0.9rem;background:var(--card2);border-radius:8px">' +
+            '<div style="font-size:0.8rem;font-weight:600;color:var(--text1);margin-bottom:0.3rem">' + escHtml(g.testTitles.join(' \\u00b7 ')) + '</div>' +
+            '<div style="font-size:0.7rem;color:var(--text3)">Similarity: ' + g.similarity + ' \\u00b7 ' + escHtml(g.recommendation.replace(/_/g,' ')) + '</div>' +
+            '<div style="font-size:0.7rem;color:var(--text3);margin-top:0.25rem">Shared: ' + escHtml(g.sharedSteps.slice(0,5).join(', ')) + (g.sharedSteps.length > 5 ? ', \\u2026' : '') + '</div>' +
+          '</div>';
+      }
+      html += '</div></details>';
+    }
+
+    // API conversion candidates (collapsible)
+    var cands = Array.isArray(agenticInsights.apiCandidates) ? agenticInsights.apiCandidates : [];
+    if (cands.length > 0) {
+      html += '<details style="margin-top:0.75rem"><summary style="cursor:pointer;font-size:0.78rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.07em">API Conversion Opportunities (' + cands.length + ')</summary>';
+      html += '<div style="margin-top:0.75rem;display:flex;flex-direction:column;gap:0.5rem">';
+      for (var ci = 0; ci < cands.length; ci++) {
+        var cand = cands[ci];
+        var scoreClass = cand.conversionClass === 'pure-api' ? 'var(--pass)' : cand.conversionClass === 'network-interception' ? 'var(--warn)' : 'var(--text3)';
+        html +=
+          '<div style="padding:0.6rem 0.9rem;background:var(--card2);border-radius:8px">' +
+            '<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.2rem">' +
+              '<span style="font-size:0.8rem;font-weight:600;color:var(--text1)">' + escHtml(cand.testTitle) + '</span>' +
+              '<span style="font-size:0.7rem;font-weight:700;color:' + scoreClass + '">' + escHtml(cand.conversionClass) + ' ' + Math.round(cand.conversionScore * 100) + '%</span>' +
+            '</div>' +
+            '<div style="font-size:0.7rem;color:var(--text3)">' + escHtml(cand.suggestion) + '</div>' +
+          '</div>';
+      }
+      html += '</div></details>';
+    }
+
+    section.innerHTML = html;
+  }
+
 `;
 }

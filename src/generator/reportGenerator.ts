@@ -18,9 +18,15 @@ import type {
   RunSnapshot,
   TraceabilityIndexData,
 } from "../types/index.js";
+import type { AgenticInsightsData } from "../types/agenticInsights.js";
 import { healingPayloadsToMarkdown } from "../healing/payload.js";
 import { computeFlakinessScores } from "../utils/flakiness.js";
 import { buildTestSnapshots } from "../utils/rootCauseTrends.js";
+import {
+  detectOverlaps,
+  scoreApiConvertibility,
+  correlateTimingAndApi,
+} from "../utils/stepAnalysis.js";
 
 const HISTORY_MAX_RUNS = 30;
 const HISTORY_FILE = "spec-doc-history.json";
@@ -137,6 +143,85 @@ export async function generateReport(
   const history = loadHistory(outputDir);
   const flakinessScores = computeFlakinessScores(history);
 
+  // Agentic insights (optional — computed only when agenticAnalysis.enabled)
+  let agenticInsights: AgenticInsightsData | undefined;
+  if (config.agenticAnalysis?.enabled) {
+    const threshold = config.agenticAnalysis.overlapThreshold ?? 0.6;
+    const minScore = config.agenticAnalysis.minConversionScore ?? 0.5;
+    const overlapGroups = detectOverlaps(tests, threshold);
+    const apiCandidates = scoreApiConvertibility(tests, minScore);
+    const timingCorrelations = correlateTimingAndApi(tests, analyses);
+
+    // Build prioritised recommendation list (mirrors analyzeRunTool logic)
+    const recommendations: AgenticInsightsData["recommendations"] = [];
+    for (const g of overlapGroups) {
+      recommendations.push({
+        priority: g.recommendation === "extract_page_object" ? "high" : g.recommendation === "refactor_into_shared_fixture" ? "medium" : "low",
+        type: g.recommendation === "extract_page_object" ? "extract_page_object" : "refactor_overlap",
+        affectedTestTitles: g.testTitles,
+        action: `${g.testTitles.length} tests share ${g.sharedSteps.length} step(s) (similarity ${g.similarity}): ${g.sharedSteps.slice(0, 3).join(", ")}${g.sharedSteps.length > 3 ? ", …" : ""}.`,
+      });
+    }
+    for (const c of apiCandidates) {
+      if (c.conversionClass === "pure-api" || c.conversionClass === "network-interception") {
+        recommendations.push({
+          priority: c.conversionClass === "pure-api" ? "high" : "medium",
+          type: c.conversionClass === "pure-api" ? "convert_to_api" : "add_network_interception",
+          affectedTestTitles: [c.testTitle],
+          action: c.suggestion,
+        });
+      }
+    }
+    for (const t of timingCorrelations) {
+      recommendations.push({
+        priority: "high",
+        type: "add_network_interception",
+        affectedTestTitles: [t.testTitle],
+        action: t.suggestion,
+      });
+    }
+    recommendations.sort((a, b) => {
+      const o: Record<string, number> = { high: 0, medium: 1, low: 2 };
+      return (o[a.priority] ?? 3) - (o[b.priority] ?? 3);
+    });
+
+    const parts: string[] = [];
+    if (overlapGroups.length > 0) {
+      parts.push(`${overlapGroups.length} step-overlap group(s) found — consider refactoring shared setup into fixtures.`);
+    }
+    const highApi = apiCandidates.filter(c => c.conversionClass === "pure-api" || c.conversionClass === "network-interception");
+    if (highApi.length > 0) {
+      parts.push(`${highApi.length} test(s) are API-convertibility candidates.`);
+    }
+    if (timingCorrelations.length > 0) {
+      parts.push(`${timingCorrelations.length} timing-issue test(s) have captured API traffic — use page.route() interception.`);
+    }
+    if (parts.length === 0) parts.push("No significant overlap or API-conversion opportunities detected.");
+
+    agenticInsights = {
+      summary: parts.join(" "),
+      overlapGroups: overlapGroups.map(g => ({
+        testTitles: g.testTitles,
+        sharedSteps: g.sharedSteps,
+        similarity: g.similarity,
+        recommendation: g.recommendation,
+      })),
+      apiCandidates: apiCandidates.map(c => ({
+        testTitle: c.testTitle,
+        conversionClass: c.conversionClass,
+        conversionScore: c.conversionScore,
+        endpoints: c.endpoints,
+        suggestion: c.suggestion,
+      })),
+      timingIssueApiCorrelations: timingCorrelations.map(t => ({
+        testTitle: t.testTitle,
+        endpoints: t.endpoints,
+        suggestion: t.suggestion,
+      })),
+      recommendations,
+    };
+  }
+
   const report: ReportData = {
     title: config.reportTitle ?? defaultConfig.reportTitle,
     generatedAt: new Date().toISOString(),
@@ -155,6 +240,7 @@ export async function generateReport(
     theme: config.theme ?? "dark-glossy",
     traceabilityIndex,
     healingSummary,
+    agenticInsights,
   };
 
   // Update and save history
