@@ -17,6 +17,7 @@ import { getTrendsTool } from "./tools/get-trends.js";
 import { getRootCauseTrendsTool } from "./tools/get-root-cause-trends.js";
 import { getTraceabilityTool } from "./tools/get-traceability.js";
 import { triggerRerunTool } from "./tools/trigger-rerun.js";
+import { analyzeRunTool } from "./tools/analyze-run.js";
 import { createLogger } from "./logger.js";
 import { McpToolError } from "./types.js";
 import type { McpServer, McpServerConfig, McpTool, SseOptions } from "./types.js";
@@ -66,6 +67,7 @@ export function wireServer(config: McpServerConfig): {
     getRootCauseTrendsTool(outputDir),
     getTraceabilityTool(outputDir),
     triggerRerunTool(outputDir),
+    analyzeRunTool(outputDir),
   ];
   const toolsByName = new Map(tools.map(t => [t.name, t]));
 
