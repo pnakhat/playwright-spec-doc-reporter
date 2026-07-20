@@ -1948,7 +1948,7 @@ test("checkout completes", async ({ page, request }) => {
 
 Tests with captured `apiEntries` get precise API-convertibility scores. Tests without them are scored only on step-title keywords (`GET`, `POST`, `fetch`, `request`, etc.).
 
-**Migration note for E2E test suites:** When `analyze_run` reports an `extract_page_object` overlap group, the recommended refactoring is to use `test.extend` from `@playwright/test` to create a typed fixture that centralises the shared navigation/setup steps. This eliminates repeated `beforeEach` boilerplate and makes tests more readable.
+**Migration note for E2E test suites:** When `analyze_run` reports an `extract_page_object` overlap group, the recommended refactoring is to use `test.extend` from `@playwright/test` to create a typed fixture that centralizes the shared navigation/setup steps. This eliminates repeated `beforeEach` boilerplate and makes tests more readable.
 
 ```ts
 // tests/e2e/fixtures.ts

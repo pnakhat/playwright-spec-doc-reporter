@@ -10,7 +10,7 @@ import type { AIAnalysisResult, ApiEntry, NormalizedTestResult } from "../types/
 export type OverlapRecommendation =
   | "refactor_into_shared_fixture"
   | "extract_page_object"
-  | "parameterise";
+  | "parameterize";
 
 export interface StepOverlapGroup {
   /** Stable test IDs of the members of this overlap group. */
@@ -81,7 +81,7 @@ function jaccard(a: Set<string>, b: Set<string>): number {
 function pickRecommendation(sharedCount: number): OverlapRecommendation {
   if (sharedCount >= 5) return "extract_page_object";
   if (sharedCount >= 3) return "refactor_into_shared_fixture";
-  return "parameterise";
+  return "parameterize";
 }
 
 /** Return deduplicated endpoint URLs from a list of ApiEntry items. */

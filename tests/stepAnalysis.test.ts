@@ -106,7 +106,7 @@ describe("detectOverlaps", () => {
     expect(groups[0].recommendation).toBe("refactor_into_shared_fixture");
   });
 
-  it("assigns parameterise for 1-2 shared steps", () => {
+  it("assigns parameterize for 1-2 shared steps", () => {
     const shared = [makeStep("navigate to page"), makeStep("submit form")];
     const other = Array.from({ length: 5 }, (_, i) => makeStep(`unique step ${i}`));
     const tests = [
@@ -115,7 +115,7 @@ describe("detectOverlaps", () => {
     ];
     // These share 2 steps out of 5+5 union — Jaccard ~0.22, so use a low threshold
     const groups = detectOverlaps(tests, 0.2);
-    expect(groups[0].recommendation).toBe("parameterise");
+    expect(groups[0].recommendation).toBe("parameterize");
   });
 
   it("merges three tests into one group when they all overlap", () => {

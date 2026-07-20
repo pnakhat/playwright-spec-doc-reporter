@@ -61,7 +61,7 @@ test.describe("Tab Navigation", () => {
     await expect(page.locator("#page-overview")).not.toHaveClass(/active/);
   });
 
-  // Parameterise the 4 remaining "tab shows panel" tests — each follows the same pattern.
+  // Parameterize the 4 remaining "tab shows panel" tests — each follows the same pattern.
   for (const { tabName, panelId } of [
     { tabName: "ai",     panelId: "#page-ai"     },
     { tabName: "trends", panelId: "#page-trends"  },
@@ -130,7 +130,7 @@ test.describe("Tests Page", () => {
     await expect(suites).not.toHaveCount(0);
   });
 
-  // Parameterise: all four status filter buttons share the same visibility pattern.
+  // Parameterize: all four status filter buttons share the same visibility pattern.
   for (const filter of ["all", "passed", "failed", "skipped"]) {
     test(`${filter} filter button is visible`, async ({ page }) => {
       await expect(page.locator(`.filter-btn[data-filter="${filter}"]`)).toBeVisible();
@@ -197,7 +197,7 @@ test.describe("Tests Page", () => {
     await expect(page.locator(".section-actions")).toBeVisible();
   });
 
-  // Parameterise: section-actions is hidden on every non-All tab.
+  // Parameterize: section-actions is hidden on every non-All tab.
   for (const tab of ["failed", "passed", "skipped", "healing"]) {
     test(`Expand All and Collapse All buttons are hidden on the ${tab} tab`, async ({ page }) => {
       await page.locator(`.tab-btn[data-tab="${tab}"]`).click();
@@ -296,7 +296,7 @@ test.describe("Docs Page", () => {
     await expect(page.locator("#docMarkdownContent")).toContainText("## Feature:");
   });
 
-  // Parameterise: both format buttons share the same visibility check.
+  // Parameterize: both format buttons share the same visibility check.
   for (const tab of ["md", "html"]) {
     test(`${tab} format button is visible`, async ({ page }) => {
       await expect(page.locator(`.docs-fmt-btn[data-doc-tab="${tab}"]`)).toBeVisible();
@@ -389,7 +389,7 @@ test.describe("Docs Page", () => {
     await expect(page.locator(".docs-doc-header #docDownloadHtmlBtnHdr")).toBeVisible();
   });
 
-  // Parameterise: both view-toggle buttons share the same visibility check.
+  // Parameterize: both view-toggle buttons share the same visibility check.
   for (const view of ["source", "preview"]) {
     test(`${view} view toggle button is visible`, async ({ page }) => {
       await expect(page.locator(`.docs-view-btn[data-doc-view="${view}"]`)).toBeVisible();
