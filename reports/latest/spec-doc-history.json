@@ -523,6 +523,181 @@
           "durationMs": 0
         }
       ]
+    },
+    {
+      "runId": "90bca759a111c383",
+      "timestamp": "2026-07-23T11:17:55.132Z",
+      "branch": "main",
+      "commit": "d33601ae",
+      "passRate": 77,
+      "playwrightVersion": "1.58.2",
+      "summary": {
+        "total": 31,
+        "passed": 24,
+        "failed": 5,
+        "skipped": 2,
+        "flaky": 0,
+        "durationMs": 19096
+      },
+      "testSnapshots": [
+        {
+          "key": "tests/ui/checkout.spec.js::checkout requires first name @validation",
+          "status": "passed",
+          "durationMs": 896
+        },
+        {
+          "key": "tests/ui/checkout.spec.js::complete checkout with one item @smoke @critical",
+          "status": "passed",
+          "durationMs": 1027
+        },
+        {
+          "key": "tests/ui/checkout.spec.js::checkout requires last name @validation",
+          "status": "passed",
+          "durationMs": 778
+        },
+        {
+          "key": "tests/ui/checkout.spec.js::checkout requires postal code @validation",
+          "status": "passed",
+          "durationMs": 743
+        },
+        {
+          "key": "tests/ui/checkout.spec.js::checkout with all 6 items shows correct count @regression",
+          "status": "passed",
+          "durationMs": 850
+        },
+        {
+          "key": "tests/ui/checkout.spec.js::cancel checkout returns to inventory @regression",
+          "status": "passed",
+          "durationMs": 776
+        },
+        {
+          "key": "tests/ui/checkout.spec.js::clicking product name opens detail page @smoke",
+          "status": "passed",
+          "durationMs": 685
+        },
+        {
+          "key": "tests/ui/checkout.spec.js::back button on detail page returns to inventory @smoke",
+          "status": "passed",
+          "durationMs": 715
+        },
+        {
+          "key": "tests/ui/checkout.spec.js::add to cart from detail page updates badge @regression",
+          "status": "passed",
+          "durationMs": 587
+        },
+        {
+          "key": "tests/ui/saucedemo.spec.js::standard user can login and add item to cart @smoke @critical @SCRUM-1",
+          "status": "passed",
+          "durationMs": 680
+        },
+        {
+          "key": "tests/ui/saucedemo.spec.js::user can remove item from cart @smoke",
+          "status": "passed",
+          "durationMs": 527
+        },
+        {
+          "key": "tests/ui/saucedemo.spec.js::user can sort products by price @regression",
+          "status": "passed",
+          "durationMs": 488
+        },
+        {
+          "key": "tests/ui/saucedemo.spec.js::locked out user sees expected error @smoke @auth",
+          "status": "passed",
+          "durationMs": 382
+        },
+        {
+          "key": "tests/ui/dedup-demo.spec.js::broken selector always fails — dedup demo @regression",
+          "status": "failed",
+          "durationMs": 3482
+        },
+        {
+          "key": "tests/ui/saucedemo.spec.js::cart icon navigates to cart page (auto-healed) @smoke @critical",
+          "status": "passed",
+          "durationMs": 465
+        },
+        {
+          "key": "tests/ui/saucedemo.spec.js::checkout button is visible on cart page (skipped-app-broken) @regression",
+          "status": "skipped",
+          "durationMs": 210
+        },
+        {
+          "key": "tests/ui/saucedemo.spec.js::intentional failure for AI analysis demo @regression",
+          "status": "failed",
+          "durationMs": 5805,
+          "issueCategory": "assertion_issue"
+        },
+        {
+          "key": "tests/manual-results.md::Standard user can view the product catalogue",
+          "status": "passed",
+          "durationMs": 0
+        },
+        {
+          "key": "tests/manual-results.md::Product images load correctly on inventory page",
+          "status": "passed",
+          "durationMs": 0
+        },
+        {
+          "key": "tests/manual-results.md::Cart persists items after page refresh",
+          "status": "failed",
+          "durationMs": 0
+        },
+        {
+          "key": "tests/manual-results.md::User can sort products by name Z-A",
+          "status": "passed",
+          "durationMs": 0
+        },
+        {
+          "key": "tests/manual-results.md::Standard user login with correct credentials",
+          "status": "passed",
+          "durationMs": 0
+        },
+        {
+          "key": "tests/manual-results.md::Login page shows password field as masked",
+          "status": "passed",
+          "durationMs": 0
+        },
+        {
+          "key": "tests/manual-results.md::Login error clears when user starts retyping",
+          "status": "failed",
+          "durationMs": 0
+        },
+        {
+          "key": "tests/manual-results.md::Performance glitch user experiences delayed page load",
+          "status": "skipped",
+          "durationMs": 0
+        },
+        {
+          "key": "tests/manual-results.md::Complete checkout happy path — exploratory session",
+          "status": "passed",
+          "durationMs": 0
+        },
+        {
+          "key": "tests/manual-results.md::Checkout requires all three address fields",
+          "status": "passed",
+          "durationMs": 0
+        },
+        {
+          "key": "tests/manual-results.md::Order summary shows correct item price before finishing",
+          "status": "passed",
+          "durationMs": 0
+        },
+        {
+          "key": "tests/manual-results.md::Checkout cancel on step 2 returns to inventory",
+          "status": "failed",
+          "durationMs": 0,
+          "issueCategory": "app_bug"
+        },
+        {
+          "key": "tests/manual-results.md::Product detail page shows all required information",
+          "status": "passed",
+          "durationMs": 0
+        },
+        {
+          "key": "tests/manual-results.md::Adding product from detail page updates cart badge",
+          "status": "passed",
+          "durationMs": 0
+        }
+      ]
     }
   ]
 }
