@@ -19,6 +19,7 @@ export function getScriptInit(): string {
   renderScreenshotsTab();
   renderVideosTab();
   renderExecutiveSummary();
+  renderAgenticInsights();
   renderTrends();
   bindFilters();
   bindGalleryControls();

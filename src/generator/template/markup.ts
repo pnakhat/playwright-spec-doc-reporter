@@ -71,6 +71,8 @@ export function getMarkup(): string {
     <section class="section" id="healer-activity-section"></section>
 
     <section class="section" id="exec-summary-section"></section>
+
+    <section class="section" id="agentic-insights-section" style="display:none"></section>
   </div>
 
   <!-- Tests Page -->

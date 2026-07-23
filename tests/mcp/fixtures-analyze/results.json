@@ -1,0 +1,207 @@
+{
+  "title": "Analyze Run Fixture Suite",
+  "generatedAt": "2026-06-22T10:00:00.000Z",
+  "environment": {
+    "nodeVersion": "v20.0.0",
+    "platform": "linux",
+    "ci": "github",
+    "playwrightVersion": "1.52.0",
+    "projects": ["chromium"],
+    "browsers": ["chromium"],
+    "workers": 2
+  },
+  "summary": {
+    "total": 6,
+    "passed": 3,
+    "failed": 2,
+    "skipped": 0,
+    "flaky": 1,
+    "timedOut": 0,
+    "interrupted": 0,
+    "durationMs": 8500,
+    "averageDurationMs": 1416
+  },
+  "tests": [
+    {
+      "id": "t-login-a",
+      "suite": "auth",
+      "file": "tests/auth.spec.ts",
+      "title": "logs in and checks welcome message",
+      "fullName": "auth > logs in and checks welcome message",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "flaky": false,
+      "retries": 0,
+      "retryIndex": 0,
+      "durationMs": 1200,
+      "attachments": [],
+      "artifacts": { "screenshots": [], "videos": [], "traces": [] },
+      "consoleLogs": [],
+      "tags": ["@smoke"],
+      "steps": [
+        { "title": "navigate to login page", "category": "pw:api", "durationMs": 100, "status": "passed", "screenshots": [] },
+        { "title": "fill email field", "category": "pw:api", "durationMs": 80, "status": "passed", "screenshots": [] },
+        { "title": "fill password field", "category": "pw:api", "durationMs": 80, "status": "passed", "screenshots": [] },
+        { "title": "click login button", "category": "pw:api", "durationMs": 100, "status": "passed", "screenshots": [] },
+        { "title": "verify dashboard is visible", "category": "pw:api", "durationMs": 150, "status": "passed", "screenshots": [] },
+        { "title": "check welcome message", "category": "pw:api", "durationMs": 80, "status": "passed", "screenshots": [] }
+      ]
+    },
+    {
+      "id": "t-login-b",
+      "suite": "auth",
+      "file": "tests/auth.spec.ts",
+      "title": "logs in and verifies user menu",
+      "fullName": "auth > logs in and verifies user menu",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "flaky": false,
+      "retries": 0,
+      "retryIndex": 0,
+      "durationMs": 1100,
+      "attachments": [],
+      "artifacts": { "screenshots": [], "videos": [], "traces": [] },
+      "consoleLogs": [],
+      "tags": ["@smoke"],
+      "steps": [
+        { "title": "navigate to login page", "category": "pw:api", "durationMs": 100, "status": "passed", "screenshots": [] },
+        { "title": "fill email field", "category": "pw:api", "durationMs": 80, "status": "passed", "screenshots": [] },
+        { "title": "fill password field", "category": "pw:api", "durationMs": 80, "status": "passed", "screenshots": [] },
+        { "title": "click login button", "category": "pw:api", "durationMs": 100, "status": "passed", "screenshots": [] },
+        { "title": "verify dashboard is visible", "category": "pw:api", "durationMs": 150, "status": "passed", "screenshots": [] },
+        { "title": "verify user menu is shown", "category": "pw:api", "durationMs": 80, "status": "passed", "screenshots": [] }
+      ]
+    },
+    {
+      "id": "t-cart-remove",
+      "suite": "cart",
+      "file": "tests/cart.spec.ts",
+      "title": "removes an item from the cart",
+      "fullName": "cart > removes an item from the cart",
+      "status": "passed",
+      "expectedStatus": "passed",
+      "flaky": false,
+      "retries": 0,
+      "retryIndex": 0,
+      "durationMs": 900,
+      "attachments": [],
+      "artifacts": { "screenshots": [], "videos": [], "traces": [] },
+      "consoleLogs": [],
+      "tags": [],
+      "apiEntries": [
+        { "kind": "request", "method": "DELETE", "url": "https://api.shop.com/cart/items/42", "status": 200 }
+      ],
+      "steps": [
+        { "title": "delete cart item", "category": "pw:api", "durationMs": 200, "status": "passed", "screenshots": [] },
+        { "title": "verify cart response", "category": "pw:api", "durationMs": 150, "status": "passed", "screenshots": [] },
+        { "title": "get cart count", "category": "pw:api", "durationMs": 100, "status": "passed", "screenshots": [] },
+        { "title": "verify empty cart ui is shown", "category": "pw:api", "durationMs": 120, "status": "passed", "screenshots": [] }
+      ]
+    },
+    {
+      "id": "t-cart-add",
+      "suite": "cart",
+      "file": "tests/cart.spec.ts",
+      "title": "adds an item to the cart",
+      "fullName": "cart > adds an item to the cart",
+      "status": "failed",
+      "expectedStatus": "passed",
+      "flaky": false,
+      "retries": 1,
+      "retryIndex": 1,
+      "durationMs": 2000,
+      "errorMessage": "Timeout 10000ms exceeded waiting for element.",
+      "attachments": [],
+      "artifacts": { "screenshots": [], "videos": [], "traces": [] },
+      "consoleLogs": [],
+      "tags": [],
+      "apiEntries": [
+        { "kind": "request", "method": "POST", "url": "https://api.shop.com/cart/add", "status": 200 },
+        { "kind": "response", "method": "POST", "url": "https://api.shop.com/cart/add", "status": 200 }
+      ],
+      "steps": [
+        { "title": "navigate to product page", "category": "pw:api", "durationMs": 300, "status": "passed", "screenshots": [] },
+        { "title": "click add to cart button", "category": "pw:api", "durationMs": 100, "status": "passed", "screenshots": [] },
+        { "title": "wait for cart badge to update", "category": "pw:api", "durationMs": 1000, "status": "failed", "screenshots": [] }
+      ]
+    },
+    {
+      "id": "t-checkout",
+      "suite": "checkout",
+      "file": "tests/checkout.spec.ts",
+      "title": "checkout completes successfully",
+      "fullName": "checkout > checkout completes successfully",
+      "status": "failed",
+      "expectedStatus": "passed",
+      "flaky": false,
+      "retries": 1,
+      "retryIndex": 1,
+      "durationMs": 2500,
+      "errorMessage": "Timeout 10000ms exceeded waiting for confirmation.",
+      "attachments": [],
+      "artifacts": { "screenshots": [], "videos": [], "traces": [] },
+      "consoleLogs": [],
+      "tags": [],
+      "apiEntries": [
+        { "kind": "request", "method": "POST", "url": "https://api.shop.com/checkout/submit", "status": 200 },
+        { "kind": "response", "method": "POST", "url": "https://api.shop.com/checkout/submit", "status": 200 }
+      ],
+      "steps": [
+        { "title": "fill shipping details", "category": "pw:api", "durationMs": 400, "status": "passed", "screenshots": [] },
+        { "title": "click place order button", "category": "pw:api", "durationMs": 100, "status": "passed", "screenshots": [] },
+        { "title": "wait for confirmation page", "category": "pw:api", "durationMs": 1500, "status": "failed", "screenshots": [] }
+      ]
+    },
+    {
+      "id": "t-product-search",
+      "suite": "search",
+      "file": "tests/search.spec.ts",
+      "title": "searches for a product by name",
+      "fullName": "search > searches for a product by name",
+      "status": "flaky",
+      "expectedStatus": "passed",
+      "flaky": true,
+      "retries": 1,
+      "retryIndex": 1,
+      "durationMs": 800,
+      "attachments": [],
+      "artifacts": { "screenshots": [], "videos": [], "traces": [] },
+      "consoleLogs": [],
+      "tags": [],
+      "steps": []
+    }
+  ],
+  "trends": { "schemaVersion": "1", "notes": "" },
+  "aiEnabled": true,
+  "aiAnalyses": [
+    {
+      "testName": "adds an item to the cart",
+      "file": "tests/cart.spec.ts",
+      "summary": "Cart badge does not update fast enough after POST /cart/add.",
+      "likelyRootCause": "Timing issue: UI polls for cart count update but DOM reflects stale state.",
+      "confidence": 0.88,
+      "suggestedRemediation": "Use page.route() to intercept POST /cart/add and assert immediately.",
+      "issueCategory": "timing_issue",
+      "structuredFeedback": {
+        "actionType": "wait_strategy",
+        "reasoning": "The cart badge update is asynchronous and the test uses a fixed wait.",
+        "suggestedPatch": "await page.waitForResponse(r => r.url().includes('/cart/add'));"
+      }
+    },
+    {
+      "testName": "checkout completes successfully",
+      "file": "tests/checkout.spec.ts",
+      "summary": "Confirmation page takes too long to render after POST /checkout/submit.",
+      "likelyRootCause": "Timing issue: test waits for DOM element but the API response triggers a redirect chain.",
+      "confidence": 0.85,
+      "suggestedRemediation": "Intercept POST /checkout/submit with page.route() to control timing.",
+      "issueCategory": "timing_issue",
+      "structuredFeedback": {
+        "actionType": "wait_strategy",
+        "reasoning": "The confirmation relies on a redirect that isn't awaited properly.",
+        "suggestedPatch": "await page.waitForURL('**/confirmation');"
+      }
+    }
+  ],
+  "healingPayloads": []
+}

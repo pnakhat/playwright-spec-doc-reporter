@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "1",
+  "runs": [
+    {
+      "runId": "run-prev-1",
+      "timestamp": "2026-06-21T10:00:00.000Z",
+      "passRate": 67,
+      "summary": {
+        "total": 3,
+        "passed": 2,
+        "failed": 1,
+        "skipped": 0,
+        "flaky": 0,
+        "durationMs": 4000
+      },
+      "testSnapshots": []
+    }
+  ]
+}

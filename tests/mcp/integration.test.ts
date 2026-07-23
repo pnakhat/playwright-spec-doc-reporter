@@ -26,9 +26,10 @@ describe("MCP server integration", () => {
     await client.close();
   });
 
-  it("lists all eight tools", async () => {
+  it("lists all nine tools", async () => {
     const { tools } = await client.listTools();
     expect(tools.map(t => t.name).sort()).toEqual([
+      "analyze_run",
       "get_failed_tests",
       "get_healing_payloads",
       "get_root_cause_trends",

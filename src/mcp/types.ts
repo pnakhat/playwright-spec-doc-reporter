@@ -172,3 +172,52 @@ export interface RerunRunner {
     onChunk: (stream: "stdout" | "stderr", chunk: string) => void,
   ): Promise<{ exitCode: number | null }>;
 }
+
+// ─── Agentic Run Analysis ─────────────────────────────────────────────────────
+
+import type {
+  StepOverlapGroup,
+  ApiConversionCandidate,
+  TimingApiCorrelation,
+} from "../utils/stepAnalysis.js";
+
+export type { StepOverlapGroup, ApiConversionCandidate, TimingApiCorrelation };
+
+export type TrendDirection = "improving" | "degrading" | "stable" | "no_history";
+
+export interface RunHealth {
+  passRate: number;
+  totalTests: number;
+  failedTests: number;
+  flakyTests: number;
+  trendDirection: TrendDirection;
+  /** Pass-rate delta (current − previous run), undefined when no history. */
+  passRateDelta?: number;
+}
+
+export type RecommendationType =
+  | "refactor_overlap"
+  | "convert_to_api"
+  | "add_network_interception"
+  | "extract_page_object";
+
+export type RecommendationPriority = "high" | "medium" | "low";
+
+export interface AgenticRecommendation {
+  priority: RecommendationPriority;
+  type: RecommendationType;
+  /** Stable test IDs of affected tests. */
+  affectedTestIds: string[];
+  /** Plain-English description of the recommended action. */
+  action: string;
+}
+
+export interface AgenticRunAnalysis {
+  runHealth: RunHealth;
+  overlapGroups: StepOverlapGroup[];
+  apiCandidates: ApiConversionCandidate[];
+  timingIssueApiCorrelations: TimingApiCorrelation[];
+  recommendations: AgenticRecommendation[];
+  /** One-paragraph prose summary of the most impactful findings. */
+  summary: string;
+}

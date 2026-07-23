@@ -191,6 +191,11 @@ export interface ReportData {
   traceabilityIndex?: TraceabilityIndexData;
   /** Summary of Healer agent activity detected during this run. */
   healingSummary?: HealingSummaryData;
+  /**
+   * Pre-computed agentic run analysis embedded at report generation time.
+   * Present when `agenticAnalysis.enabled: true` is set in the reporter config.
+   */
+  agenticInsights?: import("./agenticInsights.js").AgenticInsightsData;
 }
 
 export interface AIAnalysisInput {
@@ -532,6 +537,33 @@ export interface GlossyReporterConfig {
    * ```
    */
   cucumber?: CucumberConfig;
+  /**
+   * Agentic run analysis configuration.
+   *
+   * When enabled, the reporter computes step-overlap groups, API-convertibility
+   * scores, and timing/API correlations at the end of each run and embeds the
+   * results in the HTML report as an "Agentic Insights" section on the Overview
+   * page. The same analysis is also available via the `analyze_run` MCP tool.
+   *
+   * Example:
+   * ```ts
+   * agenticAnalysis: { enabled: true }
+   * ```
+   */
+  agenticAnalysis?: {
+    /** Enable agentic analysis and the Agentic Insights UI widget. Default: false */
+    enabled: boolean;
+    /**
+     * Jaccard similarity threshold for step-overlap detection (0–1).
+     * Default: 0.6
+     */
+    overlapThreshold?: number;
+    /**
+     * Minimum API-convertibility score (0–1) for a test to appear as a
+     * candidate. Default: 0.5
+     */
+    minConversionScore?: number;
+  };
   providerFactory?: (config: AIProviderConfig) => AIProvider;
 }
 
