@@ -512,6 +512,13 @@ export interface GlossyReporterConfig {
   ai?: AIConfig;
   healing?: HealingConfig;
   prComment?: PrCommentConfig;
+  /** Write `<outputDir>/ctrf.json` (Common Test Report Format, https://ctrf.io). Default: true */
+  ctrf?: boolean;
+  /**
+   * Append the run summary markdown to the GitHub Actions job summary
+   * when `GITHUB_STEP_SUMMARY` is set. Default: true
+   */
+  githubSummary?: boolean;
   jira?: JiraConfig & { autoBugs?: JiraAutoBugConfig };
   /**
    * Merge manual test results from a Markdown file into the report.

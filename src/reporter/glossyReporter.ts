@@ -14,7 +14,8 @@ import { analyzeFailures } from "../ai/analysisService.js";
 import { defaultConfig } from "../config/defaults.js";
 import { generateReport } from "../generator/reportGenerator.js";
 import { createHealingPayloads } from "../healing/payload.js";
-import { writePrComment } from "../prComment/generator.js";
+import { writePrComment, writeGithubSummary } from "../prComment/generator.js";
+import { buildCtrfReport } from "../ctrf.js";
 import { postJiraTestResults, createJiraBugs } from "../jira/index.js";
 import { generateAutofixPR } from "../autofix/prGenerator.js";
 import { parseManualResults } from "../manual/parser.js";
@@ -503,6 +504,13 @@ export class GlossyPlaywrightReporter implements Reporter {
     );
 
     await writePrComment(finalizedTests, report.summary, analyses, this.config);
+    await writeGithubSummary(finalizedTests, report.summary, analyses, this.config);
+    if (this.config.ctrf !== false) {
+      await writeJson(
+        `${outputDir}/ctrf.json`,
+        buildCtrfReport(finalizedTests, { startedAt: this.runStartedAt, finishedAt: this.runFinishedAt })
+      );
+    }
     await postJiraTestResults(finalizedTests, this.config);
 
     // Auto-bug creation in Jira for failed tests
