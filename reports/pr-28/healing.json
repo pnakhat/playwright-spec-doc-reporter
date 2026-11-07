@@ -1,0 +1,67 @@
+[
+  {
+    "testName": " › chromium › ui/dedup-demo.spec.js › Dedup Demo › broken selector always fails — dedup demo @regression",
+    "file": "tests/ui/dedup-demo.spec.js",
+    "stepName": "broken selector always fails — dedup demo @regression",
+    "failedLocator": "#this-element-does-not-exist",
+    "candidateLocators": [
+      "#this-element-does-not-exist",
+      "[data-testid='target-element']",
+      ".target-class",
+      "role=button[name='Expected Button']"
+    ],
+    "errorMessage": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('#this-element-does-not-exist')\nExpected: visible\nTimeout: 3000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 3000ms\u001b[22m\n\u001b[2m  - waiting for locator('#this-element-does-not-exist')\u001b[22m\n",
+    "suggestedPatch": "// Option 1: Mark as intentionally failing (recommended for demo/dedup purposes)\ntest.fail('broken selector always fails — dedup demo @regression', async ({ page }) => {\n  // This test is intentionally broken for demonstration purposes\n  await expect(page.locator('#this-element-does-not-exist')).toBeVisible({ timeout: 3000 });\n});\n\n// Option 2: Skip entirely\ntest.skip('broken selector always fails — dedup demo @regression', async ({ page }) => {\n  await expect(page.locator('#this-element-does-not-exist')).toBeVisible({ timeout: 3000 });\n});\n\n// Option 3: Replace with a valid selector if a real element was intended\n// await expect(page.locator('#actual-element-id')).toBeVisible({ timeout: 3000 });",
+    "reasoning": "The selector '#this-element-does-not-exist' is a placeholder/dummy selector that will never match any DOM element. The failure is 100% deterministic and reproducible. The test name itself ('broken selector always fails') confirms this is intentional. The fix depends on intent: either mark it as an expected failure with test.fail(), skip it, remove it from the regression suite, or replace the selector with a valid one if a real element was intended.",
+    "confidence": 0.98,
+    "actionType": "fix_locator"
+  },
+  {
+    "testName": " › chromium › ui/saucedemo.spec.js › AI Failure Analysis › intentional failure for AI analysis demo @regression",
+    "file": "tests/ui/saucedemo.spec.js",
+    "stepName": "intentional failure for AI analysis demo @regression",
+    "failedLocator": "getByRole('heading', { name: 'Products' })",
+    "candidateLocators": [
+      "getByRole('heading', { name: 'Products' })",
+      "getByRole('heading', { name: 'Swag Labs' })",
+      "locator('.title')",
+      "locator('.product_label')",
+      "getByText('Products')"
+    ],
+    "errorMessage": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'Non Existing Header' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'Non Existing Header' })\u001b[22m\n",
+    "suggestedPatch": "// Option 1: Fix the locator to target a real heading on the page\nawait expect(page.getByRole('heading', { name: 'Products' })).toBeVisible();\n\n// Option 2: If intentional failure is required for demo, mark test as expected to fail\ntest.fail();\nawait expect(page.getByRole('heading', { name: 'Non Existing Header' })).toBeVisible();\n\n// Option 3: Assert the element does NOT exist (if that is the actual intent)\nawait expect(page.getByRole('heading', { name: 'Non Existing Header' })).not.toBeAttached();",
+    "reasoning": "The heading 'Non Existing Header' does not exist in the application UI. The failure is deterministic and reproducible — it is not a flake, timing race, or environment issue. The test name and context confirm intentionality. The root issue is a mismatch between the expected element name in the assertion and what is actually rendered in the DOM. The 5-second timeout elapsing without any retry success confirms the element is simply absent, not transiently missing.",
+    "confidence": 0.98,
+    "actionType": "update_assertion_or_locator"
+  },
+  {
+    "testName": "Shopping Cart › Cart persists items after page refresh",
+    "file": "tests/manual-results.md",
+    "stepName": "Cart persists items after page refresh",
+    "candidateLocators": [],
+    "errorMessage": "Cart badge resets to 0 after hard refresh — session storage not persisted",
+    "reasoning": "Provider failed to return a valid analysis.",
+    "confidence": 0,
+    "actionType": "investigate"
+  },
+  {
+    "testName": "Authentication › Login error clears when user starts retyping",
+    "file": "tests/manual-results.md",
+    "stepName": "Login error clears when user starts retyping",
+    "candidateLocators": [],
+    "errorMessage": "Error message persists even after the user clears the username field — no auto-dismiss",
+    "reasoning": "Provider failed to return a valid analysis.",
+    "confidence": 0,
+    "actionType": "investigate"
+  },
+  {
+    "testName": "Product Detail › Checkout cancel on step 2 returns to inventory",
+    "file": "tests/manual-results.md",
+    "stepName": "Checkout cancel on step 2 returns to inventory",
+    "candidateLocators": [],
+    "errorMessage": "Cancel on step 2 navigates to /cart.html instead of /inventory.html — unexpected destination",
+    "reasoning": "Provider failed to return a valid analysis.",
+    "confidence": 0,
+    "actionType": "investigate"
+  }
+]

@@ -1,0 +1,458 @@
+{
+  "reportFormat": "CTRF",
+  "specVersion": "0.0.0",
+  "results": {
+    "tool": {
+      "name": "playwright"
+    },
+    "summary": {
+      "tests": 31,
+      "passed": 24,
+      "failed": 5,
+      "pending": 0,
+      "skipped": 2,
+      "other": 0,
+      "start": 1794050929012,
+      "stop": 1794050943468
+    },
+    "tests": [
+      {
+        "name": "chromium › ui/checkout.spec.js › Checkout Flow › checkout requires first name @validation",
+        "status": "passed",
+        "duration": 1217,
+        "suite": "Checkout Flow",
+        "filePath": "tests/ui/checkout.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@validation",
+          "@cucumber"
+        ],
+        "browser": "chromium"
+      },
+      {
+        "name": "chromium › ui/checkout.spec.js › Checkout Flow › complete checkout with one item @smoke @critical",
+        "status": "passed",
+        "duration": 1272,
+        "suite": "Checkout Flow",
+        "filePath": "tests/ui/checkout.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@smoke",
+          "@critical",
+          "@cucumber"
+        ],
+        "browser": "chromium"
+      },
+      {
+        "name": "chromium › ui/checkout.spec.js › Checkout Flow › checkout requires last name @validation",
+        "status": "passed",
+        "duration": 924,
+        "suite": "Checkout Flow",
+        "filePath": "tests/ui/checkout.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@validation",
+          "@cucumber"
+        ],
+        "browser": "chromium"
+      },
+      {
+        "name": "chromium › ui/checkout.spec.js › Checkout Flow › checkout requires postal code @validation",
+        "status": "passed",
+        "duration": 992,
+        "suite": "Checkout Flow",
+        "filePath": "tests/ui/checkout.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@validation",
+          "@cucumber"
+        ],
+        "browser": "chromium"
+      },
+      {
+        "name": "chromium › ui/checkout.spec.js › Checkout Flow › cancel checkout returns to inventory @regression",
+        "status": "passed",
+        "duration": 839,
+        "suite": "Checkout Flow",
+        "filePath": "tests/ui/checkout.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@regression",
+          "@cucumber"
+        ],
+        "browser": "chromium"
+      },
+      {
+        "name": "chromium › ui/checkout.spec.js › Checkout Flow › checkout with all 6 items shows correct count @regression",
+        "status": "passed",
+        "duration": 1109,
+        "suite": "Checkout Flow",
+        "filePath": "tests/ui/checkout.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@regression",
+          "@cucumber"
+        ],
+        "browser": "chromium"
+      },
+      {
+        "name": "chromium › ui/checkout.spec.js › Product Detail › clicking product name opens detail page @smoke",
+        "status": "passed",
+        "duration": 790,
+        "suite": "Product Detail",
+        "filePath": "tests/ui/checkout.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@smoke",
+          "@cucumber"
+        ],
+        "browser": "chromium"
+      },
+      {
+        "name": "chromium › ui/checkout.spec.js › Product Detail › back button on detail page returns to inventory @smoke",
+        "status": "passed",
+        "duration": 806,
+        "suite": "Product Detail",
+        "filePath": "tests/ui/checkout.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@smoke",
+          "@cucumber"
+        ],
+        "browser": "chromium"
+      },
+      {
+        "name": "chromium › ui/checkout.spec.js › Product Detail › add to cart from detail page updates badge @regression",
+        "status": "passed",
+        "duration": 777,
+        "suite": "Product Detail",
+        "filePath": "tests/ui/checkout.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@regression",
+          "@cucumber"
+        ],
+        "browser": "chromium"
+      },
+      {
+        "name": "chromium › ui/saucedemo.spec.js › Shopping Cart › standard user can login and add item to cart @smoke @critical @SCRUM-1",
+        "status": "passed",
+        "duration": 762,
+        "suite": "Shopping Cart",
+        "filePath": "tests/ui/saucedemo.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@smoke",
+          "@critical",
+          "@SCRUM-1",
+          "@cucumber"
+        ],
+        "browser": "chromium"
+      },
+      {
+        "name": "chromium › ui/saucedemo.spec.js › Shopping Cart › user can remove item from cart @smoke",
+        "status": "passed",
+        "duration": 571,
+        "suite": "Shopping Cart",
+        "filePath": "tests/ui/saucedemo.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@smoke",
+          "@cucumber"
+        ],
+        "browser": "chromium"
+      },
+      {
+        "name": "chromium › ui/saucedemo.spec.js › Shopping Cart › user can sort products by price @regression",
+        "status": "passed",
+        "duration": 538,
+        "suite": "Shopping Cart",
+        "filePath": "tests/ui/saucedemo.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@regression",
+          "@cucumber"
+        ],
+        "browser": "chromium"
+      },
+      {
+        "name": "chromium › ui/saucedemo.spec.js › Authentication › locked out user sees expected error @smoke @auth",
+        "status": "passed",
+        "duration": 407,
+        "suite": "Authentication",
+        "filePath": "tests/ui/saucedemo.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@smoke",
+          "@auth",
+          "@cucumber"
+        ],
+        "browser": "chromium"
+      },
+      {
+        "name": "chromium › ui/dedup-demo.spec.js › Dedup Demo › broken selector always fails — dedup demo @regression",
+        "status": "failed",
+        "duration": 3594,
+        "message": "Error: expect(locator).toBeVisible() failed\n\nLocator: locator('#this-element-does-not-exist')\nExpected: visible\nTimeout: 3000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 3000ms\n  - waiting for locator('#this-element-does-not-exist')\n",
+        "trace": "Error: expect(locator).toBeVisible() failed\n\nLocator: locator('#this-element-does-not-exist')\nExpected: visible\nTimeout: 3000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 3000ms\n  - waiting for locator('#this-element-does-not-exist')\n\n    at /home/runner/work/playwright-spec-doc-reporter/playwright-spec-doc-reporter/examples/js-es6-demo/tests/ui/dedup-demo.spec.js:25:64",
+        "suite": "Dedup Demo",
+        "filePath": "tests/ui/dedup-demo.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@regression",
+          "@cucumber"
+        ],
+        "browser": "chromium"
+      },
+      {
+        "name": "chromium › ui/saucedemo.spec.js › Healer Simulation › cart icon navigates to cart page (auto-healed) @smoke @critical",
+        "status": "passed",
+        "duration": 532,
+        "suite": "Healer Simulation",
+        "filePath": "tests/ui/saucedemo.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@smoke",
+          "@critical",
+          "@cucumber"
+        ],
+        "browser": "chromium"
+      },
+      {
+        "name": "chromium › ui/saucedemo.spec.js › Healer Simulation › checkout button is visible on cart page (skipped-app-broken) @regression",
+        "status": "skipped",
+        "duration": 175,
+        "suite": "Healer Simulation",
+        "filePath": "tests/ui/saucedemo.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@regression",
+          "@cucumber"
+        ],
+        "browser": "chromium"
+      },
+      {
+        "name": "chromium › ui/saucedemo.spec.js › AI Failure Analysis › intentional failure for AI analysis demo @regression",
+        "status": "failed",
+        "duration": 5699,
+        "message": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByRole('heading', { name: 'Non Existing Header' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for getByRole('heading', { name: 'Non Existing Header' })\n",
+        "trace": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByRole('heading', { name: 'Non Existing Header' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for getByRole('heading', { name: 'Non Existing Header' })\n\n    at /home/runner/work/playwright-spec-doc-reporter/playwright-spec-doc-reporter/examples/js-es6-demo/tests/ui/saucedemo.spec.js:116:78",
+        "suite": "AI Failure Analysis",
+        "filePath": "tests/ui/saucedemo.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@regression",
+          "@cucumber"
+        ],
+        "browser": "chromium"
+      },
+      {
+        "name": "Shopping Cart › Standard user can view the product catalogue",
+        "status": "passed",
+        "duration": 0,
+        "suite": "Shopping Cart",
+        "filePath": "tests/manual-results.md",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@manual",
+          "@smoke",
+          "@SCRUM-1"
+        ]
+      },
+      {
+        "name": "Shopping Cart › Product images load correctly on inventory page",
+        "status": "passed",
+        "duration": 0,
+        "suite": "Shopping Cart",
+        "filePath": "tests/manual-results.md",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@manual",
+          "@regression"
+        ]
+      },
+      {
+        "name": "Shopping Cart › Cart persists items after page refresh",
+        "status": "failed",
+        "duration": 0,
+        "message": "Cart badge resets to 0 after hard refresh — session storage not persisted",
+        "suite": "Shopping Cart",
+        "filePath": "tests/manual-results.md",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@manual",
+          "@regression",
+          "@SCRUM-1"
+        ]
+      },
+      {
+        "name": "Authentication › User can sort products by name Z-A",
+        "status": "passed",
+        "duration": 0,
+        "suite": "Authentication",
+        "filePath": "tests/manual-results.md",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@manual",
+          "@regression"
+        ]
+      },
+      {
+        "name": "Authentication › Standard user login with correct credentials",
+        "status": "passed",
+        "duration": 0,
+        "suite": "Authentication",
+        "filePath": "tests/manual-results.md",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@manual",
+          "@smoke",
+          "@auth"
+        ]
+      },
+      {
+        "name": "Authentication › Login page shows password field as masked",
+        "status": "passed",
+        "duration": 0,
+        "suite": "Authentication",
+        "filePath": "tests/manual-results.md",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@manual",
+          "@regression"
+        ]
+      },
+      {
+        "name": "Authentication › Login error clears when user starts retyping",
+        "status": "failed",
+        "duration": 0,
+        "message": "Error message persists even after the user clears the username field — no auto-dismiss",
+        "suite": "Authentication",
+        "filePath": "tests/manual-results.md",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@manual",
+          "@regression",
+          "@SCRUM-2"
+        ]
+      },
+      {
+        "name": "Checkout Flow › Performance glitch user experiences delayed page load",
+        "status": "skipped",
+        "duration": 0,
+        "suite": "Checkout Flow",
+        "filePath": "tests/manual-results.md",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@manual",
+          "@regression"
+        ]
+      },
+      {
+        "name": "Checkout Flow › Complete checkout happy path — exploratory session",
+        "status": "passed",
+        "duration": 0,
+        "suite": "Checkout Flow",
+        "filePath": "tests/manual-results.md",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@manual",
+          "@smoke",
+          "@critical"
+        ]
+      },
+      {
+        "name": "Checkout Flow › Checkout requires all three address fields",
+        "status": "passed",
+        "duration": 0,
+        "suite": "Checkout Flow",
+        "filePath": "tests/manual-results.md",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@manual",
+          "@validation"
+        ]
+      },
+      {
+        "name": "Checkout Flow › Order summary shows correct item price before finishing",
+        "status": "passed",
+        "duration": 0,
+        "suite": "Checkout Flow",
+        "filePath": "tests/manual-results.md",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@manual",
+          "@regression"
+        ]
+      },
+      {
+        "name": "Product Detail › Checkout cancel on step 2 returns to inventory",
+        "status": "failed",
+        "duration": 0,
+        "message": "Cancel on step 2 navigates to /cart.html instead of /inventory.html — unexpected destination",
+        "suite": "Product Detail",
+        "filePath": "tests/manual-results.md",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@manual",
+          "@regression"
+        ]
+      },
+      {
+        "name": "Product Detail › Product detail page shows all required information",
+        "status": "passed",
+        "duration": 0,
+        "suite": "Product Detail",
+        "filePath": "tests/manual-results.md",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@manual",
+          "@smoke"
+        ]
+      },
+      {
+        "name": "Product Detail › Adding product from detail page updates cart badge",
+        "status": "passed",
+        "duration": 0,
+        "suite": "Product Detail",
+        "filePath": "tests/manual-results.md",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@manual",
+          "@regression"
+        ]
+      }
+    ]
+  }
+}
