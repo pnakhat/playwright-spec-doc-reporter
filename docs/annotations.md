@@ -92,6 +92,19 @@ test.describe("Posts API", () => {
 
 The report shows each pair with a colour-coded method badge, URL, collapsible JSON body, and HTTP status badge.
 
+**See it live:** the [sample report](https://pnakhat.github.io/playwright-spec-doc-reporter/reports/latest/) includes the `js-es6-demo` API suites (`Posts API`, `Users API`, …). Open the **Tests** tab and expand any of them.
+
+### Filtering UI and API tests
+
+The Tests toolbar has **All · UI · API** type buttons (with counts) when a run contains both kinds. They combine with the status, tag and search filters. A test is classified as API when any of these hold, checked in order:
+
+1. It has an `@api` tag (or `@ui` for UI)
+2. Its Playwright project name contains `api`
+3. Its file path contains `/api/`
+4. Its title starts with `api:` or contains `api `
+
+The simplest setup is a dedicated `api` project, as in [`examples/js-es6-demo/playwright.config.js`](../examples/js-es6-demo/playwright.config.js). Run it **in the same `playwright test` invocation** as your UI projects (`--project=api --project=chromium`, or no `--project` flag at all). Separate invocations produce separate reports, and neither will have the type filter.
+
 ### `addApiRequest(method, url, body?, headers?)`
 
 | Param | Type | Description |
