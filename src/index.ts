@@ -8,7 +8,8 @@ export { AnthropicProvider } from "./ai/providers/anthropicProvider.js";
 export { AzureProvider } from "./ai/providers/azureProvider.js";
 export { AzureClaudeProvider } from "./ai/providers/azureClaudeProvider.js";
 export { createHealingPayload, createHealingPayloads, healingPayloadsToMarkdown } from "./healing/payload.js";
-export { buildPrCommentMarkdown, writePrComment } from "./prComment/generator.js";
+export { buildPrCommentMarkdown, writePrComment, writeGithubSummary } from "./prComment/generator.js";
+export { buildCtrfReport } from "./ctrf.js";
 export { postJiraTestResults } from "./jira/index.js";
 export { parseManualResults } from "./manual/parser.js";
 export { computeFlakinessScores, flakinessLevel } from "./utils/flakiness.js";
@@ -48,3 +49,7 @@ export type {
   ReportSummary,
   TestStatus
 } from "./types/index.js";
+
+// Default export so the bare package name works as a Playwright reporter:
+//   reporter: [["playwright-spec-doc-reporter"]]
+export { GlossyPlaywrightReporter as default } from "./reporter/glossyReporter.js";

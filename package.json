@@ -7,24 +7,29 @@
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "default": "./dist/index.js"
     },
     "./annotations": {
+      "types": "./dist/annotations.d.ts",
       "import": "./dist/annotations.js",
-      "types": "./dist/annotations.d.ts"
+      "default": "./dist/annotations.js"
     },
     "./reporter": {
+      "types": "./dist/reporter-entry.d.ts",
       "import": "./dist/reporter-entry.js",
-      "types": "./dist/reporter-entry.d.ts"
+      "default": "./dist/reporter-entry.js"
     },
     "./cucumber-annotations": {
+      "types": "./dist/cucumber/cucumberAnnotations.d.ts",
       "import": "./dist/cucumber/cucumberAnnotations.js",
-      "types": "./dist/cucumber/cucumberAnnotations.d.ts"
+      "default": "./dist/cucumber/cucumberAnnotations.js"
     },
     "./mcp": {
+      "types": "./dist/mcp/server.d.ts",
       "import": "./dist/mcp/server.js",
-      "types": "./dist/mcp/server.d.ts"
+      "default": "./dist/mcp/server.js"
     }
   },
   "bin": {

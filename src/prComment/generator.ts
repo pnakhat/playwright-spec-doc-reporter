@@ -1,4 +1,6 @@
+import fs from "node:fs/promises";
 import path from "node:path";
+import { stripVTControlCharacters } from "node:util";
 import { writeText } from "../utils/fs.js";
 import type {
   AIAnalysisResult,
@@ -38,6 +40,11 @@ function statusIcon(status: string): string {
     case "flaky":    return "⚠️";
     default:         return "❓";
   }
+}
+
+/** titlePath() includes empty root/project segments — drop them for display. */
+export function displayName(fullName: string): string {
+  return fullName.split(" › ").filter((p) => p.trim()).join(" › ");
 }
 
 function resolveRunMeta(): PrCommentRunMeta {
@@ -109,9 +116,9 @@ export function buildPrCommentMarkdown(
   let failedSection = "";
   if (failedTests.length > 0) {
     const items = failedTests.slice(0, maxFailures).map((t) => {
-      const firstLine = t.errorMessage?.split("\n")[0]?.slice(0, 120) ?? "";
+      const firstLine = stripVTControlCharacters(t.errorMessage ?? "").split("\n")[0].slice(0, 120);
       const errorSuffix = firstLine ? ` — *${firstLine}*` : "";
-      return `- ${statusIcon(t.status)} \`${t.fullName}\`${errorSuffix}`;
+      return `- ${statusIcon(t.status)} \`${displayName(t.fullName)}\`${errorSuffix}`;
     });
     if (failedTests.length > maxFailures) {
       items.push(`- *…and ${failedTests.length - maxFailures} more*`);
@@ -167,4 +174,30 @@ export async function writePrComment(
     runMeta
   );
   await writeText(outputPath, markdown);
+}
+
+// ---------------------------------------------------------------------------
+// GitHub Actions job summary — zero-config visibility in CI
+// ---------------------------------------------------------------------------
+
+export async function writeGithubSummary(
+  tests: NormalizedTestResult[],
+  summary: ReportSummary,
+  analyses: AIAnalysisResult[],
+  config: GlossyReporterConfig
+): Promise<void> {
+  const summaryFile = process.env.GITHUB_STEP_SUMMARY;
+  if (!summaryFile || config.githubSummary === false) return;
+  const markdown = buildPrCommentMarkdown(
+    tests,
+    summary,
+    analyses,
+    config.prComment ?? { enabled: true },
+    resolveRunMeta()
+  );
+  try {
+    await fs.appendFile(summaryFile, markdown + "\n\n");
+  } catch (err) {
+    console.warn("[glossy-reporter] Could not write GitHub job summary — skipping.", err);
+  }
 }

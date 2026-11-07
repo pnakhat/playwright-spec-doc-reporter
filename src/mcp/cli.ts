@@ -1,10 +1,14 @@
+import fs from "node:fs";
 import path from "node:path";
 import type { LogLevel } from "./types.js";
 
 const HELP = `playwright-spec-doc-reporter
 
 Usage:
+  playwright-spec-doc-reporter init
   playwright-spec-doc-reporter mcp [options]
+
+init: add the reporter to playwright.config.(ts|js|mjs|cjs) in the current directory.
 
 Start the MCP server exposing the reporter's results as tools for AI agents.
 
@@ -151,12 +155,51 @@ async function runMcpCommand(argv: string[]): Promise<void> {
   }
 }
 
+const REPORTER_ENTRY = `["playwright-spec-doc-reporter"]`;
+const CONFIG_NAMES = ["playwright.config.ts", "playwright.config.js", "playwright.config.mjs", "playwright.config.cjs"];
+
+/**
+ * Add the reporter to the Playwright config in `cwd`. Handles the two shapes
+ * `npm init playwright` produces (no reporter / `reporter: 'html'`); anything
+ * else gets a snippet to paste. Returns a message for the user.
+ */
+export function initConfig(cwd: string): string {
+  const name = CONFIG_NAMES.find((n) => fs.existsSync(path.join(cwd, n)));
+  const snippet = `reporter: [["html"], ${REPORTER_ENTRY}],`;
+  if (!name) return `No playwright.config.* found in ${cwd}. Add this to your Playwright config:\n\n  ${snippet}`;
+
+  const file = path.join(cwd, name);
+  const src = fs.readFileSync(file, "utf-8");
+  if (src.includes("playwright-spec-doc-reporter")) return `${name} already uses playwright-spec-doc-reporter — nothing to do.`;
+
+  let next: string | undefined;
+  const htmlOnly = /reporter:\s*(['"])html\1\s*,?/;
+  if (htmlOnly.test(src)) {
+    next = src.replace(htmlOnly, snippet);
+  } else if (!/\breporter\s*:/.test(src) && /defineConfig\(\{/.test(src)) {
+    next = src.replace(/defineConfig\(\{/, `defineConfig({\n  ${snippet}`);
+  }
+  if (!next) return `Couldn't safely edit the reporter in ${name}. Add this entry to its reporter array:\n\n  ${REPORTER_ENTRY}`;
+
+  fs.writeFileSync(file, next);
+  const gitignore = path.join(cwd, ".gitignore");
+  if (fs.existsSync(gitignore) && !fs.readFileSync(gitignore, "utf-8").includes("spec-doc-report")) {
+    fs.appendFileSync(gitignore, "\n/spec-doc-report/\n");
+  }
+  return `Added playwright-spec-doc-reporter to ${name}.\nRun \`npx playwright test\`, then open spec-doc-report/index.html`;
+}
+
 /** Entry point invoked by bin/cli.js. */
 export async function runCli(argv: string[]): Promise<void> {
   const [command, ...rest] = argv;
 
   if (!command || command === "-h" || command === "--help" || command === "help") {
     console.log(HELP);
+    return;
+  }
+
+  if (command === "init") {
+    console.log(initConfig(process.cwd()));
     return;
   }
 
