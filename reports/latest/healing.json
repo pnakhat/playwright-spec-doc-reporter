@@ -10,55 +10,52 @@
     "actionType": "investigate"
   },
   {
+    "testName": " › chromium › ui/checkout.spec.js › Product Detail › add to cart from detail page updates badge @regression",
+    "file": "tests/ui/checkout.spec.js",
+    "stepName": "add to cart from detail page updates badge @regression",
+    "candidateLocators": [],
+    "errorMessage": "Error: locator.click: Error: strict mode violation: getByRole('button', { name: 'Add to cart' }) resolved to 6 elements:\n    1) <button id=\"add-to-cart-sauce-labs-backpack\" name=\"add-to-cart-sauce-labs-backpack\" data-test=\"add-to-cart-sauce-labs-backpack\" class=\"btn btn_primary btn_small btn_inventory \">Add to cart</button> aka locator('[data-test=\"add-to-cart-sauce-labs-backpack\"]')\n    2) <button id=\"add-to-cart-sauce-labs-bike-light\" name=\"add-to-cart-sauce-labs-bike-light\" data-test=\"add-to-cart-sauce-labs-bike-light\" class=\"btn btn_primary btn_small btn_inventory \">Add to cart</button> aka locator('[data-test=\"add-to-cart-sauce-labs-bike-light\"]')\n    3) <button id=\"add-to-cart-sauce-labs-bolt-t-shirt\" name=\"add-to-cart-sauce-labs-bolt-t-shirt\" data-test=\"add-to-cart-sauce-labs-bolt-t-shirt\" class=\"btn btn_primary btn_small btn_inventory \">Add to cart</button> aka locator('[data-test=\"add-to-cart-sauce-labs-bolt-t-shirt\"]')\n    4) <button id=\"add-to-cart-sauce-labs-fleece-jacket\" name=\"add-to-cart-sauce-labs-fleece-jacket\" class=\"btn btn_primary btn_small btn_inventory \" data-test=\"add-to-cart-sauce-labs-fleece-jacket\">Add to cart</button> aka locator('[data-test=\"add-to-cart-sauce-labs-fleece-jacket\"]')\n    5) <button id=\"add-to-cart-sauce-labs-onesie\" name=\"add-to-cart-sauce-labs-onesie\" data-test=\"add-to-cart-sauce-labs-onesie\" class=\"btn btn_primary btn_small btn_inventory \">Add to cart</button> aka locator('[data-test=\"add-to-cart-sauce-labs-onesie\"]')\n    6) <button class=\"btn btn_primary btn_small btn_inventory \" id=\"add-to-cart-test.allthethings()-t-shirt-(red)\" name=\"add-to-cart-test.allthethings()-t-shirt-(red)\" data-test=\"add-to-cart-test.allthethings()-t-shirt-(red)\">Add to cart</button> aka locator('[data-test=\"add-to-cart-test.allthethings()-t-shirt-(red)\"]')\n\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'Add to cart' })\u001b[22m\n",
+    "reasoning": "Provider failed to return a valid analysis.",
+    "confidence": 0,
+    "actionType": "investigate"
+  },
+  {
     "testName": " › chromium › ui/checkout.spec.js › Checkout Flow › checkout with all 6 items shows correct count @regression",
     "file": "tests/ui/checkout.spec.js",
     "stepName": "checkout with all 6 items shows correct count @regression",
-    "failedLocator": ".shopping_cart_badge",
-    "candidateLocators": [
-      ".shopping_cart_badge",
-      "[data-test='shopping-cart-badge']",
-      ".shopping_cart_link .shopping_cart_badge",
-      "#shopping_cart_container .shopping_cart_badge"
-    ],
+    "candidateLocators": [],
     "errorMessage": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.shopping_cart_badge')\nExpected: \u001b[32m\"6\"\u001b[39m\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.shopping_cart_badge')\u001b[22m\n",
-    "suggestedPatch": "// After all 6 add-to-cart clicks, wait for the badge to appear before asserting its value\nconst cartBadge = page.locator('.shopping_cart_badge');\nawait cartBadge.waitFor({ state: 'visible', timeout: 10000 });\nawait expect(cartBadge).toHaveText('6', { timeout: 10000 });\n\n// Additionally, after each individual add-to-cart click, assert the button flips to 'Remove':\n// e.g., await expect(page.locator('[data-test=\"remove-sauce-labs-backpack\"]')).toBeVisible();",
-    "reasoning": "The badge is absent because either the add-to-cart actions did not complete or the cart state was never populated. Adding explicit post-click assertions and a guard wait for the badge element before asserting its text value will make the test resilient to race conditions and silent failures in preceding steps.",
-    "confidence": 0.82,
-    "actionType": "patch_test"
+    "reasoning": "Provider failed to return a valid analysis.",
+    "confidence": 0,
+    "actionType": "investigate"
   },
   {
     "testName": " › chromium › ui/dedup-demo.spec.js › Dedup Demo › broken selector always fails — dedup demo @regression",
     "file": "tests/ui/dedup-demo.spec.js",
     "stepName": "broken selector always fails — dedup demo @regression",
-    "failedLocator": "page.getByRole('heading')",
+    "failedLocator": "#this-element-does-not-exist",
     "candidateLocators": [
-      "page.getByRole('heading')",
-      "page.getByTestId('target-element')",
-      "page.locator('[data-testid=\"target-element\"]')",
-      "page.locator('.expected-class')"
+      "#this-element-does-not-exist",
+      "/* Replace with actual target element selector, e.g.: */",
+      "[data-testid='your-real-element']",
+      ".your-real-css-class",
+      "#your-real-element-id"
     ],
     "errorMessage": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('#this-element-does-not-exist')\nExpected: visible\nTimeout: 3000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 3000ms\u001b[22m\n\u001b[2m  - waiting for locator('#this-element-does-not-exist')\u001b[22m\n",
-    "suggestedPatch": "// Option A — mark as intentionally failing (demo/dedup purposes)\ntest('broken selector always fails — dedup demo @regression', async ({ page }) => {\n  test.fail(); // This test is expected to fail by design\n  await expect(page.locator('#this-element-does-not-exist')).toBeVisible({ timeout: 3000 });\n});\n\n// Option B — fix with the real locator if this should pass\ntest('element is visible — dedup demo @regression', async ({ page }) => {\n  // Replace with the actual selector for the target element\n  await expect(page.getByRole('heading', { name: 'Expected Heading' })).toBeVisible({ timeout: 3000 });\n});",
-    "reasoning": "The selector '#this-element-does-not-exist' is a placeholder/intentionally broken locator. It matches nothing in the DOM and will always produce an 'element(s) not found' error. The test name explicitly acknowledges this. The fix is either to annotate the test with test.fail() to document the expected failure, or to supply the real target selector if the test is meant to validate an actual UI element.",
+    "suggestedPatch": "// Option 1: Mark as intentionally failing (demo/dedup purposes)\ntest.fail('broken selector always fails — dedup demo @regression', async ({ page }) => {\n  await expect(page.locator('#this-element-does-not-exist')).toBeVisible({ timeout: 3000 });\n});\n\n// Option 2: Replace with the correct selector if this was a mistake\n// await expect(page.locator('#correct-element-id')).toBeVisible({ timeout: 3000 });",
+    "reasoning": "The selector '#this-element-does-not-exist' is a placeholder/intentionally invalid selector. It will never resolve to a DOM element in any environment. The test name itself ('broken selector always fails') confirms this is by design. The appropriate fix depends on intent: if it is a demo of a broken test, use `test.fail()` to prevent false CI alerts; if it was meant to target a real element, the correct selector must be identified and substituted.",
     "confidence": 0.98,
-    "actionType": "update_locator"
+    "actionType": "update_locator_or_mark_expected_failure"
   },
   {
     "testName": " › chromium › ui/checkout.spec.js › Checkout Flow › checkout with all 6 items shows correct count @regression",
     "file": "tests/ui/checkout.spec.js",
     "stepName": "checkout with all 6 items shows correct count @regression",
-    "failedLocator": ".shopping_cart_badge",
-    "candidateLocators": [
-      ".shopping_cart_badge",
-      "[data-test='shopping-cart-badge']",
-      ".shopping_cart_link .shopping_cart_badge",
-      "#shopping_cart_container .shopping_cart_badge"
-    ],
+    "candidateLocators": [],
     "errorMessage": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.shopping_cart_badge')\nExpected: \u001b[32m\"6\"\u001b[39m\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.shopping_cart_badge')\u001b[22m\n",
-    "suggestedPatch": "// After all 6 add-to-cart clicks, wait for the badge to appear before asserting its value\nconst cartBadge = page.locator('.shopping_cart_badge');\nawait cartBadge.waitFor({ state: 'visible', timeout: 10000 });\nawait expect(cartBadge).toHaveText('6', { timeout: 10000 });\n\n// Additionally, after each individual add-to-cart click, assert the button flips to 'Remove':\n// e.g., await expect(page.locator('[data-test=\"remove-sauce-labs-backpack\"]')).toBeVisible();",
-    "reasoning": "The badge is absent because either the add-to-cart actions did not complete or the cart state was never populated. Adding explicit post-click assertions and a guard wait for the badge element before asserting its text value will make the test resilient to race conditions and silent failures in preceding steps.",
-    "confidence": 0.82,
-    "actionType": "patch_test"
+    "reasoning": "Provider failed to return a valid analysis.",
+    "confidence": 0,
+    "actionType": "investigate"
   },
   {
     "testName": " › chromium › ui/saucedemo.spec.js › AI Failure Analysis › intentional failure for AI analysis demo @regression",
@@ -66,7 +63,7 @@
     "stepName": "intentional failure for AI analysis demo @regression",
     "candidateLocators": [],
     "errorMessage": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'Non Existing Header' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'Non Existing Header' })\u001b[22m\n",
-    "reasoning": "Provider failed to return a valid analysis.",
+    "reasoning": "No AI reasoning available.",
     "confidence": 0,
     "actionType": "investigate"
   },

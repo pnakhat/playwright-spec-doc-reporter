@@ -3,14 +3,14 @@ commit `886ee5fb`
 
 | | Result |
 |---|---|
-| ✅ Passed | 23 |
-| ❌ Failed | 8 |
-| ⚠️ Flaky | 1 |
+| ✅ Passed | 22 |
+| ❌ Failed | 9 |
 | ⏭️ Skipped | 2 |
 | 📊 Total | 33 |
 | ⏱️ Duration | 29s |
 
 ### ❌ Failed Tests
+- ❌ `chromium › ui/checkout.spec.js › Product Detail › add to cart from detail page updates badge @regression` — *Error: locator.click: Error: strict mode violation: getByRole('button', { name: 'Add to cart' }) resolved to 6 elements:*
 - ❌ `chromium › ui/checkout.spec.js › Product Detail › add to cart from detail page updates badge @regression` — *Error: locator.click: Error: strict mode violation: getByRole('button', { name: 'Add to cart' }) resolved to 6 elements:*
 - ❌ `chromium › ui/checkout.spec.js › Checkout Flow › checkout with all 6 items shows correct count @regression` — *Error: expect(locator).toHaveText(expected) failed*
 - ❌ `chromium › ui/dedup-demo.spec.js › Dedup Demo › broken selector always fails — dedup demo @regression` — *Error: expect(locator).toBeVisible() failed*
