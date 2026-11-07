@@ -11,7 +11,7 @@
     "report": "open glossy-report/index.html || xdg-open glossy-report/index.html || start glossy-report/index.html"
   },
   "devDependencies": {
-    "@playwright/test": "^1.52.0",
+    "@playwright/test": "^1.65.0",
     "@types/node": "^22.0.0",
     "playwright-bdd": "^9.0.0",
     "playwright-spec-doc-reporter": "../../",
