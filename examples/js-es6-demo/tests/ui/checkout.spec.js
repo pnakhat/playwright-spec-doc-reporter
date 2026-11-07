@@ -11,6 +11,8 @@ async function loginStandard(page) {
   await page.getByPlaceholder("Password").fill(PASSWORD);
   await page.getByRole("button", { name: "Login" }).click();
   await page.waitForURL(/inventory\.html/);
+  // SPA: the URL changes before the inventory renders — wait for it.
+  await expect(page.locator(".inventory_item").first()).toBeVisible();
 }
 
 /** @param {import("@playwright/test").Page} page */
@@ -19,6 +21,8 @@ async function addAllItems(page) {
   const count = await buttons.count();
   for (let i = 0; i < count; i++) {
     await buttons.nth(0).click();
+    // Wait for the clicked button to flip to "Remove" before clicking the next one.
+    await expect(buttons).toHaveCount(count - i - 1);
   }
 }
 
@@ -184,6 +188,8 @@ test.describe("Product Detail", () => {
     addBehaviour("User opens a product detail page");
     await loginStandard(page);
     await page.locator(".inventory_item_name").first().click();
+    // SPA: the URL changes before the detail view renders — wait for the view.
+    await expect(page.locator(".inventory_details_name")).toBeVisible();
 
     addBehaviour("User clicks Add to cart from the detail page");
     await page.getByRole("button", { name: "Add to cart" }).click();
