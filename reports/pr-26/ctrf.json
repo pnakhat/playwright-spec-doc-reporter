@@ -7,19 +7,19 @@
     },
     "summary": {
       "tests": 33,
-      "passed": 23,
-      "failed": 8,
+      "passed": 22,
+      "failed": 9,
       "pending": 0,
       "skipped": 2,
       "other": 0,
-      "start": 1794048913076,
-      "stop": 1794048931694
+      "start": 1794049475100,
+      "stop": 1794049495845
     },
     "tests": [
       {
         "name": "chromium › ui/checkout.spec.js › Checkout Flow › checkout requires first name @validation",
         "status": "passed",
-        "duration": 942,
+        "duration": 1009,
         "suite": "Checkout Flow",
         "filePath": "tests/ui/checkout.spec.js",
         "retries": 0,
@@ -33,7 +33,7 @@
       {
         "name": "chromium › ui/checkout.spec.js › Checkout Flow › complete checkout with one item @smoke @critical",
         "status": "passed",
-        "duration": 1101,
+        "duration": 1144,
         "suite": "Checkout Flow",
         "filePath": "tests/ui/checkout.spec.js",
         "retries": 0,
@@ -48,7 +48,7 @@
       {
         "name": "chromium › ui/checkout.spec.js › Checkout Flow › checkout requires last name @validation",
         "status": "passed",
-        "duration": 717,
+        "duration": 707,
         "suite": "Checkout Flow",
         "filePath": "tests/ui/checkout.spec.js",
         "retries": 0,
@@ -62,7 +62,7 @@
       {
         "name": "chromium › ui/checkout.spec.js › Checkout Flow › checkout requires postal code @validation",
         "status": "passed",
-        "duration": 751,
+        "duration": 877,
         "suite": "Checkout Flow",
         "filePath": "tests/ui/checkout.spec.js",
         "retries": 0,
@@ -90,7 +90,7 @@
       {
         "name": "chromium › ui/checkout.spec.js › Product Detail › clicking product name opens detail page @smoke",
         "status": "passed",
-        "duration": 569,
+        "duration": 564,
         "suite": "Product Detail",
         "filePath": "tests/ui/checkout.spec.js",
         "retries": 0,
@@ -104,7 +104,7 @@
       {
         "name": "chromium › ui/checkout.spec.js › Product Detail › back button on detail page returns to inventory @smoke",
         "status": "passed",
-        "duration": 573,
+        "duration": 561,
         "suite": "Product Detail",
         "filePath": "tests/ui/checkout.spec.js",
         "retries": 0,
@@ -118,7 +118,7 @@
       {
         "name": "chromium › ui/checkout.spec.js › Product Detail › add to cart from detail page updates badge @regression",
         "status": "failed",
-        "duration": 590,
+        "duration": 513,
         "message": "Error: locator.click: Error: strict mode violation: getByRole('button', { name: 'Add to cart' }) resolved to 6 elements:\n    1) <button id=\"add-to-cart-sauce-labs-backpack\" name=\"add-to-cart-sauce-labs-backpack\" data-test=\"add-to-cart-sauce-labs-backpack\" class=\"btn btn_primary btn_small btn_inventory \">Add to cart</button> aka locator('[data-test=\"add-to-cart-sauce-labs-backpack\"]')\n    2) <button id=\"add-to-cart-sauce-labs-bike-light\" name=\"add-to-cart-sauce-labs-bike-light\" data-test=\"add-to-cart-sauce-labs-bike-light\" class=\"btn btn_primary btn_small btn_inventory \">Add to cart</button> aka locator('[data-test=\"add-to-cart-sauce-labs-bike-light\"]')\n    3) <button id=\"add-to-cart-sauce-labs-bolt-t-shirt\" name=\"add-to-cart-sauce-labs-bolt-t-shirt\" data-test=\"add-to-cart-sauce-labs-bolt-t-shirt\" class=\"btn btn_primary btn_small btn_inventory \">Add to cart</button> aka locator('[data-test=\"add-to-cart-sauce-labs-bolt-t-shirt\"]')\n    4) <button id=\"add-to-cart-sauce-labs-fleece-jacket\" name=\"add-to-cart-sauce-labs-fleece-jacket\" class=\"btn btn_primary btn_small btn_inventory \" data-test=\"add-to-cart-sauce-labs-fleece-jacket\">Add to cart</button> aka locator('[data-test=\"add-to-cart-sauce-labs-fleece-jacket\"]')\n    5) <button id=\"add-to-cart-sauce-labs-onesie\" name=\"add-to-cart-sauce-labs-onesie\" data-test=\"add-to-cart-sauce-labs-onesie\" class=\"btn btn_primary btn_small btn_inventory \">Add to cart</button> aka locator('[data-test=\"add-to-cart-sauce-labs-onesie\"]')\n    6) <button class=\"btn btn_primary btn_small btn_inventory \" id=\"add-to-cart-test.allthethings()-t-shirt-(red)\" name=\"add-to-cart-test.allthethings()-t-shirt-(red)\" data-test=\"add-to-cart-test.allthethings()-t-shirt-(red)\">Add to cart</button> aka locator('[data-test=\"add-to-cart-test.allthethings()-t-shirt-(red)\"]')\n\nCall log:\n  - waiting for getByRole('button', { name: 'Add to cart' })\n",
         "trace": "Error: locator.click: Error: strict mode violation: getByRole('button', { name: 'Add to cart' }) resolved to 6 elements:\n    1) <button id=\"add-to-cart-sauce-labs-backpack\" name=\"add-to-cart-sauce-labs-backpack\" data-test=\"add-to-cart-sauce-labs-backpack\" class=\"btn btn_primary btn_small btn_inventory \">Add to cart</button> aka locator('[data-test=\"add-to-cart-sauce-labs-backpack\"]')\n    2) <button id=\"add-to-cart-sauce-labs-bike-light\" name=\"add-to-cart-sauce-labs-bike-light\" data-test=\"add-to-cart-sauce-labs-bike-light\" class=\"btn btn_primary btn_small btn_inventory \">Add to cart</button> aka locator('[data-test=\"add-to-cart-sauce-labs-bike-light\"]')\n    3) <button id=\"add-to-cart-sauce-labs-bolt-t-shirt\" name=\"add-to-cart-sauce-labs-bolt-t-shirt\" data-test=\"add-to-cart-sauce-labs-bolt-t-shirt\" class=\"btn btn_primary btn_small btn_inventory \">Add to cart</button> aka locator('[data-test=\"add-to-cart-sauce-labs-bolt-t-shirt\"]')\n    4) <button id=\"add-to-cart-sauce-labs-fleece-jacket\" name=\"add-to-cart-sauce-labs-fleece-jacket\" class=\"btn btn_primary btn_small btn_inventory \" data-test=\"add-to-cart-sauce-labs-fleece-jacket\">Add to cart</button> aka locator('[data-test=\"add-to-cart-sauce-labs-fleece-jacket\"]')\n    5) <button id=\"add-to-cart-sauce-labs-onesie\" name=\"add-to-cart-sauce-labs-onesie\" data-test=\"add-to-cart-sauce-labs-onesie\" class=\"btn btn_primary btn_small btn_inventory \">Add to cart</button> aka locator('[data-test=\"add-to-cart-sauce-labs-onesie\"]')\n    6) <button class=\"btn btn_primary btn_small btn_inventory \" id=\"add-to-cart-test.allthethings()-t-shirt-(red)\" name=\"add-to-cart-test.allthethings()-t-shirt-(red)\" data-test=\"add-to-cart-test.allthethings()-t-shirt-(red)\">Add to cart</button> aka locator('[data-test=\"add-to-cart-test.allthethings()-t-shirt-(red)\"]')\n\nCall log:\n  - waiting for getByRole('button', { name: 'Add to cart' })\n\n    at /home/runner/work/playwright-spec-doc-reporter/playwright-spec-doc-reporter/examples/js-es6-demo/tests/ui/checkout.spec.js:189:61",
         "suite": "Product Detail",
@@ -133,12 +133,14 @@
       },
       {
         "name": "chromium › ui/checkout.spec.js › Product Detail › add to cart from detail page updates badge @regression",
-        "status": "passed",
-        "duration": 1112,
+        "status": "failed",
+        "duration": 1225,
+        "message": "Error: locator.click: Error: strict mode violation: getByRole('button', { name: 'Add to cart' }) resolved to 6 elements:\n    1) <button id=\"add-to-cart-sauce-labs-backpack\" name=\"add-to-cart-sauce-labs-backpack\" data-test=\"add-to-cart-sauce-labs-backpack\" class=\"btn btn_primary btn_small btn_inventory \">Add to cart</button> aka locator('[data-test=\"add-to-cart-sauce-labs-backpack\"]')\n    2) <button id=\"add-to-cart-sauce-labs-bike-light\" name=\"add-to-cart-sauce-labs-bike-light\" data-test=\"add-to-cart-sauce-labs-bike-light\" class=\"btn btn_primary btn_small btn_inventory \">Add to cart</button> aka locator('[data-test=\"add-to-cart-sauce-labs-bike-light\"]')\n    3) <button id=\"add-to-cart-sauce-labs-bolt-t-shirt\" name=\"add-to-cart-sauce-labs-bolt-t-shirt\" data-test=\"add-to-cart-sauce-labs-bolt-t-shirt\" class=\"btn btn_primary btn_small btn_inventory \">Add to cart</button> aka locator('[data-test=\"add-to-cart-sauce-labs-bolt-t-shirt\"]')\n    4) <button id=\"add-to-cart-sauce-labs-fleece-jacket\" name=\"add-to-cart-sauce-labs-fleece-jacket\" class=\"btn btn_primary btn_small btn_inventory \" data-test=\"add-to-cart-sauce-labs-fleece-jacket\">Add to cart</button> aka locator('[data-test=\"add-to-cart-sauce-labs-fleece-jacket\"]')\n    5) <button id=\"add-to-cart-sauce-labs-onesie\" name=\"add-to-cart-sauce-labs-onesie\" data-test=\"add-to-cart-sauce-labs-onesie\" class=\"btn btn_primary btn_small btn_inventory \">Add to cart</button> aka locator('[data-test=\"add-to-cart-sauce-labs-onesie\"]')\n    6) <button class=\"btn btn_primary btn_small btn_inventory \" id=\"add-to-cart-test.allthethings()-t-shirt-(red)\" name=\"add-to-cart-test.allthethings()-t-shirt-(red)\" data-test=\"add-to-cart-test.allthethings()-t-shirt-(red)\">Add to cart</button> aka locator('[data-test=\"add-to-cart-test.allthethings()-t-shirt-(red)\"]')\n\nCall log:\n  - waiting for getByRole('button', { name: 'Add to cart' })\n",
+        "trace": "Error: locator.click: Error: strict mode violation: getByRole('button', { name: 'Add to cart' }) resolved to 6 elements:\n    1) <button id=\"add-to-cart-sauce-labs-backpack\" name=\"add-to-cart-sauce-labs-backpack\" data-test=\"add-to-cart-sauce-labs-backpack\" class=\"btn btn_primary btn_small btn_inventory \">Add to cart</button> aka locator('[data-test=\"add-to-cart-sauce-labs-backpack\"]')\n    2) <button id=\"add-to-cart-sauce-labs-bike-light\" name=\"add-to-cart-sauce-labs-bike-light\" data-test=\"add-to-cart-sauce-labs-bike-light\" class=\"btn btn_primary btn_small btn_inventory \">Add to cart</button> aka locator('[data-test=\"add-to-cart-sauce-labs-bike-light\"]')\n    3) <button id=\"add-to-cart-sauce-labs-bolt-t-shirt\" name=\"add-to-cart-sauce-labs-bolt-t-shirt\" data-test=\"add-to-cart-sauce-labs-bolt-t-shirt\" class=\"btn btn_primary btn_small btn_inventory \">Add to cart</button> aka locator('[data-test=\"add-to-cart-sauce-labs-bolt-t-shirt\"]')\n    4) <button id=\"add-to-cart-sauce-labs-fleece-jacket\" name=\"add-to-cart-sauce-labs-fleece-jacket\" class=\"btn btn_primary btn_small btn_inventory \" data-test=\"add-to-cart-sauce-labs-fleece-jacket\">Add to cart</button> aka locator('[data-test=\"add-to-cart-sauce-labs-fleece-jacket\"]')\n    5) <button id=\"add-to-cart-sauce-labs-onesie\" name=\"add-to-cart-sauce-labs-onesie\" data-test=\"add-to-cart-sauce-labs-onesie\" class=\"btn btn_primary btn_small btn_inventory \">Add to cart</button> aka locator('[data-test=\"add-to-cart-sauce-labs-onesie\"]')\n    6) <button class=\"btn btn_primary btn_small btn_inventory \" id=\"add-to-cart-test.allthethings()-t-shirt-(red)\" name=\"add-to-cart-test.allthethings()-t-shirt-(red)\" data-test=\"add-to-cart-test.allthethings()-t-shirt-(red)\">Add to cart</button> aka locator('[data-test=\"add-to-cart-test.allthethings()-t-shirt-(red)\"]')\n\nCall log:\n  - waiting for getByRole('button', { name: 'Add to cart' })\n\n    at /home/runner/work/playwright-spec-doc-reporter/playwright-spec-doc-reporter/examples/js-es6-demo/tests/ui/checkout.spec.js:189:61",
         "suite": "Product Detail",
         "filePath": "tests/ui/checkout.spec.js",
         "retries": 1,
-        "flaky": true,
+        "flaky": false,
         "tags": [
           "@regression",
           "@cucumber"
@@ -148,7 +150,7 @@
       {
         "name": "chromium › ui/checkout.spec.js › Checkout Flow › checkout with all 6 items shows correct count @regression",
         "status": "failed",
-        "duration": 5669,
+        "duration": 5898,
         "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator: locator('.shopping_cart_badge')\nExpected: \"6\"\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for locator('.shopping_cart_badge')\n",
         "trace": "Error: expect(locator).toHaveText(expected) failed\n\nLocator: locator('.shopping_cart_badge')\nExpected: \"6\"\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for locator('.shopping_cart_badge')\n\n    at /home/runner/work/playwright-spec-doc-reporter/playwright-spec-doc-reporter/examples/js-es6-demo/tests/ui/checkout.spec.js:123:56",
         "suite": "Checkout Flow",
@@ -164,7 +166,7 @@
       {
         "name": "chromium › ui/dedup-demo.spec.js › Dedup Demo › broken selector always fails — dedup demo @regression",
         "status": "failed",
-        "duration": 3448,
+        "duration": 3976,
         "message": "Error: expect(locator).toBeVisible() failed\n\nLocator: locator('#this-element-does-not-exist')\nExpected: visible\nTimeout: 3000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 3000ms\n  - waiting for locator('#this-element-does-not-exist')\n",
         "trace": "Error: expect(locator).toBeVisible() failed\n\nLocator: locator('#this-element-does-not-exist')\nExpected: visible\nTimeout: 3000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 3000ms\n  - waiting for locator('#this-element-does-not-exist')\n\n    at /home/runner/work/playwright-spec-doc-reporter/playwright-spec-doc-reporter/examples/js-es6-demo/tests/ui/dedup-demo.spec.js:25:64",
         "suite": "Dedup Demo",
@@ -180,7 +182,7 @@
       {
         "name": "chromium › ui/saucedemo.spec.js › Shopping Cart › standard user can login and add item to cart @smoke @critical @SCRUM-1",
         "status": "passed",
-        "duration": 669,
+        "duration": 642,
         "suite": "Shopping Cart",
         "filePath": "tests/ui/saucedemo.spec.js",
         "retries": 0,
@@ -210,7 +212,7 @@
       {
         "name": "chromium › ui/saucedemo.spec.js › Shopping Cart › user can sort products by price @regression",
         "status": "passed",
-        "duration": 529,
+        "duration": 507,
         "suite": "Shopping Cart",
         "filePath": "tests/ui/saucedemo.spec.js",
         "retries": 0,
@@ -224,7 +226,7 @@
       {
         "name": "chromium › ui/saucedemo.spec.js › Authentication › locked out user sees expected error @smoke @auth",
         "status": "passed",
-        "duration": 392,
+        "duration": 397,
         "suite": "Authentication",
         "filePath": "tests/ui/saucedemo.spec.js",
         "retries": 0,
@@ -239,7 +241,7 @@
       {
         "name": "chromium › ui/checkout.spec.js › Checkout Flow › checkout with all 6 items shows correct count @regression",
         "status": "failed",
-        "duration": 5718,
+        "duration": 5788,
         "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator: locator('.shopping_cart_badge')\nExpected: \"6\"\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for locator('.shopping_cart_badge')\n",
         "trace": "Error: expect(locator).toHaveText(expected) failed\n\nLocator: locator('.shopping_cart_badge')\nExpected: \"6\"\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for locator('.shopping_cart_badge')\n\n    at /home/runner/work/playwright-spec-doc-reporter/playwright-spec-doc-reporter/examples/js-es6-demo/tests/ui/checkout.spec.js:123:56",
         "suite": "Checkout Flow",
@@ -255,7 +257,7 @@
       {
         "name": "chromium › ui/saucedemo.spec.js › Healer Simulation › cart icon navigates to cart page (auto-healed) @smoke @critical",
         "status": "passed",
-        "duration": 583,
+        "duration": 555,
         "suite": "Healer Simulation",
         "filePath": "tests/ui/saucedemo.spec.js",
         "retries": 0,
@@ -270,7 +272,7 @@
       {
         "name": "chromium › ui/saucedemo.spec.js › Healer Simulation › checkout button is visible on cart page (skipped-app-broken) @regression",
         "status": "skipped",
-        "duration": 129,
+        "duration": 141,
         "suite": "Healer Simulation",
         "filePath": "tests/ui/saucedemo.spec.js",
         "retries": 0,
@@ -284,7 +286,7 @@
       {
         "name": "chromium › ui/saucedemo.spec.js › AI Failure Analysis › intentional failure for AI analysis demo @regression",
         "status": "failed",
-        "duration": 5606,
+        "duration": 5707,
         "message": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByRole('heading', { name: 'Non Existing Header' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for getByRole('heading', { name: 'Non Existing Header' })\n",
         "trace": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByRole('heading', { name: 'Non Existing Header' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for getByRole('heading', { name: 'Non Existing Header' })\n\n    at /home/runner/work/playwright-spec-doc-reporter/playwright-spec-doc-reporter/examples/js-es6-demo/tests/ui/saucedemo.spec.js:116:78",
         "suite": "AI Failure Analysis",
