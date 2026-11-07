@@ -1,0 +1,595 @@
+{
+  "schemaVersion": "1.0",
+  "runs": [
+    {
+      "runId": "a04411aa60968699",
+      "timestamp": "2026-11-07T11:35:41.942Z",
+      "branch": "main",
+      "commit": "34df15e5",
+      "passRate": 77,
+      "playwrightVersion": "1.58.2",
+      "summary": {
+        "total": 31,
+        "passed": 24,
+        "failed": 5,
+        "skipped": 2,
+        "flaky": 0,
+        "durationMs": 20430
+      },
+      "testSnapshots": [
+        {
+          "key": "tests/ui/checkout.spec.js::checkout requires first name @validation",
+          "status": "passed",
+          "durationMs": 1165
+        },
+        {
+          "key": "tests/ui/checkout.spec.js::complete checkout with one item @smoke @critical",
+          "status": "passed",
+          "durationMs": 1275
+        },
+        {
+          "key": "tests/ui/checkout.spec.js::checkout requires last name @validation",
+          "status": "passed",
+          "durationMs": 817
+        },
+        {
+          "key": "tests/ui/checkout.spec.js::checkout requires postal code @validation",
+          "status": "passed",
+          "durationMs": 851
+        },
+        {
+          "key": "tests/ui/checkout.spec.js::cancel checkout returns to inventory @regression",
+          "status": "passed",
+          "durationMs": 858
+        },
+        {
+          "key": "tests/ui/checkout.spec.js::checkout with all 6 items shows correct count @regression",
+          "status": "passed",
+          "durationMs": 1104
+        },
+        {
+          "key": "tests/ui/checkout.spec.js::back button on detail page returns to inventory @smoke",
+          "status": "passed",
+          "durationMs": 723
+        },
+        {
+          "key": "tests/ui/checkout.spec.js::clicking product name opens detail page @smoke",
+          "status": "passed",
+          "durationMs": 846
+        },
+        {
+          "key": "tests/ui/checkout.spec.js::add to cart from detail page updates badge @regression",
+          "status": "passed",
+          "durationMs": 719
+        },
+        {
+          "key": "tests/ui/saucedemo.spec.js::standard user can login and add item to cart @smoke @critical @SCRUM-1",
+          "status": "passed",
+          "durationMs": 713
+        },
+        {
+          "key": "tests/ui/saucedemo.spec.js::user can remove item from cart @smoke",
+          "status": "passed",
+          "durationMs": 541
+        },
+        {
+          "key": "tests/ui/saucedemo.spec.js::user can sort products by price @regression",
+          "status": "passed",
+          "durationMs": 511
+        },
+        {
+          "key": "tests/ui/saucedemo.spec.js::locked out user sees expected error @smoke @auth",
+          "status": "passed",
+          "durationMs": 382
+        },
+        {
+          "key": "tests/ui/dedup-demo.spec.js::broken selector always fails — dedup demo @regression",
+          "status": "failed",
+          "durationMs": 3539,
+          "issueCategory": "locator_drift"
+        },
+        {
+          "key": "tests/ui/saucedemo.spec.js::cart icon navigates to cart page (auto-healed) @smoke @critical",
+          "status": "passed",
+          "durationMs": 478
+        },
+        {
+          "key": "tests/ui/saucedemo.spec.js::checkout button is visible on cart page (skipped-app-broken) @regression",
+          "status": "skipped",
+          "durationMs": 183
+        },
+        {
+          "key": "tests/ui/saucedemo.spec.js::intentional failure for AI analysis demo @regression",
+          "status": "failed",
+          "durationMs": 5725,
+          "issueCategory": "assertion_issue"
+        },
+        {
+          "key": "tests/manual-results.md::Standard user can view the product catalogue",
+          "status": "passed",
+          "durationMs": 0
+        },
+        {
+          "key": "tests/manual-results.md::Product images load correctly on inventory page",
+          "status": "passed",
+          "durationMs": 0
+        },
+        {
+          "key": "tests/manual-results.md::Cart persists items after page refresh",
+          "status": "failed",
+          "durationMs": 0
+        },
+        {
+          "key": "tests/manual-results.md::User can sort products by name Z-A",
+          "status": "passed",
+          "durationMs": 0
+        },
+        {
+          "key": "tests/manual-results.md::Standard user login with correct credentials",
+          "status": "passed",
+          "durationMs": 0
+        },
+        {
+          "key": "tests/manual-results.md::Login page shows password field as masked",
+          "status": "passed",
+          "durationMs": 0
+        },
+        {
+          "key": "tests/manual-results.md::Login error clears when user starts retyping",
+          "status": "failed",
+          "durationMs": 0
+        },
+        {
+          "key": "tests/manual-results.md::Performance glitch user experiences delayed page load",
+          "status": "skipped",
+          "durationMs": 0
+        },
+        {
+          "key": "tests/manual-results.md::Complete checkout happy path — exploratory session",
+          "status": "passed",
+          "durationMs": 0
+        },
+        {
+          "key": "tests/manual-results.md::Checkout requires all three address fields",
+          "status": "passed",
+          "durationMs": 0
+        },
+        {
+          "key": "tests/manual-results.md::Order summary shows correct item price before finishing",
+          "status": "passed",
+          "durationMs": 0
+        },
+        {
+          "key": "tests/manual-results.md::Checkout cancel on step 2 returns to inventory",
+          "status": "failed",
+          "durationMs": 0
+        },
+        {
+          "key": "tests/manual-results.md::Product detail page shows all required information",
+          "status": "passed",
+          "durationMs": 0
+        },
+        {
+          "key": "tests/manual-results.md::Adding product from detail page updates cart badge",
+          "status": "passed",
+          "durationMs": 0
+        }
+      ]
+    },
+    {
+      "runId": "7952f30bf7ecd7a0",
+      "timestamp": "2026-11-07T18:10:24.016Z",
+      "branch": "29/merge",
+      "commit": "7d333957",
+      "passRate": 91,
+      "playwrightVersion": "1.58.2",
+      "summary": {
+        "total": 79,
+        "passed": 72,
+        "failed": 5,
+        "skipped": 2,
+        "flaky": 0,
+        "durationMs": 24568
+      },
+      "testSnapshots": [
+        {
+          "key": "tests/api/albums-api.spec.js::GET /users/2/albums returns albums for user",
+          "status": "passed",
+          "durationMs": 218
+        },
+        {
+          "key": "tests/api/albums-api.spec.js::GET /users/1/albums returns albums for user",
+          "status": "passed",
+          "durationMs": 202
+        },
+        {
+          "key": "tests/api/albums-api.spec.js::GET /users/3/albums returns albums for user",
+          "status": "passed",
+          "durationMs": 95
+        },
+        {
+          "key": "tests/api/albums-api.spec.js::GET /users/4/albums returns albums for user",
+          "status": "passed",
+          "durationMs": 99
+        },
+        {
+          "key": "tests/api/albums-api.spec.js::GET /users/5/albums returns albums for user",
+          "status": "passed",
+          "durationMs": 95
+        },
+        {
+          "key": "tests/api/albums-api.spec.js::GET /users/6/albums returns albums for user",
+          "status": "passed",
+          "durationMs": 96
+        },
+        {
+          "key": "tests/api/albums-api.spec.js::GET /users/7/albums returns albums for user",
+          "status": "passed",
+          "durationMs": 93
+        },
+        {
+          "key": "tests/api/albums-api.spec.js::GET /users/8/albums returns albums for user",
+          "status": "passed",
+          "durationMs": 95
+        },
+        {
+          "key": "tests/api/albums-api.spec.js::GET /users/9/albums returns albums for user",
+          "status": "passed",
+          "durationMs": 91
+        },
+        {
+          "key": "tests/api/albums-api.spec.js::GET /users/10/albums returns albums for user",
+          "status": "passed",
+          "durationMs": 89
+        },
+        {
+          "key": "tests/api/albums-api.spec.js::GET /albums returns 100 albums",
+          "status": "passed",
+          "durationMs": 29
+        },
+        {
+          "key": "tests/api/albums-api.spec.js::GET /albums/1/photos returns photos for album",
+          "status": "passed",
+          "durationMs": 92
+        },
+        {
+          "key": "tests/api/albums-api.spec.js::POST /albums creates a new album",
+          "status": "passed",
+          "durationMs": 87
+        },
+        {
+          "key": "tests/api/comments-api.spec.js::GET /posts/1/comments returns comments for post",
+          "status": "passed",
+          "durationMs": 28
+        },
+        {
+          "key": "tests/api/comments-api.spec.js::GET /posts/2/comments returns comments for post",
+          "status": "passed",
+          "durationMs": 93
+        },
+        {
+          "key": "tests/api/comments-api.spec.js::GET /posts/3/comments returns comments for post",
+          "status": "passed",
+          "durationMs": 103
+        },
+        {
+          "key": "tests/api/comments-api.spec.js::GET /posts/4/comments returns comments for post",
+          "status": "passed",
+          "durationMs": 99
+        },
+        {
+          "key": "tests/api/comments-api.spec.js::GET /posts/5/comments returns comments for post",
+          "status": "passed",
+          "durationMs": 95
+        },
+        {
+          "key": "tests/api/comments-api.spec.js::GET /posts/10/comments returns comments for post",
+          "status": "passed",
+          "durationMs": 98
+        },
+        {
+          "key": "tests/api/comments-api.spec.js::GET /posts/15/comments returns comments for post",
+          "status": "passed",
+          "durationMs": 98
+        },
+        {
+          "key": "tests/api/comments-api.spec.js::GET /posts/20/comments returns comments for post",
+          "status": "passed",
+          "durationMs": 91
+        },
+        {
+          "key": "tests/api/comments-api.spec.js::GET /posts/30/comments returns comments for post",
+          "status": "passed",
+          "durationMs": 90
+        },
+        {
+          "key": "tests/api/comments-api.spec.js::GET /comments returns 500 comments",
+          "status": "passed",
+          "durationMs": 29
+        },
+        {
+          "key": "tests/api/comments-api.spec.js::GET /comments?postId=1 filters by post",
+          "status": "passed",
+          "durationMs": 23
+        },
+        {
+          "key": "tests/api/comments-api.spec.js::GET /posts/50/comments returns comments for post",
+          "status": "passed",
+          "durationMs": 99
+        },
+        {
+          "key": "tests/api/comments-api.spec.js::Each comment has a valid email format",
+          "status": "passed",
+          "durationMs": 31
+        },
+        {
+          "key": "tests/api/posts-api.spec.js::GET /posts returns a list of posts",
+          "status": "passed",
+          "durationMs": 27
+        },
+        {
+          "key": "tests/api/posts-api.spec.js::GET /posts/:id returns a single post",
+          "status": "passed",
+          "durationMs": 24
+        },
+        {
+          "key": "tests/api/posts-api.spec.js::POST /posts creates a new resource",
+          "status": "passed",
+          "durationMs": 84
+        },
+        {
+          "key": "tests/api/posts-api.spec.js::PUT /posts/:id updates an existing resource",
+          "status": "passed",
+          "durationMs": 88
+        },
+        {
+          "key": "tests/api/todos-api.spec.js::GET /todos/1 returns correct todo",
+          "status": "passed",
+          "durationMs": 23
+        },
+        {
+          "key": "tests/api/posts-api.spec.js::DELETE /posts/:id removes a resource",
+          "status": "passed",
+          "durationMs": 80
+        },
+        {
+          "key": "tests/api/todos-api.spec.js::GET /todos/10 returns correct todo",
+          "status": "passed",
+          "durationMs": 25
+        },
+        {
+          "key": "tests/api/todos-api.spec.js::GET /todos/5 returns correct todo",
+          "status": "passed",
+          "durationMs": 91
+        },
+        {
+          "key": "tests/api/todos-api.spec.js::GET /todos/25 returns correct todo",
+          "status": "passed",
+          "durationMs": 94
+        },
+        {
+          "key": "tests/api/todos-api.spec.js::GET /todos/50 returns correct todo",
+          "status": "passed",
+          "durationMs": 91
+        },
+        {
+          "key": "tests/api/todos-api.spec.js::GET /todos/75 returns correct todo",
+          "status": "passed",
+          "durationMs": 94
+        },
+        {
+          "key": "tests/api/todos-api.spec.js::GET /todos/100 returns correct todo",
+          "status": "passed",
+          "durationMs": 90
+        },
+        {
+          "key": "tests/api/todos-api.spec.js::GET /todos/150 returns correct todo",
+          "status": "passed",
+          "durationMs": 90
+        },
+        {
+          "key": "tests/api/todos-api.spec.js::GET /todos/180 returns correct todo",
+          "status": "passed",
+          "durationMs": 91
+        },
+        {
+          "key": "tests/api/todos-api.spec.js::GET /todos returns 200 todos",
+          "status": "passed",
+          "durationMs": 22
+        },
+        {
+          "key": "tests/api/todos-api.spec.js::GET /todos/200 returns correct todo",
+          "status": "passed",
+          "durationMs": 93
+        },
+        {
+          "key": "tests/api/todos-api.spec.js::GET /todos?userId=1 returns todos for user 1",
+          "status": "passed",
+          "durationMs": 96
+        },
+        {
+          "key": "tests/api/todos-api.spec.js::GET /todos?completed=true returns only completed todos",
+          "status": "passed",
+          "durationMs": 157
+        },
+        {
+          "key": "tests/api/users-api.spec.js::GET /users returns a list of users",
+          "status": "passed",
+          "durationMs": 25
+        },
+        {
+          "key": "tests/api/todos-api.spec.js::POST /todos creates a new todo",
+          "status": "passed",
+          "durationMs": 87
+        },
+        {
+          "key": "tests/api/users-api.spec.js::GET /users/:id returns a single user",
+          "status": "passed",
+          "durationMs": 30
+        },
+        {
+          "key": "tests/api/users-api.spec.js::GET /users/:id/posts returns user's posts",
+          "status": "passed",
+          "durationMs": 34
+        },
+        {
+          "key": "tests/ui/checkout.spec.js::checkout requires first name @validation",
+          "status": "passed",
+          "durationMs": 1045
+        },
+        {
+          "key": "tests/ui/checkout.spec.js::complete checkout with one item @smoke @critical",
+          "status": "passed",
+          "durationMs": 1314
+        },
+        {
+          "key": "tests/ui/checkout.spec.js::checkout requires last name @validation",
+          "status": "passed",
+          "durationMs": 803
+        },
+        {
+          "key": "tests/ui/checkout.spec.js::checkout requires postal code @validation",
+          "status": "passed",
+          "durationMs": 1038
+        },
+        {
+          "key": "tests/ui/checkout.spec.js::checkout with all 6 items shows correct count @regression",
+          "status": "passed",
+          "durationMs": 1074
+        },
+        {
+          "key": "tests/ui/checkout.spec.js::cancel checkout returns to inventory @regression",
+          "status": "passed",
+          "durationMs": 840
+        },
+        {
+          "key": "tests/ui/checkout.spec.js::clicking product name opens detail page @smoke",
+          "status": "passed",
+          "durationMs": 685
+        },
+        {
+          "key": "tests/ui/checkout.spec.js::back button on detail page returns to inventory @smoke",
+          "status": "passed",
+          "durationMs": 772
+        },
+        {
+          "key": "tests/ui/checkout.spec.js::add to cart from detail page updates badge @regression",
+          "status": "passed",
+          "durationMs": 707
+        },
+        {
+          "key": "tests/ui/saucedemo.spec.js::standard user can login and add item to cart @smoke @critical @SCRUM-1",
+          "status": "passed",
+          "durationMs": 791
+        },
+        {
+          "key": "tests/ui/saucedemo.spec.js::user can remove item from cart @smoke",
+          "status": "passed",
+          "durationMs": 596
+        },
+        {
+          "key": "tests/ui/saucedemo.spec.js::user can sort products by price @regression",
+          "status": "passed",
+          "durationMs": 559
+        },
+        {
+          "key": "tests/ui/saucedemo.spec.js::locked out user sees expected error @smoke @auth",
+          "status": "passed",
+          "durationMs": 436
+        },
+        {
+          "key": "tests/ui/dedup-demo.spec.js::broken selector always fails — dedup demo @regression",
+          "status": "failed",
+          "durationMs": 3543,
+          "issueCategory": "locator_drift"
+        },
+        {
+          "key": "tests/ui/saucedemo.spec.js::cart icon navigates to cart page (auto-healed) @smoke @critical",
+          "status": "passed",
+          "durationMs": 511
+        },
+        {
+          "key": "tests/ui/saucedemo.spec.js::checkout button is visible on cart page (skipped-app-broken) @regression",
+          "status": "skipped",
+          "durationMs": 190
+        },
+        {
+          "key": "tests/ui/saucedemo.spec.js::intentional failure for AI analysis demo @regression",
+          "status": "failed",
+          "durationMs": 5770,
+          "issueCategory": "assertion_issue"
+        },
+        {
+          "key": "tests/manual-results.md::Standard user can view the product catalogue",
+          "status": "passed",
+          "durationMs": 0
+        },
+        {
+          "key": "tests/manual-results.md::Product images load correctly on inventory page",
+          "status": "passed",
+          "durationMs": 0
+        },
+        {
+          "key": "tests/manual-results.md::Cart persists items after page refresh",
+          "status": "failed",
+          "durationMs": 0
+        },
+        {
+          "key": "tests/manual-results.md::User can sort products by name Z-A",
+          "status": "passed",
+          "durationMs": 0
+        },
+        {
+          "key": "tests/manual-results.md::Standard user login with correct credentials",
+          "status": "passed",
+          "durationMs": 0
+        },
+        {
+          "key": "tests/manual-results.md::Login page shows password field as masked",
+          "status": "passed",
+          "durationMs": 0
+        },
+        {
+          "key": "tests/manual-results.md::Login error clears when user starts retyping",
+          "status": "failed",
+          "durationMs": 0
+        },
+        {
+          "key": "tests/manual-results.md::Performance glitch user experiences delayed page load",
+          "status": "skipped",
+          "durationMs": 0
+        },
+        {
+          "key": "tests/manual-results.md::Complete checkout happy path — exploratory session",
+          "status": "passed",
+          "durationMs": 0
+        },
+        {
+          "key": "tests/manual-results.md::Checkout requires all three address fields",
+          "status": "passed",
+          "durationMs": 0
+        },
+        {
+          "key": "tests/manual-results.md::Order summary shows correct item price before finishing",
+          "status": "passed",
+          "durationMs": 0
+        },
+        {
+          "key": "tests/manual-results.md::Checkout cancel on step 2 returns to inventory",
+          "status": "failed",
+          "durationMs": 0
+        },
+        {
+          "key": "tests/manual-results.md::Product detail page shows all required information",
+          "status": "passed",
+          "durationMs": 0
+        },
+        {
+          "key": "tests/manual-results.md::Adding product from detail page updates cart badge",
+          "status": "passed",
+          "durationMs": 0
+        }
+      ]
+    }
+  ]
+}

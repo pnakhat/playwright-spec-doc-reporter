@@ -1,0 +1,1082 @@
+{
+  "reportFormat": "CTRF",
+  "specVersion": "0.0.0",
+  "results": {
+    "tool": {
+      "name": "playwright"
+    },
+    "summary": {
+      "tests": 79,
+      "passed": 72,
+      "failed": 5,
+      "pending": 0,
+      "skipped": 2,
+      "other": 0,
+      "start": 1794074930735,
+      "stop": 1794074948279
+    },
+    "tests": [
+      {
+        "name": "api › api/albums-api.spec.js › Albums API › GET /users/2/albums returns albums for user",
+        "status": "passed",
+        "duration": 218,
+        "suite": "Albums API",
+        "filePath": "tests/api/albums-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/albums-api.spec.js › Albums API › GET /users/1/albums returns albums for user",
+        "status": "passed",
+        "duration": 202,
+        "suite": "Albums API",
+        "filePath": "tests/api/albums-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/albums-api.spec.js › Albums API › GET /users/3/albums returns albums for user",
+        "status": "passed",
+        "duration": 95,
+        "suite": "Albums API",
+        "filePath": "tests/api/albums-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/albums-api.spec.js › Albums API › GET /users/4/albums returns albums for user",
+        "status": "passed",
+        "duration": 99,
+        "suite": "Albums API",
+        "filePath": "tests/api/albums-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/albums-api.spec.js › Albums API › GET /users/5/albums returns albums for user",
+        "status": "passed",
+        "duration": 95,
+        "suite": "Albums API",
+        "filePath": "tests/api/albums-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/albums-api.spec.js › Albums API › GET /users/6/albums returns albums for user",
+        "status": "passed",
+        "duration": 96,
+        "suite": "Albums API",
+        "filePath": "tests/api/albums-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/albums-api.spec.js › Albums API › GET /users/7/albums returns albums for user",
+        "status": "passed",
+        "duration": 93,
+        "suite": "Albums API",
+        "filePath": "tests/api/albums-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/albums-api.spec.js › Albums API › GET /users/8/albums returns albums for user",
+        "status": "passed",
+        "duration": 95,
+        "suite": "Albums API",
+        "filePath": "tests/api/albums-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/albums-api.spec.js › Albums API › GET /users/9/albums returns albums for user",
+        "status": "passed",
+        "duration": 91,
+        "suite": "Albums API",
+        "filePath": "tests/api/albums-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/albums-api.spec.js › Albums API › GET /users/10/albums returns albums for user",
+        "status": "passed",
+        "duration": 89,
+        "suite": "Albums API",
+        "filePath": "tests/api/albums-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/albums-api.spec.js › Albums API › GET /albums returns 100 albums",
+        "status": "passed",
+        "duration": 29,
+        "suite": "Albums API",
+        "filePath": "tests/api/albums-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/albums-api.spec.js › Albums API › GET /albums/1/photos returns photos for album",
+        "status": "passed",
+        "duration": 92,
+        "suite": "Albums API",
+        "filePath": "tests/api/albums-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/albums-api.spec.js › Albums API › POST /albums creates a new album",
+        "status": "passed",
+        "duration": 87,
+        "suite": "Albums API",
+        "filePath": "tests/api/albums-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/comments-api.spec.js › Comments API › GET /posts/1/comments returns comments for post",
+        "status": "passed",
+        "duration": 28,
+        "suite": "Comments API",
+        "filePath": "tests/api/comments-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/comments-api.spec.js › Comments API › GET /posts/2/comments returns comments for post",
+        "status": "passed",
+        "duration": 93,
+        "suite": "Comments API",
+        "filePath": "tests/api/comments-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/comments-api.spec.js › Comments API › GET /posts/3/comments returns comments for post",
+        "status": "passed",
+        "duration": 103,
+        "suite": "Comments API",
+        "filePath": "tests/api/comments-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/comments-api.spec.js › Comments API › GET /posts/4/comments returns comments for post",
+        "status": "passed",
+        "duration": 99,
+        "suite": "Comments API",
+        "filePath": "tests/api/comments-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/comments-api.spec.js › Comments API › GET /posts/5/comments returns comments for post",
+        "status": "passed",
+        "duration": 95,
+        "suite": "Comments API",
+        "filePath": "tests/api/comments-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/comments-api.spec.js › Comments API › GET /posts/10/comments returns comments for post",
+        "status": "passed",
+        "duration": 98,
+        "suite": "Comments API",
+        "filePath": "tests/api/comments-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/comments-api.spec.js › Comments API › GET /posts/15/comments returns comments for post",
+        "status": "passed",
+        "duration": 98,
+        "suite": "Comments API",
+        "filePath": "tests/api/comments-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/comments-api.spec.js › Comments API › GET /posts/20/comments returns comments for post",
+        "status": "passed",
+        "duration": 91,
+        "suite": "Comments API",
+        "filePath": "tests/api/comments-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/comments-api.spec.js › Comments API › GET /posts/30/comments returns comments for post",
+        "status": "passed",
+        "duration": 90,
+        "suite": "Comments API",
+        "filePath": "tests/api/comments-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/comments-api.spec.js › Comments API › GET /comments returns 500 comments",
+        "status": "passed",
+        "duration": 29,
+        "suite": "Comments API",
+        "filePath": "tests/api/comments-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/comments-api.spec.js › Comments API › GET /comments?postId=1 filters by post",
+        "status": "passed",
+        "duration": 23,
+        "suite": "Comments API",
+        "filePath": "tests/api/comments-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/comments-api.spec.js › Comments API › GET /posts/50/comments returns comments for post",
+        "status": "passed",
+        "duration": 99,
+        "suite": "Comments API",
+        "filePath": "tests/api/comments-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/comments-api.spec.js › Comments API › Each comment has a valid email format",
+        "status": "passed",
+        "duration": 31,
+        "suite": "Comments API",
+        "filePath": "tests/api/comments-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/posts-api.spec.js › Posts API › GET /posts returns a list of posts",
+        "status": "passed",
+        "duration": 27,
+        "suite": "Posts API",
+        "filePath": "tests/api/posts-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/posts-api.spec.js › Posts API › GET /posts/:id returns a single post",
+        "status": "passed",
+        "duration": 24,
+        "suite": "Posts API",
+        "filePath": "tests/api/posts-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/posts-api.spec.js › Posts API › POST /posts creates a new resource",
+        "status": "passed",
+        "duration": 84,
+        "suite": "Posts API",
+        "filePath": "tests/api/posts-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/posts-api.spec.js › Posts API › PUT /posts/:id updates an existing resource",
+        "status": "passed",
+        "duration": 88,
+        "suite": "Posts API",
+        "filePath": "tests/api/posts-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/todos-api.spec.js › Todos API › GET /todos/1 returns correct todo",
+        "status": "passed",
+        "duration": 23,
+        "suite": "Todos API",
+        "filePath": "tests/api/todos-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/posts-api.spec.js › Posts API › DELETE /posts/:id removes a resource",
+        "status": "passed",
+        "duration": 80,
+        "suite": "Posts API",
+        "filePath": "tests/api/posts-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/todos-api.spec.js › Todos API › GET /todos/10 returns correct todo",
+        "status": "passed",
+        "duration": 25,
+        "suite": "Todos API",
+        "filePath": "tests/api/todos-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/todos-api.spec.js › Todos API › GET /todos/5 returns correct todo",
+        "status": "passed",
+        "duration": 91,
+        "suite": "Todos API",
+        "filePath": "tests/api/todos-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/todos-api.spec.js › Todos API › GET /todos/25 returns correct todo",
+        "status": "passed",
+        "duration": 94,
+        "suite": "Todos API",
+        "filePath": "tests/api/todos-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/todos-api.spec.js › Todos API › GET /todos/50 returns correct todo",
+        "status": "passed",
+        "duration": 91,
+        "suite": "Todos API",
+        "filePath": "tests/api/todos-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/todos-api.spec.js › Todos API › GET /todos/75 returns correct todo",
+        "status": "passed",
+        "duration": 94,
+        "suite": "Todos API",
+        "filePath": "tests/api/todos-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/todos-api.spec.js › Todos API › GET /todos/100 returns correct todo",
+        "status": "passed",
+        "duration": 90,
+        "suite": "Todos API",
+        "filePath": "tests/api/todos-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/todos-api.spec.js › Todos API › GET /todos/150 returns correct todo",
+        "status": "passed",
+        "duration": 90,
+        "suite": "Todos API",
+        "filePath": "tests/api/todos-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/todos-api.spec.js › Todos API › GET /todos/180 returns correct todo",
+        "status": "passed",
+        "duration": 91,
+        "suite": "Todos API",
+        "filePath": "tests/api/todos-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/todos-api.spec.js › Todos API › GET /todos returns 200 todos",
+        "status": "passed",
+        "duration": 22,
+        "suite": "Todos API",
+        "filePath": "tests/api/todos-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/todos-api.spec.js › Todos API › GET /todos/200 returns correct todo",
+        "status": "passed",
+        "duration": 93,
+        "suite": "Todos API",
+        "filePath": "tests/api/todos-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/todos-api.spec.js › Todos API › GET /todos?userId=1 returns todos for user 1",
+        "status": "passed",
+        "duration": 96,
+        "suite": "Todos API",
+        "filePath": "tests/api/todos-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/todos-api.spec.js › Todos API › GET /todos?completed=true returns only completed todos",
+        "status": "passed",
+        "duration": 157,
+        "suite": "Todos API",
+        "filePath": "tests/api/todos-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/users-api.spec.js › Users API › GET /users returns a list of users",
+        "status": "passed",
+        "duration": 25,
+        "suite": "Users API",
+        "filePath": "tests/api/users-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/todos-api.spec.js › Todos API › POST /todos creates a new todo",
+        "status": "passed",
+        "duration": 87,
+        "suite": "Todos API",
+        "filePath": "tests/api/todos-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/users-api.spec.js › Users API › GET /users/:id returns a single user",
+        "status": "passed",
+        "duration": 30,
+        "suite": "Users API",
+        "filePath": "tests/api/users-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "api › api/users-api.spec.js › Users API › GET /users/:id/posts returns user's posts",
+        "status": "passed",
+        "duration": 34,
+        "suite": "Users API",
+        "filePath": "tests/api/users-api.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@cucumber"
+        ],
+        "browser": "api"
+      },
+      {
+        "name": "chromium › ui/checkout.spec.js › Checkout Flow › checkout requires first name @validation",
+        "status": "passed",
+        "duration": 1045,
+        "suite": "Checkout Flow",
+        "filePath": "tests/ui/checkout.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@validation",
+          "@cucumber"
+        ],
+        "browser": "chromium"
+      },
+      {
+        "name": "chromium › ui/checkout.spec.js › Checkout Flow › complete checkout with one item @smoke @critical",
+        "status": "passed",
+        "duration": 1314,
+        "suite": "Checkout Flow",
+        "filePath": "tests/ui/checkout.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@smoke",
+          "@critical",
+          "@cucumber"
+        ],
+        "browser": "chromium"
+      },
+      {
+        "name": "chromium › ui/checkout.spec.js › Checkout Flow › checkout requires last name @validation",
+        "status": "passed",
+        "duration": 803,
+        "suite": "Checkout Flow",
+        "filePath": "tests/ui/checkout.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@validation",
+          "@cucumber"
+        ],
+        "browser": "chromium"
+      },
+      {
+        "name": "chromium › ui/checkout.spec.js › Checkout Flow › checkout requires postal code @validation",
+        "status": "passed",
+        "duration": 1038,
+        "suite": "Checkout Flow",
+        "filePath": "tests/ui/checkout.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@validation",
+          "@cucumber"
+        ],
+        "browser": "chromium"
+      },
+      {
+        "name": "chromium › ui/checkout.spec.js › Checkout Flow › checkout with all 6 items shows correct count @regression",
+        "status": "passed",
+        "duration": 1074,
+        "suite": "Checkout Flow",
+        "filePath": "tests/ui/checkout.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@regression",
+          "@cucumber"
+        ],
+        "browser": "chromium"
+      },
+      {
+        "name": "chromium › ui/checkout.spec.js › Checkout Flow › cancel checkout returns to inventory @regression",
+        "status": "passed",
+        "duration": 840,
+        "suite": "Checkout Flow",
+        "filePath": "tests/ui/checkout.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@regression",
+          "@cucumber"
+        ],
+        "browser": "chromium"
+      },
+      {
+        "name": "chromium › ui/checkout.spec.js › Product Detail › clicking product name opens detail page @smoke",
+        "status": "passed",
+        "duration": 685,
+        "suite": "Product Detail",
+        "filePath": "tests/ui/checkout.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@smoke",
+          "@cucumber"
+        ],
+        "browser": "chromium"
+      },
+      {
+        "name": "chromium › ui/checkout.spec.js › Product Detail › back button on detail page returns to inventory @smoke",
+        "status": "passed",
+        "duration": 772,
+        "suite": "Product Detail",
+        "filePath": "tests/ui/checkout.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@smoke",
+          "@cucumber"
+        ],
+        "browser": "chromium"
+      },
+      {
+        "name": "chromium › ui/checkout.spec.js › Product Detail › add to cart from detail page updates badge @regression",
+        "status": "passed",
+        "duration": 707,
+        "suite": "Product Detail",
+        "filePath": "tests/ui/checkout.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@regression",
+          "@cucumber"
+        ],
+        "browser": "chromium"
+      },
+      {
+        "name": "chromium › ui/saucedemo.spec.js › Shopping Cart › standard user can login and add item to cart @smoke @critical @SCRUM-1",
+        "status": "passed",
+        "duration": 791,
+        "suite": "Shopping Cart",
+        "filePath": "tests/ui/saucedemo.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@smoke",
+          "@critical",
+          "@SCRUM-1",
+          "@cucumber"
+        ],
+        "browser": "chromium"
+      },
+      {
+        "name": "chromium › ui/saucedemo.spec.js › Shopping Cart › user can remove item from cart @smoke",
+        "status": "passed",
+        "duration": 596,
+        "suite": "Shopping Cart",
+        "filePath": "tests/ui/saucedemo.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@smoke",
+          "@cucumber"
+        ],
+        "browser": "chromium"
+      },
+      {
+        "name": "chromium › ui/saucedemo.spec.js › Shopping Cart › user can sort products by price @regression",
+        "status": "passed",
+        "duration": 559,
+        "suite": "Shopping Cart",
+        "filePath": "tests/ui/saucedemo.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@regression",
+          "@cucumber"
+        ],
+        "browser": "chromium"
+      },
+      {
+        "name": "chromium › ui/saucedemo.spec.js › Authentication › locked out user sees expected error @smoke @auth",
+        "status": "passed",
+        "duration": 436,
+        "suite": "Authentication",
+        "filePath": "tests/ui/saucedemo.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@smoke",
+          "@auth",
+          "@cucumber"
+        ],
+        "browser": "chromium"
+      },
+      {
+        "name": "chromium › ui/dedup-demo.spec.js › Dedup Demo › broken selector always fails — dedup demo @regression",
+        "status": "failed",
+        "duration": 3543,
+        "message": "Error: expect(locator).toBeVisible() failed\n\nLocator: locator('#this-element-does-not-exist')\nExpected: visible\nTimeout: 3000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 3000ms\n  - waiting for locator('#this-element-does-not-exist')\n",
+        "trace": "Error: expect(locator).toBeVisible() failed\n\nLocator: locator('#this-element-does-not-exist')\nExpected: visible\nTimeout: 3000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 3000ms\n  - waiting for locator('#this-element-does-not-exist')\n\n    at /home/runner/work/playwright-spec-doc-reporter/playwright-spec-doc-reporter/examples/js-es6-demo/tests/ui/dedup-demo.spec.js:25:64",
+        "suite": "Dedup Demo",
+        "filePath": "tests/ui/dedup-demo.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@regression",
+          "@cucumber"
+        ],
+        "browser": "chromium"
+      },
+      {
+        "name": "chromium › ui/saucedemo.spec.js › Healer Simulation › cart icon navigates to cart page (auto-healed) @smoke @critical",
+        "status": "passed",
+        "duration": 511,
+        "suite": "Healer Simulation",
+        "filePath": "tests/ui/saucedemo.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@smoke",
+          "@critical",
+          "@cucumber"
+        ],
+        "browser": "chromium"
+      },
+      {
+        "name": "chromium › ui/saucedemo.spec.js › Healer Simulation › checkout button is visible on cart page (skipped-app-broken) @regression",
+        "status": "skipped",
+        "duration": 190,
+        "suite": "Healer Simulation",
+        "filePath": "tests/ui/saucedemo.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@regression",
+          "@cucumber"
+        ],
+        "browser": "chromium"
+      },
+      {
+        "name": "chromium › ui/saucedemo.spec.js › AI Failure Analysis › intentional failure for AI analysis demo @regression",
+        "status": "failed",
+        "duration": 5770,
+        "message": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByRole('heading', { name: 'Non Existing Header' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for getByRole('heading', { name: 'Non Existing Header' })\n",
+        "trace": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByRole('heading', { name: 'Non Existing Header' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for getByRole('heading', { name: 'Non Existing Header' })\n\n    at /home/runner/work/playwright-spec-doc-reporter/playwright-spec-doc-reporter/examples/js-es6-demo/tests/ui/saucedemo.spec.js:116:78",
+        "suite": "AI Failure Analysis",
+        "filePath": "tests/ui/saucedemo.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@regression",
+          "@cucumber"
+        ],
+        "browser": "chromium"
+      },
+      {
+        "name": "Shopping Cart › Standard user can view the product catalogue",
+        "status": "passed",
+        "duration": 0,
+        "suite": "Shopping Cart",
+        "filePath": "tests/manual-results.md",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@manual",
+          "@smoke",
+          "@SCRUM-1"
+        ]
+      },
+      {
+        "name": "Shopping Cart › Product images load correctly on inventory page",
+        "status": "passed",
+        "duration": 0,
+        "suite": "Shopping Cart",
+        "filePath": "tests/manual-results.md",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@manual",
+          "@regression"
+        ]
+      },
+      {
+        "name": "Shopping Cart › Cart persists items after page refresh",
+        "status": "failed",
+        "duration": 0,
+        "message": "Cart badge resets to 0 after hard refresh — session storage not persisted",
+        "suite": "Shopping Cart",
+        "filePath": "tests/manual-results.md",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@manual",
+          "@regression",
+          "@SCRUM-1"
+        ]
+      },
+      {
+        "name": "Authentication › User can sort products by name Z-A",
+        "status": "passed",
+        "duration": 0,
+        "suite": "Authentication",
+        "filePath": "tests/manual-results.md",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@manual",
+          "@regression"
+        ]
+      },
+      {
+        "name": "Authentication › Standard user login with correct credentials",
+        "status": "passed",
+        "duration": 0,
+        "suite": "Authentication",
+        "filePath": "tests/manual-results.md",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@manual",
+          "@smoke",
+          "@auth"
+        ]
+      },
+      {
+        "name": "Authentication › Login page shows password field as masked",
+        "status": "passed",
+        "duration": 0,
+        "suite": "Authentication",
+        "filePath": "tests/manual-results.md",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@manual",
+          "@regression"
+        ]
+      },
+      {
+        "name": "Authentication › Login error clears when user starts retyping",
+        "status": "failed",
+        "duration": 0,
+        "message": "Error message persists even after the user clears the username field — no auto-dismiss",
+        "suite": "Authentication",
+        "filePath": "tests/manual-results.md",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@manual",
+          "@regression",
+          "@SCRUM-2"
+        ]
+      },
+      {
+        "name": "Checkout Flow › Performance glitch user experiences delayed page load",
+        "status": "skipped",
+        "duration": 0,
+        "suite": "Checkout Flow",
+        "filePath": "tests/manual-results.md",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@manual",
+          "@regression"
+        ]
+      },
+      {
+        "name": "Checkout Flow › Complete checkout happy path — exploratory session",
+        "status": "passed",
+        "duration": 0,
+        "suite": "Checkout Flow",
+        "filePath": "tests/manual-results.md",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@manual",
+          "@smoke",
+          "@critical"
+        ]
+      },
+      {
+        "name": "Checkout Flow › Checkout requires all three address fields",
+        "status": "passed",
+        "duration": 0,
+        "suite": "Checkout Flow",
+        "filePath": "tests/manual-results.md",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@manual",
+          "@validation"
+        ]
+      },
+      {
+        "name": "Checkout Flow › Order summary shows correct item price before finishing",
+        "status": "passed",
+        "duration": 0,
+        "suite": "Checkout Flow",
+        "filePath": "tests/manual-results.md",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@manual",
+          "@regression"
+        ]
+      },
+      {
+        "name": "Product Detail › Checkout cancel on step 2 returns to inventory",
+        "status": "failed",
+        "duration": 0,
+        "message": "Cancel on step 2 navigates to /cart.html instead of /inventory.html — unexpected destination",
+        "suite": "Product Detail",
+        "filePath": "tests/manual-results.md",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@manual",
+          "@regression"
+        ]
+      },
+      {
+        "name": "Product Detail › Product detail page shows all required information",
+        "status": "passed",
+        "duration": 0,
+        "suite": "Product Detail",
+        "filePath": "tests/manual-results.md",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@manual",
+          "@smoke"
+        ]
+      },
+      {
+        "name": "Product Detail › Adding product from detail page updates cart badge",
+        "status": "passed",
+        "duration": 0,
+        "suite": "Product Detail",
+        "filePath": "tests/manual-results.md",
+        "retries": 0,
+        "flaky": false,
+        "tags": [
+          "@manual",
+          "@regression"
+        ]
+      }
+    ]
+  }
+}
