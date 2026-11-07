@@ -1,35 +1,5 @@
 [
   {
-    "testName": " › chromium › ui/checkout.spec.js › Product Detail › add to cart from detail page updates badge @regression",
-    "file": "tests/ui/checkout.spec.js",
-    "stepName": "add to cart from detail page updates badge @regression",
-    "candidateLocators": [],
-    "errorMessage": "Error: locator.click: Error: strict mode violation: getByRole('button', { name: 'Add to cart' }) resolved to 6 elements:\n    1) <button id=\"add-to-cart-sauce-labs-backpack\" name=\"add-to-cart-sauce-labs-backpack\" data-test=\"add-to-cart-sauce-labs-backpack\" class=\"btn btn_primary btn_small btn_inventory \">Add to cart</button> aka locator('[data-test=\"add-to-cart-sauce-labs-backpack\"]')\n    2) <button id=\"add-to-cart-sauce-labs-bike-light\" name=\"add-to-cart-sauce-labs-bike-light\" data-test=\"add-to-cart-sauce-labs-bike-light\" class=\"btn btn_primary btn_small btn_inventory \">Add to cart</button> aka locator('[data-test=\"add-to-cart-sauce-labs-bike-light\"]')\n    3) <button id=\"add-to-cart-sauce-labs-bolt-t-shirt\" name=\"add-to-cart-sauce-labs-bolt-t-shirt\" data-test=\"add-to-cart-sauce-labs-bolt-t-shirt\" class=\"btn btn_primary btn_small btn_inventory \">Add to cart</button> aka locator('[data-test=\"add-to-cart-sauce-labs-bolt-t-shirt\"]')\n    4) <button id=\"add-to-cart-sauce-labs-fleece-jacket\" name=\"add-to-cart-sauce-labs-fleece-jacket\" class=\"btn btn_primary btn_small btn_inventory \" data-test=\"add-to-cart-sauce-labs-fleece-jacket\">Add to cart</button> aka locator('[data-test=\"add-to-cart-sauce-labs-fleece-jacket\"]')\n    5) <button id=\"add-to-cart-sauce-labs-onesie\" name=\"add-to-cart-sauce-labs-onesie\" data-test=\"add-to-cart-sauce-labs-onesie\" class=\"btn btn_primary btn_small btn_inventory \">Add to cart</button> aka locator('[data-test=\"add-to-cart-sauce-labs-onesie\"]')\n    6) <button class=\"btn btn_primary btn_small btn_inventory \" id=\"add-to-cart-test.allthethings()-t-shirt-(red)\" name=\"add-to-cart-test.allthethings()-t-shirt-(red)\" data-test=\"add-to-cart-test.allthethings()-t-shirt-(red)\">Add to cart</button> aka locator('[data-test=\"add-to-cart-test.allthethings()-t-shirt-(red)\"]')\n\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'Add to cart' })\u001b[22m\n",
-    "reasoning": "Provider failed to return a valid analysis.",
-    "confidence": 0,
-    "actionType": "investigate"
-  },
-  {
-    "testName": " › chromium › ui/checkout.spec.js › Product Detail › add to cart from detail page updates badge @regression",
-    "file": "tests/ui/checkout.spec.js",
-    "stepName": "add to cart from detail page updates badge @regression",
-    "candidateLocators": [],
-    "errorMessage": "Error: locator.click: Error: strict mode violation: getByRole('button', { name: 'Add to cart' }) resolved to 6 elements:\n    1) <button id=\"add-to-cart-sauce-labs-backpack\" name=\"add-to-cart-sauce-labs-backpack\" data-test=\"add-to-cart-sauce-labs-backpack\" class=\"btn btn_primary btn_small btn_inventory \">Add to cart</button> aka locator('[data-test=\"add-to-cart-sauce-labs-backpack\"]')\n    2) <button id=\"add-to-cart-sauce-labs-bike-light\" name=\"add-to-cart-sauce-labs-bike-light\" data-test=\"add-to-cart-sauce-labs-bike-light\" class=\"btn btn_primary btn_small btn_inventory \">Add to cart</button> aka locator('[data-test=\"add-to-cart-sauce-labs-bike-light\"]')\n    3) <button id=\"add-to-cart-sauce-labs-bolt-t-shirt\" name=\"add-to-cart-sauce-labs-bolt-t-shirt\" data-test=\"add-to-cart-sauce-labs-bolt-t-shirt\" class=\"btn btn_primary btn_small btn_inventory \">Add to cart</button> aka locator('[data-test=\"add-to-cart-sauce-labs-bolt-t-shirt\"]')\n    4) <button id=\"add-to-cart-sauce-labs-fleece-jacket\" name=\"add-to-cart-sauce-labs-fleece-jacket\" class=\"btn btn_primary btn_small btn_inventory \" data-test=\"add-to-cart-sauce-labs-fleece-jacket\">Add to cart</button> aka locator('[data-test=\"add-to-cart-sauce-labs-fleece-jacket\"]')\n    5) <button id=\"add-to-cart-sauce-labs-onesie\" name=\"add-to-cart-sauce-labs-onesie\" data-test=\"add-to-cart-sauce-labs-onesie\" class=\"btn btn_primary btn_small btn_inventory \">Add to cart</button> aka locator('[data-test=\"add-to-cart-sauce-labs-onesie\"]')\n    6) <button class=\"btn btn_primary btn_small btn_inventory \" id=\"add-to-cart-test.allthethings()-t-shirt-(red)\" name=\"add-to-cart-test.allthethings()-t-shirt-(red)\" data-test=\"add-to-cart-test.allthethings()-t-shirt-(red)\">Add to cart</button> aka locator('[data-test=\"add-to-cart-test.allthethings()-t-shirt-(red)\"]')\n\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'Add to cart' })\u001b[22m\n",
-    "reasoning": "Provider failed to return a valid analysis.",
-    "confidence": 0,
-    "actionType": "investigate"
-  },
-  {
-    "testName": " › chromium › ui/checkout.spec.js › Checkout Flow › checkout with all 6 items shows correct count @regression",
-    "file": "tests/ui/checkout.spec.js",
-    "stepName": "checkout with all 6 items shows correct count @regression",
-    "candidateLocators": [],
-    "errorMessage": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.shopping_cart_badge')\nExpected: \u001b[32m\"6\"\u001b[39m\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.shopping_cart_badge')\u001b[22m\n",
-    "reasoning": "Provider failed to return a valid analysis.",
-    "confidence": 0,
-    "actionType": "investigate"
-  },
-  {
     "testName": " › chromium › ui/dedup-demo.spec.js › Dedup Demo › broken selector always fails — dedup demo @regression",
     "file": "tests/ui/dedup-demo.spec.js",
     "stepName": "broken selector always fails — dedup demo @regression",
@@ -37,35 +7,32 @@
     "candidateLocators": [
       "#this-element-does-not-exist",
       "body",
-      "[data-testid='main-content']",
-      "h1",
+      "[data-testid]",
       "main"
     ],
     "errorMessage": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('#this-element-does-not-exist')\nExpected: visible\nTimeout: 3000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 3000ms\u001b[22m\n\u001b[2m  - waiting for locator('#this-element-does-not-exist')\u001b[22m\n",
-    "suggestedPatch": "// Option 1: Mark as intentionally failing (recommended for demo purposes)\ntest.fail('broken selector always fails — dedup demo @regression', async ({ page }) => {\n  await page.goto('/');\n  await expect(page.locator('#this-element-does-not-exist')).toBeVisible({ timeout: 3000 });\n});\n\n// Option 2: Assert the element is NOT visible (invert the assertion)\ntest('element is not present — dedup demo @regression', async ({ page }) => {\n  await page.goto('/');\n  await expect(page.locator('#this-element-does-not-exist')).not.toBeVisible({ timeout: 3000 });\n});\n\n// Option 3: Replace with a real locator\ntest('real element is visible — dedup demo @regression', async ({ page }) => {\n  await page.goto('/');\n  await expect(page.locator('#actual-element-id')).toBeVisible({ timeout: 3000 });\n});",
-    "reasoning": "The selector '#this-element-does-not-exist' is a placeholder/stub that has no corresponding element in the application under test. The test name and repository context (playwright-spec-doc-reporter examples) strongly indicate this is a purposefully failing test. The correct fix depends on intent: either supply a real locator, invert the assertion, or annotate with test.fail() to make the expected failure explicit and suppress noise.",
-    "confidence": 0.97,
-    "actionType": "update_locator_or_mark_expected_failure"
-  },
-  {
-    "testName": " › chromium › ui/checkout.spec.js › Checkout Flow › checkout with all 6 items shows correct count @regression",
-    "file": "tests/ui/checkout.spec.js",
-    "stepName": "checkout with all 6 items shows correct count @regression",
-    "candidateLocators": [],
-    "errorMessage": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.shopping_cart_badge')\nExpected: \u001b[32m\"6\"\u001b[39m\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.shopping_cart_badge')\u001b[22m\n",
-    "reasoning": "Provider failed to return a valid analysis.",
-    "confidence": 0,
-    "actionType": "investigate"
+    "suggestedPatch": "// Option 1: Mark as intentionally failing (recommended for demo purposes)\ntest('broken selector always fails — dedup demo @regression', async ({ page }) => {\n  test.fail(); // This test is expected to fail by design\n  await expect(page.locator('#this-element-does-not-exist')).toBeVisible({ timeout: 3000 });\n});\n\n// Option 2: Replace with a valid selector if this should be a real test\ntest('element is visible — dedup demo @regression', async ({ page }) => {\n  await expect(page.locator('#valid-existing-element-id')).toBeVisible({ timeout: 3000 });\n});\n\n// Option 3: Skip from regression suite\ntest('broken selector always fails — dedup demo', async ({ page }) => {\n  // Removed @regression tag — demo only, not part of CI regression\n  test.skip(true, 'Demo test only — intentionally broken selector');\n  await expect(page.locator('#this-element-does-not-exist')).toBeVisible({ timeout: 3000 });\n});",
+    "reasoning": "The selector '#this-element-does-not-exist' is explicitly named to indicate it will never resolve. The test title 'broken selector always fails' confirms intentional design. The fix depends on intent: (1) if demonstrating expected failures, annotate with test.fail(); (2) if a real regression test, replace the locator with a valid one; (3) if purely a demo, remove the @regression tag to prevent CI noise.",
+    "confidence": 0.98,
+    "actionType": "update_test"
   },
   {
     "testName": " › chromium › ui/saucedemo.spec.js › AI Failure Analysis › intentional failure for AI analysis demo @regression",
     "file": "tests/ui/saucedemo.spec.js",
     "stepName": "intentional failure for AI analysis demo @regression",
-    "candidateLocators": [],
+    "failedLocator": "getByRole('heading', { name: 'Products' })",
+    "candidateLocators": [
+      "getByRole('heading', { name: 'Products' })",
+      "getByRole('heading', { name: 'Swag Labs' })",
+      ".title",
+      "[data-test='title']",
+      "getByText('Products')"
+    ],
     "errorMessage": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'Non Existing Header' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'Non Existing Header' })\u001b[22m\n",
-    "reasoning": "No AI reasoning available.",
-    "confidence": 0,
-    "actionType": "investigate"
+    "suggestedPatch": "// Option 1: Skip the test entirely\ntest.skip('intentional failure for AI analysis demo @regression', async ({ page }) => {\n  // ...\n});\n\n// Option 2: Mark as expected failure so CI does not treat it as a blocker\ntest.fail('intentional failure for AI analysis demo @regression', async ({ page }) => {\n  // existing test body remains unchanged\n  await expect(page.getByRole('heading', { name: 'Non Existing Header' })).toBeVisible();\n});\n\n// Option 3: Replace with a real heading that exists on the page\nawait expect(page.getByRole('heading', { name: 'Products' })).toBeVisible();",
+    "reasoning": "The assertion targets a heading ('Non Existing Header') that does not exist in the application's DOM at any point during the test flow. This is a purposefully incorrect locator used to trigger a visible failure for demonstration. The element will never be found, so the assertion will always time out. The fix depends on intent: if the test should pass, the locator must reference a real element; if it should remain a known failure, it should be annotated with `test.fail()` to prevent false CI alerts.",
+    "confidence": 0.97,
+    "actionType": "update_assertion"
   },
   {
     "testName": "Shopping Cart › Cart persists items after page refresh",
@@ -73,7 +40,7 @@
     "stepName": "Cart persists items after page refresh",
     "candidateLocators": [],
     "errorMessage": "Cart badge resets to 0 after hard refresh — session storage not persisted",
-    "reasoning": "No AI reasoning available.",
+    "reasoning": "Provider failed to return a valid analysis.",
     "confidence": 0,
     "actionType": "investigate"
   },
@@ -83,7 +50,7 @@
     "stepName": "Login error clears when user starts retyping",
     "candidateLocators": [],
     "errorMessage": "Error message persists even after the user clears the username field — no auto-dismiss",
-    "reasoning": "No AI reasoning available.",
+    "reasoning": "Provider failed to return a valid analysis.",
     "confidence": 0,
     "actionType": "investigate"
   },
@@ -91,10 +58,18 @@
     "testName": "Product Detail › Checkout cancel on step 2 returns to inventory",
     "file": "tests/manual-results.md",
     "stepName": "Checkout cancel on step 2 returns to inventory",
-    "candidateLocators": [],
+    "failedLocator": "[data-test=\"cancel\"]",
+    "candidateLocators": [
+      "[data-test=\"cancel\"]",
+      "button.cancel",
+      "a.cancel_link",
+      "[id='cancel']",
+      "text=Cancel"
+    ],
     "errorMessage": "Cancel on step 2 navigates to /cart.html instead of /inventory.html — unexpected destination",
-    "reasoning": "No AI reasoning available.",
-    "confidence": 0,
-    "actionType": "investigate"
+    "suggestedPatch": "// Before (incorrect expectation):\nawait expect(page).toHaveURL(/.*inventory.html/);\n\n// After (corrected expectation matching actual app behavior):\nawait page.click('[data-test=\"cancel\"]'); // or appropriate cancel button locator on step 2\nawait page.waitForURL('**/cart.html');\nawait expect(page).toHaveURL(/.*cart\\.html/);\n\n// If inventory IS the correct destination, fix the app's cancel button:\n// In the app source, update the cancel button on checkout-step-two.html\n// to navigate to '/inventory.html' instead of '/cart.html'",
+    "reasoning": "The test asserts navigation to '/inventory.html' after cancelling on checkout step 2, but the application navigates to '/cart.html'. Given standard e-commerce UX patterns where cancelling mid-checkout returns the user to the cart (the previous step), the application behavior is likely correct and the test expectation is wrong. The error message itself is framed as 'unexpected destination', suggesting the test author may have assumed inventory was the target without verifying the actual intended flow. This is an assertion mismatch, not a timing or locator issue.",
+    "confidence": 0.82,
+    "actionType": "update_assertion"
   }
 ]
