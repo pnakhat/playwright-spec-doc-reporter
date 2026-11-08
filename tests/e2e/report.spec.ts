@@ -265,6 +265,22 @@ test.describe("Tests Page", () => {
     await expect(firstSuiteBody).toHaveClass(/open/);
   });
 
+  // ── Sample report must contain both API and UI tests (it backs the live demo link) ──
+
+  test("type filter offers both UI and API", async ({ page }) => {
+    await expect(page.locator('#typeFilterGroup .type-btn[data-type="ui"]')).toBeVisible();
+    await expect(page.locator('#typeFilterGroup .type-btn[data-type="api"]')).toBeVisible();
+  });
+
+  test("API type filter shows only API tests, with inline request/response", async ({ page }) => {
+    await page.locator('#typeFilterGroup .type-btn[data-type="api"]').click();
+    const visible = page.locator("#suitesContainer .test-detail-block:visible");
+    await expect(visible.first()).toBeVisible();
+    const types = await visible.evaluateAll(rows => [...new Set(rows.map(r => r.getAttribute("data-type")))]);
+    expect(types).toEqual(["api"]);
+    await expect(page.locator("#suitesContainer .api-section .api-method").first()).toBeAttached();
+  });
+
   test("clicking a suite header toggles its body open/closed", async ({ page }) => {
     const suiteBlock = page.locator("#suitesContainer .suite-block").first();
     const suiteBody = suiteBlock.locator(".suite-body");
